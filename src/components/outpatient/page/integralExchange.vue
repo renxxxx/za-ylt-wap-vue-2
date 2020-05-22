@@ -13,12 +13,12 @@
 				<h2>{{integral}}</h2>
 			</div>
 			<div class="integralExchangeButton">
-				<router-link :to="{path : '/outpatient/outpatient_integralDetails',query:{}}">
+				<span @click="$router.push({path : '/outpatient/outpatient_integralDetails',query:{time:new Date().getTime()}})">
 				  <button>积分明细</button>
-				</router-link>
-				<router-link :to="{path : '/outpatient/outpatient_integralHistory',query:{}}">
+				</span>
+				<span @click="$router.push({path : '/outpatient/outpatient_integralHistory',query:{time:new Date().getTime()}})">
 				  <button>兑换记录</button>
-				</router-link>
+				</span>
 			</div>
 		</div>
 		<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
@@ -228,7 +228,7 @@ export default {
 	float: left;
 	margin-top: .2rem;
 }
-.integralExchangeButton a button{
+.integralExchangeButton span button{
 	width: 1.1rem;
 	height: .29rem;
   color: #FFFFFF;
@@ -236,7 +236,7 @@ export default {
 	border: 1px solid #FFFFFF;
 	border-radius: .15rem;
 }
-.integralExchangeButton a:first-child button{
+.integralExchangeButton span:first-child button{
 	margin-right: .5rem;
 }
 .flowHeading{
