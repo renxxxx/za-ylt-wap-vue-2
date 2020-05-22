@@ -1,46 +1,51 @@
 <template>
+<topSolt>
+<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown">
 	<div class="integralExchange">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
-			<div class="topNav" :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px'}">
-				<div class="leftImg" @click="goBackFn"  id="navback">
-					<img src="../../../assets/image/shape@2x.png" alt="">
-				</div>
-				<div class="centerTitle">
-					<h3>积分兑换</h3>
-				</div>
-				<div class="integralExchangeNum">
-					<h2>{{integral}}</h2>
-				</div>
-				<div class="integralExchangeButton">
-					<router-link :to="{path : '/outpatient/outpatient_integralDetails',query:{}}">
-					<button>积分明细</button>
-					</router-link>
-					<router-link :to="{path : '/outpatient/outpatient_integralHistory',query:{}}">
-					<button>兑换记录</button>
-					</router-link>
-				</div>
+		<div class="topNav" :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px'}">
+			<div class="leftImg" @click="goBackFn"  id="navback">
+				<img src="../../../assets/image/shape@2x.png" alt="">
 			</div>
-			<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
-				<ul class="rollScreen_list" :style = {transform:transform}  :class="{rollScreen_list_unanim:num===0}">
-					<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index'>
-						<img src="../../../assets/image/horn@2x.png" alt="">
-						<span>{{item}}</span>
-					</li>
-					<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index+contentArr.length' >
-						<img src="../../../assets/image/horn@2x.png" alt="">
-						<span>{{item}}</span>
-					</li>
-				</ul>
+			<div class="centerTitle">
+				<h3>积分兑换</h3>
 			</div>
-			<div :style="{'height':(parseInt($store.state.paddingTop.replace('px',''))+228)+'px'}"></div>
-			<integralExchangeList :style="{'padding-top':$store.state.paddingTop}"></integralExchangeList>
-		</van-pull-refresh>
+			<div class="integralExchangeNum">
+				<h2>{{integral}}</h2>
+			</div>
+			<div class="integralExchangeButton">
+				<router-link :to="{path : '/outpatient/outpatient_integralDetails',query:{}}">
+				  <button>积分明细</button>
+				</router-link>
+				<router-link :to="{path : '/outpatient/outpatient_integralHistory',query:{}}">
+				  <button>兑换记录</button>
+				</router-link>
+			</div>
+		</div>
+		<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
+		    <ul class="rollScreen_list" :style = {transform:transform}  :class="{rollScreen_list_unanim:num===0}">
+				<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index'>
+					<img src="../../../assets/image/horn@2x.png" alt="">
+					<span>{{item}}</span>
+				</li>
+				<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index+contentArr.length' >
+					<img src="../../../assets/image/horn@2x.png" alt="">
+					<span>{{item}}</span>
+				</li>
+		    </ul>
+		</div>
+		<div :style="{'height':(parseInt($store.state.paddingTop.replace('px',''))+228)+'px'}"></div>
+		<integralExchangeList :show = 'show' :style="{'padding-top':$store.state.paddingTop}"></integralExchangeList>
 	</div>
+	</van-pull-refresh>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import integralExchangeList from '../function/integralExchangeList.vue'
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'integralExchange',
 	data () {
@@ -52,16 +57,18 @@ export default {
 			num: 0,
 			// 消息的计时器
 			flowHeading : undefined,
+			show : true,
 			pullingDown: false,
 		}
 	},
 	computed:{
+		...mapGetters(['account']),
 		transform: function () {
 	        return 'translateY(-' + this.num * .42 + 'rem)'
 	    },
 	},
 	components:{
-		integralExchangeList
+		integralExchangeList,topSolt
 	},
 	destroyed() {
 
@@ -151,13 +158,9 @@ export default {
 </script>
 
 <style scoped>
->>>.van-pull-refresh{
-	height: 100%;
-}
 .integralExchange{
 	width:100%;
 	height: 100%;
-	overflow: hidden;
 	background-color: #F5F5F5;
 }
 .topNav{

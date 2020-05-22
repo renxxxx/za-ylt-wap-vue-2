@@ -3,10 +3,10 @@
      <keep-alive>
     <router-view  class="appView"></router-view>
   </keep-alive>
-    <!-- <div class="returnHomePage" @click="returnHomePageFn" id="returnHomePageId"  ref="returnHomePageRef" v-show="outpatientReturnHomePage">
+    <div class="returnHomePage" @click="returnHomePageFn" id="returnHomePageId"  ref="returnHomePageRef" v-show="outpatientReturnHomePage">
       <img src="../../assets/image/returnHome.png" alt />
       <span>首页</span>
-    </div> -->
+    </div>
     <!-- <div class="returnTop" @click="returnTopFn" ref="returnTopRef" v-show="outpatientReturnTopPage">
       <img src="../../assets/image/returnTop.png" alt />
       <span>顶部</span>
@@ -266,7 +266,7 @@ export default {
   position: fixed;
   right: 0.2rem;
   bottom: 1rem;
-  opacity: 1;
+  opacity: 0;
   width: 0.4rem;
   height: 0.4rem;
   /* line-height: .4rem; */

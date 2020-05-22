@@ -1,5 +1,5 @@
 <template>
-	<div id="yes" class="all" @scroll="handleScroll" ref="yes">
+	<div class="all">
 		<!-- <van-pull-refresh v-model="isLoading" @refresh="refresh"> -->
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
@@ -21,11 +21,7 @@
 						</div>
 				</li>
 			</ul>
-    	</van-list>
-		<div class="returnTop" @click="$refs.yes.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+      </van-list>
 		<!-- </van-pull-refresh> -->
 	</div>
 </template>
@@ -48,10 +44,8 @@ export default {
 			yesNum: 0,
 			clinicId:'',
 			items:[],
-			test:'',
-			query:'',
-			hospitalReturnTopPage:false,
-			scrollTop:0,
+      test:'',
+	  query:''
 		}
 	},
 	computed:{
@@ -73,39 +67,16 @@ export default {
 		
 
 	},
-	watch:{
-		$route(to,from){
-			// window.removeEventListener("scroll", this.handleScrollYes, true);
+	activated() {
+		if(this.query != JSON.stringify(this.$route.query)){
+			this.query = JSON.stringify(this.$route.query);
+			if(window.plus){
+				//plus.navigator.setStatusBarBackground("#ffffff");
+				plus.navigator.setStatusBarStyle("dark")
+			}
 		}
 	},
-	activated() {
-		this.show()
-	},
 	methods:{
-		show(){
-			if(this.query != JSON.stringify(this.$route.query)){
-				this.query = JSON.stringify(this.$route.query);
-				if(window.plus){
-					//plus.navigator.setStatusBarBackground("#ffffff");
-					plus.navigator.setStatusBarStyle("dark")
-				}
-			}
-			this.$nextTick(()=>{
-				if(this.scrollTop != 0){
-					this.$refs.yes.scrollTop = this.scrollTop
-				}
-			})
-			
-		},
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.yes.scrollTop || this.$refs.yes.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		submitFn(_item,_button){
 			this.$axios.post('/c2/patient/confirmjiuzhen',qs.stringify({
 				patientId : _item.itemId
@@ -197,11 +168,9 @@ export default {
 <style scoped>
 .all{
 	width: 100%;
-	/* height: calc(100vh - .85rem); */
-	touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
-    overflow: scroll;
-    overflow-x: hidden;
+	/* position: fixed; */
+	/* height: calc(100% - .7rem); */
+	/* overflow: scroll; */
 }
 .all li{
 	height:.84rem;

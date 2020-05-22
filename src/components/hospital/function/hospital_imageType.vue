@@ -57,7 +57,9 @@ export default {
 		}
 	
   },
-  activated() {	 
+  activated() {
+	  console.log('z这是activated')
+	 
   	if(this.query != JSON.stringify(this.$route.query)){
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
@@ -94,8 +96,6 @@ export default {
 <style scoped>
 .imageType{
 	width: 100%;
-	height: calc(100% - .76rem);
-	overflow: scroll;
 }
 .content ul{
 	width: 97.2%;

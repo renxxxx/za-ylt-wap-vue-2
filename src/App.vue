@@ -2,7 +2,7 @@
   <div id="app" ref='appRef'>
 
    <keep-alive>
-      <router-view ></router-view>
+      <router-view  class="appView"></router-view>
   </keep-alive>
   </div>
 </template>

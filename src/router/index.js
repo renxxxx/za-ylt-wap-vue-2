@@ -984,6 +984,12 @@ const router = new Router({
   ]
 })
 router.afterEach((to,from) => {
+  // console.log(from.name)
+  // console.dir(from.query)
+  // console.log(this.$vnode.parent.componentInstance.cache)
+  // console.log('---------')
+  // console.log(to.name)
+	// console.dir(to.query)
   debugger
   Store.state.bottomShow = !!to.meta.tabbar;
   Store.state.childBottomShow = !!to.meta.bottom;
@@ -992,9 +998,8 @@ router.afterEach((to,from) => {
   Store.state.operatingReturnHomePage = !to.meta.indexHide
   if(to.path == from.path){
 	// next({path:'/tihuan',query:to.query})
-	  router.replace({path:'/tihuan',query:{query:JSON.stringify(to.query),path:to.path}})
+	router.replace({path:'/tihuan',query:{query:JSON.stringify(to.query),path:to.path}})
   }
 
 })
-
 export default router

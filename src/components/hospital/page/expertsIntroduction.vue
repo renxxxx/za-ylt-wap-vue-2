@@ -1,5 +1,6 @@
 <template>
-	<div class="expertsIntroduction">
+<topSolt>
+	<div class="expertsIntroduction" slot="returnTopSolt">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -10,34 +11,35 @@
 			<div class="right"></div>
 		</div>
 		<div class="zhangwei"></div>
-		<div class="content" @scroll="handleScroll" ref="content" :style="{'padding-top':$store.state.paddingTop}">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-				<li v-for="(item,inx) in doctor" :key='inx'>
-					<img :src="item.headimg" alt="">
-					<div class="contentLists">
-					<h4>{{item.name}}</h4>
-					<span>{{item.hosptialName}}</span>
-					<span class="xia">{{item.jobTitles}}</span>
-					<div class="duanluo" @click="showContent(inx)" >
-						<p ref='showP'>{{item.intro}}</p>
-						<img :src="downImg" alt="" ref='showimg'>
-					</div>
-					</div>
-					<hr>
-				</li>
-				</ul>
-			</van-list>
-		</div>
-		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
+		<div class="content" :style="{'padding-top':$store.state.paddingTop}">
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <ul>
+          <li v-for="(item,inx) in doctor" :key='inx'>
+            <img :src="item.headimg" alt="">
+            <div class="contentLists">
+              <h4>{{item.name}}</h4>
+              <span>{{item.hosptialName}}</span>
+              <span class="xia">{{item.jobTitles}}</span>
+              <div class="duanluo" @click="showContent(inx)" >
+                <p ref='showP'>{{item.intro}}</p>
+                <img :src="downImg" alt="" ref='showimg'>
+              </div>
+            </div>
+            <hr>
+          </li>
+        </ul>
+      </van-list>
 		</div>
 	</div>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import { Dialog } from 'vant'
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'expertsIntroduction',
 	data () {
@@ -45,18 +47,17 @@ export default {
 			doctor:[],
 			downImg : require('../../../assets/image/down@2x.png'),
 			clickNum: 0 ,
-			loading: false,
-			finished: false,
-			page: 0,
-			query:'',
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+      loading: false,
+      finished: false,
+      page: 0,
+	  query:''
 		}
 	},
 	components:{
-		
+		topSolt
 	},
 	computed:{
+		...mapGetters(['account']),
 
 	},
 	created(){
@@ -81,20 +82,8 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.content.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1)
@@ -104,7 +93,7 @@ export default {
 			// 
 			this.clickNum++;
 			if(this.clickNum % 2 == 0){
-				this.$refs.showP[inx].style.webkitLineClamp = '9'
+				this.$refs.showP[inx].style.webkitLineClamp = '9999'
 				this.$refs.showimg[inx].src=require('../../../assets/image/up-1@2x.png')
 			}else{
 				this.$refs.showP[inx].style.webkitLineClamp = '2'
@@ -202,11 +191,6 @@ export default {
 }
 .content{
 	width: 100%;
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
 }
 .content ul {
 	width: 100%;
@@ -246,8 +230,14 @@ export default {
 	font-size: .12rem;
 }
 .xia{
-	margin-left: .1rem;
+	/* margin-left: .1rem; */
 	position: relative;
+	display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .xia:before{
 	content: "";

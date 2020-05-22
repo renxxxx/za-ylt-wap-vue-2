@@ -32,28 +32,26 @@
 			</div>
 		</van-overlay>
 		<div class="zhangwei" :style="{'height':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}"></div>
-		<div class="taskCenterList">
-			<div class="centerOnce" v-show="task.once.length==0? false:true" >
-				<ul>
-					<h3 class="titleBefore">首次收益</h3>
-					<li v-for="(item,inx) in task.once" :key='inx'>
-						<h4>{{item.name}}<span>+{{item.exchangePointUpperPerDay}}</span></h4>
-						<p>{{item.intro}}</p>
-						<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'">{{item.doneIs? '已完成':'去完成'}}</button>
-					</li>
-				</ul>
-			</div>
-			<div class="centerDate" v-show="task.daily.length==0? false:true">
-				<ul>
-					<h3 class="titleBefore">每日收益</h3>
-					<li v-for="(item,inx) in task.daily" :key='inx+1'>
-						<h4>{{item.name}}<span>+{{item.exchangePoint}}</span><span>/</span></h4>
-						<van-progress :percentage="item.gotExchangePointToday? item.gotExchangePointToday/item.exchangePointUpperPerDay*100:0" :show-pivot='false' :color="'#FF1A2E'" :rack-color="'#E5E5E5'" stroke-width='0.05rem'/>
-						<p>已获{{item.gotExchangePointToday? item.gotExchangePointToday:0}}分/上限{{item.exchangePointUpperPerDay}}分</p>
-						<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'">{{item.doneIs? '已完成':'去完成'}}</button>
-					</li>
-				</ul>
-			</div>
+		<div class="centerOnce" v-show="task.once.length==0? false:true" >
+			<ul>
+				<h3 class="titleBefore">首次收益</h3>
+				<li v-for="(item,inx) in task.once" :key='inx'>
+					<h4>{{item.name}}<span>+{{item.exchangePointUpperPerDay}}</span></h4>
+					<p>{{item.intro}}</p>
+					<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'">{{item.doneIs? '已完成':'去完成'}}</button>
+				</li>
+			</ul>
+		</div>
+		<div class="centerDate" v-show="task.daily.length==0? false:true">
+			<ul>
+				<h3 class="titleBefore">每日收益</h3>
+				<li v-for="(item,inx) in task.daily" :key='inx+1'>
+					<h4>{{item.name}}<span>+{{item.exchangePoint}}</span><span>/</span></h4>
+					<van-progress :percentage="item.gotExchangePointToday? item.gotExchangePointToday/item.exchangePointUpperPerDay*100:0" :show-pivot='false' :color="'#FF1A2E'" :rack-color="'#E5E5E5'" stroke-width='0.05rem'/>
+					<p>已获{{item.gotExchangePointToday? item.gotExchangePointToday:0}}分/上限{{item.exchangePointUpperPerDay}}分</p>
+					<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'">{{item.doneIs? '已完成':'去完成'}}</button>
+				</li>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -141,16 +139,14 @@ export default {
 .taskCenter{
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
 	background-color: #F5F5F5;
 }
 .topNav{
 	width: 100%;
 	height: 1.76rem;
-	/* background: url('../../../assets/image/tu1.png')  center no-repeat,linear-gradient(#FDFDFD, #FBFBFB) ; */
-	background: url('../../../assets/image/tu1.png')  center no-repeat,#ffffff;
-	background-size: 1.85rem 1.29rem;
-	/* margin-bottom: .15rem; */
+	background: url('../../../assets/image/tu1.png')  center no-repeat,linear-gradient(#FDFDFD, #FBFBFB) ;
+	background-size: 1.84rem 1.29rem;
+	margin-bottom: .15rem;
 	position: fixed;
 	top:0;
 	z-index: 9999;
@@ -368,9 +364,5 @@ export default {
     height: 100%;
     background-color: rgba(0,0,0,.7);
 	z-index: 9999!important;
-}
-.taskCenterList{
-	height: calc(100% - 1.76rem);
-	overflow: scroll;
 }
 </style>

@@ -85,10 +85,8 @@ export default {
 			}
 			this.getdata();
 		}
-		// localStorage.getItem('address')
   	},
 	methods: {
-
 		goBackFn(){
 			this.$router.back(-1);
 		},

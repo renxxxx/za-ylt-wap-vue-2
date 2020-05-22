@@ -1,5 +1,6 @@
 <template>
-	<div class="active">
+<topSolt>
+	<div class="active" slot="returnTopSolt">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -16,95 +17,83 @@
 				<span>新建活动</span>
 			</div>
 		</router-link>
-		<div class="_activeList" @scroll="handleScroll" ref="_activeList">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
-					<van-cell :border="false" >
-						<router-link :to="{path : '/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,}}">
-							<div class="activeList">
-								<img v-lazy="item.cover" alt="">
-								<div class="activeTitle">
-									<h4>{{item.title}}</h4>
-									<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
-								</div>
+		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+			
+			<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
+				<van-cell :border="false" >
+					<router-link :to="{path : '/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,}}">
+						<div class="activeList">
+							<img v-lazy="item.cover" alt="">
+							<div class="activeTitle">
+								<h4>{{item.title}}</h4>
+								<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
 							</div>
-						</router-link>
-					</van-cell>
-					<template slot="right">
-						<button class="deleteStyle" @click="deleteActiviteFn(item)">
-							<img src="../../../assets/image/activiteDelete.png" alt="">
-						</button>
-					</template>
-				</van-swipe-cell>
-			</van-list>
-		</div>
-		<div class="returnTop" @click="$refs._activeList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+						</div>
+					</router-link>
+				</van-cell>
+				<template slot="right">
+					<button class="deleteStyle" @click="deleteActiviteFn(item)">
+						<img src="../../../assets/image/activiteDelete.png" alt="">
+					</button>
+				</template>
+			</van-swipe-cell>
+		</van-list>
 	</div>
+</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'case',
 	data () {
 		return {
 			active:[],
-			loading: false,
-			finished: false,
-			page: 0,
-			hospitalReturnTopPage:false,
-			scrollTop:0
+      loading: false,
+      finished: false,
+      page: 0,
 		}
 	},
 	computed:{
+	  ...mapGetters(['account','isLogin']),
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
 
 	},
-  	mounted() {
-
+  mounted() {
+		// if(window.plus){
+		// 	//plus.navigator.setStatusBarBackground("#ffffff");
+		// 	plus.navigator.setStatusBarStyle("dark")
+		// }
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs._activeList.scrollTop = this.scrollTop;
-		}
     },
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs._activeList.scrollTop || this.$refs._activeList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			// this.$router.push({name:'hospital_clinic'})
 			this.$router.back(-1)
 		},
 		deleteActiviteFn(_item){
-			for(let i=0;i<this.active.length;i++){
-				if(this.active[i].itemId ==_item.itemId){
-				this.active.splice(i,1)
-				i--;
-				}
-			}
+      for(let i=0;i<this.active.length;i++){
+        if(this.active[i].itemId ==_item.itemId){
+          this.active.splice(i,1)
+          i--;
+        }
+      }
 			this.$axios.post('/c2/activity/itemdel',qs.stringify({
 				itemId : _item.itemId,
 			}))
@@ -116,10 +105,11 @@ export default {
 				//Dialog({ message: '加载失败!'});
 			})
 		},
-		onLoad(){
-			++this.page;
-			this.getdata();
-		},
+    onLoad(){
+      ++this.page;
+      // 
+      this.getdata();
+    },
 		getdata(){
 			this.$axios.post('/c2/activity/items',qs.stringify({
 				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
@@ -133,11 +123,11 @@ export default {
 						this.active.push(res.data.data.items[i])
 						// 
 					}
-					this.loading = false;
+          this.loading = false;
 				}else {
-					this.loading = false;
-					this.finished = true;
-				}
+          this.loading = false;
+          this.finished = true;
+        }
 			})
 			.catch((err)=>{
 				
@@ -151,8 +141,7 @@ export default {
 <style scoped>
 .active{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
+	/* height: 100%; */
 	background-color: #FFFFFF;
 }
 .topNav{
@@ -276,13 +265,5 @@ export default {
     position: relative;
     overflow: hidden;
     width: 93.6%;
-}
-._activeList{
-	width: 100%;
-	height: calc(100% - .96rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
 }
 </style>
