@@ -40,7 +40,14 @@
 				<h4 class="xia">适应症状</h4>
 				<ul>
 					<li v-for='(item,inx) in this.about.shiYingZheng' :key='inx'>
-						{{item}}
+						<div style="display: -webkit-box;
+						-webkit-line-clamp: 1;
+						-webkit-box-orient: vertical;
+						overflow: hidden;
+						word-break: break-all;
+						word-wrap: break-word;">
+							{{item}}
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -156,7 +163,7 @@ export default {
 			})
 			this.$axios.post('/c2/doctor/items',qs.stringify({
 				officeId : id,
-				hospitalId : this.$store.state.outpatient.login.hospitalId,
+				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
 			}))
 			.then(_d => {
 				for(let i in _d.data.data.items){

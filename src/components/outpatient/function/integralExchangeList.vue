@@ -106,7 +106,7 @@ export default {
 			.catch((err)=>{
 				//Dialog({ message: err});
 			})
-		}
+		}	
 	},
 }
 </script>
@@ -120,7 +120,7 @@ export default {
 	overflow: hidden;
 }
 .productsExchangeList{
-	height: calc(100% - .37rem);
+	height: calc(100% - 0rem);
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;

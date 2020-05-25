@@ -72,7 +72,7 @@ export default {
 	getData(){
 		this.$router.currentRoute.query.components? this.backFN(): this.componentName = 'hospital_imageAbout'
 		this.$axios.post('/c2/hospital/item',qs.stringify({
-			itemId : this.$store.state.outpatient.login.hospitalId,
+			itemId : this.$store.state.outpatient.login.hospital.hospitalId,
 		}))
 		.then(_d => {
 			this.hospitalImage = {

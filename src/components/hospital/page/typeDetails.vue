@@ -39,7 +39,15 @@
 				<h4 class="xia">适应症状</h4>
 				<ul>
 					<li v-for='(item,inx) in this.about.shiYingZheng' :key='inx'>
+					<div style="display: -webkit-box;
+					-webkit-line-clamp: 1;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+					word-break: break-all;
+					word-wrap: break-word;">
 						{{item}}
+					</div>
+						
 					</li>
 				</ul>
 			</div>
@@ -341,7 +349,7 @@ export default {
 	/* width: .9rem; */
 	padding:.07rem .15rem;
 	height: .25rem;
-	line-height: .25rem;
+	line-height: .22rem;
 	border-radius: .15rem;
 	text-align: center;
 	color: #FF951B;
