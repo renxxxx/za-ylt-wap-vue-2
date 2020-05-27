@@ -133,10 +133,7 @@ export default {
 	components:{
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
+
 	},
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
@@ -145,13 +142,15 @@ export default {
   			//plus.navigator.setStatusBarBackground("#ffffff");
   			plus.navigator.setStatusBarStyle("dark")
   		}
-  		if(localStorage.getItem('list_promoterValue') || localStorage.getItem('list_promoterId')){
+  		
+		this.$route.query.item? this.clinicFn() : ""
+	  }
+	  if(localStorage.getItem('list_promoterValue') || localStorage.getItem('list_promoterId')){
   		  delete this.addClinic.promoter;
   		  Vue.set(this.addClinic,'promoter',localStorage.getItem('list_promoterValue'));
-  		  Vue.set(this.addClinic,'hospitalUserId',localStorage.getItem('list_promoterId'));
+			Vue.set(this.addClinic,'hospitalUserId',localStorage.getItem('list_promoterId'));
+			localStorage.clear('list_promoterValue','list_promoterId')
   		}
-		this.$route.query.item? this.clinicFn() : ""
-  	}
   },
   mounted() {
      

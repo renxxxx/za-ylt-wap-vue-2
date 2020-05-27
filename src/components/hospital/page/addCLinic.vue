@@ -206,7 +206,7 @@ export default {
 			this.$axios.post('/hospital/super-admin/hospital-clinic-add',qs.stringify({
 				hospitalClinicId : this.$store.state.hospital.login.hospital.hospitalId,
 				name :  this.addClinic.name,        //医院名称
-				hospitalUserId : this.$route.query.promoterId,	//推广人id
+				hospitalUserId : this.addClinic.hospitalUserId,	//推广人id
 				cover: '',
 				license : this.imageUpload,         //营业执照
 				address : this.addClinic.address,   //门诊地址
