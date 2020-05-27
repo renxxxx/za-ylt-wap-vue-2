@@ -121,7 +121,7 @@ export default {
   },
   created(){
   },
- 
+
   destroyed(){
   },
  	 mounted(){
@@ -145,7 +145,7 @@ export default {
   computed:{
 		show: {
 			get: function() {
-			
+
 				return this.$store.state.show
 			},
 			set: function (newValue) {
@@ -154,7 +154,7 @@ export default {
 		},
 		showTime: {
 			get: function() {
-			// 
+			//
 				return this.$store.state.showTime
 			},
 			set: function (newValue) {
@@ -182,7 +182,7 @@ export default {
 			this.$toast({message:'请登录',onClose:function(){
 				thisVue.$router.replace({ path : '/outpatientLogin',query:{time:1}});
 			}})
-			
+
       Object.assign(this.$data, this.$options.data());
 	  this.getNum();
     //    this.$refs.all.initData();
@@ -197,7 +197,7 @@ export default {
 	//显示筛选弹窗
 	showPopup() {
 	   this.show = true;
-	   // 
+	   //
 	},
 	getNum(){
 		let clinicId = '';
@@ -213,10 +213,10 @@ export default {
 		}))
 		.then(_d => {
 			this.list.noNum = _d.data.data.sum.totalCount;
-			// 
+			//
 		})
 		.catch((err)=>{
-			
+
 		})
 		this.$axios.post('/c2/patient/items',qs.stringify({
 			kw : this.list.keywords,
@@ -228,14 +228,14 @@ export default {
 		}))
 		.then(_d => {
 			this.list.yesNum = _d.data.data.sum.totalCount;
-			// 
+			//
 		})
 		.catch((err)=>{
-			
+
 			// //Dialog({ message: err});;
 		});
 
-		// 
+		//
 	},
  	hospitalSubmit(){
     this.$axios.post('/c2/patient/itemadd',qs.stringify({
@@ -248,9 +248,9 @@ export default {
     		idcardNo :  this.account.idcardNo
     	}))
     	.then( res =>{
-    		
-    		
-    		// 
+
+
+    		//
     		if(res.data.codeMsg){
     			Dialog({ message: res.data.codeMsg  });
     		}else if(res.data.code == 0){
@@ -267,7 +267,7 @@ export default {
     		}
     	})
     	.catch((err)=>{
-    		
+
     		//Dialog({ message: '加载失败!'});
     	})
   }
@@ -336,7 +336,8 @@ export default {
 }
 .indexSearch input{
 	border-radius: .18rem;border: none;
-	height: .335rem;width: 2.4rem;
+	height: .335rem;
+  width: 2.4rem;
 	line-height: .3rem;
 	/* padding: 0; */
 	width: 80%;
@@ -604,14 +605,16 @@ export default {
 	width: 100%;
 }
 .Fill li span{
-	height: .21rem;width: .6rem;
+	height: .21rem;
+  width: .6rem;
 
 }
 .Fill li input{
 	border: none;
 	float:right;
 	text-align: right;
-	background: transparent
+	background: transparent;
+  width: 60%;
 	/* background-color: #F5F5F5; */
 }
 .bottom{
