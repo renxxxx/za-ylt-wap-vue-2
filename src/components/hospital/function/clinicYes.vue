@@ -119,7 +119,7 @@ export default {
 				status :4,
 				pn : this.page,
 				ps : 10,
-			}))
+			})) 
 			.then(_d => {
 				if(_d.data.data.items.length != 0){
 					for (let nums in _d.data.data.items) {
