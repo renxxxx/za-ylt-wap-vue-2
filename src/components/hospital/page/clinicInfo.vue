@@ -28,9 +28,9 @@
 							<!-- <van-dropdown-menu>
 								<van-dropdown-item v-model="value" :options="option" active-color='#2B77EF' @change="changeFn"/>
 							</van-dropdown-menu> -->
-              <router-link :to="{name:'hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,}}">
-                <span>{{addClinic.promoter}}</span>
-              </router-link>
+              <!-- <router-link :to="{name:'hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,}}"> -->
+                <span class="xiugaispan" @click="$router.push({path:'/hospital/hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,time: new Date().getTime()}})">{{addClinic.promoter}}</span>
+              <!-- </router-link> -->
 						</li>
 						<li>
 							<span>分配账号</span>
@@ -92,11 +92,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
-import { Toast } from 'vant'
 import Vue from 'vue'
 export default {
 	name: 'search',
@@ -119,7 +115,7 @@ export default {
 				readonly : '',
 				clinicPromoterId : '',
 				hospitalUserId : '',
-       			promoter:'请选择'
+      			promoter:'请选择'
 			},
 			// 上传图片弹窗显示
 			show: false,
@@ -127,67 +123,73 @@ export default {
 			query:''
 		}
 	},
- 	activated() {
+	computed:{
+	},
+	components:{
+	},
+	created(){
+
+	},
+  activated() {
+  	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
+  		this.query = JSON.stringify(this.$route.query);
+  		if(window.plus){
+  			//plus.navigator.setStatusBarBackground("#ffffff");
+  			plus.navigator.setStatusBarStyle("dark")
+  		}
+  		
+		this.$route.query.item? this.clinicFn() : ""
+	  }
 	  if(localStorage.getItem('list_promoterValue') || localStorage.getItem('list_promoterId')){
-			  debugger
-			delete this.addClinic.promoter;
-			// this.addClinic.promoter = localStorage.getItem('list_promoterValue')
-			// this.addClinic.hospitalUserId = localStorage.getItem('list_promoterId')
-  			Vue.set(this.addClinic,'promoter',localStorage.getItem('list_promoterValue'));
+  		  delete this.addClinic.promoter;
+  		  Vue.set(this.addClinic,'promoter',localStorage.getItem('list_promoterValue'));
 			Vue.set(this.addClinic,'hospitalUserId',localStorage.getItem('list_promoterId'));
-			// console.log(localStorage.getItem('list_promoterId'))
-			localStorage.clear('promoter','hospitalUserId');
+			localStorage.clear('list_promoterValue','list_promoterId')
   		}
-  		if(this.query != JSON.stringify(this.$route.query)){
-			this.query = JSON.stringify(this.$route.query);
-			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
-				plus.navigator.setStatusBarStyle("dark")
-			}
-			debugger
-			
-			this.clinicFn()
-  		}
- 	},
- 	mounted() {
+  },
+  mounted() {
+     
+		// 
+		
 	},
 	methods: {
-		clinicFn(){
-		this.$axios.get('/hospital/super-admin/hospital-clinic/'+this.$route.query.item)
-		.then(_d => {
-			this.addClinic = {
-				name : _d.data.data.name,
-				phone : _d.data.data.clinicUserPhone,
-				pwd :'',
-				headmanName : _d.data.data.headman,
-				contactTel : _d.data.data.tel,
-				address : _d.data.data.address,
-				remark : _d.data.data.remark,
-				hospitalUserId : _d.data.data.hospitalUserId,
-			},
-			_d.data.data.hospitalUserName? this.addClinic.promoter = _d.data.data.hospitalUserName: ''
-			this.$route.query.promoterValue? this.addClinic.promoter = this.$route.query.promoterValue:''
-			// if(_d.data.data.hospitalUserName){
+    clinicFn(){
+      this.$axios.get('/hospital/super-admin/hospital-clinic/'+this.$route.query.item)
+      .then(_d => {
+          this.addClinic = {
+            name : _d.data.data.name,
+            phone : _d.data.data.clinicUserPhone,
+            pwd :'',
+            headmanName : _d.data.data.headman,
+            contactTel : _d.data.data.tel,
+            address : _d.data.data.address,
+            remark : _d.data.data.remark,
+            hospitalUserId : _d.data.data.hospitalUserId,
+          },
+          _d.data.data.hospitalUserName? this.addClinic.promoter = _d.data.data.hospitalUserName: ''
+          this.$route.query.promoterValue? this.addClinic.promoter = this.$route.query.promoterValue:''
+        // if(_d.data.data.hospitalUserName){
 
-			// }
-			// 
-			this.imageUpload = _d.data.data.license
-			// this.$axios.get('/hospital/def/hospital-operator-users?'+qs.stringify({hospitalUserId:this.addClinic.hospitalUserId}))
-			// .then(res => {
-			// 	// 
-			// 	// this.promoter= this.option.find((n)=>n.text == res.data.data.rows[0].name)
-			// 	this.value = promoter
-			// 	// 
-			// })
-			// .catch((err)=>{
-			// 	
-			// })
-		})
-		.catch((err)=>{
-			
-			//Dialog({ message: err});;
-		})
-		},
+        // }
+		// 
+      	this.imageUpload = _d.data.data.license
+		// this.$axios.get('/hospital/def/hospital-operator-users?'+qs.stringify({hospitalUserId:this.addClinic.hospitalUserId}))
+		// .then(res => {
+		// 	// 
+		// 	// this.promoter= this.option.find((n)=>n.text == res.data.data.rows[0].name)
+		// 	this.value = promoter
+		// 	// 
+		// })
+		// .catch((err)=>{
+		// 	
+		// })
+      })
+      .catch((err)=>{
+      	
+      	//Dialog({ message: err});;
+      })
+    },
 		// 返回键
 		goBackFn(){
 			this.$router.back(-1)
@@ -462,7 +464,7 @@ export default {
 	height: .44rem!important;
 	line-height: .44rem!important;
  }
-.Fill li a span{
+.xiugaispan{
   color: #2B77EF;
   float: right;
   text-align: right;

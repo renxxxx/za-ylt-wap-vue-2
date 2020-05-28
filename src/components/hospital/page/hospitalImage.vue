@@ -17,10 +17,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import hospital_imageAbout from '../function/hospital_imageAbout.vue'
 import hospital_imageType from '../function/hospital_imageType.vue'
 export default {
@@ -41,51 +38,17 @@ export default {
     }
   },
   computed:{
-	 ...mapGetters(['account','isLogin']),
-
   },
   components:{
   	hospital_imageAbout,hospital_imageType
   },
   created(){
-  	var heightRexg = /^[0-9]*/g
-  	//var topHeight = this.topHeight.match(heightRexg)
-  	//this.height = parseInt(topHeight.join()) 
-  	//
   },
   mounted() {
-		if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
-	// this.$axios.post('/c2/hospital/item',qs.stringify({
-	// 	itemId : this.$store.state.hospital.login.hospital.hospitalId,
-	// }))
-	// .then(_d => {
-	// 	this.hospitalImage = {
-	// 		address : _d.data.data.address,
-	// 		cover : _d.data.data.cover,
-	// 		headmanName :_d.data.data.headmanName,
-	// 		intro : _d.data.data.intro,
-	// 		name : _d.data.data.name,
-	// 		tel : _d.data.data.tel,
-	// 	};
-	// 	let imgUrl = '';
-	// 	this.hospitalImage.cover? imgUrl = this.hospitalImage.cover : imgUrl = ''
-	// 	// imgUrl = this.hospitalImage.cover;
-	// 	// 
-	// 	if(imgUrl != ''){
-	// 		this.$refs.img.style['background-image']='url('+imgUrl+')';
-	// 	}
-	// 	// 
-	// })
-	// .catch((err)=>{
-		
-	// 	//Dialog({ message: '加载失败!'});
-	// })
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -112,21 +75,13 @@ export default {
 				}
 				// 
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			.catch((err)=>{})
 		}
 	},
   methods: {
 	  //回退方法
 	goBackFn(){
-		this.$router.back(-1)
-    // if(this.isLogin == 100){
-    //   this.$router.push({ path : '/hospital/hospital_clinic',query:{}});
-    // }else{
-    //   this.$router.push({ path : '/hospital/outpatient_hospital',query:{}});
-    // }
+		this.$router.back()
 	},
 	  // 组件切换
 	switchFn(data){
@@ -160,7 +115,6 @@ export default {
 .images{
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
 	background-color: #FFFFFF;
 }
 .nav{
@@ -201,7 +155,7 @@ export default {
 
 .content{
 	width: 100%;
-	height: calc(100% - 2.56rem);
+	height: 62%;
 	margin-top: -.4rem;
 	border-radius: .14rem  .14rem  0rem  0rem;
 	background-color: #FFFFFF;

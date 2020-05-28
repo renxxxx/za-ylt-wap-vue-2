@@ -1,9 +1,10 @@
 <template>
-	<div class="chooseTheType" v-if="vIf">
+	<div class="chooseTheType">
     <div class="nav" :style="{'padding-top':$store.state.paddingTop}">
       <h3>您有以下端口</h3>
       <p>请选择进入</p>
     </div>
+
 		<div class="options" @click="choseFn('1')">
       <img src="../assets/image/yy.png" alt="">
       <h3>Hospital</h3>
@@ -36,7 +37,6 @@ export default {
     return {
       // showValue:{},
       stata:undefined,
-      vIf:null,
     }
   },
   computed:{
@@ -66,17 +66,14 @@ export default {
    
   },
   activated(){
-    debugger
-    let entrance=localStorage.getItem('entrance');
+     let thisVue = this;
+     let entrance=localStorage.getItem('entrance');
     if(1==entrance)
           this.$router.replace({ path : '/hospital',query:{}});
     else if(2==entrance)
           this.$router.replace({ path : '/outpatient',query:{}});
     else if(3==entrance)
         this.$router.replace({ path : '/operating',query:{}});
-    else{
-      this.vIf=true
-    }
   },
   mounted () {
     

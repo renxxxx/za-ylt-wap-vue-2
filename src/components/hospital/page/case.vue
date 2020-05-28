@@ -5,29 +5,25 @@
 			<h3>优质案例</h3>
 		</div>
 		<div class="zhangwei"></div>
-		<div class="article" :style="{'padding-top':$store.state.paddingTop}" @scroll="handleScroll" ref="article">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-				<li v-for="(items,inx) in article" :key="inx">
-					<router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 4,}}">
-					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
-						<p>{{items.content}}</p>
-						<div class="article_leftTime">
-						<img src="../../../assets/image/time@2x.png" alt="">
-						<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
-						</div>
-					</div>
-					<div v-if="items.img"  class="article_right">
-						<img :src=items.img alt="">
-					</div>
-					</router-link>
-				</li>
-				</ul>
-			</van-list>
-		</div>
-		<div class="returnTop" @click="$refs.article.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
+		<div class="article" :style="{'padding-top':$store.state.paddingTop}">
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <ul>
+          <li v-for="(items,inx) in article" :key="inx">
+            <!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 4,}}"> -->
+              <div class="article_left" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 4,time: new Date().getTime()}})" :style="{width:items.img?'60.1%':'100%'}">
+                <p>{{items.content}}</p>
+                <div class="article_leftTime">
+                  <img src="../../../assets/image/time@2x.png" alt="">
+                  <span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
+                </div>
+              </div>
+              <div v-if="items.img"  class="article_right">
+                <img :src=items.img alt="">
+              </div>
+            <!-- </router-link> -->
+          </li>
+        </ul>
+      </van-list>
 		</div>
 	</div>
 </template>
@@ -42,89 +38,68 @@ export default {
 			loading: false,
 			finished: false,
 			page: 0,
-			query:'',
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+			query:''
 		}
 	},
 	computed:{
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
-		// var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
-  mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
+ 	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-		}
-		if(this.scrollTop != 0){
-			this.$refs.article.scrollTop = this.scrollTop;
+			this.onLoad()
 		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.article.scrollTop || this.$refs.article.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1)
 		},
-    onLoad(){
-      ++this.page;
-      // 
-      this.getData();
-    },
-    getData(){
-      this.$axios.post('/c2/project/items',qs.stringify({
-      	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-      	pn: this.page,
-      	ps: 10
-      }))
-      .then(res => {
-      	if(res.data.data.items.length != 0){
-      		for(let i in res.data.data.items){
-      			// 
-      			if(res.data.data.items[i]){
-      				this.article.push({
-      					content:res.data.data.items[i].name,
-      					img: res.data.data.items[i].cover,
-      					time:res.data.data.items[i].alterTime,
-      					itemId : res.data.data.items[i].itemId,
-      				})
-      			}
-      		}
-          this.loading = false;
-      	}else {
-            this.loading = false;
-            this.finished = true;
-          }
-      })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: '加载失败!'});
-      })
-    }
+		onLoad(){
+			++this.page;
+			this.getData();
+		},
+		getData(){
+		this.$axios.post('/c2/project/items',qs.stringify({
+			hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
+			pn: this.page,
+			ps: 10
+		}))
+		.then(res => {
+			if(res.data.data.items.length != 0){
+				for(let i in res.data.data.items){
+					// 
+					if(res.data.data.items[i]){
+						this.article.push({
+							content:res.data.data.items[i].name,
+							img: res.data.data.items[i].cover,
+							time:res.data.data.items[i].alterTime,
+							itemId : res.data.data.items[i].itemId,
+						})
+					}
+				}
+			this.loading = false;
+			}else {
+				this.loading = false;
+				this.finished = true;
+			}
+		})
+		.catch((err)=>{
+			
+			//Dialog({ message: '加载失败!'});
+		})
+		}
 	},
 }
 </script>
@@ -132,8 +107,6 @@ export default {
 <style scoped>
 .case{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -161,17 +134,12 @@ export default {
 	font-weight: bold;
 }
 .article{
-	width: 100%;
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
+	width: 91.5%;
+	margin: 0rem auto;
 }
 .article ul{
 	margin-top: .2rem;
-	margin: 0rem auto;
-	width: 91.5%;
+	width: 100%;
 }
 .article ul li {
 	width: 100%;

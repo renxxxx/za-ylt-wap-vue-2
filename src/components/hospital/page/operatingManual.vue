@@ -7,23 +7,23 @@
 			<div class="centerTitle">
 				<h3>运营成功手册架构</h3>
 			</div>
-			<div class="right">
-				<router-link :to="{name:'hospital_operatingDate'}">
+			<div class="right" @click="$router.push({path:'/hospital/hospital_operatingDate',query:{time: new Date().getTime()}})">
+				<!-- <router-link :to="{name:'hospital_operatingDate'}"> -->
 				  <img src="../../../assets/image/jilu@2x.png" alt="" :style="{'padding-top':$store.state.paddingTop}">
-				</router-link>
+				<!-- </router-link> -->
 			</div>
 		</div>
     <div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
     <div style="margin-top: .2rem;">
-      <div v-for="(item,inx) in operatingManual" :key="inx">
-        <router-link :to="{path : '/hospital/hospital_operatingManualList',query:{name:item.name,operatingManualId:item.operatingManualId,}}">
+      <div v-for="(item,inx) in operatingManual" :key="inx" @click="$router.push({path:'/hospital/hospital_operatingManualList',query:{name:item.name,operatingManualId:item.operatingManualId,time: new Date().getTime()}})">
+        <!-- <router-link :to="{path : '/hospital/hospital_operatingManualList',query:{name:item.name,operatingManualId:item.operatingManualId,}}"> -->
           <van-cell is-link>
             <!-- 使用 title 插槽来自定义标题 -->
             <template>
               <span class="custom-title">{{item.name}}</span>
             </template>
           </van-cell>
-        </router-link>
+        <!-- </router-link> -->
       </div>
 
     </div>
@@ -49,10 +49,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operatingManual',
   data () {
@@ -61,7 +58,7 @@ export default {
       operatingManual : [],
       num:[],
       yesNum:[],
-	  query:''
+	    query:''
     }
   },
   computed:{
@@ -72,14 +69,10 @@ export default {
 
   },
   mounted () {
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#ffffff");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
-    // this.getdata()
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -100,28 +93,6 @@ export default {
         if(!res.data.codeMsg){
             for(let i in res.data.data.rows){
             this.operatingManual.push(res.data.data.rows[i])
-            // this.$axios.get('/hospital/operating-manual/operating-manual-sections?'+qs.stringify({operatingManualId:res.data.data.rows[i].operatingManualId}))
-            // .then(_res => {
-            //   if(!_res.data.codeMsg){
-            //     this.operatingManual[i]._data=[]
-            //      let num = 0;
-            //     for(let _i in _res.data.data.rows){
-            //       if(_res.data.data.rows[_i].done){
-            //         ++num
-            //       }
-            //       // 
-            //         this.yesNum.push(num)
-            //     // 
-            //       this.operatingManual[i]._data.push(_res.data.data.rows[_i])
-            //      // console.dir(this.operatingManual[i]._data)
-            //     }
-            //   }else{
-            //     this.$toast(_res.data.codeMsg)
-            //   }
-            // })
-            // .catch((err)=>{
-            // 	
-            // })
             this.$axios.get('/hospital/operating-manual/operating-manual-sections-sum?'+qs.stringify({operatingManualId:res.data.data.rows[i].operatingManualId}))
             .then(res => {
               console.dir(res)

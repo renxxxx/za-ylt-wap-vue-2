@@ -10,28 +10,22 @@
 			</div>
 		</div>
 		<div class="zhangwei"></div>
-		<div class="promotersSearch_list" @scroll="handleScroll" ref="promotersSearch_list"> 
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul :style="{'padding-top':$store.state.paddingTop}">
-					<li v-for="(item,inx) in promotersList" :key="inx">
-					<router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,}}">
-						<div class="list">
-						<img src="../../../assets/image/ren@2x.png" alt="">
-						<h4>{{item.name}}</h4>
-						<div class="listRight">
-							<span>门诊数：{{item.clinicCount}}</span>
-							<img src="../../../assets/image/right@2x.png" alt="">
-						</div>
-						</div>
-					</router-link>
-					</li>
-				</ul>
-			</van-list>
-		</div>
-		<div class="returnTop" @click="$refs.promotersSearch_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <ul :style="{'padding-top':$store.state.paddingTop}">
+        <li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
+          <!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,}}"> -->
+            <div class="list">
+              <img src="../../../assets/image/ren@2x.png" alt="">
+              <h4>{{item.name}}</h4>
+              <div class="listRight">
+                <span>门诊数：{{item.clinicCount}}</span>
+                <img src="../../../assets/image/right@2x.png" alt="">
+              </div>
+            </div>
+          <!-- </router-link> -->
+        </li>
+      </ul>
+    </van-list>
 	</div>
 </template>
 
@@ -45,12 +39,10 @@ export default {
 		return {
 			promotersList:[],
 			searchInputValue : '',
-			loading: false,
-			finished: false,
-			page: 0,
-			query:'',
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+      loading: false,
+      finished: false,
+      page: 0,
+	  query:''
 		}
 	},
 	computed:{
@@ -60,13 +52,18 @@ export default {
 
 	},
 	created(){
-s
+		var heightRexg = /^[0-9]*/g;
+		//var topHeight = this.topHeight.match(heightRexg);
+		//this.height = parseInt(topHeight.join()) ;
+		// //
 	},
  
 	mounted () {
 		// this.getData()
-s	},
+		console.log('mounted')
+	},
 	activated() {
+		console.log('这是activad')
 		if(this.query != JSON.stringify(this.$route.query)){
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
@@ -75,56 +72,44 @@ s	},
 			}
 			this.onLoad()
 		}
-		if(this.scrollTop != 0){
-			this.$refs.promotersSearch_list.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.promotersSearch_list.scrollTop || this.$refs.promotersSearch_list.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		goBackFn(){
 			this.$router.back(-1)
 		},
-		onLoad(){
-			++this.page;
-			let data = {
-				pn: this.page,
-				ps: 10,
-				kw:this.searchInputValue
-			}
-			this.getData(data);
-		},
+    onLoad(){
+      ++this.page;
+      let data = {
+        pn: this.page,
+        ps: 10,
+        kw:this.searchInputValue
+      }
+      this.getData(data);
+    },
 		getData(_data){
 			this.$axios.get('/hospital/admin/hospital-users?'+'&'+qs.stringify(_data))
-			.then(res => {
-				if(!res.data.codeMsg){
-				if(res.data.data.rows.length != 0){
-					for(let i in res.data.data.rows){
-						this.promotersList.push(res.data.data.rows[i])
-					console.dir(this.promotersList)
-					}
-					if(this.promotersList.length<10){
-						let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-						// 
-						this.$refs.promotersSearchRef.style.height = windowHeight+ 'px'
-					}
-					// 
-					this.loading = false;
-				}else {
-					this.loading = false;
-					this.finished = true;
-				}
-				}else{
-				this.$toast(res.data.codeMsg)
-				}
-			})
+      .then(res => {
+      	if(!res.data.codeMsg){
+          if(res.data.data.rows.length != 0){
+            for(let i in res.data.data.rows){
+            	this.promotersList.push(res.data.data.rows[i])
+              console.dir(this.promotersList)
+            }
+            if(this.promotersList.length<10){
+            	let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            	// 
+            	this.$refs.promotersSearchRef.style.height = windowHeight+ 'px'
+            }
+            // 
+            this.loading = false;
+          }else {
+            this.loading = false;
+            this.finished = true;
+          }
+      	}else{
+          this.$toast(res.data.codeMsg)
+        }
+      })
 			.catch((err)=>{
 				
 			})
@@ -263,13 +248,5 @@ s	},
 }
 .listRight img{
 	height: .15rem;
-}
-.promotersSearch_list{
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
-	width: 100%;
 }
 </style>

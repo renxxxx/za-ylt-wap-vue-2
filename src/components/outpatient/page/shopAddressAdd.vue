@@ -106,15 +106,10 @@ export default {
 				address : this.address.city + this.address.detailedAddress,
 			}))
 			.then(res => {
-				if(res.data.codeMsg){
-					this.$toast(res.data.codeMsg)
-				}
-				console.log(res.data.code)
-				if(res.data.code == 0){
-					this.$toast('操作成功')
-					this.$router.back()
-				}
-				
+				this.$toast.success({
+					duration: 1000,
+					message: '操作成功',
+				});
 			})
 			.catch((err)=>{
 				//Dialog({ message: err});;
@@ -192,7 +187,7 @@ export default {
 	display:-moz-inline-box;
 	display:inline-block;
 	color: #BBBBBB;
-	width: 20%;
+	width: .55rem;
 }
 .content ul li input{
 	height: .38rem;
@@ -205,7 +200,7 @@ export default {
 .content ul li textarea{
 	height: .26rem;
 	font-size: .13rem;
-	width: 75%;
+	width: 80%;
 	/* line-height: .14rem; */
 	display: inline-block;
 	float: right;

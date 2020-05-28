@@ -1,6 +1,6 @@
 <template>
-	<div class="search_clinic" >
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+	<div class="search_clinic">
+		<van-pull-refresh v-model="pullingDown" slot="returnTopSolt" @refresh="afterPullDown" >
 			<div class="navWarp" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="topNav">
 					<div class="clinic_information" @click="goBackFn"  id="navback">
@@ -9,6 +9,7 @@
 					<div class="clinic_search">
 						<img src="../../../assets/image/sousuo@2x.png" alt="">
 						<input type="search" v-focus='true' placeholder="搜索门诊"  v-model="keywords" @keyup.enter="inputNow">
+			<!-- <img src="../../../assets/image/X Copy@2x.png" alt="" class="closeImg" @click="emptyAccountFn()" v-if="keywords"> -->
 					</div>
 					<div class="clinic_buttton" @click="inputNow">
 						<button>搜索</button>
@@ -18,23 +19,21 @@
 					<div class="titleleft">
 						<h3>合作门诊 {{clinic.num}}</h3>
 					</div>
-					<div class="titleRight">
-						<router-link :to="{path : '/hospital/hospital_addCLinic',query:{}}">
+					<div class="titleRight"  @click="$router.push({path:'/hospital/hospital_addCLinic',query:{time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/hospital/hospital_addCLinic',query:{}}"> -->
 							<span>新增</span>
 							<img src="../../../assets/image/xinzeng@2x.png" alt="">
-						</router-link>
+						<!-- </router-link> -->
 					</div>
 				</div>
 			</div>
 			<div style="height:1.1rem"></div>
-			<clinicContent ref='content' :clinic = 'false' :style="{'padding-top':$store.state.paddingTop}"></clinicContent>
+			<clinicContent ref='content' :clinic = 'clinic' :style="{'padding-top':$store.state.paddingTop}"></clinicContent>
 		</van-pull-refresh>
 	</div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import clinicContent from '../function/clinic_content.vue'
 export default {
@@ -51,33 +50,19 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account'])
 	},
 	components:{
 		clinicContent,
+		topSolt
 	},
 	created(){
 	},
-
   	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// };
-		// this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
-		// 	.then(res => {
-		// 		this.clinic.num = res.data.data.rowCount;
-		// 	})
-		// 	.catch((err)=>{
-				
-		// 	})
+
 	},
 	activated() {
-		if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -147,10 +132,6 @@ export default {
 .search_clinic{
 	width: 100%;
 	height: 100%;
-	/* touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
- 	overflow: scroll;
- 	overflow-x: hidden; */
 }
 .navWarp{
 	width: 100%;
@@ -254,13 +235,11 @@ export default {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-	height: 100%;
-	overflow: hidden;
     /* margin-top: .98rem!important; */
 }
 .content{
     width: 100%;
-    height: calc(100% - .98rem);
+    height: 100%;
     /* margin-top: .98rem; */
 }
 

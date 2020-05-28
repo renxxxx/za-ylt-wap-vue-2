@@ -10,28 +10,24 @@
 			<div class="right"></div>
 		</div>
 		<div class="zhangwei"></div>
-		<div class="content" @scroll="handleScroll" ref="content" :style="{'padding-top':$store.state.paddingTop}">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-				<li v-for="(item,inx) in doctor" :key='inx'>
-					<img :src="item.headimg" alt="">
-					<div class="contentLists">
-					<h4>{{item.name}}</h4>
-					<span>{{item.hosptialName}}</span>
-					<span class="xia">{{item.jobTitles}}</span>
-					<div class="duanluo" @click="showContent(inx)" >
-						<p ref='showP'>{{item.intro}}</p>
-						<img :src="downImg" alt="" ref='showimg'>
-					</div>
-					</div>
-					<hr>
-				</li>
-				</ul>
-			</van-list>
-		</div>
-		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
+		<div class="content" :style="{'padding-top':$store.state.paddingTop}">
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <ul>
+          <li v-for="(item,inx) in doctor" :key='inx'>
+            <img :src="item.headimg" alt="">
+            <div class="contentLists">
+              <h4>{{item.name}}</h4>
+              <span>{{item.hosptialName}}</span>
+              <span class="xia">{{item.jobTitles}}</span>
+              <div class="duanluo" @click="showContent(inx)" >
+                <p ref='showP'>{{item.intro}}</p>
+                <img :src="downImg" alt="" ref='showimg'>
+              </div>
+            </div>
+            <hr>
+          </li>
+        </ul>
+      </van-list>
 		</div>
 	</div>
 </template>
@@ -48,53 +44,29 @@ export default {
 			loading: false,
 			finished: false,
 			page: 0,
-			query:'',
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+			query:''
 		}
 	},
 	components:{
-		
 	},
 	computed:{
-
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
    mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-
-
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-		}
-		if(this.scrollTop != 0){
-			this.$refs.content.scrollTop = this.scrollTop;
+			this.onLoad()
 		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1)
@@ -111,43 +83,42 @@ export default {
 				this.$refs.showimg[inx].src=require('../../../assets/image/down@2x.png')
 			}
 		},
-    onLoad(){
-      ++this.page;
-      // 
-      this.getData();
-    },
-    getData(){
-      this.$axios.post('/c2/doctor/items',qs.stringify({
-      	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-        pn: this.page,
-        ps: 10
-      }))
-      .then(_d => {
-        if(_d.data.data.items.length != 0){
-          for(let i in _d.data.data.items){
-            this.doctor.push({
-              name : _d.data.data.items[i].name,
-              hosptialName : _d.data.data.items[i].hosptialName,
-              intro : _d.data.data.items[i].intro,
-              jobTitles : _d.data.data.items[i].jobTitles,
-              headimg : _d.data.data.items[i].headimg,
-            })
-          }
-          this.loading = false;
-        }else {
-              this.loading = false;
-              this.finished = true;
-            }
+		onLoad(){
+			++this.page;
+			this.getData();
+		},
+		getData(){
+			this.$axios.post('/c2/doctor/items',qs.stringify({
+				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
+				pn: this.page,
+				ps: 10
+			}))
+			.then(_d => {
+				if(_d.data.data.items.length != 0){
+				for(let i in _d.data.data.items){
+					this.doctor.push({
+					name : _d.data.data.items[i].name,
+					hosptialName : _d.data.data.items[i].hosptialName,
+					intro : _d.data.data.items[i].intro,
+					jobTitles : _d.data.data.items[i].jobTitles,
+					headimg : _d.data.data.items[i].headimg,
+					})
+				}
+				this.loading = false;
+				}else {
+					this.loading = false;
+					this.finished = true;
+					}
 
-      	// 
-      	// this.$refs.scrollId.style.width = 50 * _d.data.data.items.length +'%'
-      	// 
-      })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: err});;
-      })
-    }
+				// 
+				// this.$refs.scrollId.style.width = 50 * _d.data.data.items.length +'%'
+				// 
+			})
+			.catch((err)=>{
+				
+				//Dialog({ message: err});;
+			})
+		}
 	},
 }
 </script>
@@ -202,11 +173,6 @@ export default {
 }
 .content{
 	width: 100%;
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
 }
 .content ul {
 	width: 100%;
@@ -246,8 +212,14 @@ export default {
 	font-size: .12rem;
 }
 .xia{
-	margin-left: .1rem;
+	/* margin-left: .1rem; */
 	position: relative;
+	display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .xia:before{
 	content: "";

@@ -1,10 +1,10 @@
 <template>
-	<div id="no" class="all" @scroll="handleScroll" ref="no">
+	<div class="all">
 		<!-- <van-pull-refresh v-model="isLoading" @refresh="refresh"> -->
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
-				<li v-for="(item,inx) in  items" :key="inx">
-					<router-link :to="{path : '/hospital/hospital_detailsPage',query : {patientId : item.itemId,}}">
+				<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+					<!-- <router-link :to="{path : '/hospital/hospital_detailsPage',query : {patientId : item.itemId,}}"> -->
 						<div class="style">
 							<div class="contentTitle">
 								<img :src="item.img" alt="">
@@ -15,23 +15,21 @@
 								<span>状态：{{item.span}}</span>
 							</div>
 						</div>
-					</router-link>
+					<!-- </router-link> -->
 						<div class="content_right">
 							<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 						</div>
 				</li>
 			</ul>
-     	</van-list>
-	 	<div class="returnTop" @click="$refs.no.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+      </van-list>
 		<!-- </van-pull-refresh> -->
 	</div>
 </template>
 <script>
 import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import { Dialog } from 'vant'
 export default {
 	name: 'clinicAll',
 	data () {
@@ -46,13 +44,12 @@ export default {
 			yesNum: 0,
 			clinicId:'',
 			items:[],
-			test:'',
-			query:'',
-			hospitalReturnTopPage:false,
-			scrollTop:0,
+      test:'',
+	  query:''
 		}
 	},
 	computed:{
+	  ...mapGetters(['account','isLogin']),
 	},
 	 props:['list'],
 	components:{
@@ -61,12 +58,7 @@ export default {
 	created () {
 		debugger
 	},
-	watch:{
-		$route(to,from){			
-			// window.removeEventListener("scroll", this.handleScrollNo, true);
-		}
-	},
-	mounted() {
+ mounted() {
 	 //  debugger
 		// if(window.plus){
 		// 	//plus.navigator.setStatusBarBackground("#ffffff");
@@ -76,32 +68,15 @@ export default {
 
 	},
 	activated() {
-		
-		this.show()
+		if(this.query != JSON.stringify(this.$route.query)){
+			this.query = JSON.stringify(this.$route.query);
+			if(window.plus){
+				//plus.navigator.setStatusBarBackground("#ffffff");
+				plus.navigator.setStatusBarStyle("dark")
+			}
+		}
 	},
 	methods:{
-		show(){
-			if(this.query != JSON.stringify(this.$route.query)){
-				this.query = JSON.stringify(this.$route.query);
-				if(window.plus){
-					plus.navigator.setStatusBarStyle("dark")
-				}
-			}
-			this.$nextTick(()=>{
-				if(this.scrollTop != 0){
-					this.$refs.no.scrollTop = this.scrollTop
-				}
-			})
-		},
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.no.scrollTop || this.$refs.no.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		submitFn(_item,_button){
 			this.$axios.post('/c2/patient/confirmjiuzhen',qs.stringify({
 				patientId : _item.itemId
@@ -126,7 +101,7 @@ export default {
 		search(){
 			debugger
 			let clinicId = '';
-			this.list.clinicId? clinicId = this.list.clinicId: clinicId = this.$store.state.hospital.login.clinicId;
+			this.$route.query.clinicId? clinicId = this.$route.query.clinicId: clinicId = this.$store.state.hospital.login.clinicId;
 			this.$route.name == 'hospital_sourceManagement'?	clinicId='':'',
 			this.$route.name == 'outpatient_search'?	clinicId='':'',
 			Object.assign(this.$data, this.$options.data());
@@ -135,7 +110,7 @@ export default {
 		getData(){
 			debugger
 			let clinicId = '';
-			this.list.clinicId? clinicId = this.list.clinicId: clinicId = this.$store.state.hospital.login.clinicId;
+			this.$route.query.clinicId? clinicId = this.$route.query.clinicId: clinicId = this.$store.state.hospital.login.clinicId;
 			this.$route.name == 'hospital_sourceManagement'?	clinicId='':'',
 			this.$route.name == 'outpatient_search'?	clinicId='':''
 			this.$axios.post('/c2/patient/items',qs.stringify({
@@ -172,6 +147,8 @@ export default {
         }
 			})
 			.catch((err)=>{
+				
+				//Dialog({ message: err});;
 			});
 
 		},
@@ -191,11 +168,9 @@ export default {
 <style scoped>
 .all{
 	width: 100%;
-	/* height: calc(100vh - .85rem); */
-	touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
-    overflow: scroll;
-    overflow-x: hidden;
+	/* position: fixed; */
+	/* height: calc(100% - .7rem); */
+	/* overflow: scroll; */
 }
 .all li{
 	height:.84rem;

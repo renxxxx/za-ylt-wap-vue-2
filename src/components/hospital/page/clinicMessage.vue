@@ -15,8 +15,8 @@
 		<div class="content">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <ul>
-          <li v-for="(item,inx) in clinicMessage" :key='inx'>
-            <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}">
+          <li @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})" v-for="(item,inx) in clinicMessage" :key='inx'>
+            <!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
               <div class="triangle_border_up">
                 <span></span>
               </div>
@@ -28,7 +28,7 @@
               <div class="contentTel">
                 <span>去联系</span>
               </div>
-            </router-link>
+            <!-- </router-link> -->
           </li>
         </ul>
       </van-list>
@@ -38,11 +38,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
-import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'case',
 	data () {
@@ -55,30 +51,22 @@ export default {
 		}
 	},
 	computed:{
-	  ...mapGetters(['account']),
 	},
 	components:{
-		topSolt
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
 	},
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+			this.onLoad()
 		}
 	},
 	methods: {

@@ -5,16 +5,15 @@
       <h3>{{this.$route.query.name}}</h3>
     </div>
     <div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-    <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage" >
-    <ul @scroll="handleScroll" ref="operatingManualListDetails">
-      <!-- operatingManualListDetails -->
-      <li v-for="(item,inx) in 99" :key="inx">
+    <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
+    <ul>
+      <li v-for="(item,inx) in operatingManualListDetails" :key="inx">
         <div class="operatingCenter">
-          <div v-for="(_item,_inx) in item.image" :key="_inx" style="display: inline;">
-            <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,}}">
+          <div v-for="(_item,_inx) in item.image" :key="_inx" style="display: inline;"  @click="$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,time: new Date().getTime()}})">
+            <!-- <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,}}"> -->
             	<!-- <img v-bind:src="item" alt=""> -->
-              <img  v-if="_item" :src="_item" alt="" >
-            </router-link>
+              <img  v-if="_item" :src="_item" alt="">
+            <!-- </router-link> -->
           </div>
           <div v-for="(video,index) in item.video" :key="index" style="display: inline;position: relative" @click="showVideoFn(video)" class="video">
             <video class="ArcanaVideo">
@@ -23,7 +22,12 @@
             <!-- <video :src="video" controls="controls" preload="auto"></video> -->
           </div>
           <div style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,.7);z-index: 999;" v-show="show">
-            <video :src="nowVideo" controls="controls" style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 9999;"
+            <div style="width: 0.4rem;height: 0.4rem;z-index: 9998;background-color: rgba(255, 255, 255, .7);position: absolute;
+               top: .2rem;left: .2rem;border-radius: 50%;overflow:hidden">
+              <img src="../../../assets/image/X Copy@2x.png" alt="" @click="show = false"
+                style="width: .2rem; height: .2rem;z-index: 99999;margin-left: -.02555rem;margin-top: .1rem;">
+            </div>
+            <video :src="nowVideo" controls="controls" style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 9997;"
              preload="auto"></video>
              <!-- <object  controls="controls" style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 9999;" preload="auto">
                 <param name="filename" :value="nowVideo">
@@ -69,10 +73,11 @@
 
       </div>
     </div>
-    <div class="returnTop" @click="$refs.operatingManualListDetails.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-        <img src="../../../assets/image/returnTop.png" alt />
-        <span>顶部</span>
-      </div>
+   <!-- <div class="addImg">
+      <router-link :to="{name: 'hospital_operatingManualListDetailsAdd',query:{operatingManualSectionId:this.$route.query.operatingManualSectionId}}">
+        <img src="../../../assets/image/add copy@2x.png" alt="">
+      </router-link>
+    </div> -->
   </div>
 </template>
 
@@ -95,9 +100,7 @@ export default {
       page : 1,
       text: '',
       test: '',
-      query:'',
-      scrollTop:0,
-      hospitalReturnTopPage:false,
+			query:''
     }
   },
   computed:{
@@ -116,31 +119,15 @@ export default {
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-      Object.assign(this.$data, this.$options.data());
-      this.query = JSON.stringify(this.$route.query);
+			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
-      }
+			}
 			this.getdata()
-    }
-    
-    if(this.scrollTop != 0){
-			this.$refs.operatingManualListDetails.scrollTop = this.scrollTop
 		}
 	},
   methods: {
-    // 滑动一定距离出现返回顶部按钮
-    handleScroll() {
-      // debug  ger
-      this.scrollTop = this.$refs.operatingManualListDetails.scrollTop || this.$refs.operatingManualListDetails.pageYOffset
-      // console.log(this.scrollTop)
-      if (this.scrollTop > 800) {
-        this.hospitalReturnTopPage = true;
-      } else {
-        this.hospitalReturnTopPage = false;
-      }
-    },
     //回退方法
     goBackFn(){
       if(this.show){
@@ -313,7 +300,6 @@ export default {
   width: 100%;
   background-color: #F5F5F5;
   position: relative;
-  overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -345,11 +331,6 @@ export default {
 }
 .operatingManualListDetails ul{
   width: 100%;
-  height: 100%;
-  touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  overflow: scroll;
-  overflow-x: hidden;
 }
 .operatingManualListDetails ul>li{
   width: 100%;
@@ -478,8 +459,5 @@ export default {
 	bottom: 0;
 	left: 0;
 	right: 0;
-}
->>>.van-list{
-  height: calc(100% - 1.21rem);
 }
 </style>

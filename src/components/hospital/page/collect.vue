@@ -1,5 +1,5 @@
 <template>
-	<div class="collect"  id='read' ref="Box">
+	<div class="collect"  id='read' ref="Box"  @scroll="scrollToTop" >
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="return" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -49,10 +49,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'collect',
   data () {
@@ -62,35 +59,14 @@ export default {
     }
   },
   computed:{
-	 ...mapGetters([]),
-	
   },
   created () {
-		
   },
   mounted() {
-if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
-	document.addEventListener('scroll',this.scrollToTop)
-	// window.addEventListener('scroll', 
-	this.$axios.post('/c/procurement/entpg')
-	.then(_d => {
-		for(let _i in  _d.data.data.ads){
-			this.images.push( _d.data.data.ads[_i].cover)
-			// 
-		}
-	})
-	.catch((err)=>{
-		
-		//Dialog({ message: '加载失败!'});
-	})
-	
-	// this.navTopFn();
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");

@@ -1,5 +1,6 @@
 <template>
-	<div class="promoters" ref='promotersRef'>
+<topSolt>
+	<div class="promoters" ref='promotersRef' slot="returnTopSolt">
 		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
@@ -9,60 +10,58 @@
 					<h3>人员列表</h3>
 				</div>
 				<div class="right">
-					<router-link :to="{name:'hospital_promotersSearch',query:{}}">
-						<img src="../../../assets/image/sousuo@2x.png" alt="">
-					</router-link>
-					<router-link :to="{name:'hospital_addPromoters',query:{}}">
-						<img src="../../../assets/image/tianjia@2x.png" alt="">
-					</router-link>
+					<!-- <router-link :to="{name:'hospital_promotersSearch',query:{}}"> -->
+						<img src="../../../assets/image/sousuo@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_promotersSearch',query:{time: new Date().getTime()}})">
+					<!-- </router-link> -->
+					<!-- <router-link :to="{name:'hospital_addPromoters',query:{}}"> -->
+						<img src="../../../assets/image/tianjia@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_addPromoters',query:{time: new Date().getTime()}})">
+					<!-- </router-link> -->
 				</div>
 			</div>
 			<div class="zhangwei"></div>
-			<div class="promoters_list" @scroll="handleScroll" ref="promoters_list">
-				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<ul :style="{'padding-top':$store.state.paddingTop}">
-						<li v-for="(item,inx) in promotersList" :key="inx">
-						<router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId}}">
-							<div class="list">
-							<img src="../../../assets/image/ren@2x.png" alt="">
-							<h4>{{item.name}}</h4>
-							<div class="listRight">
-								<span>门诊数：{{item.clinicCount}}</span>
-								<img src="../../../assets/image/right@2x.png" alt="">
-							</div>
-							</div>
-						</router-link>
-						</li>
-					</ul>
-				</van-list>
-			</div>
-		</van-pull-refresh>
-		<div class="returnTop" @click="$refs.promoters_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+		<ul :style="{'padding-top':$store.state.paddingTop}">
+			<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
+			<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId}}"> -->
+				<div class="list">
+				<img src="../../../assets/image/ren@2x.png" alt="">
+				<h4>{{item.name}}</h4>
+				<div class="listRight">
+					<span>门诊数：{{item.clinicCount}}</span>
+					<img src="../../../assets/image/right@2x.png" alt="">
+				</div>
+				</div>
+			<!-- </router-link> -->
+			</li>
+		</ul>
+		</van-list>
+	</van-pull-refresh>
 	</div>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'promoters',
 	data () {
 		return {
 			promotersList:[],
-			loading: false,
-			finished: false,
-			page: 0,
-			query:'',
-	 		pullingDown:false,
+      loading: false,
+      finished: false,
+      page: 0,
+	  query:'',
+	   pullingDown:false,
 		}
 	},
 	computed:{
 
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
 		
@@ -78,20 +77,8 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.promoters_list.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.promoters_list.scrollTop || this.$refs.promoters_list.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		afterPullDown() {
 			//下拉刷新
 		  setTimeout(() => {
@@ -251,16 +238,5 @@ export default {
 }
 .listRight img{
 	height: .15rem;
-}
-.promoters_list{
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
-	width: 100%;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="zhangwei"></div>
-		<div class="addImg" v-model="exchangeAdd" :style="{'padding-top':$store.state.paddingTop}">
+		<div class="addImg" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="addImgButton" v-show="imgUrl? false : true">
 				<img src="../../../assets/image/append@2x.png" alt="">
 				<span>请添加照片</span>
@@ -25,10 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Toast } from 'vant';
 export default {
 	name: 'exchangeAddImg',
 	data () {
@@ -40,29 +37,19 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 
 	},
 	created(){
-		// var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
    mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.exchangeAdd = JSON.parse(this.$route.query.exchangeAdd)
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.exchangeAdd = JSON.parse(this.$route.query.exchangeAdd)
@@ -72,8 +59,6 @@ export default {
 		//回退方法
 		goBackFn(){
 			this.$router.go(-1)
-			// this.$router.push({ path : '/hospital/hospital_exchangeManagementAdd',query : {item : this.commodity}});
-			// exchangeManagementAdd
 		},
 		//添加图片
 		addImg(_fileLIst){

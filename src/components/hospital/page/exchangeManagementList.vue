@@ -11,11 +11,11 @@
 			<div class="right"></div>
 		</div>
 		<div class="zhangwei"></div>
-		<div class="exchangeList_content" @scroll="handleScroll" ref="exchangeList_content">
+		<!-- <van-pull-refresh v-model="isLoading" @refresh="refresh" > -->
 			<ul :style="{'padding-top':$store.state.paddingTop}">
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
-					<li v-for="(item,inx) in exchangeList" :key='inx' class='List'>
-						<router-link :to="{path : '/hospital/hospital_exchangeDetails' ,query : {item : item}}">
+					<li v-for="(item,inx) in exchangeList" :key='inx' class='List' @click="$router.push({path:'/hospital/hospital_exchangeDetails',query:{item : item,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/hospital/hospital_exchangeDetails' ,query : {item : item}}"> -->
 							<ul>
 								<li>
 									<span>订单编号：{{item.orderId}}</span>
@@ -29,16 +29,11 @@
 									<p>使用积分：<span>{{item.totalExchangePoint}}</span></p>
 								</li>
 							</ul>
-						</router-link>
+						<!-- </router-link> -->
 					</li>
 				</van-list>
 			</ul>
-		</div>
 		</van-pull-refresh>
-		<div class="returnTop" @click="$refs.exchangeList_content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
 	</div>
 </template>
 
@@ -57,52 +52,29 @@ export default {
 			isLoading: false,
 			query:{},
 			pullingDown:false,
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
 		}
 	},
 	computed:{
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
-	},
-  mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
 
-		// this.getdata()
+	},
+  	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.onLoad();
-		}
-		if(this.scrollTop != 0){
-			this.$refs.exchangeList_content.scrollTop = this.scrollTop;
 		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.exchangeList_content.scrollTop || this.$refs.exchangeList_content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		afterPullDown() {
 			//下拉刷新
 		  setTimeout(() => {
@@ -217,17 +189,6 @@ export default {
 .zhangwei{
 	width: 100%;
 	height: .47rem;
-}
->>>.van-pull-refresh{
-	height: 100%;
-}
-.exchangeList_content{
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
-	width: 100%;
 }
 .leftImg{
 	width: 10%;

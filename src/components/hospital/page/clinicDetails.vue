@@ -1,5 +1,5 @@
 <template>
-	<div class="clinicDetails" ref="clinicDetails">
+	<div class="clinicDetails">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -7,11 +7,11 @@
 			<div class="centerTitle">
 				<h3>{{this.clinicDetails.name}}</h3>
 			</div>
-			<router-link :to="{path : '/hospital/hospital_clinicInfo' ,query : {item : clinicDetails.clinicId,}}">
-				<div class="right">
+			<!-- <router-link :to="{path : '/hospital/hospital_clinicInfo' ,query : {item : clinicDetails.clinicId,}}"> -->
+				<div class="right" @click="$router.push({path:'/hospital/hospital_clinicInfo',query:{item : clinicDetails.clinicId,time: new Date().getTime()}})">
 					<img src="../../../assets/image/Preview@2x.png" alt="">
 				</div>
-			</router-link>
+			<!-- </router-link> -->
 		</div>
 
 		<div class="zhangwei"></div>
@@ -43,17 +43,10 @@
 		<keep-alive>
 			<component v-bind:is="componentName"  ref='clinicAll' v-bind:list = 'list'></component>
 		</keep-alive>
-		<div class="returnTop" @click="$refs.clinicDetails.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-        	<img src="../../../assets/image/returnTop.png" alt />
-        	<span>顶部</span>
-   		</div>
-		
 	</div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import clinicAll from '../function/clinicAll.vue'
 import clinicYes from '../function/clinicYes.vue'
@@ -88,14 +81,10 @@ export default {
 				clinicYes : [],
 				data: true,
 			},
-			query:'',
-			hospitalReturnTopPage:false,
-			scrollTop:0,
+			query:''
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
-
 		num: {
 			get: function() {
 				// 
@@ -142,16 +131,6 @@ export default {
 		
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			debugger
-			this.scrollTop = this.$refs.search_clinic.scrollTop || this.$refs.search_clinic.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1)
@@ -163,18 +142,15 @@ export default {
 			switch(this.value){
 				case 0:
 				this.componentName = 'clinicAll';
-				this.$refs.clinicAll.show()
-				// this.$refs.clinicAll.initData()
+				this.$refs.clinicAll.initData()
 				break;
 				case 1:
 				this.componentName = 'clinicNo';
-				this.$refs.clinicAll.show()
-				// this.$refs.clinicAll.initData()
+				this.$refs.clinicAll.initData()
 				break;
 				case 2:
 				this.componentName = 'clinicYes';
-				this.$refs.clinicAll.show()
-				// this.$refs.clinicAll.initData()
+				this.$refs.clinicAll.initData()
 				break;
 			}
 		},
@@ -237,13 +213,8 @@ export default {
 </script>
 
 <style scoped>
-.all{
-	height: calc(100vh - 2.13rem);
-}
 .clinicDetails{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
 	/* padding-top: .47rem; */
 }
 .topNav{

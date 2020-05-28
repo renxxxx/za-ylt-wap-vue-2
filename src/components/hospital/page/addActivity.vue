@@ -7,11 +7,11 @@
 			<div class="centerTitle">
 				<h3>编辑活动</h3>
 			</div>
-			<router-link :to="{path : '/hospital/hospital_previewActivities',query:{activity:JSON.stringify(activity),}}">
-				<div class="right">
+			<!-- <router-link :to="{path : '/hospital/hospital_previewActivities',query:{activity:JSON.stringify(activity),}}"> -->
+				<div class="right" @click="$router.push({path:'/hospital/hospital_previewActivities',query:{activity:JSON.stringify(activity),time: new Date().getTime()}})">
 					<button>预览</button>
 				</div>
-			</router-link>
+			<!-- </router-link> -->
 
 		</div>
 		<div class="addImg" :style="{'padding-top': (parseInt($store.state.paddingTop.replace('px',''))+47)+'px'}">
@@ -49,8 +49,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'addAcivity',
@@ -71,7 +69,6 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account','showTime']),
 		showTime: {
 		    get: function() {
 				// 
@@ -87,6 +84,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -95,16 +93,10 @@ export default {
 		}
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		// var topHeight = this.topHeight.match(heightRexg)
-		// this.height = parseInt(topHeight.join())
-		// 
+
 	},
    mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
+
 	},
 	methods: {
 		//回退方法
@@ -161,7 +153,7 @@ export default {
 <style scoped>
 .addAcivity{
 	width: 100%;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .topNav{
 	width: 100%;

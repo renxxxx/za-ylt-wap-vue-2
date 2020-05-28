@@ -66,10 +66,6 @@ export default {
 </script>
 
 <style scoped>
-.hospital_About{
-	height: calc(100% - .76rem);
-	overflow: scroll;
-}
 .content>span{
 	color: #999999;
 }

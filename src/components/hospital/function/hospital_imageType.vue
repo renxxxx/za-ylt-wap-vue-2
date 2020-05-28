@@ -1,11 +1,11 @@
 <template>
 	<div class="imageType">
 		<ul>
-			<li v-for="(item,inx) in type" :key='inx'>
-				<router-link :to="{path : '/hospital/hospital_typeDetails' ,query : {item : item.itemId,}}">
+			<li v-for="(item,inx) in type" :key='inx' @click="$router.push({path:'/hospital/hospital_typeDetails',query:{item : item.itemId,time: new Date().getTime()}})">
+				<!-- <router-link :to="{path : '/hospital/hospital_typeDetails' ,query : {item : item.itemId,}}"> -->
 					<img :src="item.url" alt="">
 					<span>{{item.name}}</span>
-				</router-link>
+				<!-- </router-link> -->
 			</li>
 		</ul>
 	</div>
@@ -57,7 +57,9 @@ export default {
 		}
 	
   },
-  activated() {	 
+  activated() {
+	  console.log('z这是activated')
+	 
   	if(this.query != JSON.stringify(this.$route.query)){
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
@@ -94,8 +96,6 @@ export default {
 <style scoped>
 .imageType{
 	width: 100%;
-	height: calc(100% - .76rem);
-	overflow: scroll;
 }
 .content ul{
 	width: 97.2%;

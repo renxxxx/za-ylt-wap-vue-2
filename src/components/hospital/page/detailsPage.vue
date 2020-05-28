@@ -60,10 +60,10 @@
 		<div class="_photo">
 			<h3>发票照片</h3>
       <ul>
-        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx)">
-          <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true}}">
+        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx,imgUrl)">
+          <!-- <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true}}"> -->
             <img v-bind:src="item" alt="">
-          </router-link>
+          <!-- </router-link> -->
           <img v-show="show" src="../../../assets/image/detele.png" alt="" @click="deteleFn(item)">
 		 <!-- <van-image-preview
 		    v-model="enlarge"
@@ -90,10 +90,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import moment from 'moment'
 export default {
 	name: 'gene',
@@ -133,91 +130,80 @@ export default {
 		}
 	},
 	computed:{
-			...mapGetters(['account','isLogin']),
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join()) 
-		//
 	},
- destroyed(){
-	  debugger
+ 	destroyed(){
 	  
-  },
-  activated() {
-  	if(this.query != JSON.stringify(this.$route.query)){
-  		this.query = JSON.stringify(this.$route.query);
-  		if(window.plus){
-  			//plus.navigator.setStatusBarBackground("#ffffff");
-  			plus.navigator.setStatusBarStyle("dark")
-  		}
-  		if(this.detail.patientId != this.$route.query.patientId){
-  					this.detail.patientId=this.$route.query.patientId
-  					this.$axios.post('/c2/patient/item',qs.stringify({
-  					patientId : this.$route.query.patientId,
-  				})).then(res =>{
-  					this.detail = {
-  						realname : res.data.data.realname,			//病人姓名
-  						clinicId : res.data.data.clinicId,		//门诊id
-  						clinicName : res.data.data.clinicName,		//门诊名称
-  						// hospitalConfirmTime : res.data.data.hospitalConfirmTime,//医院确诊时间
-  						hospitalId	: res.data.data.hospitalId,	//医院id
-  						hospitalName : res.data.data.hospitalName,	//医院名称
-  						idcardNo : res.data.data.idcardNo,		//身份证号
-  						invoices : res.data.data.invoices,		//发票
-  						patientId :res.data.data.patientId,		//患者id
-  						// pushTime : res.data.data.pushTime,		//推送时间
-  						remark : res.data.data.remark,			//备注
-  						tel : res.data.data.tel,			//电话号码
-  						sickness: res.data.data.sickness	//病例
-  					};
-  					// 如果信息中有发票图片,就显示
-  					// 
-  					if(res.data.data.invoices){
-  						res.data.data.invoices = res.data.data.invoices.split(",");
-  						for (let i in res.data.data.invoices){
-  							this.imgUrl.push( res.data.data.invoices[i]);
-  						}
-  						this.modify.data = true;
-  						this.modify.value = '编辑';
-  						this.modify.img = require('../../../assets/image/editor.png');
-  				  this.show = false;
-  					}else{
-  						this.modify.data = false;
-  						this.imgUrl = [];
-  				  this.show = false;
-  					}
-  					//判断时间是否为空
-  					// 
-  					if(res.data.data.hospitalConfirmTime){
-  						// 
-  						this.detail.hospitalConfirmTime = moment(res.data.data.hospitalConfirmTime).format('YYYY-MM-DD HH:mm');
-  					}
-  					if(res.data.data.pushTime){
-  				  // 
-  						this.detail.pushTime = moment(res.data.data.pushTime).format('YYYY-MM-DD HH:mm');
-  					}
-  				}).catch(err =>{
-  					
-  				})
-  		}
-  	}
-  },
-   mounted() {
-		if(window.plus){
+ 	},
+	activated() {
+		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
+			this.query = JSON.stringify(this.$route.query);
+			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-
-		
+			if(this.detail.patientId != this.$route.query.patientId){
+						this.detail.patientId=this.$route.query.patientId
+						this.$axios.post('/c2/patient/item',qs.stringify({
+						patientId : this.$route.query.patientId,
+					})).then(res =>{
+						this.detail = {
+							realname : res.data.data.realname,			//病人姓名
+							clinicId : res.data.data.clinicId,		//门诊id
+							clinicName : res.data.data.clinicName,		//门诊名称
+							// hospitalConfirmTime : res.data.data.hospitalConfirmTime,//医院确诊时间
+							hospitalId	: res.data.data.hospitalId,	//医院id
+							hospitalName : res.data.data.hospitalName,	//医院名称
+							idcardNo : res.data.data.idcardNo,		//身份证号
+							invoices : res.data.data.invoices,		//发票
+							patientId :res.data.data.patientId,		//患者id
+							// pushTime : res.data.data.pushTime,		//推送时间
+							remark : res.data.data.remark,			//备注
+							tel : res.data.data.tel,			//电话号码
+							sickness: res.data.data.sickness	//病例
+						};
+						// 如果信息中有发票图片,就显示
+						// 
+						if(res.data.data.invoices){
+							res.data.data.invoices = res.data.data.invoices.split(",");
+							for (let i in res.data.data.invoices){
+								this.imgUrl.push( res.data.data.invoices[i]);
+							}
+							this.modify.data = true;
+							this.modify.value = '编辑';
+							this.modify.img = require('../../../assets/image/editor.png');
+					this.show = false;
+						}else{
+							this.modify.data = false;
+							this.imgUrl = [];
+					this.show = false;
+						}
+						//判断时间是否为空
+						// 
+						if(res.data.data.hospitalConfirmTime){
+							// 
+							this.detail.hospitalConfirmTime = moment(res.data.data.hospitalConfirmTime).format('YYYY-MM-DD HH:mm');
+						}
+						if(res.data.data.pushTime){
+					// 
+							this.detail.pushTime = moment(res.data.data.pushTime).format('YYYY-MM-DD HH:mm');
+						}
+					}).catch(err =>{
+						
+					})
+			}
+		}
+	},
+   mounted() {
 	},
 	methods: {
-
-		enlargeFn(_value){
+		enlargeFn(_value,imgUrl){
 			this.photoNum = _value;
 			
 			this.enlarge = true;
+			this.$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime()}})
 		},
 		onChange(_value){
 			this.photoPage = _value;

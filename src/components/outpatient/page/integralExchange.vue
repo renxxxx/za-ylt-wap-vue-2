@@ -1,6 +1,7 @@
 <template>
+<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
 	<div class="integralExchange">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 			<div class="topNav" :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px'}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@2x.png" alt="">
@@ -20,25 +21,42 @@
 					</router-link>
 				</div>
 			</div>
-			<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
-				<ul class="rollScreen_list" :style = {transform:transform}  :class="{rollScreen_list_unanim:num===0}">
-					<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index'>
-						<img src="../../../assets/image/horn@2x.png" alt="">
-						<span>{{item}}</span>
-					</li>
-					<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index+contentArr.length' >
-						<img src="../../../assets/image/horn@2x.png" alt="">
-						<span>{{item}}</span>
-					</li>
-				</ul>
+			<div class="centerTitle">
+				<h3>积分兑换</h3>
 			</div>
-			<div :style="{'height':(parseInt($store.state.paddingTop.replace('px',''))+228)+'px'}"></div>
-			<integralExchangeList :style="{'padding-top':$store.state.paddingTop}"></integralExchangeList>
-		</van-pull-refresh>
+			<div class="integralExchangeNum">
+				<h2>{{integral}}</h2>
+			</div>
+			<div class="integralExchangeButton">
+				<span @click="$router.push({path : '/outpatient/outpatient_integralDetails',query:{time:new Date().getTime()}})">
+				  <button>积分明细</button>
+				</span>
+				<span @click="$router.push({path : '/outpatient/outpatient_integralHistory',query:{time:new Date().getTime()}})">
+				  <button>兑换记录</button>
+				</span>
+			</div>
+		</div>
+		<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
+		    <ul class="rollScreen_list" :style = {transform:transform}  :class="{rollScreen_list_unanim:num===0}">
+				<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index'>
+					<img src="../../../assets/image/horn@2x.png" alt="">
+					<span>{{item}}</span>
+				</li>
+				<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index+contentArr.length' >
+					<img src="../../../assets/image/horn@2x.png" alt="">
+					<span>{{item}}</span>
+				</li>
+		    </ul>
+		</div>
+		<div :style="{'height':(parseInt($store.state.paddingTop.replace('px',''))+228)+'px'}"></div>
+		<integralExchangeList :show = 'show' :style="{'padding-top':$store.state.paddingTop}"></integralExchangeList>
 	</div>
+	</van-pull-refresh>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import integralExchangeList from '../function/integralExchangeList.vue'
 export default {
@@ -52,10 +70,12 @@ export default {
 			num: 0,
 			// 消息的计时器
 			flowHeading : undefined,
+			show : true,
 			pullingDown: false,
 		}
 	},
 	computed:{
+		...mapGetters(['account']),
 		transform: function () {
 	        return 'translateY(-' + this.num * .42 + 'rem)'
 	    },
@@ -75,20 +95,12 @@ export default {
 				_this.num = 0
 			}
 		}, 2500)
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
 	destroyed() {
 		window.clearInterval(this.flowHeading)
 	},
 	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.getData();
+
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -151,13 +163,9 @@ export default {
 </script>
 
 <style scoped>
->>>.van-pull-refresh{
-	height: 100%;
-}
 .integralExchange{
 	width:100%;
 	height: 100%;
-	overflow: hidden;
 	background-color: #F5F5F5;
 }
 .topNav{
@@ -225,7 +233,7 @@ export default {
 	float: left;
 	margin-top: .2rem;
 }
-.integralExchangeButton a button{
+.integralExchangeButton span button{
 	width: 1.1rem;
 	height: .29rem;
   color: #FFFFFF;
@@ -233,7 +241,7 @@ export default {
 	border: 1px solid #FFFFFF;
 	border-radius: .15rem;
 }
-.integralExchangeButton a:first-child button{
+.integralExchangeButton span:first-child button{
 	margin-right: .5rem;
 }
 .flowHeading{

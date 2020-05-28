@@ -25,9 +25,9 @@
 						</li>
 						<li>
 							<span>推广人</span>
-              <router-link :to="{name:'hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,}}">
-                <span class="line-1">{{addClinic.promoter}}</span>
-              </router-link>
+              <!-- <router-link :to="{name:'hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,}}"> -->
+                <span class="line-1" @click="$router.push({path:'/hospital/hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:$router.apps[0]._route.name,item:$route.query.item,time: new Date().getTime()}})">{{addClinic.promoter}}</span>
+              <!-- </router-link> -->
 							<!-- <van-dropdown-menu>
 								<van-dropdown-item  v-model="value" :options="option" active-color='#2B77EF' @change="changeFn"/>
 							</van-dropdown-menu> -->
@@ -92,8 +92,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'search',
@@ -115,8 +113,8 @@ export default {
 				pwdConfirm: '',    //确认密码
 				readonly : '',
 				clinicPromoterId : '',
-        promoter:'请选择',
-        hospitalUserId : ''
+				promoter:'请选择',
+				hospitalUserId : ''
 			},
 			// 上传图片弹窗显示
 			show: false,
@@ -125,22 +123,17 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
+
 	},
 	
   activated(){
-    // 
-    // 
 	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
 		this.query = JSON.stringify(this.$route.query);
 		if(window.plus){
 			//plus.navigator.setStatusBarBackground("#ffffff");
@@ -153,16 +146,7 @@ export default {
     localStorage.removeItem('list_promoterValue')
     localStorage.removeItem('list_promoterId')
   },
-  //进入该页面时，用之前保存的滚动位置赋值
- 	// beforeRouteEnter (to, from, next) {
-	// 	 console.log(from)
-	// 	 next();
-	//  },
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
 	},
 	methods: {
 		// 返回键
@@ -206,7 +190,7 @@ export default {
 			this.$axios.post('/hospital/super-admin/hospital-clinic-add',qs.stringify({
 				hospitalClinicId : this.$store.state.hospital.login.hospital.hospitalId,
 				name :  this.addClinic.name,        //医院名称
-				hospitalUserId : this.$route.query.promoterId,	//推广人id
+				hospitalUserId : this.addClinic.hospitalUserId,	//推广人id
 				cover: '',
 				license : this.imageUpload,         //营业执照
 				address : this.addClinic.address,   //门诊地址

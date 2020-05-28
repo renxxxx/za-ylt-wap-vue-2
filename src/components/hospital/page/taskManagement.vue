@@ -16,18 +16,18 @@
 				<ul>
 					<li v-for="(item,inx) in task.one" :key='inx'>
 						<input type="checkbox" class="input_check" :checked="item.checked" @change="change($event,item,inx)"/>
-						<router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : false,}}">
-							<span>{{item.name}}</span>
-						</router-link>
+						<!-- <router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : false,}}"> -->
+						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : false,time: new Date().getTime()}})">{{item.name}}</span>
+						<!-- </router-link> -->
 					</li>
 				</ul>
 				<h3>每日收益</h3>
 				<ul>
 					<li v-for="(item,inx) in task.no" :key='inx'>
 						<input type="checkbox" class="input_check" :checked="item.checked" @change="change($event,item,inx)"/>
-						<router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : true,}}">
-							<span>{{item.name}}</span>
-						</router-link>
+						<!-- <router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : true,}}"> -->
+						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : true,time: new Date().getTime()}})">{{item.name}}</span>
+						<!-- </router-link> -->
 					</li>
 				</ul>
 			</div>
@@ -306,7 +306,6 @@ export default {
 .task{
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
 	/* background-color: #F5F5F5; */
 	background-color: #FFFFFF;
 }
@@ -355,11 +354,6 @@ export default {
 }
 .taskList{
 	width: 100%;
-	height: calc(100% - 1.76rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	/* overflow-x: hidden; */
 }
 .taskList h3{
 	color: #999999;
@@ -428,7 +422,5 @@ export default {
   top: 0;
   left: 0rem;
 }
->>>.van-pull-refresh{
-	height: 100%;
-}
+
 </style>

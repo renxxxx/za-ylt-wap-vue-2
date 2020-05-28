@@ -18,21 +18,18 @@
           <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
       </li>
       <!-- </router-link> -->
-      <router-link :to="{name:'hospital_operatingManual',query:{}}">
-        <li>
+      <!-- <router-link :to="{name:'hospital_operatingManual',query:{}}"> -->
+        <li @click="$router.push({path:'/hospital/hospital_operatingManual',query:{time: new Date().getTime()}})">
           <h4>运营手册</h4>
           <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
         </li>
-      </router-link>
+      <!-- </router-link> -->
     </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operating',
   data () {
@@ -55,6 +52,7 @@ export default {
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");

@@ -55,30 +55,24 @@
 				<!-- <img src="../../../assets/image/Combined Shape@2x.png" alt=""> -->
 				<h3>文章分享</h3>
 			</div>
-			<div class="articleList" @scroll="handleScroll" ref="articleList">
-				<ul :model="article">
-					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
-						<li v-for="(items,inx) in article" :key="inx">
-							<router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 1,}}">
-								<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
-									<p>{{items.content}}</p>
-									<div class="article_leftTime">
-										<img src="../../../assets/image/time@2x.png" alt="">
-										<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
-									</div>
+			<ul :model="article">
+				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
+					<li v-for="(items,inx) in article" :key="inx">
+						<router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 1,}}">
+							<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
+								<p>{{items.content}}</p>
+								<div class="article_leftTime">
+									<img src="../../../assets/image/time@2x.png" alt="">
+									<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
 								</div>
-								<div class="article_right" v-if="items.img? true:false">
-									<img :src=items.img alt="">
-								</div>
-							</router-link>
-						</li>
-					</van-list>
-				</ul>
-			</div>
-		</div>
-		<div class="returnTop" @click="$refs.articleList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
+							</div>
+							<div class="article_right" v-if="items.img? true:false">
+								<img :src=items.img alt="">
+							</div>
+						</router-link>
+					</li>
+				</van-list>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -95,9 +89,7 @@ export default {
 		article:[],
 		loading: false,
 		finished: false,
-		page:1,
-		hospitalReturnTopPage:false,
-		scrollTop:0
+		page:1
     }
   },
   computed:{
@@ -117,27 +109,15 @@ export default {
  	 },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
-			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-		}
-		if(this.scrollTop != 0){
-			this.$refs.articleList.scrollTop = this.scrollTop;
+			this.initData()
 		}
     },
   methods: {
-	  // 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.articleList.scrollTop || this.$refs.articleList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 	  initData(_data){
 		 	let thisVue = this
 			if(this.$route.meta.auth && !this.$store.state.outpatient.login)
@@ -147,7 +127,6 @@ export default {
 
 	  	this.$axios.post('/c2/article/items',qs.stringify({
 	  		hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-			clinicId : this.$store.state.outpatient.login.clinic.clinicId,
 	  		pn : this.page,
 	  		ps : 10
 	  	}))
@@ -199,8 +178,6 @@ export default {
 .hospital{
 	width: 100%;
 	background: #fff;
-	height: 100%;
-	overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -278,20 +255,14 @@ export default {
 	margin-bottom: .12rem;
 }
 .article{
-	width: 100%;
-	height: calc(100% - 2.15rem);
-}
-.articleList{
-	height: calc(100% - .24rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
-}
-.articleTitle{
-	/* height: 100%; */
 	width: 91.5%;
 	margin: 0rem auto;
+	/* border-top: 1px solid #E5E5E5; */
+
+}
+.articleTitle{
+	height: 100%;
+	width: 100%;
 	margin-top: .2rem;
 }
 .articleTitle img{
@@ -307,8 +278,7 @@ export default {
 }
 .article ul{
 	margin-top: .2rem;
-	width: 91.5%;
-	margin: 0rem auto;
+	width: 100%;
 }
 .article ul li {
 	width: 100%;

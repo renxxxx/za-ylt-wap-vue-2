@@ -1,101 +1,99 @@
 <template>
-	<div class="_search" >
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
-			<div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
-				<div class="search_return">
-					<a @click="goBackFn"  id="navback">
-						<img src="../../../assets/image/shape@3x.png" alt />
-					</a>
-				</div>
-				<div class="search_input">
-					<img src="../../../assets/image/sousuo@2x.png" alt />
-					<input
-						type="search"
-						placeholder="搜索病员"
-						v-model="keywords"
-						v-focus="true"
-						@keyup.enter="inputNow"
-					/>
-				</div>
-				<div class="clinic_buttton" @click="inputNow">
-					<button>搜索</button>
-				</div>
-				<div class="screening" @click="showPopup">
-					<span>筛选</span>
-					<img src="../../../assets/image/screening.png" alt />
-				</div>
-				<van-popup v-model="show" position="right" :style="{ height: '100%',width:'78.7%'}">
-					<div id="indexLabel">
-					<div class="labelLabel" >
-						<strong>状态</strong>
-						<button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
-						<button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
-					</div>
-						<div class="labelLabel" >
-							<strong>就诊时间</strong>
-							<button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
-								{{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
-							</button>
-							<button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
-								{{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
-							</button>
-						</div>
-						<div class="labelLabel">
-							<strong>推送时间</strong>
-							<button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
-								{{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
-							</button>
-							<button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
-								{{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
-							</button>
-						</div>
-						<div class="LabelResult">
-							<button @click="screeningResult">重选</button>
-							<button @click="screeningSubmit">确定</button>
-						</div>
-					</div>
-				</van-popup>
-				<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
-					<van-datetime-picker
-					type="date"
-					@confirm="confirm"
-					@cancel="cancel"
-					/>
-				</van-popup>
+<topSolt>
+  <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" >
+    <div class="_search" >
+      <div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
+        <div class="search_return">
+          <a @click="goBackFn"  id="navback">
+            <img src="../../../assets/image/shape@3x.png" alt />
+          </a>
+        </div>
+        <div class="search_input">
+          <img src="../../../assets/image/sousuo@2x.png" alt />
+          <input
+            type="search"
+            placeholder="搜索病员"
+            v-model="keywords"
+            v-focus="this.$route.query.focus"
+            @keyup.enter="inputNow"
+          />
+        </div>
+        <div class="clinic_buttton" @click="inputNow">
+          <button>搜索</button>
+        </div>
+        <div class="screening" @click="showPopup">
+          <span>筛选</span>
+          <img src="../../../assets/image/screening.png" alt />
+        </div>
+		<van-popup v-model="show" position="right" :style="{ height: '100%',width:'78.7%'}">
+			<div id="indexLabel">
+			<div class="labelLabel" >
+				<strong>状态</strong>
+				<button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
+				<button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
 			</div>
-			<div style="height:.5rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
-			<div class="_searchList" @scroll="handleScroll" ref="_searchList">
-				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
-					<ul class="clinicList" :style="{'padding-top':$store.state.paddingTop}">
-						<li v-for="(item,inx) in noItems" :key="inx">
-							<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
-								<div class="content_left">
-									<span>{{item.realname}}</span>
-								</div>
-								<div class="content_right">
-									<img :src='item.img'>
-									<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
-								</div>
-								<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
-							</router-link>
-						</li>
-					</ul>
-				</van-list>
+				<div class="labelLabel" >
+					<strong>就诊时间</strong>
+					<button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
+						{{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
+					</button>
+					<button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
+						{{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
+					</button>
+				</div>
+				<div class="labelLabel">
+					<strong>推送时间</strong>
+					<button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
+						{{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
+					</button>
+					<button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
+						{{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
+					</button>
+				</div>
+				<div class="LabelResult">
+					<button @click="screeningResult">重选</button>
+					<button @click="screeningSubmit">确定</button>
+				</div>
 			</div>
-			
-		<!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
-		</van-pull-refresh>
-		<div class="returnTop" @click="$refs._searchList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
-	</div>
+		</van-popup>
+		<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
+			<van-datetime-picker
+			  type="date"
+			  @confirm="confirm"
+			  @cancel="cancel"
+			/>
+		</van-popup>
+      </div>
+	  <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
+		<ul class="clinicList" :style="{'padding-top':$store.state.paddingTop}">
+				<li v-for="(item,inx) in noItems" :key="inx">
+					<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
+						<div class="content_left">
+							<span>{{item.realname}}</span>
+						</div>
+						<div class="content_right">
+							<img :src='item.img'>
+							<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
+						</div>
+						<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
+					</router-link>
+				</li>
+			</ul>
+	  </van-list>
+      <!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
+    </div>
+  </van-pull-refresh>
+</topSolt>
 </template>
 
 <script>
+import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
+import { Dialog } from "vant";
 import moment from 'moment'
 import Vue from 'vue'
+import topSolt from "../function/topSolt.vue";
 export default {
   name: "index_search",
   data() {
@@ -122,13 +120,20 @@ export default {
 	  finished: false,
 	  page:0,
 	  noItems:[],
-	 test:'',
-	 hospitalReturnTopPage:false,
-		scrollTop:0,
-		show:0,
+     test:''
     };
   },
   computed: {
+    ...mapGetters(["showTime", "detail", "account",'isLogin']),
+    show: {
+      get: function() {
+        // 
+        return this.$store.state.show;
+      },
+      set: function(newValue) {
+        this.$store.state.show = newValue;
+      }
+    },
     showTime: {
       get: function() {
         // 
@@ -140,8 +145,12 @@ export default {
     },
   },
   components: {
+	topSolt
   },
   created() {
+    var heightRexg = /^[0-9]*/g;
+    //var topHeight = this.topHeight.match(heightRexg);
+    //this.height = parseInt(topHeight.join());
   },
  
   mounted() {
@@ -154,43 +163,29 @@ export default {
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
-			this.initData();
 			this.query = JSON.stringify(this.$route.query);
-			this.show = this.$route.query.show
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-		}
-		if(this.scrollTop != 0){
-			this.$refs._searchList.scrollTop = this.scrollTop;
+			this.initData();
 		}
   	},
   methods: {
-	// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs._searchList.scrollTop || this.$refs._searchList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
     afterPullDown() {
       //下拉刷新
 		setTimeout(() => {
 			this.pullingDown = false;
 			this.initData();
-			this.nextPageFn()
+			this.getData()
 		}, 500);
     },
     initData() {
-	  Object.assign(this.$data, this.$options.data());
-	  this.nextPageFn();
+      Object.assign(this.$data, this.$options.data());
     },
     //显示筛选弹窗
     showPopup() {
-      this.show = 1;
+      this.show = true;
     },
     //键盘输入值时触发
     inputNow(_keywordsCode) {
@@ -328,8 +323,8 @@ export default {
 		
 		let clinicId = '';
 		this.$axios.post('/c2/patient/items',qs.stringify({
-				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-				clinicId : this.$store.state.outpatient.login.clinic.clinicId,
+				hospitalId : this.$store.state.outpatient.login.hospitalId,
+				clinicId : this.$store.state.outpatient.login.clinicId,
 				kw: this.keywords,
 				status: this.Time.postState,
 				pn : page,
@@ -418,9 +413,7 @@ export default {
 ._search {
   position: relative;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  /* padding-top: 0.52rem; */
+  padding-top: 0.52rem;
   background-color: #ffffff;
 }
 .top_search {
@@ -679,13 +672,5 @@ export default {
 }
 .no{
 	color: #2B77EF;
-}
-._searchList{
-	width: 100%;
-	height: calc(100vh - .5rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
 }
 </style>

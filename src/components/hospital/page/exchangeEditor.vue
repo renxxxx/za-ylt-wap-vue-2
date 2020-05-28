@@ -41,10 +41,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Toast } from 'vant';
 export default {
 	name: 'exchangeEditor',
 	data () {
@@ -61,19 +58,16 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 		
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join()) 
-		//
+
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -101,32 +95,11 @@ export default {
 		}
 	},
    mounted() {
-		
-		// this.$axios.post('/c2/commodity/item',qs.stringify({
-		// 	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-		// 	itemId : this.$route.query.itemId
-		// })).then(res  =>{
-		// 	if(res.data.codeMsg){
-		// 		this.$toast(res.data.codeMsg)
-		// 	}else{
-		// 		this.exchangeEditor = {
-		// 			name :res.data.data.name,
-		// 			payExchangepoint : res.data.data.payExchangepoint,
-		// 			stock : res.data.data.stock,
-		// 			intro : res.data.data.intro,
-		// 			cover : res.data.data.cover,
-		// 			itemId : this.$route.query.itemId,
-		// 		}
-		// 	}
-		// }).catch(err =>{
-			
-		// })
 	},
 	methods: {
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1);
-			// this.$router.back({ path : '/hospital/hospital_exchangeManagement'});
 		},
 		nextFn(){
 			if(this.exchangeEditor.name != ''){
@@ -148,22 +121,6 @@ export default {
 				Toast.fail('请填写名称');
 			}
 		},
-		// modifyFn(){
-		// 	this.$axios.post('/c2/commodity/itemalter',qs.stringify({
-		// 		hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-		// 		itemId : this.$route.query.item.itemId,
-		// 		name : this.exchangeEditor.name,
-		// 		cover : this.exchangeEditor.cover,
-		// 		intro : this.exchangeEditor.intro,
-		// 		stock: this.exchangeEditor.stock,
-		// 		payExchangepoint : this.exchangeEditor.payExchangepoint,
-		// 	})).then(res =>{
-		// 		// 
-		// 		res.data.codeMsg?	this.$toast({duration: 1000,message: res.data.codeMsg}):this.$toast.success({duration: 1000,message: '操作成功'})
-		// 	}).catch(err =>{
-		// 		
-		// 	})
-		// }
 	},
 }
 </script>

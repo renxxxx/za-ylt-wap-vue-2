@@ -8,60 +8,54 @@
 				<div class="centerTitle">
 					<h3>兑换管理</h3>
 				</div>
-				<router-link :to="{path : '/hospital/hospital_exchangeManagementList',query : {}}">
-					<div class="right">
-						<img src="../../../assets/image/liebiao@3x.png" alt="">
-					</div>
-				</router-link>
+				<!-- <router-link :to="{path : '/hospital/hospital_exchangeManagementList',query : {}}"> -->
+				<div class="right" @click="$router.push({path:'/hospital/hospital_exchangeManagementList',query:{time: new Date().getTime()}})">
+					<img src="../../../assets/image/liebiao@3x.png" alt="">
+				</div>
+				<!-- </router-link> -->
 			</div>
 			<div class="zhangwei"></div>
 			<div class="exchangeTitle" :style="{'padding-top':$store.state.paddingTop}">
 				<h3>已有商品</h3>
-				<router-link :to="{path : '/hospital/hospital_exchangeManagementAdd'}">
-					<div class="add">
-						<span>新增</span>
-						<img src="../../../assets/image/xinzeng@2x.png" alt="">
-					</div>
-				</router-link>
+				<!-- <router-link :to="{path : '/hospital/hospital_exchangeManagementAdd'}"> -->
+				<div class="add" @click="$router.push({path:'/hospital/hospital_exchangeManagementAdd',query:{time: new Date().getTime()}})">
+					<span>新增</span>
+					<img src="../../../assets/image/xinzeng@2x.png" alt="">
+				</div>
+				<!-- </router-link> -->
 			</div>
-		<div class="exchangeLists_content" @scroll="handleScroll" ref="exchangeLists_content">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-			<ul class="exchangeLists">
-				<van-swipe-cell v-for="(item,inx) in commodity" :key="inx"  :right-width= 65 >
-				<li>
-					<router-link :to="{path : '/hospital/hospital_exchangeEditor' ,query : {itemId : item.itemId,}}">
-					<div class="list">
-						<div class="listsImg">
-						<img v-if="item.cover"  v-lazy="item.cover" alt="">
-						</div>
-						<div class="listContent">
-						<h4>{{item.name}}</h4>
-						<p><span>{{item.payExchangepoint}}</span>积分</p>
-						<span>数量</span>
-						</div>
-						<span>{{item.stock}}</span>
+		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+		<ul class="exchangeLists">
+			<van-swipe-cell v-for="(item,inx) in commodity" :key="inx"  :right-width= 65 >
+			<li>
+				<!-- <router-link :to="{path : '/hospital/hospital_exchangeEditor' ,query : {itemId : item.itemId,}}"> -->
+				<div class="list" @click="$router.push({path:'/hospital/hospital_exchangeEditor',query:{itemId : item.itemId,time: new Date().getTime()}})">
+					<div class="listsImg">
+					<img v-if="item.cover"  v-lazy="item.cover" alt="">
 					</div>
-					</router-link>
-				</li>
-				<template slot="right">
-					<button class="deleteStyle" @click="deleteActiviteFn(item)">
-					<img src="../../../assets/image/activiteDelete.png" alt="">
-					</button>
-				</template>
-				</van-swipe-cell>
-			</ul>
-			</van-list>
-		</div>
-		
+					<div class="listContent">
+					<h4>{{item.name}}</h4>
+					<p><span>{{item.payExchangepoint}}</span>积分</p>
+					<span>数量</span>
+					</div>
+					<span>{{item.stock}}</span>
+				</div>
+				<!-- </router-link> -->
+			</li>
+			<template slot="right">
+				<button class="deleteStyle" @click="deleteActiviteFn(item)">
+				<img src="../../../assets/image/activiteDelete.png" alt="">
+				</button>
+			</template>
+			</van-swipe-cell>
+		</ul>
+		</van-list>
 	</van-pull-refresh>
-	<div class="returnTop" @click="$refs.exchangeLists_content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-		<img src="../../../assets/image/returnTop.png" alt />
-		<span>顶部</span>
-	</div>
 	</div>
 </template>
 
 <script>
+import axios from 'axios'
 import qs from 'qs';
 export default {
 	name: 'exchangeManagement',
@@ -73,8 +67,6 @@ export default {
 			page: 1,
 			query:'',
 			pullingDown:false,
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
 		}
 	},
 	computed:{
@@ -89,7 +81,6 @@ export default {
     },
 	},
 	components:{
-		
 	},
 	created(){
 
@@ -103,27 +94,15 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getdata();
-		}
-		if(this.scrollTop != 0){
-			this.$refs.exchangeLists_content.scrollTop = this.scrollTop;
 		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.exchangeLists_content.scrollTop || this.$refs.exchangeLists_content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		afterPullDown() {
 			//下拉刷新
 		  setTimeout(() => {
@@ -206,8 +185,6 @@ export default {
 	width: 100%;
 	/* height: 100%; */
 	background-color: #F5F5F5;
-	height: 100%;
-	overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -279,14 +256,6 @@ export default {
 	margin-left: .05rem;
 }
 .exchangeLists{
-	width: 100%;
-}
-.exchangeLists_content{
-	height: calc(100% - .73rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
 	width: 100%;
 }
 .exchangeLists li{
@@ -366,7 +335,5 @@ export default {
 	width: 91.46%;
 	margin: 0rem auto;
 }
->>>.van-pull-refresh{
-	height: 100%;
-}
+
 </style>

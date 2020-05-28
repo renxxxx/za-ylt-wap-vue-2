@@ -1,5 +1,6 @@
 <template>
-	<div class="integralDetails">
+<topSolt>
+	<div slot="returnTopSolt" class="integralDetails">
     <div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
     	<div class="leftImg" @click="goBackFn"  id="navback">
     		<img src="../../../assets/image/shape@3x.png" alt="">
@@ -14,26 +15,25 @@
       <img src="../../../assets/image/lishi.png" alt="">
       <span>积分使用明细</span>
     </div>
-    <div class="integralDetailsList" @scroll="handleScroll" ref="integralDetailsList">
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <ul>
-          <li v-for="(item,inx) in integralDetails" :key="inx">
-            <h4>{{item.note}}</h4>
-            <p>{{moment(item.addTime).format('YYYY-MM-DD hh:mm')}}</p>
-            <span>{{item.amount}}</span>
-          </li>
-        </ul>
-      </van-list>
-    </div>
-    <div class="returnTop" @click="$refs.integralDetailsList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <ul>
+        <li v-for="(item,inx) in integralDetails" :key="inx">
+          <h4>{{item.note}}</h4>
+          <p>{{moment(item.addTime).format('YYYY-MM-DD hh:mm')}}</p>
+          <span>{{item.amount}}</span>
+        </li>
+      </ul>
+    </van-list>
   </div>
+</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import { Dialog } from 'vant'
+import topSolt from "../function/topSolt.vue";
 export default {
   name: 'integralDetails',
   data () {
@@ -42,15 +42,15 @@ export default {
       loading: false,
       finished: false,
       page: 0,
-      hospitalReturnTopPage:false,
-			scrollTop:0
     }
   },
   computed:{
+	...mapGetters(['account']),
   },
   created(){
   },
   components:{
+		topSolt
 	},
   mounted() {
 		// if(window.plus){
@@ -60,26 +60,16 @@ export default {
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
-			}
-    }
-    if(this.scrollTop != 0){
-			this.$refs.integralDetailsList.scrollTop = this.scrollTop;
+      }
+      this.onLoad()
 		}
   },
   methods: {
-    // 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.integralDetailsList.scrollTop || this.$refs.integralDetailsList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
     goBackFn(){
       this.$router.back(-1);
     },
@@ -122,7 +112,6 @@ export default {
 .integralDetails{
 	width: 100%;
 	height: 100%;
-  overflow: hidden;
 	background-color: #F5F5F5;
 }
 .topNav{
@@ -208,12 +197,5 @@ export default {
   position: absolute;
   right: .16rem;
   top: .21rem;
-}
-.integralDetailsList{
-  height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  overflow: scroll;
-	overflow-x: hidden;
 }
 </style>

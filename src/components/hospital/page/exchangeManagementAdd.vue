@@ -42,10 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Toast } from 'vant';
 export default {
 	name: 'exchangeAdd',
 	data () {
@@ -63,25 +60,17 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 		
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join()) 
-		//
 	},
    mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -101,7 +90,6 @@ export default {
 				show : true,
 			}
 			this.$router.back(-1);
-			// this.$router.back({ path : '/hospital/hospital_exchangeManagement'});
 		},
 		nextFn(){
 			if(this.exchangeAdd.name != ''){
