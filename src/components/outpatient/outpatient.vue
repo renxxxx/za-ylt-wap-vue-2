@@ -127,7 +127,7 @@ export default {
      upgradeFn(){
       this.$toast.setDefaultOptions({ duration: 1000 });
       this.$toast("升级中");
-    },
+    }, 
 		touchStartFn(_value){
 			this.startLengthY = _value.changedTouches[0].screenY;
 			this.startLength = _value.changedTouches[0].screenX
