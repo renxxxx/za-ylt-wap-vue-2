@@ -121,9 +121,9 @@ export default {
     //     this.$store.state.outpatientReturnTopPage = newValue;
     //   }
     // },
-    ...mapGetters(['bottomShow','outpatientReturnHomePage'])
+    ...mapGetters(['bottomShow','outpatientReturnHomePage']) 
   },
-  methods:{
+  methods:{ 
      upgradeFn(){
       this.$toast.setDefaultOptions({ duration: 1000 });
       this.$toast("升级中");
