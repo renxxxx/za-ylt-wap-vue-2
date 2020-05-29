@@ -22,10 +22,7 @@
 	</div>
 </template>
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'clinicAll',
 	data () {
@@ -44,7 +41,6 @@ export default {
 		}
 	},
 	computed:{
-	  ...mapGetters(['account','isLogin']),
 	},
 	 props:['list'],
 	components:{
@@ -62,6 +58,7 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

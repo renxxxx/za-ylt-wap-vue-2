@@ -14,8 +14,8 @@
 		<div class="exchangeList_content" @scroll="handleScroll" ref="exchangeList_content">
 			<ul :style="{'padding-top':$store.state.paddingTop}">
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
-					<li v-for="(item,inx) in exchangeList" :key='inx' class='List'>
-						<router-link :to="{path : '/hospital/hospital_exchangeDetails' ,query : {item : item}}">
+					<li v-for="(item,inx) in exchangeList" :key='inx' class='List' @click="$router.push({path:'/hospital/hospital_exchangeDetails',query:{item : item,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/hospital/hospital_exchangeDetails' ,query : {item : item}}"> -->
 							<ul>
 								<li>
 									<span>订单编号：{{item.orderId}}</span>
@@ -29,7 +29,7 @@
 									<p>使用积分：<span>{{item.totalExchangePoint}}</span></p>
 								</li>
 							</ul>
-						</router-link>
+						<!-- </router-link> -->
 					</li>
 				</van-list>
 			</ul>
@@ -67,21 +67,12 @@ export default {
 		
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-
-		// this.getdata()
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -121,7 +112,7 @@ export default {
 		  this.onLoad();
 		},
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		successFn(_d){
 			for (let nums in _d.data.data.items) {

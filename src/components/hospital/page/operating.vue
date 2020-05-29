@@ -18,12 +18,12 @@
           <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
       </li>
       <!-- </router-link> -->
-      <router-link :to="{name:'hospital_operatingManual',query:{}}">
-        <li>
-          <h4>运营手册</h4>
-          <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-        </li>
-      </router-link>
+      <!-- <router-link :to="{name:'hospital_operatingManual',query:{}}"> -->
+      <li @click="$router.push({path:'/hospital/hospital_operatingManual',query:{time: new Date().getTime()}})">
+        <h4>运营手册</h4>
+        <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
+      </li>
+      <!-- </router-link> -->
     </ul>
   </div>
 </template>
@@ -55,6 +55,7 @@ export default {
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
@@ -65,7 +66,7 @@ export default {
   methods: {
     //回退方法
     goBackFn(){
-    	this.$router.back(-1)
+    	this.$router.back()
     },
 	data(){
 		this.$toast("升级中");

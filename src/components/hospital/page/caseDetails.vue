@@ -67,6 +67,7 @@ export default {
 		}
 		// 
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query)
 			let postUrl = '';
 			if(this.$route.query.data ==1){
@@ -102,7 +103,7 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		getData(url){
 			// let query = JSON.stringify(this.$route.query)

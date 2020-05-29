@@ -42,7 +42,7 @@ export default {
   },
   
   created () {
-    this.getData()
+    // this.getData()
   },
   mounted () {
     if(window.plus){
@@ -54,13 +54,15 @@ export default {
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
   			plus.navigator.setStatusBarStyle("dark")
   		}
   		this.name = this.$route.query.name;
-  		this.nowPromoter = this.$route.query.nowValue
+      this.nowPromoter = this.$route.query.nowValue
+      this.getData()
     }
     if(this.scrollTop != 0){
 			this.$refs._list.scrollTop = this.scrollTop;

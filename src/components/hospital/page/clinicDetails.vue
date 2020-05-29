@@ -7,11 +7,11 @@
 			<div class="centerTitle">
 				<h3>{{this.clinicDetails.name}}</h3>
 			</div>
-			<router-link :to="{path : '/hospital/hospital_clinicInfo' ,query : {item : clinicDetails.clinicId,}}">
-				<div class="right">
-					<img src="../../../assets/image/Preview@2x.png" alt="">
-				</div>
-			</router-link>
+			<!-- <router-link :to="{path : '/hospital/hospital_clinicInfo' ,query : {item : clinicDetails.clinicId,}}"> -->
+			<div class="right" @click="$router.push({path:'/hospital/hospital_clinicInfo',query:{item : clinicDetails.clinicId,time: new Date().getTime()}})">
+				<img src="../../../assets/image/Preview@2x.png" alt="">
+			</div>
+			<!-- </router-link> -->
 		</div>
 
 		<div class="zhangwei"></div>
@@ -154,7 +154,7 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		// 列表来回切换组件
 		menuFn(){

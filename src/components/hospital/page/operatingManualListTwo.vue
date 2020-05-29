@@ -72,12 +72,12 @@ export default {
 	activated() {
     debugger
 		if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
       }
-      Object.assign(this.$data, this.$options.data());
 			this.getData()
 		}
 	},
@@ -91,9 +91,9 @@ export default {
       if(item.lowerCount){
         console.dir(item.operatingManualSectionId)
 
-        this.$router.push({path: '/hospital/hospital_operatingManualListTwo',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,}})
+        this.$router.push({path: '/hospital/hospital_operatingManualListTwo',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,time: new Date().getTime()}})
       }else{
-        this.$router.push({name:'hospital_operatingManualListDetails',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,}})
+        this.$router.push({name:'hospital_operatingManualListDetails',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,time: new Date().getTime()}})
       }
     },
     getData(){

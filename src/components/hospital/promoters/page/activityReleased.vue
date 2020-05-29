@@ -80,7 +80,7 @@ export default {
 		//回退方法
 		goBackFn(){
 			// this.$router.push({name:'hospital_clinic'})
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		deleteActiviteFn(_item){
       for(let i=0;i<this.active.length;i++){

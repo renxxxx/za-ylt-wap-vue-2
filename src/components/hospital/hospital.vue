@@ -196,9 +196,9 @@ export default {
     returnHomePageFn(){
       
       if(this.$store.state.hospital.login.type == 1){
-        this.$router.replace({path:'/promoters_index',query:{transition:'def'}});
+        this.$router.replace({path:'/promoters_index',query:{transition:'def',time: new Date().getTime()}});
       }else{
-        this.$router.replace({path:'/hospital/hospital_index',query:{transition:'def'}});
+        this.$router.replace({path:'/hospital/hospital_index',query:{transition:'def',time: new Date().getTime()}});
       }
     },
   },

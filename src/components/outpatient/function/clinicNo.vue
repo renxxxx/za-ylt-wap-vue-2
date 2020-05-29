@@ -21,10 +21,7 @@
 	</div>
 </template>
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'clinicAll',
 	data () {
@@ -43,7 +40,6 @@ export default {
 		}
 	},
 	computed:{
-	  ...mapGetters(['account','isLogin']),
 	},
 	 props:['list'],
 	components:{
@@ -53,16 +49,10 @@ export default {
 		debugger
 	},
  	mounted() {
-	//   debugger
-	// 	if(window.plus){
-	// 		//plus.navigator.setStatusBarBackground("#ffffff");
-	// 		plus.navigator.setStatusBarStyle("dark")
-	// 	}
-		
-
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -132,11 +122,11 @@ export default {
 				}else{
 					this.loading = false;
 					this.finished = true;
-          this.test='没有更多了'
+         			 this.test='没有更多了'
 				}
-        if(this.items.length == 0){
-          this.test='无数据'
-        }
+				if(this.items.length == 0){
+				this.test='无数据'
+				}
 			})
 			.catch((err)=>{
 				

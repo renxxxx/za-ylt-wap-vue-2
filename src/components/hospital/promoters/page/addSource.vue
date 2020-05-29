@@ -124,7 +124,7 @@ export default {
 		},
 		// 返回键
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 	}
 }

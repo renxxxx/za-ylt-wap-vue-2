@@ -7,17 +7,17 @@
 					<div class="indexReturn" @click="goBackFn"  id="navback">
 						<img src="../../../assets/image/back-white@2x.png" alt="">
 					</div>
-					<router-link :to="{name:'hospital_pathogenicSearch',query:{focus : '1'}}">
-						<div class="indexSearch ">
+					<!-- <router-link :to="{name:'hospital_pathogenicSearch',query:{focus : '1'}}"> -->
+						<div class="indexSearch" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{focus : '1',time: new Date().getTime()}})">
 							<input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
 							<img src="../../../assets/image/sousuo@2x.png" alt="">
 						</div>
-					</router-link>
-					<router-link :to="{name:'hospital_pathogenicSearch',query:{}}">
-						<div class="clinic_buttton">
-							<button>搜索</button>
-						</div>
-					</router-link>
+					<!-- </router-link> -->
+					<!-- <router-link :to="{name:'hospital_pathogenicSearch',query:{}}"> -->
+					<div class="clinic_buttton" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{time: new Date().getTime()}})">
+						<button>搜索</button>
+					</div>
+					<!-- </router-link> -->
 					<div class="indexScreening" @click="showPopup">
 						<span>筛选</span>
 						<img src="../../../assets/image/screen@2x.png" alt="加载中" >
@@ -95,12 +95,12 @@ export default {
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+		this.initData()
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
   			plus.navigator.setStatusBarStyle("dark")
   		}
-		this.getNum();
 		// window.addEventListener("scroll", this.$refs.all.handleScrollAll, true);
   	}
   },
@@ -175,12 +175,12 @@ export default {
     },
 	//回退方法
 	goBackFn(){
-		this.$router.back(-1)
+		this.$router.back()
 	},
 	//显示筛选弹窗
 	showPopup() {
 	  	this.show = true;
-   		this.$router.push({name:'hospital_pathogenicSearch',query:{show:false}})
+   		this.$router.push({name:'hospital_pathogenicSearch',query:{show:false,time: new Date().getTime()}})
 
 	},
 	getNum(){

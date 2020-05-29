@@ -105,7 +105,7 @@ export default {
 			}, 500);
 		},
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		initData() {
 			debugger

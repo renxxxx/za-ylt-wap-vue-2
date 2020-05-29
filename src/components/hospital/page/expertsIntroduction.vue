@@ -18,7 +18,7 @@
 					<div class="contentLists">
 					<h4>{{item.name}}</h4>
 					<span>{{item.hosptialName}}</span>
-					<span class="xia">{{item.jobTitles}}</span>
+					<span class="xia line-1">{{item.jobTitles}}</span>
 					<div class="duanluo" @click="showContent(inx)" >
 						<p ref='showP'>{{item.intro}}</p>
 						<img :src="downImg" alt="" ref='showimg'>
@@ -60,26 +60,18 @@ export default {
 
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
-   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-
-
+  	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+			this.onLoad()
 		}
 		if(this.scrollTop != 0){
 			this.$refs.content.scrollTop = this.scrollTop;
@@ -97,7 +89,7 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		//显示内容
 		showContent(inx){
@@ -246,7 +238,7 @@ export default {
 	font-size: .12rem;
 }
 .xia{
-	margin-left: .1rem;
+	/* margin-left: .1rem; */
 	position: relative;
 }
 .xia:before{

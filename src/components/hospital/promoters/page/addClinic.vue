@@ -140,7 +140,7 @@ export default {
 	methods: {
 		// 返回键
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		// 显示上传图片选择弹窗
 		showFn(){

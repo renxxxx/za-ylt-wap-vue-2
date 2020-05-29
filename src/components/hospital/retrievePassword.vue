@@ -75,7 +75,7 @@ export default {
   methods: {
 	 //回退方法
 	 goBackFn(){
-		 this.$router.back(-1)
+		 this.$router.back()
 	 },
 	//倒计时结束时触发的方法
 	finished(e){
@@ -97,7 +97,7 @@ export default {
 			_d.data.codeMsg? this.$toast(_d.data.codeMsg):this.$toast.success('操作成功');
 			if(_d.data.code == 0){
 				setTimeout(()=>{
-					this.$router.back(-1);
+					this.$router.back();
 				},800)
 			}
 		})

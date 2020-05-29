@@ -12,25 +12,25 @@
 			</div>
 			<div class="zhangwei"></div>
 			<div class="center" @scroll="handleScroll" ref="center">
-				<router-link :to="{name:'hospital_addActivity'}">
-					<div class="addActive" :style="{'padding-top':$store.state.paddingTop}">
-						<span>+</span>
-						<span>新建活动</span>
-					</div>
-				</router-link>
+				<!-- <router-link :to="{name:'hospital_addActivity'}"> -->
+				<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
+					<span>+</span>
+					<span>新建活动</span>
+				</div>
+				<!-- </router-link> -->
 				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<!-- active -->
 					<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
 						<van-cell :border="false" >
-						<router-link :to="{path : '/hospital/hospital_activityDetails',query:{itemId:item.itemId,}}">
-							<div class="activeList">
+						<!-- <router-link :to="{path : '/hospital/hospital_activityDetails',query:{itemId:item.itemId,}}"> -->
+						<div class="activeList" @click="$router.push({path:'/hospital/hospital_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
 							<img v-lazy="item.cover" alt="">
 							<div class="activeTitle">
 								<h4>{{item.title}}</h4>
 								<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
 							</div>
-							</div>
-						</router-link>
+						</div>
+						<!-- </router-link> -->
 						</van-cell>
 						<template slot="right">
 						<button class="deleteStyle" @click="deleteActiviteFn(item)">
@@ -75,6 +75,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -114,7 +115,7 @@ export default {
 			let thisVue = this
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 			this.$toast({message:'请登录',onClose:function(){
-				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
+				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1,time: new Date().getTime()}});
 			}})
 
 		  Object.assign(this.$data, this.$options.data());

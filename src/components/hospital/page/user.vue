@@ -24,18 +24,18 @@
 		</van-image-preview>
 		<div class="user_center"  :style="{'padding-top': (parseInt($store.state.paddingTop.replace('px',''))+140)+'px'}">
 			<ul>
-				<router-link :to="{path : '/hospital/hospital_taskManagement',query:{}}">
-					<li>
-						<span>任务管理</span>
-						<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-					</li>
-				</router-link>
-				<router-link :to="{path : '/hospital/hospital_exchangeManagement',query:{}}">
-					<li>
-						<span>兑换管理</span>
-						<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-					</li>
-				</router-link>
+				<!-- <router-link :to="{path : '/hospital/hospital_taskManagement',query:{}}"> -->
+				<li @click="$router.push({path:'/hospital/hospital_taskManagement',query:{time: new Date().getTime()}})">
+					<span>任务管理</span>
+					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
+				</li>
+				<!-- </router-link> -->
+				<!-- <router-link :to="{path : '/hospital/hospital_exchangeManagement',query:{}}"> -->
+				<li @click="$router.push({path:'/hospital/hospital_exchangeManagement',query:{time: new Date().getTime()}})">
+					<span>兑换管理</span>
+					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
+				</li>
+				<!-- </router-link> -->
 				<li @click="noLinkFn">
 					<span>集采订单</span>
 					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
@@ -44,12 +44,12 @@
 					<span>集采积分</span>
 					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
 				</li>
-				<router-link :to="{path : '/hospital/hospital_promoters',query:{}}">
-					<li>
-						<span>推广人员管理</span>
-						<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-					</li>
-				</router-link>
+				<!-- <router-link :to="{path : '/hospital/hospital_promoters',query:{}}"> -->
+				<li @click="$router.push({path:'/hospital/hospital_promoters',query:{time: new Date().getTime()}})">
+					<span>推广人员管理</span>
+					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
+				</li>
+				<!-- </router-link> -->
 					<li @click="exitFn">
 						<span>退出登录</span>
 						<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
@@ -93,19 +93,10 @@ export default {
 	created(){
 	},
   mounted() {
-		if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
-		// if(this.$store.state.hospital.login){
-		// 	this.coverImg = this.$store.state.hospital.login.hospital.cover
-		// 	this.images.push(this.$store.state.hospital.login.hospital.license)
-		// }
-		// // 
-		// this.initData();
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -116,7 +107,6 @@ export default {
 				this.images.push(this.$store.state.hospital.login.hospital.license)
 			}
 			// 
-			this.initData();
 		}
 	},
 	methods: {
@@ -126,6 +116,7 @@ export default {
 			this.$toast({message:'请登录',onClose:function(){
 				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
 			}})
+			Object.assign(this.$data, this.$options.data());
 		},
 		onChange(index) {
 		    this.index = index;

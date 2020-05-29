@@ -56,13 +56,10 @@ export default {
 		
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join()) 
-		//
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -98,7 +95,7 @@ export default {
 	},
 	methods: {
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		successFn(res){
 			this.exchangeDetails = res.data.data;

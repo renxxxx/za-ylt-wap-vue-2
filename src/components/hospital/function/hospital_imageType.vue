@@ -12,10 +12,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'hospital_About',
   data () {
@@ -26,51 +23,31 @@ export default {
     }
   },
   computed:{
-	...mapGetters(['account']),
   },
   created () {
 		
   },
   mounted() {
-	  console.log('这是mounted')
-		if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
-		if(!this.keepAlive){
-			this.$axios.post('/c2/office/items',qs.stringify({
-					hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-			}))
-			.then(_d => {
-				for(let i in _d.data.data.items){
-					this.type.push({
-						name: _d.data.data.items[i].name,
-						url : _d.data.data.items[i].cover,
-						itemId : _d.data.data.items[i].itemId,
-					})
-				}
-			})
-			.catch((err)=>{
-				
-				//Dialog({ message: err});;
-			})
-		}
-	
   },
   activated() {	 
   	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
   			plus.navigator.setStatusBarStyle("dark")
-  		}
-  		if(this.keepAlive){
-  			this.$axios.post('/c2/office/items',qs.stringify({
+		  }
+		  this.type =[]
+  		this.getData()
+  	}
+  },
+  methods: {
+	getData(){
+		this.$axios.post('/c2/office/items',qs.stringify({
   					hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-  			}))
+			  }))
   			.then(_d => {
   				for(let i in _d.data.data.items){
-					this.keepAlive = true
   					this.type.push({
   						name: _d.data.data.items[i].name,
   						url : _d.data.data.items[i].cover,
@@ -82,11 +59,7 @@ export default {
   				
   				//Dialog({ message: err});;
   			})
-  		}
-  	}
-  },
-  methods: {
-	
+	}
   },
 }
 </script>

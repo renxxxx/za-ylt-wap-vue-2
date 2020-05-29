@@ -9,20 +9,20 @@
 					<h3>人员列表</h3>
 				</div>
 				<div class="right">
-					<router-link :to="{name:'hospital_promotersSearch',query:{}}">
-						<img src="../../../assets/image/sousuo@2x.png" alt="">
-					</router-link>
-					<router-link :to="{name:'hospital_addPromoters',query:{}}">
-						<img src="../../../assets/image/tianjia@2x.png" alt="">
-					</router-link>
+					<!-- <router-link :to="{name:'hospital_promotersSearch',query:{}}"> -->
+						<img src="../../../assets/image/sousuo@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_promotersSearch',query:{time: new Date().getTime()}})">
+					<!-- </router-link> -->
+					<!-- <router-link :to="{name:'hospital_addPromoters',query:{}}"> -->
+						<img src="../../../assets/image/tianjia@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_addPromoters',query:{time: new Date().getTime()}})">
+					<!-- </router-link> -->
 				</div>
 			</div>
 			<div class="zhangwei"></div>
 			<div class="promoters_list" @scroll="handleScroll" ref="promoters_list">
 				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul :style="{'padding-top':$store.state.paddingTop}">
-						<li v-for="(item,inx) in promotersList" :key="inx">
-						<router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId}}">
+						<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId}}"> -->
 							<div class="list">
 							<img src="../../../assets/image/ren@2x.png" alt="">
 							<h4>{{item.name}}</h4>
@@ -31,7 +31,7 @@
 								<img src="../../../assets/image/right@2x.png" alt="">
 							</div>
 							</div>
-						</router-link>
+						<!-- </router-link> -->
 						</li>
 					</ul>
 				</van-list>
@@ -72,6 +72,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -110,7 +111,7 @@ export default {
 		  this.onLoad();
 		},
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
     onLoad(){
       ++this.page;
@@ -198,6 +199,7 @@ export default {
 	width: 22%;
 	height: .47rem;
 	line-height: .47rem;
+	/* text-align: center; */
 	float:left;
 }
 .right a{
@@ -208,7 +210,7 @@ export default {
 	width: .22rem;
 	object-fit: cover;
 }
-.right a:first-child img{
+.right img:first-child{
 	padding-right: .2rem;
 }
 .promoters ul{

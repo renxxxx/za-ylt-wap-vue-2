@@ -316,7 +316,7 @@ export default {
 	},
 	// 返回上上一级目录
 	goBackFn(){
-		this.$router.back(-1)
+		this.$router.back()
 	},
 	// 获取下一页的方法
 	getDataAll(){

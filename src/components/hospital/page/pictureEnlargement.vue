@@ -37,9 +37,7 @@ export default {
 
 	},
 	created () {
-		this.imgUrl = this.$route.query.imgUrl;
-		this.inx = this.$route.query.inx;
-		this.enlarge = this.$route.query.data;
+		
 		// 
 	},
 	
@@ -56,11 +54,27 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+			this.imgUrl = []
+			console.log(typeof this.$route.query.imgUrl)
+			if(typeof this.$route.query.imgUrl == 'string'){
+				this.imgUrl.push(this.$route.query.imgUrl)
+			}else{
+				for(let i in this.$route.query.imgUrl){
+					this.imgUrl.push(this.$route.query.imgUrl[i]);
+					this.inx = i
+				}
+			}
+			// if(typeof this.$route.query.imgUrl == 'string')
+			
+			
+			// this.inx = this.$route.query.inx;
+		this.enlarge = this.$route.query.data;
 			let _this = this
 			ImagePreview({
 				images: this.imgUrl,

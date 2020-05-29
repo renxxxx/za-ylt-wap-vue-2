@@ -74,6 +74,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -125,7 +126,7 @@ export default {
 	methods: {
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1);
+			this.$router.back();
 			// this.$router.back({ path : '/hospital/hospital_exchangeManagement'});
 		},
 		nextFn(){
@@ -134,7 +135,7 @@ export default {
 					if(this.exchangeEditor.stock != ''){
 						if(this.exchangeEditor.intro != ''){
 							
-							this.$router.push({ path : '/hospital/hospital_exchangeEditorImg',query : {exchangeEditor : JSON.stringify(this.exchangeEditor),}});
+							this.$router.push({ path : '/hospital/hospital_exchangeEditorImg',query : {exchangeEditor : JSON.stringify(this.exchangeEditor),time: new Date().getTime()}});
 						}else{
 							Toast.fail('请填写简介');
 						}

@@ -80,12 +80,12 @@
 				<ul>
 					<!-- promotersList -->
 					<li v-for="(item,inx) in promotersList" :key='inx'>
-						<router-link :to="{path : '/hospital/hospital_clinicDetails' ,query :  {clinicId : item.hospitalClinicId}}">
-							<div class="promotersList">
+						<!-- <router-link :to="{path : '/hospital/hospital_clinicDetails' ,query :  {clinicId : item.hospitalClinicId}}"> -->
+							<div class="promotersList" @click="$router.push({path:'/hospital/hospital_clinicDetails',query:{clinicId : item.hospitalClinicId,time: new Date().getTime()}})">
 								<h4>{{item.name}}</h4>
 								<img src="../../../assets/image/zhuanyi@2x.png" alt="" @click.prevent="transferPromotersShowFn(item)">
 							</div>
-						</router-link>
+						<!-- </router-link> -->
 						<van-popup v-model="modifyPromotersShow" overlay-class='modifyPromotersClass' @close="ReturnHomePageClose">
 							<div class="modifyPromoters">
 								<div class="modifyPromotersTitle">
@@ -178,45 +178,6 @@ export default {
 	},
   
 	mounted(){
-		// 获取推广人信息
-		// this.$axios.get('/hospital/def/hospital-operator-user/'+this.$route.query.hospitalUserId)
-		// .then(res => {
-		// 	if(res.data.codeMsg){
-		// 		this.$toast(res.data.codeMsg)
-		// 	}else{
-		// 		this.promoters = {name: res.data.data.name,phone: res.data.data.phone,cover: res.data.data.cover},
-		// 		this.modify.name = res.data.data.name;
-		// 		this.modify.id = res.data.data.hospitalUserId;
-		// 	}
-		// })
-		// .catch((err)=>{
-			
-		// })
-		// this.$axios.get('/hospital/super-admin/hospital-clinics-sum?'+qs.stringify({hospitalUserId:this.$route.query.hospitalUserId}))
-		// .then(res => {
-		// 	res.data.codeMsg?	this.$toast(res.data.codeMsg) : this.clinicNum = res.data.data.rowCount;
-		// })
-		// .catch((err)=>{
-			
-		// })
-		// // 加载dom节点后,获取推广人列表请求
-		// this.$axios.get('/hospital/def/hospital-operator-users?')
-		// .then(res => {
-		// 	if(!res.data.codeMsg){
-		// 		// 
-		// 		for(let i in res.data.data.rows){
-		// 			this.option.push({
-		// 				'clinicPromoterId' : res.data.data.rows[i].hospitalUserId,
-		// 				'text' : res.data.data.rows[i].name,
-		// 				'value' : '00'+i,
-		// 			})
-		// 		}
-				
-		// 	}
-		// })
-		// .catch((err)=>{
-			
-		// })
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -286,7 +247,7 @@ export default {
 		},
 		//返回上一级
 		returnFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		// 显示修改弹窗
 		modifyFn(){
@@ -330,7 +291,7 @@ export default {
 			.then(res=>{
 				if(!res.data.codeMsg){
 					this.$toast.success('操作成功');
-					this.$router.back(-1)
+					this.$router.back()
 				}else{
 					this.$toast(res.data.codeMsg);
 				}
@@ -415,7 +376,7 @@ export default {
 				.then(res=>{
 					if(!res.data.codeMsg){
 						this.$toast.success('操作成功');
-						this.$router.back(-1)
+						this.$router.back()
 					}else{
 						this.$toast(res.data.codeMsg);
 					}
@@ -439,7 +400,7 @@ export default {
 			.then(res=>{
 				if(!res.data.codeMsg){
 					this.$toast.success('操作成功');
-					this.$router.back(-1)
+					this.$router.back()
 				}else{
 					this.$toast(res.data.codeMsg);
 				}
@@ -473,7 +434,7 @@ export default {
 			.then(res=>{
 				if(!res.data.codeMsg){
 					this.$toast.success('操作成功');
-					this.$router.back(-1)
+					this.$router.back()
 				}else{
 					this.$toast(res.data.codeMsg);
 				}

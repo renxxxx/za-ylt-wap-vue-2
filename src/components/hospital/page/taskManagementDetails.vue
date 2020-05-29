@@ -39,10 +39,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'taskDetails',
 	data () {
@@ -58,27 +55,14 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 		
 	},
 	created(){
-		// var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join()) 
-		//
+
 	},
    mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		
-		// this.show = this.$route.query.show;	
-		// this.taskSubmitValue = JSON.parse(this.$route.query.item)
-		// this.taskSubmitValue = this.$route.query.item
-		
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -95,7 +79,7 @@ export default {
 	methods: {
 		// 返回上一级
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 			
 		submitFn(){

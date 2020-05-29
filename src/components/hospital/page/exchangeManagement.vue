@@ -8,29 +8,29 @@
 				<div class="centerTitle">
 					<h3>兑换管理</h3>
 				</div>
-				<router-link :to="{path : '/hospital/hospital_exchangeManagementList',query : {}}">
-					<div class="right">
-						<img src="../../../assets/image/liebiao@3x.png" alt="">
-					</div>
-				</router-link>
+				<!-- <router-link :to="{path : '/hospital/hospital_exchangeManagementList',query : {}}"> -->
+				<div class="right" @click="$router.push({path:'/hospital/hospital_exchangeManagementList',query:{time: new Date().getTime()}})">
+					<img src="../../../assets/image/liebiao@3x.png" alt="">
+				</div>
+				<!-- </router-link> -->
 			</div>
 			<div class="zhangwei"></div>
 			<div class="exchangeTitle" :style="{'padding-top':$store.state.paddingTop}">
 				<h3>已有商品</h3>
-				<router-link :to="{path : '/hospital/hospital_exchangeManagementAdd'}">
-					<div class="add">
-						<span>新增</span>
-						<img src="../../../assets/image/xinzeng@2x.png" alt="">
-					</div>
-				</router-link>
+				<!-- <router-link :to="{path : '/hospital/hospital_exchangeManagementAdd'}"> -->
+				<div class="add" @click="$router.push({path:'/hospital/hospital_exchangeManagementAdd',query:{time: new Date().getTime()}})">
+					<span>新增</span>
+					<img src="../../../assets/image/xinzeng@2x.png" alt="">
+				</div>
+				<!-- </router-link> -->
 			</div>
 		<div class="exchangeLists_content" @scroll="handleScroll" ref="exchangeLists_content">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 			<ul class="exchangeLists">
 				<van-swipe-cell v-for="(item,inx) in commodity" :key="inx"  :right-width= 65 >
 				<li>
-					<router-link :to="{path : '/hospital/hospital_exchangeEditor' ,query : {itemId : item.itemId,}}">
-					<div class="list">
+					<!-- <router-link :to="{path : '/hospital/hospital_exchangeEditor' ,query : {itemId : item.itemId,}}"> -->
+					<div class="list" @click="$router.push({path:'/hospital/hospital_exchangeEditor',query:{itemId : item.itemId,time: new Date().getTime()}})">
 						<div class="listsImg">
 						<img v-if="item.cover"  v-lazy="item.cover" alt="">
 						</div>
@@ -41,7 +41,7 @@
 						</div>
 						<span>{{item.stock}}</span>
 					</div>
-					</router-link>
+					<!-- </router-link> -->
 				</li>
 				<template slot="right">
 					<button class="deleteStyle" @click="deleteActiviteFn(item)">
@@ -103,12 +103,12 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getdata();
 		}
 		if(this.scrollTop != 0){
 			this.$refs.exchangeLists_content.scrollTop = this.scrollTop;
@@ -144,7 +144,7 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		deleteActiviteFn(_item){
       for(let i=0;i<this.commodity.length;i++){

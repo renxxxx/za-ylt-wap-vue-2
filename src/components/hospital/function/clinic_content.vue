@@ -64,18 +64,12 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
-			 .then(res => {
-			 	this.clinicNum = res.data.data.rowCount;
-			 })
-			 .catch((err)=>{
-			 	
-			 })
 		}
 		if(this.scrollTop != 0){
 			this.$refs.content.scrollTop = this.scrollTop
@@ -116,13 +110,13 @@ export default {
 				this.loading = false;
 				}else{
 					this.loading = false;
-          this.test='没有更多了'
+        			this.test='没有更多了'
 					this.finished = true;
 				}
         
-        if(this.content.length == 0){
-          this.test='无数据'
-        }
+				if(this.content.length == 0){
+				this.test='无数据'
+				}
 				// this.clinic.num = res.data.data.sum.totalCount;
 			})
 			.catch((err)=>{

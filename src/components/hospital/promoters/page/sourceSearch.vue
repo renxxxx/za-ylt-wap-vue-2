@@ -200,7 +200,7 @@ export default {
     	}
     },
     goBackFn() {
-      this.$router.back(-1);
+      this.$router.back();
     },
     // 筛选确定
     screeningSubmit(){

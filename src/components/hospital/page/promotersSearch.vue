@@ -13,8 +13,8 @@
 		<div class="promotersSearch_list" @scroll="handleScroll" ref="promotersSearch_list"> 
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul :style="{'padding-top':$store.state.paddingTop}">
-					<li v-for="(item,inx) in promotersList" :key="inx">
-					<router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,}}">
+					<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
+					<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,}}"> -->
 						<div class="list">
 						<img src="../../../assets/image/ren@2x.png" alt="">
 						<h4>{{item.name}}</h4>
@@ -23,7 +23,7 @@
 							<img src="../../../assets/image/right@2x.png" alt="">
 						</div>
 						</div>
-					</router-link>
+					<!-- </router-link> -->
 					</li>
 				</ul>
 			</van-list>
@@ -68,6 +68,7 @@ s
 s	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -90,7 +91,7 @@ s	},
 			}
 		},
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		onLoad(){
 			++this.page;

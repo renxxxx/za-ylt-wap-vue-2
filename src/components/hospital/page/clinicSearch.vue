@@ -18,11 +18,11 @@
 					<div class="titleleft">
 						<h3>合作门诊 {{clinic.num}}</h3>
 					</div>
-					<div class="titleRight">
-						<router-link :to="{path : '/hospital/hospital_addCLinic',query:{}}">
+					<div class="titleRight" @click="$router.push({path:'/hospital/hospital_addCLinic',query:{time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/hospital/hospital_addCLinic',query:{}}"> -->
 							<span>新增</span>
 							<img src="../../../assets/image/xinzeng@2x.png" alt="">
-						</router-link>
+						<!-- </router-link> -->
 					</div>
 				</div>
 			</div>
@@ -83,13 +83,8 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
-				.then(res => {
-					this.clinic.num = res.data.data.rowCount;
-				})
-				.catch((err)=>{
-					
-				})
+			this.getdata()
+		
 		}
 	},
 	methods: {
@@ -107,22 +102,30 @@ export default {
 				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
 			}})
 		  Object.assign(this.$data, this.$options.data());
+		  this.getdata()
 		  this.$refs.content.initData();
 		},
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		//获取数据
 		getdata(){
 			// 
-		this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({kw:this.keywords}))
-			.then(_d => {
-				this.$refs.content.content = _d.data.data.rows
-			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
+				.then(res => {
+					this.clinic.num = res.data.data.rowCount;
+				})
+				.catch((err)=>{
+					
+				})
+			this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({kw:this.keywords}))
+				.then(_d => {
+					this.$refs.content.content = _d.data.data.rows
+				})
+				.catch((err)=>{
+					
+					//Dialog({ message: '加载失败!'});
+				})
 		},
 		//键盘输入值时触发
 		inputNow(_keywordsCode){

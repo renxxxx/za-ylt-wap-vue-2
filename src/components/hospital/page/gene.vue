@@ -83,7 +83,6 @@
 
 <script>
 import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import topSolt from "../function/topSolt.vue";
 export default {
@@ -107,13 +106,10 @@ export default {
 
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

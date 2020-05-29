@@ -28,9 +28,9 @@
 							<!-- <van-dropdown-menu>
 								<van-dropdown-item v-model="value" :options="option" active-color='#2B77EF' @change="changeFn"/>
 							</van-dropdown-menu> -->
-              <router-link :to="{name:'hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,}}">
-                <span>{{addClinic.promoter}}</span>
-              </router-link>
+              <!-- <router-link :to="{name:'hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,}}"> -->
+                <span class="xiugaiSpan" @click="$router.push({path:'/hospital/hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:$router.apps[0]._route.name,item:$route.query.item,time: new Date().getTime()}})">{{addClinic.promoter}}</span>
+              <!-- </router-link> -->
 						</li>
 						<li>
 							<span>分配账号</span>
@@ -139,6 +139,7 @@ export default {
 			localStorage.clear('promoter','hospitalUserId');
   		}
   		if(this.query != JSON.stringify(this.$route.query)){
+			  Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -190,7 +191,7 @@ export default {
 		},
 		// 返回键
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		// 显示上传图片选择弹窗
 		showFn(){
@@ -256,7 +257,7 @@ export default {
 		},
 		successFn(){
 			Toast.success('操作成功');
-			this.$router.back(-1)
+			this.$router.back()
 		}
 	}
 }
@@ -462,7 +463,7 @@ export default {
 	height: .44rem!important;
 	line-height: .44rem!important;
  }
-.Fill li a span{
+.xiugaiSpan{
   color: #2B77EF;
   float: right;
   text-align: right;

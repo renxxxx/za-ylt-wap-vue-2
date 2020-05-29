@@ -8,13 +8,13 @@
     <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage" >
     <ul @scroll="handleScroll" ref="operatingManualListDetails">
       <!-- operatingManualListDetails -->
-      <li v-for="(item,inx) in 99" :key="inx">
+      <li v-for="(item,inx) in operatingManualListDetails" :key="inx">
         <div class="operatingCenter">
-          <div v-for="(_item,_inx) in item.image" :key="_inx" style="display: inline;">
-            <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,}}">
+          <div v-for="(_item,_inx) in item.image" @click="$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,time: new Date().getTime()}})" :key="_inx" style="display: inline;">
+            <!-- <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,}}"> -->
             	<!-- <img v-bind:src="item" alt=""> -->
-              <img  v-if="_item" :src="_item" alt="" >
-            </router-link>
+            <img  v-if="_item" :src="_item" alt="" >
+            <!-- </router-link> -->
           </div>
           <div v-for="(video,index) in item.video" :key="index" style="display: inline;position: relative" @click="showVideoFn(video)" class="video">
             <video class="ArcanaVideo">
@@ -23,7 +23,12 @@
             <!-- <video :src="video" controls="controls" preload="auto"></video> -->
           </div>
           <div style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,.7);z-index: 999;" v-show="show">
-            <video :src="nowVideo" controls="controls" style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 9999;"
+             <div style="width: 0.4rem;height: 0.4rem;z-index: 9998;background-color: rgba(255, 255, 255, .7);position: absolute;
+               top: .2rem;left: .2rem;border-radius: 50%;overflow:hidden">
+              <img src="../../../assets/image/X Copy@2x.png" alt="" @click="show = false"
+                style="width: .2rem; height: .2rem;z-index: 99999;margin-left: -.02555rem;margin-top: .1rem;">
+            </div>
+            <video :src="nowVideo" controls="controls" style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 9991;"
              preload="auto"></video>
              <!-- <object  controls="controls" style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 9999;" preload="auto">
                 <param name="filename" :value="nowVideo">

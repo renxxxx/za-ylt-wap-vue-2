@@ -16,18 +16,18 @@
 				<ul>
 					<li v-for="(item,inx) in task.one" :key='inx'>
 						<input type="checkbox" class="input_check" :checked="item.checked" @change="change($event,item,inx)"/>
-						<router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : false,}}">
-							<span>{{item.name}}</span>
-						</router-link>
+						<!-- <router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : false,}}"> -->
+						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : false,time: new Date().getTime()}})">{{item.name}}</span>
+						<!-- </router-link> -->
 					</li>
 				</ul>
 				<h3>每日收益</h3>
 				<ul>
 					<li v-for="(item,inx) in task.no" :key='inx'>
 						<input type="checkbox" class="input_check" :checked="item.checked" @change="change($event,item,inx)"/>
-						<router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : true,}}">
-							<span>{{item.name}}</span>
-						</router-link>
+						<!-- <router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : true,}}"> -->
+						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : true,time: new Date().getTime()}})">{{item.name}}</span>
+						<!-- </router-link> -->
 					</li>
 				</ul>
 			</div>
@@ -36,117 +36,35 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'search',
 	data () {
 		return {
 			checked: true,
       //医院端用户的任务管理参数
-      task:{
-        one:[],
-        no:[],
-      },
-	  query:'',
-	  pullingDown:false,
+			task:{
+				one:[],
+				no:[],
+			},
+			query:'',
+			pullingDown:false,
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join()) 
-		//
+
 	},
   
-   mounted() {
-		if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
-		
-		// if(this.task.one.length == 0 || this.task.no.length == 0){
-		// 	// this.task.no = [];
-		// 	// this.task.one = []
-		// 	this.$axios.post('/c2/task/tasks',qs.stringify({
-		// 		hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-		// 	}))
-		// 	.then(res => {
-		// 		for(let i in res.data.data.items){
-		// 			if(res.data.data.items[i].oneTimeIs  == 1){
-  //           if(res.data.data.items[i].issueIs){
-  //             // 
-  //             this.task.one.push({
-  //             	name : res.data.data.items[i].name,
-  //             	taskId : res.data.data.items[i].taskId,
-  //             	oneTimeIs : res.data.data.items[i].oneTimeIs,
-  //             	checked : true,
-  //             	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-  //             	exchangePoint : res.data.data.items[i].exchangePoint,
-  //             	everyDayIs : res.data.data.items[i].everyDayIs,
-  //             	intro : res.data.data.items[i].intro,
-  //               taskId : res.data.data.items[i].taskId,
-  //             })
-  //           }else{
-  //             this.task.one.push({
-  //             	name : res.data.data.items[i].name,
-  //             	taskId : res.data.data.items[i].taskId,
-  //             	oneTimeIs : res.data.data.items[i].oneTimeIs,
-  //             	checked : false,
-  //             	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-  //             	exchangePoint : res.data.data.items[i].exchangePoint,
-  //             	everyDayIs : res.data.data.items[i].everyDayIs,
-  //             	intro : res.data.data.items[i].intro,
-  //               taskId : res.data.data.items[i].taskId,
-  //             })
-  //           }
-
-		// 			}else{
-  //           if(res.data.data.items[i].issueIs){
-  //             this.task.no.push({
-  //             	name : res.data.data.items[i].name,
-  //             	taskId : res.data.data.items[i].taskId,
-  //             	oneTimeIs : res.data.data.items[i].oneTimeIs,
-  //             	checked : true,
-  //             	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-  //             	exchangePoint : res.data.data.items[i].exchangePoint,
-  //             	everyDayIs : res.data.data.items[i].everyDayIs,
-  //             	intro : res.data.data.items[i].intro,
-  //               taskId : res.data.data.items[i].taskId,
-  //             })
-  //           }else{
-  //             this.task.no.push({
-  //             	name : res.data.data.items[i].name,
-  //             	taskId : res.data.data.items[i].taskId,
-  //             	oneTimeIs : res.data.data.items[i].oneTimeIs,
-  //             	checked : false,
-  //             	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-  //             	exchangePoint : res.data.data.items[i].exchangePoint,
-  //             	everyDayIs : res.data.data.items[i].everyDayIs,
-  //             	intro : res.data.data.items[i].intro,
-  //               taskId : res.data.data.items[i].taskId,
-  //             })
-  //           }
-		// 			}
-		// 		}
-		// 	})
-		// 	.catch((err)=>{
-				
-		// 		//Dialog({ message: '加载失败!'});
-		// 	})
-		// }
-
+   	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -179,7 +97,7 @@ export default {
 		},
 		// 返回上一级
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		getData(){
 			this.$axios.post('/c2/task/tasks',qs.stringify({

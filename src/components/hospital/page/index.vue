@@ -7,64 +7,64 @@
               </div>
               <div class="slider">
                 <van-swipe>
-                  <van-swipe-item v-for="(image, index) in 99" :key="index">
-                    <router-link :to="{name : image.url}">
-                      <img  v-lazy="image.cover" class="silder_img" />
-                    </router-link>
+                  <van-swipe-item v-for="(image, index) in 99" :key="index" >
+                    <!-- <router-link :to="{name : image.url}"> -->
+                      <img  v-lazy="image.cover" class="silder_img"  @click="$router.push({name:image.ur,query:{time: new Date().getTime()}})"/>
+                    <!-- </router-link> -->
                   </van-swipe-item>
                 </van-swipe>
               </div>
             </div>
             <div class="typeList">
               <ul>
-                <li>
-                  <router-link :to="{path : '/hospital/hospital_clinicSearch',query:{}}">
+                <li @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime()}})"> 
+                  <!-- <router-link :to="{path : '/hospital/hospital_clinicSearch',query:{}}"> -->
                     <img src="../../../assets/image/qudaomenzhen@2x.png" alt />
                     <span>渠道门诊</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
-                <li>
-                  <router-link :to="{path : '/hospital/hospital_sourceManagement',query:{}}" >
+                <li @click="$router.push({path:'/hospital/hospital_sourceManagement',query:{time: new Date().getTime()}})">
+                  <!-- <router-link :to="{path : '/hospital/hospital_sourceManagement',query:{}}" > -->
                     <img src="../../../assets/image/bingyuanguanli@2x.png" alt />
                     <span>病员管理</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
                 <li @click="upgradeFn">
                   <!-- /hospital/hospital_collect -->
-                  <router-link :to="{path : '',query:{}}">
+                  <!-- <router-link :to="{path : '',query:{}}"> -->
                     <img src="../../../assets/image/qixiejicai@2x.png" alt />
                     <span>器械集采</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
-                <li>
-                  <router-link :to="{path : '/hospital/hospital_operating',query:{}}">
+                <li @click="$router.push({path:'/hospital/hospital_operating',query:{time: new Date().getTime()}})">
+                  <!-- <router-link :to="{path : '/hospital/hospital_operating',query:{}}"> -->
                     <img src="../../../assets/image/yunyingzhongxin@2x.png" alt />
                     <span>运营中心</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
                 <li @click="noLinkFn">
-                  <router-link :to="{path : '',query:{}}">
+                  <!-- <router-link :to="{path : '',query:{}}"> -->
                     <img src="../../../assets/image/jiyinjiance@2x.png" alt />
                     <span>基因检测</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
                 <li @click="noLinkFn">
-                  <router-link :to="{path : '',query:{}}">
+                  <!-- <router-link :to="{path : '',query:{}}"> -->
                     <img src="../../../assets/image/yiliaoziyuan@2x.png" alt />
                     <span>医疗资源</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
-                <li>
-                  <router-link :to="{path : '/hospital/hospital_activityReleased',query:{}}">
+                <li @click="$router.push({path:'/hospital/hospital_activityReleased',query:{time: new Date().getTime()}})">
+                  <!-- <router-link :to="{path : '/hospital/hospital_activityReleased',query:{}}"> -->
                     <img src="../../../assets/image/yiyuanhuodong@2x.png" alt />
                     <span>医院活动</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
                 <li @click="noLinkFn">
-                  <router-link :to="{path : '',query:{}}">
+                  <!-- <router-link :to="{path : '',query:{}}"> -->
                     <img src="../../../assets/image/qita@2x.png" alt />
                     <span>其他项目</span>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
               </ul>
             </div>
@@ -76,8 +76,8 @@
               </div>
               <ul :model="article">
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-                  <li v-for="(items,inx) in article" :key="inx">
-                    <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 1,}}">
+                  <li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+                    <!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
                       <div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
                         <p>{{items.content}}</p>
                         <div class="article_leftTime">
@@ -88,7 +88,7 @@
                       <div v-if="items.img" class="article_right">
                         <img   v-lazy="items.img" alt />
                       </div>
-                    </router-link>
+                    <!-- </router-link> -->
                   </li>
                 </van-list>
               </ul>
@@ -143,7 +143,7 @@ export default {
 	activated() {
     debugger
 		if(this.query != JSON.stringify(this.$route.query)){
-        Object.assign(this.$data, this.$options.data());
+      Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -186,7 +186,7 @@ export default {
 		}
 		if(thisVue.$store.state.hospital.login){
 			if(thisVue.$store.state.hospital.login.type == 1){
-				thisVue.$router.replace({ name : 'promoters',query:{}});
+				thisVue.$router.replace({ name : 'promoters',query:{time: new Date().getTime()}});
 			}
 		}
     
@@ -398,7 +398,7 @@ li:nth-child(7),
 li:nth-child(8) {
   margin-top: 0.25rem;
 }
-.typeList ul li a img {
+.typeList ul li img {
   width: 0.3rem;
   margin: 0rem auto;
   display: block;

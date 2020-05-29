@@ -50,6 +50,7 @@ export default {
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
@@ -60,7 +61,7 @@ export default {
   methods: {
     //回退方法
     goBackFn(){
-    	this.$router.back(-1)
+    	this.$router.back()
     },
   },
 }

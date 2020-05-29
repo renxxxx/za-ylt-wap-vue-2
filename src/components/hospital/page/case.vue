@@ -9,8 +9,8 @@
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
 				<li v-for="(items,inx) in article" :key="inx">
-					<router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 4,}}">
-					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
+					<!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 4,}}"> -->
+					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 4,time: new Date().getTime()}})">
 						<p>{{items.content}}</p>
 						<div class="article_leftTime">
 						<img src="../../../assets/image/time@2x.png" alt="">
@@ -20,7 +20,7 @@
 					<div v-if="items.img"  class="article_right">
 						<img :src=items.img alt="">
 					</div>
-					</router-link>
+					<!-- </router-link> -->
 				</li>
 				</ul>
 			</van-list>
@@ -66,6 +66,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -88,7 +89,7 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
     onLoad(){
       ++this.page;

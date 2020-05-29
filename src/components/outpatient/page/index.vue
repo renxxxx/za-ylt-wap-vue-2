@@ -59,7 +59,7 @@
 							<div class="newAddTitle bottom">
 								<img src="../../../assets/image/bitian@2x.png" alt="">
 								<h3>选填项</h3>
-								<ul class="Fill">
+								<ul class="Fill" style="height:auto">
 									<li>
 										<span>备注</span>
 										<input type="text" v-model="account.remark"  placeholder="请填写" >
@@ -170,7 +170,7 @@ export default {
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			let width = document.getElementById('navType').getBoundingClientRect().width/6
 			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
@@ -310,6 +310,11 @@ export default {
 	},
 	initData() {
 		Object.assign(this.$data, this.$options.data());
+		let thisVue = this
+			if(this.$route.meta.auth && !this.$store.state.outpatient.login)
+				this.$toast({message:'请登录',onClose:function(){
+					thisVue.$router.replace({ path : '/outpatientLogin',query:{time:1}});
+				}})
 		let width = document.getElementById('navType').getBoundingClientRect().width/6
 		this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
 		this.getAllNum();
@@ -717,7 +722,8 @@ export default {
 	border: none;
 	float:right;
 	text-align: right;
-	background: transparent
+	background: transparent;
+	width: 60%
 	/* background-color: #F5F5F5; */
 }
 .submitClass{
@@ -731,6 +737,9 @@ export default {
 	border-radius: .2rem;
 	color: #FFFFFF;
 	font-size: 	.14rem;
+}
+.bottom{
+	margin-top: .1rem
 }
 </style>
 

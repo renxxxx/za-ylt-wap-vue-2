@@ -96,7 +96,7 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		getData(url){
 			// let query = JSON.stringify(this.$route.query)

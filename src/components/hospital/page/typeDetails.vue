@@ -97,60 +97,8 @@ export default {
 	components:{
 	},
 	created(){
-
 	},
-  
 	mounted(){
-		if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
-		// let id = '';
-		// this.$router.currentRoute.query.item? id = this.$router.currentRoute.query.item: ''
-		// this.$axios.post('/c2/office/item',qs.stringify({
-		// 	itemId : id,
-		// }))
-		// .then(_d => {
-		// 	this.about = _d.data.data;
-		// 	// 
-		// 	if(this.about.image!=null){
-		// 		this.about.image = _d.data.data.image.split(',');
-				
-		// 	}
-		// 	if(_d.data.data.shiYingZheng == null){
-
-		// 	}else{
-		// 		debugger
-		// 		this.about.shiYingZheng = _d.data.data.shiYingZheng.split(',');
-				
-		// 	}
-		// })
-		// .catch((err)=>{
-			
-		// 	//Dialog({ message: err});;
-		// })
-		// this.$axios.post('/c2/doctor/items',qs.stringify({
-		// 	officeId : id,
-		// 	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-		// }))
-		// .then(_d => {
-		// 	for(let i in _d.data.data.items){
-		// 		this.doctor.push({
-		// 			name : _d.data.data.items[i].name,
-		// 			hosptialName : _d.data.data.items[i].hosptialName,
-		// 			intro : _d.data.data.items[i].intro,
-		// 			jobTitles : _d.data.data.items[i].jobTitles,
-		// 			headimg : _d.data.data.items[i].headimg,
-		// 		})
-		// 	}
-
-		// 	this.$refs.scrollId.style.width = 50 * _d.data.data.items.length +'%'
-		// 	// 
-		// })
-		// .catch((err)=>{
-			
-		// 	//Dialog({ message: err});;
-		// })
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -223,7 +171,7 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 			// this.$router.push({ path : '/hospital/hospitalImage',query :{components : "hospital_imageType",}});
 		},
 		//医生介绍

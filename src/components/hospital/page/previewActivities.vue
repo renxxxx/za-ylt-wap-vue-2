@@ -44,15 +44,11 @@ export default {
 		
 	},
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.activity = JSON.parse(this.$route.query.activity)
-		
+
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -64,7 +60,7 @@ export default {
 	methods: {
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		//发布活动
 		releaseFn(){	

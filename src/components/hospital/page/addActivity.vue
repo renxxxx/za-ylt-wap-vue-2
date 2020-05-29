@@ -7,11 +7,11 @@
 			<div class="centerTitle">
 				<h3>编辑活动</h3>
 			</div>
-			<router-link :to="{path : '/hospital/hospital_previewActivities',query:{activity:JSON.stringify(activity),}}">
-				<div class="right">
-					<button>预览</button>
-				</div>
-			</router-link>
+			<!-- <router-link :to="{path : '/hospital/hospital_previewActivities',query:{activity:JSON.stringify(activity),}}"> -->
+			<div class="right" @click="$router.push({path:'/hospital/hospital_previewActivities',query:{activity:JSON.stringify(activity),time: new Date().getTime()}})">
+				<button>预览</button>
+			</div>
+			<!-- </router-link> -->
 
 		</div>
 		<div class="addImg" :style="{'padding-top': (parseInt($store.state.paddingTop.replace('px',''))+47)+'px'}">
@@ -87,6 +87,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

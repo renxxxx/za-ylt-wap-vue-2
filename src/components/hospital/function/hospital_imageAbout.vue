@@ -23,10 +23,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs'
-import { Dialog } from 'vant'
 export default {
   name: 'hospital_About',
   data () {
@@ -35,7 +32,6 @@ export default {
     }
   },
   computed:{
-	 // ...mapGetters([]),
 	
   },
   props:['hospitalImage'],
@@ -43,15 +39,10 @@ export default {
 		
   },
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		
-
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");

@@ -50,9 +50,7 @@
 
 <script>
 import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'collect',
   data () {
@@ -62,35 +60,16 @@ export default {
     }
   },
   computed:{
-	 ...mapGetters([]),
 	
   },
   created () {
 		
   },
   mounted() {
-if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
-	document.addEventListener('scroll',this.scrollToTop)
-	// window.addEventListener('scroll', 
-	this.$axios.post('/c/procurement/entpg')
-	.then(_d => {
-		for(let _i in  _d.data.data.ads){
-			this.images.push( _d.data.data.ads[_i].cover)
-			// 
-		}
-	})
-	.catch((err)=>{
-		
-		//Dialog({ message: '加载失败!'});
-	})
-	
-	// this.navTopFn();
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
@@ -114,7 +93,7 @@ if(window.plus){
   methods: {
 	//回退方法
 	goBackFn(){
-			 this.$router.back(-1)
+			 this.$router.back()
 	},
 	scrollToTop (e) {
 		

@@ -60,10 +60,10 @@
 		<div class="_photo">
 			<h3>发票照片</h3>
       <ul>
-        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx)">
-          <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true}}">
+        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx,imgUrl)">
+          <!-- <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true}}"> -->
             <img v-bind:src="item" alt="">
-          </router-link>
+          <!-- </router-link> -->
           <img v-show="show" src="../../../assets/image/detele.png" alt="" @click="deteleFn(item)">
 		 <!-- <van-image-preview
 		    v-model="enlarge"
@@ -147,6 +147,7 @@ export default {
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
@@ -214,10 +215,11 @@ export default {
 	},
 	methods: {
 
-		enlargeFn(_value){
+		enlargeFn(_value,imgUrl){
 			this.photoNum = _value;
 			
 			this.enlarge = true;
+			this.$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime()}})
 		},
 		onChange(_value){
 			this.photoPage = _value;
@@ -225,7 +227,7 @@ export default {
 		},
 		// 返回上一级
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		//修改方法
 		modifyFn(){

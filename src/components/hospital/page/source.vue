@@ -7,17 +7,17 @@
 				<!-- <div class="indexReturn" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/back-white@2x.png" alt="">
 				</div> -->
-			<router-link :to="{name:'hospital_pathogenicSearch',query:{focus : true,}}">
-				<div class="indexSearch ">
-					<input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
-					<img src="../../../assets/image/sousuo@2x.png" alt="">
-				</div>
-			</router-link>
-        <router-link :to="{name:'hospital_pathogenicSearch',query:{}}">
-          <div class="clinic_buttton">
+			<!-- <router-link :to="{name:'hospital_pathogenicSearch',query:{focus : true,}}"> -->
+			<div class="indexSearch" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{focus : true,time: new Date().getTime()}})">
+				<input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
+				<img src="../../../assets/image/sousuo@2x.png" alt="">
+			</div>
+			<!-- </router-link> -->
+        <!-- <router-link :to="{name:'hospital_pathogenicSearch',query:{}}"> -->
+          <div class="clinic_buttton" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{time: new Date().getTime()}})">
             <button>搜索</button>
           </div>
-        </router-link>
+        <!-- </router-link> -->
         <!-- <router-link }}"> -->
           <div class="indexScreening" @click="showPopup">
             <span>筛选</span>
@@ -98,6 +98,7 @@ export default {
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
   			//plus.navigator.setStatusBarBackground("#ffffff");
@@ -169,12 +170,12 @@ export default {
     },
 	//回退方法
 	goBackFn(){
-		this.$router.back(-1)
+		this.$router.back()
 	},
 	//显示筛选弹窗
 	showPopup() {
 	  	this.show = true;
-   		this.$router.push({name:'hospital_pathogenicSearch',query:{show:false}})
+   		this.$router.push({name:'hospital_pathogenicSearch',query:{show:false,time: new Date().getTime()}})
 
 	},
 	getNum(){

@@ -105,7 +105,7 @@ export default {
                     if(res.code == 0){
                       thisVue.$store.state.hospital.login=res.data
                       thisVue.$toast({"message":'已登录',onClose(){
-                              thisVue.$router.replace({ name : 'hospital_index',query:{}});
+                              thisVue.$router.replace({ name : 'hospital_index',query:{time: new Date().getTime()}});
                         }})
                     }
                   }
@@ -160,7 +160,7 @@ export default {
     chooseEntrance(){
       localStorage.removeItem('entrance');
 	  debugger
-      this.$router.push({path:'/',query:{}})
+      this.$router.push({path:'/',query:{time: new Date().getTime()}})
     },
     emptyAccountFn(value){
       if(value == 'name'){

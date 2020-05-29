@@ -225,7 +225,7 @@ export default {
 		},
 		// 返回上一级
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		//修改方法
 		modifyFn(){
