@@ -150,7 +150,7 @@ export default {
 <style scoped>
 .addAcivity{
 	width: 100%;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .topNav{
 	width: 100%;

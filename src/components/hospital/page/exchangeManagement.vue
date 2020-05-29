@@ -59,25 +59,29 @@
 		<span>顶部</span>
 	</div>
 	</div>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import {Dialog} from 'vant'
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'exchangeManagement',
 	data () {
 		return {
 			commodity : [],
-			loading: false,
-			finished: false,
-			page: 1,
-			query:'',
-			pullingDown:false,
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+      loading: false,
+      finished: false,
+      page: 1,
+	  query:'',
+	  pullingDown:false,
 		}
 	},
 	computed:{
+		...mapGetters(['account']),
     exchangeAdd: {
         get: function() {
     		// 
@@ -89,12 +93,12 @@ export default {
     },
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
 
 	},
- 	mounted() {
+ mounted() {
 		if(window.plus){
 			//plus.navigator.setStatusBarBackground("#ffffff");
 			plus.navigator.setStatusBarStyle("dark")
@@ -110,20 +114,8 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.exchangeLists_content.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.exchangeLists_content.scrollTop || this.$refs.exchangeLists_content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		afterPullDown() {
 			//下拉刷新
 		  setTimeout(() => {
@@ -206,8 +198,6 @@ export default {
 	width: 100%;
 	/* height: 100%; */
 	background-color: #F5F5F5;
-	height: 100%;
-	overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -279,14 +269,6 @@ export default {
 	margin-left: .05rem;
 }
 .exchangeLists{
-	width: 100%;
-}
-.exchangeLists_content{
-	height: calc(100% - .73rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
 	width: 100%;
 }
 .exchangeLists li{
@@ -366,7 +348,5 @@ export default {
 	width: 91.46%;
 	margin: 0rem auto;
 }
->>>.van-pull-refresh{
-	height: 100%;
-}
+
 </style>

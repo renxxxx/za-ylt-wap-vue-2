@@ -42,10 +42,14 @@
 			<span>顶部</span>
 		</div>
 	</div>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'promoters',
 	data () {
@@ -64,7 +68,7 @@ export default {
 
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
 		
@@ -81,20 +85,8 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.promoters_list.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.promoters_list.scrollTop || this.$refs.promoters_list.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		afterPullDown() {
 			//下拉刷新
 		  setTimeout(() => {
@@ -255,16 +247,5 @@ export default {
 }
 .listRight img{
 	height: .15rem;
-}
-.promoters_list{
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
-	width: 100%;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

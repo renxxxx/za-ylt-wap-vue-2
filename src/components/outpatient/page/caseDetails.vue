@@ -1,33 +1,33 @@
 <template>
-	<div class="caseDetails">
+<topSolt>
+	<div class="caseDetails" slot="returnTopSolt">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<img src="../../../assets/image/shape@3x.png" alt="" @click="goBackFn"  id="navback">
 			<img src="../../../assets/image/share@3x.png" @click="share" alt="">
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="caseDetailsList" @scroll="handleScroll" ref="caseDetailsList">
-			<div class="banner" v-show="!!caseInfo.cover">
-				<img v-lazy="caseInfo.cover"  alt="">
-			</div>
-			<div class="content">
-				<h3>{{caseInfo.name}}</h3>
-				<div class="headPortrait">
-					<img src="../../../assets/image/logo@2x.png" alt="">
-					<span>{{caseInfo.hosptialName}}</span>
-					<span>{{moment(caseInfo.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
-				</div>
-				<p v-html="caseInfo.content"></p>
-			</div>
+		<div class="banner" v-show="!!caseInfo.cover">
+			<img v-lazy="caseInfo.cover"  alt="">
 		</div>
-		<div class="returnTop" @click="$refs.caseDetailsList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
+		<div class="content" >
+			<h3>{{caseInfo.name}}</h3>
+			<div class="headPortrait">
+				<img src="../../../assets/image/logo@2x.png" alt="">
+				<span>{{caseInfo.hosptialName}}</span>
+				<span>{{moment(caseInfo.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
+			</div>
+			<p v-html="caseInfo.content"></p>
 		</div>
 	</div>
+</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import Dialog from 'vant';
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'caseDetails',
 	data () {
@@ -38,24 +38,39 @@ export default {
 				cover : '',
 				hosptialName : '',
 				name : '',
-				content:'',
-			},
-			hospitalReturnTopPage:false,
-			scrollTop:0
+				content:''
+			}
 		}
 	},
 	computed:{
+		...mapGetters(['account']),
 	},
 	components:{
+		topSolt
 	},
 	beforeCreate(){
 
 	},
 	created(){
-		let myDate = new Date();
-		this.caseInfo.alterTime = myDate.toLocaleDateString()
+    let myDate = new Date();
+    this.caseInfo.alterTime = myDate.toLocaleDateString()
+		// 
 	},
 	mounted(){
+		// if(window.plus){
+		// 	//plus.navigator.setStatusBarBackground("#ffffff");
+		// 	plus.navigator.setStatusBarStyle("dark")
+		// }
+		// // 
+		// let postUrl = '';
+		// if(this.$route.query.data ==1){
+		// 	let postUrl ='/c2/article/item';
+		// 	this.getData(postUrl)
+		// }else{
+		// 	let postUrl ='/c2/project/item'
+		// 	this.getData(postUrl)
+		// }
+		// 
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -73,22 +88,12 @@ export default {
 				this.getData(postUrl)
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.caseDetailsList.scrollTop = this.scrollTop;
-		}
     },
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.caseDetailsList.scrollTop || this.$refs.caseDetailsList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		share(){
 		 let shareUrl= location.href.replace('/outpatient/outpatient_caseDetails',"/sharePage")
+		  
+		  // 
 		 	let vue = this
 		 	this.$h5p.shareWeb(shareUrl,this.caseInfo.cover,this.caseInfo.name,'',function(){
 		 		vue.$axios.post('/c2/share')
@@ -134,11 +139,6 @@ export default {
 </script>
 
 <style scoped>
-.caseDetails{
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-}
 .topNav{
 	width: 100%;
 	height: .47rem;
@@ -204,12 +204,5 @@ export default {
 .headPortrait span:last-child{
 	color: #999999;
 	font-weight: normal;
-}
-.caseDetailsList{
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
 }
 </style>

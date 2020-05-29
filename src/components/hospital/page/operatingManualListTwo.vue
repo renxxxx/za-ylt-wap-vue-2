@@ -70,7 +70,6 @@ export default {
   //   this.getData()
   },
 	activated() {
-    debugger
 		if(this.query != JSON.stringify(this.$route.query)){
       Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);

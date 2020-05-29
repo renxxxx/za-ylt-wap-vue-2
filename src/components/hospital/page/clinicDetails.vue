@@ -1,5 +1,5 @@
 <template>
-	<div class="clinicDetails" ref="clinicDetails">
+	<div class="clinicDetails">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -43,11 +43,6 @@
 		<keep-alive>
 			<component v-bind:is="componentName"  ref='clinicAll' v-bind:list = 'list'></component>
 		</keep-alive>
-		<div class="returnTop" @click="$refs.clinicDetails.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-        	<img src="../../../assets/image/returnTop.png" alt />
-        	<span>顶部</span>
-   		</div>
-		
 	</div>
 </template>
 
@@ -88,9 +83,7 @@ export default {
 				clinicYes : [],
 				data: true,
 			},
-			query:'',
-			hospitalReturnTopPage:false,
-			scrollTop:0,
+			query:''
 		}
 	},
 	computed:{
@@ -116,8 +109,8 @@ export default {
 	async activated() {
 		debugger
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
+			Object.assign(this.$data, this.$options.data());
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
@@ -142,16 +135,6 @@ export default {
 		
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			debugger
-			this.scrollTop = this.$refs.search_clinic.scrollTop || this.$refs.search_clinic.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back()
@@ -163,18 +146,15 @@ export default {
 			switch(this.value){
 				case 0:
 				this.componentName = 'clinicAll';
-				this.$refs.clinicAll.show()
-				// this.$refs.clinicAll.initData()
+				this.$refs.clinicAll.initData()
 				break;
 				case 1:
 				this.componentName = 'clinicNo';
-				this.$refs.clinicAll.show()
-				// this.$refs.clinicAll.initData()
+				this.$refs.clinicAll.initData()
 				break;
 				case 2:
 				this.componentName = 'clinicYes';
-				this.$refs.clinicAll.show()
-				// this.$refs.clinicAll.initData()
+				this.$refs.clinicAll.initData()
 				break;
 			}
 		},
@@ -237,13 +217,8 @@ export default {
 </script>
 
 <style scoped>
-.all{
-	height: calc(100vh - 2.13rem);
-}
 .clinicDetails{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
 	/* padding-top: .47rem; */
 }
 .topNav{

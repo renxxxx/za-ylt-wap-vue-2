@@ -1,5 +1,6 @@
 <template>
-	<div class="expertsIntroduction">
+<topSolt>
+	<div class="expertsIntroduction" slot="returnTopSolt">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -34,10 +35,15 @@
 			<span>顶部</span>
 		</div>
 	</div>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import { Dialog } from 'vant'
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'expertsIntroduction',
 	data () {
@@ -45,18 +51,17 @@ export default {
 			doctor:[],
 			downImg : require('../../../assets/image/down@2x.png'),
 			clickNum: 0 ,
-			loading: false,
-			finished: false,
-			page: 0,
-			query:'',
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+      loading: false,
+      finished: false,
+      page: 0,
+	  query:''
 		}
 	},
 	components:{
-		
+		topSolt
 	},
 	computed:{
+		...mapGetters(['account']),
 
 	},
 	created(){
@@ -73,20 +78,8 @@ export default {
 			}
 			this.onLoad()
 		}
-		if(this.scrollTop != 0){
-			this.$refs.content.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back()
@@ -194,11 +187,6 @@ export default {
 }
 .content{
 	width: 100%;
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
 }
 .content ul {
 	width: 100%;
@@ -240,6 +228,12 @@ export default {
 .xia{
 	/* margin-left: .1rem; */
 	position: relative;
+	display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .xia:before{
 	content: "";

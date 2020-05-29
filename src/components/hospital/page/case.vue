@@ -1,5 +1,6 @@
 <template>
-	<div class="case">
+<topSolt>
+	<div class="case" slot="returnTopSolt">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<img src="../../../assets/image/shape@3x.png" alt=""  @click="goBackFn"  id="navback" :style="{'padding-top':$store.state.paddingTop}">
 			<h3>优质案例</h3>
@@ -30,27 +31,30 @@
 			<span>顶部</span>
 		</div>
 	</div>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
+import topSolt from "../function/topSolt.vue";
 import qs from 'qs';
 export default {
 	name: 'case',
 	data () {
 		return {
 			article:[],
-			loading: false,
-			finished: false,
-			page: 0,
-			query:'',
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+      loading: false,
+      finished: false,
+      page: 0,
+	  query:''
 		}
 	},
 	computed:{
+	  ...mapGetters(['account']),
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
 		// var heightRexg = /^[0-9]*/g
@@ -73,20 +77,8 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.article.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.article.scrollTop || this.$refs.article.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back()
@@ -133,8 +125,6 @@ export default {
 <style scoped>
 .case{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -162,17 +152,12 @@ export default {
 	font-weight: bold;
 }
 .article{
-	width: 100%;
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
+	width: 91.5%;
+	margin: 0rem auto;
 }
 .article ul{
 	margin-top: .2rem;
-	margin: 0rem auto;
-	width: 91.5%;
+	width: 100%;
 }
 .article ul li {
 	width: 100%;

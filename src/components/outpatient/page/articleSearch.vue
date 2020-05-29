@@ -1,9 +1,10 @@
 <template>
-	<div class="hospital">
+<topSolt>
+	<div class="hospital" slot="returnTopSolt">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
-			<div class="leftImg" @click="goBackFn">
-				<img src="../../../assets/image/shape@3x.png" alt="">
-			</div>
+     <div class="leftImg" @click="goBackFn">
+     	<img src="../../../assets/image/shape@3x.png" alt="">
+     </div>
 			<div class="hospital_search">
 				<input type="search" v-model="kw" placeholder="搜索文章" @keyup.enter="searchFn" v-focus='true'>
 				<img src="../../../assets/image/sousuo@2x.png" alt="">
@@ -12,8 +13,7 @@
 				<button>搜索</button>
 			</div>
 		</div>
-		<div style="height:.47rem" :style="{'padding-top':$store.state.paddingTop}"> </div>
-		<div class="article" @scroll="handleScroll" ref="article">
+		<div class="article">
 			<ul :model="article">
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
 					<li v-for="(items,inx) in article" :key="inx">
@@ -33,15 +33,15 @@
 				</van-list>
 			</ul>
 		</div>
-		<div class="returnTop" @click="$refs.article.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
 	</div>
+</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "../function/topSolt.vue"
 export default {
   name: 'hospital',
   data () {
@@ -51,14 +51,14 @@ export default {
 		loading: false,
 		finished: false,
 		page:1,
-		kw: '',
-		hospitalReturnTopPage:false,
-		scrollTop:0
+    	kw: ''
     }
   },
   computed:{
+	  ...mapGetters(['account']),
   },
   components:{
+	  topSolt
   },
   created () {
 
@@ -87,23 +87,11 @@ export default {
 				ps : 10
 			})
 		}
-		if(this.scrollTop != 0){
-			this.$refs.article.scrollTop = this.scrollTop;
-		}
     },
   methods: {
-	  // 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.article.scrollTop || this.$refs.article.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
-		goBackFn(){
-		this.$router.back()
-		},
+    goBackFn(){
+      this.$router.back()
+    },
 	  getdata(_data){
 	  	this.$axios.post('/c2/article/items',qs.stringify(_data))
 	  	.then(res => {
@@ -154,15 +142,10 @@ export default {
 <style scoped>
 .hospital{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
 }
 .topNav{
 	width: 100%;
-	height: .47rem;
-	position: fixed;
-	background-color: #FFFFFF;
-	z-index: 9
+	height: .42rem;
 }
 .leftImg{
 	width: 10%;
@@ -219,17 +202,12 @@ export default {
 	font-size: .12rem;
 }
 .article{
-	width: 100%;
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
-}
-.article ul{
 	width: 91.5%;
 	margin: 0rem auto;
+}
+.article ul{
 	margin-top: .2rem;
+	width: 100%;
 }
 .article ul li {
 	width: 100%;

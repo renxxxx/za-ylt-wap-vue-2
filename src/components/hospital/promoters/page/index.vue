@@ -1,11 +1,11 @@
 <template>
 	<div class="index" id="promotersIndex">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
-			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
-				<h3>—&nbsp;&nbsp;推广人端&nbsp;&nbsp;—</h3>
-			</div>
-			<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-			<div class="indexList" @scroll="handleScroll" ref="indexList"> 
+		<topSolt>
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" slot="returnTopSolt">
+				<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
+					<h3>—&nbsp;&nbsp;推广人端&nbsp;&nbsp;—</h3>
+				</div>
+				<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
 				<div class="typeNav">
 					<!-- <router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}"> -->
 					<img src="../../../../assets/image/qudaomenzhen@2.png" alt="" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime()}})">
@@ -79,19 +79,19 @@
 						</li>
 					</ul>
 				</div>
-				<!-- <div style="height: .5rem;"></div> -->
-			</div>
-		</van-pull-refresh>
-		<div class="returnTop" @click="$refs.indexList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+				<div style="height: .5rem;"></div>
+			</van-pull-refresh>
+		</topSolt>
 	</div>
 
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "../../function/topSolt.vue";
+
 export default {
 	name: 'index',
 	data () {
@@ -99,14 +99,13 @@ export default {
 			article: [],
 			qualityCase : [],
 			pullingDown: false,
-			scrollTop:0,
-     		hospitalReturnTopPage:false,
 		}
 	},
 	computed:{
+	  ...mapGetters(["account"])
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
 
@@ -126,21 +125,10 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-		}
-		if(this.scrollTop != 0){
-			this.$refs.indexList.scrollTop = this.scrollTop;
+			this.initData();
 		}
     },
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.indexList.scrollTop || this.$refs.indexList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		afterPullDown() {
 			//下拉刷新
 			setTimeout(() => {
@@ -153,8 +141,8 @@ export default {
 			let thisVue=this;
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 				this.$toast({message:'请登录',onClose:function(){
-					thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
-				}})
+		  thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
+		}})
 
 		  this.$axios.post("/c2/article/items",qs.stringify({
 		        hospitalId: this.$store.state.hospital.login.hospital.hospitalId,
@@ -177,7 +165,9 @@ export default {
 		        }
 		      }
 		    })
-		    .catch(err => {});
+		    .catch(err => {
+		      
+		    });
 			this.$axios.post('/c2/activity/items',qs.stringify({
 				hospitalId: this.$store.state.hospital.login.hospital.hospitalId,
 				pn : 1,
@@ -186,6 +176,7 @@ export default {
 			.then(res => {
 				if(res.data.data.items.length != 0){
 					for(let i in res.data.data.items){
+						// 
 						if(res.data.data.items[i]){
 							this.qualityCase.push({
 								content:res.data.data.items[i].title,
@@ -194,10 +185,15 @@ export default {
 								itemId : res.data.data.items[i].itemId,
 							})
 						}
+
+
 					}
 				}
 			})
-			.catch((err)=>{})
+			.catch((err)=>{
+				
+				//Dialog({ message: '加载失败!'});
+			})
 		},
 	},
 }
@@ -206,8 +202,6 @@ export default {
 <style scoped>
 .index{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
 	background-color: #F5F5F5;
 }
 .topNav{
@@ -375,16 +369,5 @@ export default {
 	position: absolute;
 	bottom: .15rem;
 	left: .2rem;
-}
-.indexList{
-	width: 100%;
-	height: calc(100% - .98rem);
-  	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

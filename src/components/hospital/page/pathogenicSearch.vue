@@ -107,40 +107,39 @@ import qs from "qs";
 import { Dialog } from "vant";
 import moment from 'moment'
 import Vue from 'vue'
+import topSolt from "../function/topSolt.vue";
 export default {
   name: "index_search",
   data() {
     return {
       timer: undefined,
-      items:[],
+	  items:[],
       keywords: "", //搜索框的关键字value
       pullingDown: false,
-      // lable的dom节点
-      labelDocument:['labelDocument','labelDocument2','labelDocument3','labelDocument4','labelDocument5','labelDocument6'],
-      //筛选数据
-      Time:{
-        look:'',
-        noLook:'',
-        confirmStart : undefined,
-        confirmOver : undefined,
-        pushStart : undefined,
-        pushOver : undefined,
-        postState : undefined,
-      },
-      dateStata : '',
-      loading: false,
-      // 加载状态结束
-      finished: false,
-      page:0,
-      noItems:[],
-      test:'',
-      query:'',
-      scrollTop:0,
-      hospitalReturnTopPage:false,
+	  // lable的dom节点
+	  labelDocument:['labelDocument','labelDocument2','labelDocument3','labelDocument4','labelDocument5','labelDocument6'],
+	  //筛选数据
+	  Time:{
+	  	look:'',
+	  	noLook:'',
+	  	confirmStart : undefined,
+	  	confirmOver : undefined,
+	  	pushStart : undefined,
+	  	pushOver : undefined,
+	  	postState : undefined,
+	  },
+	  dateStata : '',
+	  loading: false,
+	  // 加载状态结束
+	  finished: false,
+	  page:0,
+	  noItems:[],
+     test:'',
+		 query:''
     };
   },
   computed: {
-    ...mapGetters(["showTime"]),
+    ...mapGetters(["showTime", "detail", "account",'isLogin']),
     show: {
       get: function() {
         // 
@@ -180,31 +179,45 @@ export default {
 
   },
   components: {
-    
+    topSolt
   },
   created() {
 
   },
  
   mounted() {
-
+    console.log('mounted')
+ //    if (window.plus) {
+ //      //plus.navigator.setStatusBarBackground("#ffffff");
+ //      plus.navigator.setStatusBarStyle("dark");
+ //    }
+	// // 
+ //    this.initData();
+ //    if(this.$route.query.show == 'false'){
+ //      this.hospitalReturnHomePage = false;
+       
+ //    }else{
+ //      // this.hospitalReturnHomePage = this.$route.query.show
+ //    }
+ //    // console.dir(this.$route.query.show)
+ //    // 
+ //    // 
+ //    // this.$route.query.show? '':this.hospitalReturnHomePage = this.$route.query.show
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-      debugger
-      this.initData();
       this.query = JSON.stringify(this.$route.query);
+          console.log('activated')
+
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+			this.initData();
 			if(this.$route.query.show == 'false'){
 			  this.hospitalReturnHomePage = false;
       }
       this.nextPageFn();
-    }
-    if(this.scrollTop != 0){
-			this.$refs._search.scrollTop = this.scrollTop
 		}
 	},
   methods: {
@@ -351,6 +364,7 @@ export default {
     },
     //关闭半遮罩
     closeFn(){
+    	// 
     	this.showTime = false;
     },
     // 确定选择的日期

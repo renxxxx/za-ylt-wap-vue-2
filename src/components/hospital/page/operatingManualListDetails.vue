@@ -74,10 +74,11 @@
 
       </div>
     </div>
-    <div class="returnTop" @click="$refs.operatingManualListDetails.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-        <img src="../../../assets/image/returnTop.png" alt />
-        <span>顶部</span>
-      </div>
+   <!-- <div class="addImg">
+      <router-link :to="{name: 'hospital_operatingManualListDetailsAdd',query:{operatingManualSectionId:this.$route.query.operatingManualSectionId}}">
+        <img src="../../../assets/image/add copy@2x.png" alt="">
+      </router-link>
+    </div> -->
   </div>
 </template>
 
@@ -100,9 +101,7 @@ export default {
       page : 1,
       text: '',
       test: '',
-      query:'',
-      scrollTop:0,
-      hospitalReturnTopPage:false,
+			query:''
     }
   },
   computed:{
@@ -121,31 +120,15 @@ export default {
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-      Object.assign(this.$data, this.$options.data());
-      this.query = JSON.stringify(this.$route.query);
+			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
-      }
+			}
 			this.getdata()
-    }
-    
-    if(this.scrollTop != 0){
-			this.$refs.operatingManualListDetails.scrollTop = this.scrollTop
 		}
 	},
   methods: {
-    // 滑动一定距离出现返回顶部按钮
-    handleScroll() {
-      // debug  ger
-      this.scrollTop = this.$refs.operatingManualListDetails.scrollTop || this.$refs.operatingManualListDetails.pageYOffset
-      // console.log(this.scrollTop)
-      if (this.scrollTop > 800) {
-        this.hospitalReturnTopPage = true;
-      } else {
-        this.hospitalReturnTopPage = false;
-      }
-    },
     //回退方法
     goBackFn(){
       if(this.show){
@@ -318,7 +301,6 @@ export default {
   width: 100%;
   background-color: #F5F5F5;
   position: relative;
-  overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -350,11 +332,6 @@ export default {
 }
 .operatingManualListDetails ul{
   width: 100%;
-  height: 100%;
-  touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  overflow: scroll;
-  overflow-x: hidden;
 }
 .operatingManualListDetails ul>li{
   width: 100%;
@@ -483,8 +460,5 @@ export default {
 	bottom: 0;
 	left: 0;
 	right: 0;
-}
->>>.van-list{
-  height: calc(100% - 1.21rem);
 }
 </style>

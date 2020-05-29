@@ -78,6 +78,7 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -85,10 +86,8 @@ export default {
 			}
 			this.getdata();
 		}
-		// localStorage.getItem('address')
   	},
 	methods: {
-
 		goBackFn(){
 			this.$router.back(-1);
 		},

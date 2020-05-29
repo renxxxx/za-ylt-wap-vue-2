@@ -1,59 +1,64 @@
 <template>
+<!-- <topSolt>  -->
 	<div class="productsExchange">
 		<div class="title" v-show="show? true : false">
-			<span>热门兑换</span>
+			<h3>热门兑换</h3>
 			<router-link :to="{path : '/outpatient/outpatient_ExchangeList',query:{}}">
-				<span>更多</span>
+				<h3>更多</h3>
 			</router-link>
 		</div>
-		<div class="productsExchangeList" @scroll="handleScroll" ref="productsExchangeList">
-			<van-list  v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-					<li v-for="(item,inx) in list" :key='inx'>
-					<router-link :to="{path : '/outpatient/outpatient_integralShop',query : {commodityId : item.commodityId,}}">
-						<div class="productsImg">
-						<img :src="item.cover" alt="">
-						</div>
-						<h4>{{item.name}}</h4>
-						<p><span>{{item.payExchangepoint}}</span> 积分</p>
-						<button>立即兑换</button>
-					</router-link>
-					</li>
-				</ul>
-			</van-list>
+	
+		<van-list  v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+		<ul>
+			<li v-for="(item,inx) in list" :key='inx'>
+			<router-link :to="{path : '/outpatient/outpatient_integralShop',query : {commodityId : item.commodityId,}}">
+				<div class="productsImg">
+				<img :src="item.cover" alt="">
+				</div>
+				<h4>{{item.name}}</h4>
+				<p><span>{{item.payExchangepoint}}</span> 积分</p>
+				<button>立即兑换</button>
+			</router-link>
+			</li>
+		</ul>
+		</van-list>
 
-		</div>
-		<div class="returnTop" @click="$refs.productsExchangeList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
 	</div>
+<!-- </topSolt> -->
 </template>
 
 <script>
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "./topSolt.vue";
 export default {
 	name: 'integralExchangeList',
 	data () {
 		return {
 			list : [],
-			loading: false,
-			finished: false,
-			page: 0,
-			hospitalReturnTopPage:false,
-			scrollTop:0
+      loading: false,
+      finished: false,
+      page: 0,
 		}
 	},
 	computed:{
+		...mapGetters(['account'])
 	},
 	components:{
+		topSolt
 	},
 	created () {
 
 	},
+	props:['show'],
   	mounted() {
+		// if(window.plus){
+		// 	//plus.navigator.setStatusBarBackground("#ffffff");
+		// 	plus.navigator.setStatusBarStyle("dark")
+		// }
+
+
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -62,9 +67,6 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-		}
-		if(this.scrollTop != 0){
-			this.$refs.productsExchangeList.scrollTop = this.scrollTop;
 		}
     },
 	methods: {
@@ -113,9 +115,9 @@ export default {
 
 <style scoped>
 .productsExchange{
-	width: 100%;
+	width: 90.4%;
 	background-color: #FFFFFF;
-	/* padding: .12rem 4.8%; */
+	padding: .12rem 4.8%;
 	height: calc(100% - 2.28rem);
 	overflow: hidden;
 }
@@ -126,29 +128,20 @@ export default {
   	overflow: scroll;
   	overflow-x: hidden;
 }
-.title{
-	width: 90.4%;
-	margin: 0rem auto;
-	/* height: .37rem; */
-	/* line-height: .37rem */
-}
-.title span{
+.title h3{
 	color: #333333;
 	font-size: .15rem;
 	font-weight: bolder;
-	/* margin-bottom: .15rem; */
+	padding-bottom: .15rem;
 	display: inline-block;
-	height: .37rem;
-	line-height: .37rem
 }
 .title>a{
 	float: right;
 }
-.productsExchangeList ul{
-	width: 90.4%;
-	margin: 0rem auto;
+.productsExchange ul{
+	width: 100%;
 }
-.productsExchangeList ul li{
+.productsExchange ul li{
 	width: 48%;
 	height: 2.11rem;
 	display: inline-block;
@@ -157,7 +150,7 @@ export default {
 	border: 1px solid #E5E5E5;
 	margin-bottom: .09rem;
 }
-.productsExchangeList ul li:nth-child(2n){
+.productsExchange ul li:nth-child(2n){
 	margin-left: .09rem;
 }
 .productsImg{

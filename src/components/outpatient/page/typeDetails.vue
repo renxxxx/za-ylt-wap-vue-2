@@ -1,84 +1,85 @@
 <template>
-	<div class="typeDetails">
+<topSolt>
+	<div class="typeDetails" slot="returnTopSolt">
 		<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
 			<img src="../../../assets/image/shape@3x.png" alt=""  @click="goBackFn"  id="navback"  :style="{'padding-top':$store.state.paddingTop}">
 			<h3>{{this.about.name}}</h3>
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="typeDetailsList" @scroll="handleScroll" ref="typeDetailsList">
-			<div class="typeTItle" v-show="!this.doctor||this.doctor.length==0? false:true">
-				<h4 class="xia">科室医生</h4>
-				<ul ref='scrollId'>
-					<li v-for="(item,inx) in doctor" :key="inx" @click='doctorAboutFn(item)'>
-						<img :src="item.headimg" alt="">
-						<h5>{{item.name}}</h5>
-						<p>{{item.hosptialName}}</p>
-					</li>
-				</ul>
-				<van-popup v-model="show">
-					<div class="popup">
-						<img src="../../../assets/image/Bookmark@2x.png" alt="">
-						<div class="popupTitle">
-							<img :src="doctorAbout.headimg" alt="">
-							<h5>{{doctorAbout.name}}<span>{{doctorAbout.jobTitles}}</span></h5>
-							<p>{{doctorAbout.hosptialName}}</p>
-							<p>{{doctorAbout.intro}}</p>
-						</div>
-						<img src="../../../assets/image/close2@2x.png" alt="" @click='show = false'>
+		<div class="typeTItle" v-show="!this.doctor||this.doctor.length==0? false:true">
+			<h4 class="xia">科室医生</h4>
+			<ul ref='scrollId'>
+				<li v-for="(item,inx) in doctor" :key="inx" @click='doctorAboutFn(item)'>
+					<img :src="item.headimg" alt="">
+					<h5>{{item.name}}</h5>
+					<p>{{item.hosptialName}}</p>
+				</li>
+			</ul>
+			<van-popup v-model="show">
+				<div class="popup">
+					<img src="../../../assets/image/Bookmark@2x.png" alt="">
+					<div class="popupTitle">
+						<img :src="doctorAbout.headimg" alt="">
+						<h5>{{doctorAbout.name}}<span>{{doctorAbout.jobTitles}}</span></h5>
+						<p>{{doctorAbout.hosptialName}}</p>
+						<p>{{doctorAbout.intro}}</p>
 					</div>
-				</van-popup>
+					<img src="../../../assets/image/close2@2x.png" alt="" @click='show = false'>
+				</div>
+			</van-popup>
 
-			</div>
-			<div class="typeContent" v-show="this.about.content? true:false">
-				<h4 class="xia">科室简介</h4>
-				<div class="contentP">
-					<p>{{this.about.content}}</p>
-					<img :src="img" v-for='(img,inx) in about.image' :key='inx' alt="">
-				</div>
-			</div>
-			<div class="typeContent" v-show="this.about.shiYingZheng? true:false">
-				<h4 class="xia">适应症状</h4>
-				<ul>
-					<li v-for='(item,inx) in this.about.shiYingZheng' :key='inx'>
-						<div style="display: -webkit-box;
-						-webkit-line-clamp: 1;
-						-webkit-box-orient: vertical;
-						overflow: hidden;
-						word-break: break-all;
-						word-wrap: break-word;">
-							{{item}}
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div class="typeContent" v-show="this.about.zhenLiaoJiShu? true:false">
-				<h4 class="xia">诊疗技术</h4>
-				<div class="contentP">
-					<p>{{this.about.zhenLiaoJiShu}}</p>
-				</div>
-			</div>
-			<div class="typeContent" v-show="this.about.teSe? true:false">
-				<h4 class="xia">诊疗特色</h4>
-				<div class="contentP">
-					<p>{{this.about.teSe}}</p>
-				</div>
-			</div>
-			<div class="typeContent" v-show="this.about.youShi? true:false">
-				<h4 class="xia">科室优势</h4>
-				<div class="contentP">
-					<p>{{this.about.youShi}}</p>
-				</div>
+		</div>
+		<div class="typeContent" v-show="this.about.content? true:false">
+			<h4 class="xia">科室简介</h4>
+			<div class="contentP">
+				<div style="text-indent:2em;word-break: break-all;word-wrap: break-word;white-space: pre-line;"	>{{this.about.content}}</div>
+				<img :src="img" v-for='(img,inx) in about.image' :key='inx' alt="">
 			</div>
 		</div>
-		<div class="returnTop" @click="$refs.typeDetailsList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
+		<div class="typeContent" v-show="this.about.shiYingZheng? true:false">
+			<h4 class="xia">适应症状</h4>
+			<ul>
+				<li v-for='(item,inx) in this.about.shiYingZheng' :key='inx'>
+					<div style="display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;">
+						{{item}}
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<div class="typeContent" v-show="this.about.zhenLiaoJiShu? true:false">
+			<h4 class="xia">诊疗技术</h4>
+			<div class="contentP">
+				<div style="text-indent:2em;word-break: break-all;word-wrap: break-word;white-space: pre-line;">{{this.about.zhenLiaoJiShu}}</div>
+			</div>
+		</div>
+		<div class="typeContent" v-show="this.about.teSe? true:false">
+			<h4 class="xia">诊疗特色</h4>
+			<div class="contentP">
+				<div style="text-indent:2em;word-break: break-all;word-wrap: break-word;white-space: pre-line;">{{this.about.teSe}}</div>
+			</div>
+		</div>
+		<div class="typeContent" v-show="this.about.youShi? true:false">
+			<h4 class="xia">科室优势</h4>
+			<div class="contentP">
+				<div style="text-indent:2em;word-break: break-all;word-wrap: break-word;white-space: pre-line;"	>{{this.about.youShi}}</div>
+			</div>
 		</div>
 	</div>
+</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import Dialog from 'vant';
+import topSolt from "../function/topSolt.vue"
 export default {
 	name: 'case',
 	data () {
@@ -86,20 +87,25 @@ export default {
 			doctor:[],
 			show: false,
 			doctorAbout:{},
-			about:{},
-			hospitalReturnTopPage:false,
-			scrollTop:0,
+			about:{}
 		}
 	},
 	computed:{
+		...mapGetters(['account']),
 	},
 	components:{
+		topSolt
 	},
 	created(){
 
 	},
  
 	mounted(){
+		// if(window.plus){
+		// 	//plus.navigator.setStatusBarBackground("#ffffff");
+		// 	plus.navigator.setStatusBarStyle("dark")
+		// }
+		// this.getData();
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -111,20 +117,8 @@ export default {
 			}
 			this.getData()
 		}
-		if(this.scrollTop != 0){
-			this.$refs.typeDetailsList.scrollTop = this.scrollTop;
-		}
   	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.typeDetailsList.scrollTop || this.$refs.typeDetailsList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1)
@@ -370,13 +364,5 @@ export default {
 .popupTitle p:last-child{
 	color: #666666;
 	text-align: left;
-}
-.typeDetailsList{
-	width: 100%;
-	height: calc(100vh - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
 }
 </style>

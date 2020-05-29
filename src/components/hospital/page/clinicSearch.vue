@@ -9,6 +9,7 @@
 					<div class="clinic_search">
 						<img src="../../../assets/image/sousuo@2x.png" alt="">
 						<input type="search" v-focus='true' placeholder="搜索门诊"  v-model="keywords" @keyup.enter="inputNow">
+			<!-- <img src="../../../assets/image/X Copy@2x.png" alt="" class="closeImg" @click="emptyAccountFn()" v-if="keywords"> -->
 					</div>
 					<div class="clinic_buttton" @click="inputNow">
 						<button>搜索</button>
@@ -37,6 +38,7 @@ import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import clinicContent from '../function/clinic_content.vue'
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'search',
 	data () {
@@ -55,11 +57,11 @@ export default {
 	},
 	components:{
 		clinicContent,
+		topSolt
 	},
 	created(){
 	},
-
-  	mounted() {
+  mounted() {
 		// if(window.plus){
 		// 	//plus.navigator.setStatusBarBackground("#ffffff");
 		// 	plus.navigator.setStatusBarStyle("dark")
@@ -73,10 +75,6 @@ export default {
 		// 	})
 	},
 	activated() {
-		if(window.plus){
-			//plus.navigator.setStatusBarBackground("#ffffff");
-			plus.navigator.setStatusBarStyle("dark")
-		}
 		if(this.query != JSON.stringify(this.$route.query)){
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
@@ -150,10 +148,6 @@ export default {
 .search_clinic{
 	width: 100%;
 	height: 100%;
-	/* touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
- 	overflow: scroll;
- 	overflow-x: hidden; */
 }
 .navWarp{
 	width: 100%;
@@ -257,13 +251,11 @@ export default {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-	height: 100%;
-	overflow: hidden;
     /* margin-top: .98rem!important; */
 }
 .content{
     width: 100%;
-    height: calc(100% - .98rem);
+    height: 100%;
     /* margin-top: .98rem; */
 }
 

@@ -1,5 +1,6 @@
 <template>
-	<div class="message">
+<topSolt>
+	<div class="message" slot="returnTopSolt">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -11,36 +12,37 @@
 			</div>
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="content" @scroll="handleScroll" ref="content">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-				<li v-for="(item,inx) in clinicMessage" :key='inx'>
-					<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
-					<div class="triangle_border_up">
-						<span></span>
-					</div>
-					<div class="contentTitle">
-						<span>{{item.realname}}</span>
-						<span>所属：{{item.clinicName}}</span>
-						<span>时间 : {{moment(item.pushTime).format('YYYY-MM-DD HH:MM')}}</span>
-					</div>
-					<div class="contentTel">
-						<span>去联系</span>
-					</div>
-					</router-link>
-				</li>
-				</ul>
-			</van-list>
-		</div>
-		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
+		<div class="content">
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <ul>
+          <li v-for="(item,inx) in clinicMessage" :key='inx'>
+            <router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
+              <div class="triangle_border_up">
+                <span></span>
+              </div>
+              <div class="contentTitle">
+                <span>{{item.realname}}</span>
+                <span>所属：{{item.clinicName}}</span>
+                <span>时间 : {{moment(item.pushTime).format('YYYY-MM-DD HH:MM')}}</span>
+              </div>
+              <div class="contentTel">
+                <span>去联系</span>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+      </van-list>
 		</div>
 	</div>
+</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import { Dialog } from 'vant'
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'case',
 	data () {
@@ -49,17 +51,26 @@ export default {
 			loading: false,
 			finished: false,
 			page: 0,
-			hospitalReturnTopPage:false,
-			scrollTop:0
 		}
 	},
 	computed:{
+	  ...mapGetters(['account']),
 	},
 	components:{
+		topSolt
 	},
 	created(){
+		// var heightRexg = /^[0-9]*/g
+		//var topHeight = this.topHeight.match(heightRexg)
+		//this.height = parseInt(topHeight.join())
 	},
  	mounted() {
+	  debugger
+		if(window.plus){
+			//plus.navigator.setStatusBarBackground("#ffffff");
+			plus.navigator.setStatusBarStyle("dark")
+		}
+
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -69,20 +80,8 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.content.scrollTop = this.scrollTop;
-		}
     },
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1)
@@ -121,8 +120,6 @@ export default {
 <style scoped>
 .message{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
 }
 .topNav{
 	width: 100%;
@@ -166,11 +163,6 @@ export default {
 }
 .content{
 	width: 100%;
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
 }
 .content ul{
 	width: 91.46%;

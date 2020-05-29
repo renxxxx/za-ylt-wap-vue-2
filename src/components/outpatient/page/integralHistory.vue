@@ -9,30 +9,24 @@
     	</div>
     	<div class="right"></div>
     </div>
-	<div class="zhangwei"></div>
-	<div class="detailsTitle" :style="{'padding-top':$store.state.paddingTop}">
-		<img src="../../../assets/image/lishi.png" alt="">
-		<span>兑换历史记录</span>
-	</div>
-	<div class="integralHistoryList"  @scroll="handleScroll" ref="integralHistoryList">
-		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-			<ul>
-				<li v-for="(item,inx) in integralHistory" :key="inx">
-					<img :src="item.cover" alt="">
-					<div class="ulTitle">
-					<h4>{{item.name}}</h4>
-					<p>{{item.unitExchangePoint}} 积分/个</p>
-					<p>{{moment(item.orderTime).format('YYYY-MM-DD hh:mm')}}</p>
-					<span>数量 <strong>{{item.count}}</strong></span>
-					</div>
-				</li>
-			</ul>
-		</van-list>
-	</div>
-    <div class="returnTop" @click="$refs.integralHistoryList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-		<img src="../../../assets/image/returnTop.png" alt />
-		<span>顶部</span>
-	</div>
+		<div class="zhangwei"></div>
+    <div class="detailsTitle" :style="{'padding-top':$store.state.paddingTop}">
+      <img src="../../../assets/image/lishi.png" alt="">
+      <span>兑换历史记录</span>
+    </div>
+	<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+		<ul>
+		  <li v-for="(item,inx) in integralHistory" :key="inx">
+			<img :src="item.cover" alt="">
+			<div class="ulTitle">
+			  <h4>{{item.name}}</h4>
+			  <p>{{item.unitExchangePoint}} 积分/个</p>
+			  <p>{{moment(item.orderTime).format('YYYY-MM-DD hh:mm')}}</p>
+			  <span>数量 <strong>{{item.count}}</strong></span>
+			</div>
+		  </li>
+		</ul>
+	</van-list>
   </div>
 </template>
 
@@ -49,39 +43,37 @@ export default {
 		loading: false,
 		finished: false,
 		page: 0,
-		hospitalReturnTopPage:false,
-		scrollTop:0,
     }
   },
   computed:{
 	...mapGetters(['account'])
   },
   created(){
+  	var heightRexg = /^[0-9]*/g
+  	//var topHeight = this.topHeight.match(heightRexg)
+  	//this.height = parseInt(topHeight.join())
+  	//
   },
   mounted() {
+		// if(window.plus){
+		// 	//plus.navigator.setStatusBarBackground("#ffffff");
+		// 	plus.navigator.setStatusBarStyle("dark")
+		// }
+
+
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-		}
-		if(this.scrollTop != 0){
-			this.$refs.integralHistoryList.scrollTop = this.scrollTop;
+			this.onLoad()
 		}
   	},
   methods: {
-	// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.integralHistoryList.scrollTop || this.$refs.integralHistoryList.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
     goBackFn(){
       this.$router.back(-1);
     },
@@ -124,9 +116,8 @@ export default {
 <style scoped>
 .integralHistory{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	background-color: #F5F5F5;
+  height: 100%;
+  background-color: #F5F5F5;
 }
 .topNav{
 	width: 100%;
@@ -225,13 +216,5 @@ export default {
 }
 .ulTitle span strong{
   color: #333333;
-}
-.integralHistoryList{
-	width: 100%;
-	height: calc(100vh - 1.01rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
 }
 </style>

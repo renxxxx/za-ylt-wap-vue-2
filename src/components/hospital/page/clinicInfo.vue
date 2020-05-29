@@ -119,7 +119,7 @@ export default {
 				readonly : '',
 				clinicPromoterId : '',
 				hospitalUserId : '',
-       			promoter:'请选择'
+        promoter:'请选择'
 			},
 			// 上传图片弹窗显示
 			show: false,
@@ -127,16 +127,23 @@ export default {
 			query:''
 		}
 	},
- 	activated() {
-	  if(localStorage.getItem('list_promoterValue') || localStorage.getItem('list_promoterId')){
-			  debugger
-			delete this.addClinic.promoter;
-			// this.addClinic.promoter = localStorage.getItem('list_promoterValue')
-			// this.addClinic.hospitalUserId = localStorage.getItem('list_promoterId')
-  			Vue.set(this.addClinic,'promoter',localStorage.getItem('list_promoterValue'));
-			Vue.set(this.addClinic,'hospitalUserId',localStorage.getItem('list_promoterId'));
-			// console.log(localStorage.getItem('list_promoterId'))
-			localStorage.clear('promoter','hospitalUserId');
+	computed:{
+		...mapGetters(['account']),
+	},
+	components:{
+	},
+	created(){
+		var heightRexg = /^[0-9]*/g
+		//var topHeight = this.topHeight.match(heightRexg)
+		//this.height = parseInt(topHeight.join())
+		//
+	},
+  activated() {
+  	if(this.query != JSON.stringify(this.$route.query)){
+  		this.query = JSON.stringify(this.$route.query);
+  		if(window.plus){
+  			//plus.navigator.setStatusBarBackground("#ffffff");
+  			plus.navigator.setStatusBarStyle("dark")
   		}
   		if(this.query != JSON.stringify(this.$route.query)){
 			  Object.assign(this.$data, this.$options.data());
@@ -149,46 +156,51 @@ export default {
 			
 			this.clinicFn()
   		}
- 	},
- 	mounted() {
+		this.$route.query.item? this.clinicFn() : ""
+  	}
+  },
+  mounted() {
+     
+		// 
+		
 	},
 	methods: {
-		clinicFn(){
-		this.$axios.get('/hospital/super-admin/hospital-clinic/'+this.$route.query.item)
-		.then(_d => {
-			this.addClinic = {
-				name : _d.data.data.name,
-				phone : _d.data.data.clinicUserPhone,
-				pwd :'',
-				headmanName : _d.data.data.headman,
-				contactTel : _d.data.data.tel,
-				address : _d.data.data.address,
-				remark : _d.data.data.remark,
-				hospitalUserId : _d.data.data.hospitalUserId,
-			},
-			_d.data.data.hospitalUserName? this.addClinic.promoter = _d.data.data.hospitalUserName: ''
-			this.$route.query.promoterValue? this.addClinic.promoter = this.$route.query.promoterValue:''
-			// if(_d.data.data.hospitalUserName){
+    clinicFn(){
+      this.$axios.get('/hospital/super-admin/hospital-clinic/'+this.$route.query.item)
+      .then(_d => {
+          this.addClinic = {
+            name : _d.data.data.name,
+            phone : _d.data.data.clinicUserPhone,
+            pwd :'',
+            headmanName : _d.data.data.headman,
+            contactTel : _d.data.data.tel,
+            address : _d.data.data.address,
+            remark : _d.data.data.remark,
+            hospitalUserId : _d.data.data.hospitalUserId,
+          },
+          _d.data.data.hospitalUserName? this.addClinic.promoter = _d.data.data.hospitalUserName: ''
+          this.$route.query.promoterValue? this.addClinic.promoter = this.$route.query.promoterValue:''
+        // if(_d.data.data.hospitalUserName){
 
-			// }
-			// 
-			this.imageUpload = _d.data.data.license
-			// this.$axios.get('/hospital/def/hospital-operator-users?'+qs.stringify({hospitalUserId:this.addClinic.hospitalUserId}))
-			// .then(res => {
-			// 	// 
-			// 	// this.promoter= this.option.find((n)=>n.text == res.data.data.rows[0].name)
-			// 	this.value = promoter
-			// 	// 
-			// })
-			// .catch((err)=>{
-			// 	
-			// })
-		})
-		.catch((err)=>{
-			
-			//Dialog({ message: err});;
-		})
-		},
+        // }
+		// 
+      	this.imageUpload = _d.data.data.license
+		// this.$axios.get('/hospital/def/hospital-operator-users?'+qs.stringify({hospitalUserId:this.addClinic.hospitalUserId}))
+		// .then(res => {
+		// 	// 
+		// 	// this.promoter= this.option.find((n)=>n.text == res.data.data.rows[0].name)
+		// 	this.value = promoter
+		// 	// 
+		// })
+		// .catch((err)=>{
+		// 	
+		// })
+      })
+      .catch((err)=>{
+      	
+      	//Dialog({ message: err});;
+      })
+    },
 		// 返回键
 		goBackFn(){
 			this.$router.back()

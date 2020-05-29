@@ -1,6 +1,7 @@
 <template>
 	<div class="hospital" :style="{'padding-top':$store.state.paddingTop}">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+		<topSolt>
+		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" slot="returnTopSolt">
 			<div class="navWarp">
 				<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
 					<div class="hospital_search" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime()}})">
@@ -10,7 +11,7 @@
 						<!-- </router-link> -->
 					</div>
 				</div>
-				<div class="statisticalTitle">
+				<div class="statisticalTitle" v-model="clinic">
 					<h3>合作门诊 {{clinic.num}}</h3>
 					<div class="statisticalAdd" @click="$router.push({path:'/promoters/promoters_addClinic',query:{time: new Date().getTime()}})">
 						<!-- <router-link :to="{path : '/promoters/promoters_addClinic',query:{}}"> -->
@@ -21,7 +22,7 @@
 				</div>
 			</div>
 			<div class="zhangwei" ></div>
-			<div class="content" ref="content" @scroll="handleScroll">
+			<div class="content">
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content	 -->
@@ -38,16 +39,17 @@
 				</ul>
 			</div>
 		</van-pull-refresh>
-		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+		</topSolt>
 		<div style="height: .5rem;"></div>
 	</div>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import { Dialog } from 'vant'
+import topSolt from "../../function/topSolt.vue";
 // import clinicContent from './functionPage/clinic_content.vue'
 export default {
 	name: 'clinic',
@@ -63,13 +65,21 @@ export default {
 			page:0,
 			hospitalReturnTopPage:false,
 		 	show:false,
+			page:1
 		}
 	},
 	computed:{
+	  ...mapGetters(['account'])
 	},
 	components:{
+		topSolt
 	},
 	created(){
+		debugger
+		var heightRexg = /^[0-9]*/g
+		//var topHeight = this.topHeight.match(heightRexg)
+		//this.height = parseInt(topHeight.join())
+		//
 	},
   	destroyed(){	  
  	},
@@ -86,21 +96,9 @@ export default {
 			// 加载dom节点后,获取推广人列表请求
 			this.getNextPage();
 		}
-		if(this.scrollTop != 0){
-			this.$refs.content.scrollTop = this.scrollTop;
-		}
     },
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
-		afterPullDown() {
+		 afterPullDown() {
 			//下拉刷新
 		  setTimeout(() => {
 			this.pullingDown = false;
@@ -110,19 +108,21 @@ export default {
 		initData() {
 			let thisVue=this;
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
-				this.$toast({message:'请登录',onClose:function(){
-					thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
-				}})
-			Object.assign(this.$data, this.$options.data());
-			// this.$refs.clinic.initData();
-			this.$axios.get('/hospital/operator/hospital-clinics-sum?')
-			.then(res => {
-				this.clinic.num = res.data.data.rowCount;
-			})
-			.catch((err)=>{
-				
-			})
-			this.getNextPage();
+		this.$toast({message:'请登录',onClose:function(){
+		  thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
+		}})
+
+
+		  Object.assign(this.$data, this.$options.data());
+		  // this.$refs.clinic.initData();
+		  this.$axios.get('/hospital/operator/hospital-clinics-sum?')
+		  .then(res => {
+		  	this.clinic.num = res.data.data.rowCount;
+		  })
+		  .catch((err)=>{
+		  	
+		  })
+		  this.getNextPage();
 		},
 		getNextPage(){
 			this.page++
@@ -161,7 +161,6 @@ export default {
 .hospital{
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
 	background-color: #FFFFFF;
 }
 .navWarp{
@@ -235,11 +234,7 @@ export default {
 
 .content{
 	width: 100%;
-	height: calc(100vh - 1.53rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
+	height: 100%;
 	/* margin-top: 2.1rem; */
 }
 .content ul{

@@ -35,13 +35,25 @@
 					<div class="navType_three" @click="xiaclickFn(2)">
 						<h5>已就诊{{yesItemsNum}}</h5>
 					</div>
+					<div id="navType">
+						<div class="navType_one" @click="xiaclickFn('all')">
+							<h5>全部{{itemsNum}}</h5>
+						</div>
+						<div class="navType_two" @click="xiaclickFn('no')">
+							<h5>未就诊{{yesItemsNum}}</h5>
+						</div>
+						<div class="navType_three" @click="xiaclickFn('yes')">
+							<h5>已就诊{{noItemsNum}}</h5>
+						</div>
 						<div ref="xiahuaxian" class="navType_line"></div>
 					</div>
 				</div>
+				
 				<div style="height:calc(100% - .8rem);margin-top:.8rem">
-					<div class="list" v-show="all" @scroll="handleScroll" ref="listAll">
-						<van-list  v-model="loading" :finished="finishedAll" finished-text="没有更多了"  @load="nextPageFn">
-							<ul :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}">
+					<topSolt v-if="all">
+						<van-list  v-model="loading" slot="returnTopSolt" :finished="finished" finished-text="没有更多了"  @load="nextPageFn">
+							<!-- <div style="height:.8rem" ></div> -->
+							<ul class="list"  :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}">
 								<!-- items -->
 								<li v-for="(item,inx) in items " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
@@ -109,17 +121,17 @@
 								</li>
 							</ul>
 						</van-list>
-					</div>
-			</div>
-		</van-pull-refresh>
-		<div class="returnTop" @click="returnTopFn" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+					</topSolt>
+				</div>
+			<!-- </van-pull-refresh> -->
   	</div>
 </template>
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters,mapState} from 'vuex'
 import qs from 'qs';
+import { Dialog } from 'vant'
+import topSolt from "../../function/topSolt.vue";
 export default {
   name: 'index',
   data () {
@@ -135,9 +147,7 @@ export default {
 		noItemsNum:'',
 		loading: false,
 		// 加载状态结束
-		finishedAll: false,
-		finishedYes: false,
-		finishedNo:false,
+		finished: false,
 		page:0,
 		yesPage:0,
 		noPage:0,
@@ -146,11 +156,6 @@ export default {
 		no:false,
 		noData:true,
 		yesData:true,
-		scrollTopAll:0,
-		scrollTopYes:0,
-		scrollTopNo:0,
-		hospitalReturnTopPage:false,
-		clickData:0,
     }
   },
   created(){
@@ -158,129 +163,70 @@ export default {
   },
 
   mounted(){
-	
+    // if(window.plus){
+    // 	//plus.navigator.setStatusBarBackground("#2B77EF");
+    // 	plus.navigator.setStatusBarStyle("dark")
+    // }
+	// this.getAllNum();
+	let width = document.getElementById('navType').getBoundingClientRect().width/6
+	this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
-			let width = document.getElementById('navType').getBoundingClientRect().width/6
-			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.getAllNum();
-			this.nextPageFn();
-			this.yesNextPageFn();
 			this.noNextPageFn();
+			this.yesNextPageFn();
 		}
-		if(this.scrollTopAll != 0){
-			this.$refs.listAll.scrollTop = this.scrollTopAll;
-		}
-		if(this.scrollTopYes != 0){
-			this.$refs.listYes.scrollTop = this.scrollTopYes;
-		}
-		if(this.scrollTopNo != 0){
-			this.$refs.listNo.scrollTop = this.scrollTopNo;
-		}
-    },	
+    },
   computed:{
+		...mapGetters(['account']),
   },
   //注册组件
   components:{
-	 
+	 topSolt
   },
   methods:{
-	// 滑动一定距离出现返回顶部按钮
-	handleScroll() {
-		switch(this.clickData){
-			case 0:
-			this.scrollTopAll = this.$refs.listAll.scrollTop || this.$refs.listAll.pageYOffset
-			if (this.scrollTopAll > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			break;
-			case 1:
-			this.scrollTopNo = this.$refs.listNo.scrollTop || this.$refs.listNo.pageYOffset
-			if (this.scrollTopNo > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			break;
-			case 2:
-			this.scrollTopYes = this.$refs.listYes.scrollTop || this.$refs.listYes.pageYOffset
-			if (this.scrollTopYes > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			break;
-		}
-	},
-	returnTopFn(){
-		switch(this.clickData){
-			case 0:
-			this.$refs.listAll.scrollTop = 0;
-			break;
-			case 1:
-			this.$refs.listYes.scrollTop = 0;
-			break;
-			case 2:
-			this.$refs.listNo.scrollTop = 0;
-			break;
-		}
-		// this.$refs.indexList.scrollTop=0;
-		this.hospitalReturnTopPage = false;
-	},
 	xiaclickFn(_data){
-		let width = document.getElementById('navType').getBoundingClientRect().width/6;
-		this.clickData = _data;
+		
+		// console.log(document.getElementById('navType').getBoundingClientRect().width)
+		let width = document.getElementById('navType').getBoundingClientRect().width/6
+		// console.log(width)
 		switch(_data){
-			case 0:
+			case 'all':
 			this.all = true;
 			this.yes = false;
 			this.no = false;
+			// console.log('all')
 			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
-			if (this.scrollTopAll > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			this.$nextTick(()=>{
-				this.$refs.listAll.scrollTop = this.scrollTopAll
-			})
 			break;
-			case 1:
-			this.all = false;
-			this.yes = false;
-			this.no = true;
-			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width*3)+"px) translateX(-50%)"
-			if (this.scrollTopNo > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			this.$nextTick(()=>{
-				this.$refs.listNo.scrollTop = this.scrollTopNo
-			})
-			break;
-			case 2:
+			case 'yes':
 			this.all = false;
 			this.yes = true;
 			this.no = false;
+			// console.log('yes')
+			// if(this.yesData){
+			// 	this.yesNextPageFn();
+			// 	this.yesData = false;
+			// 	console.log(this.yesItems)
+			// }
 			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width*5)+"px) translateX(-50%)"
-			if (this.scrollTopYes > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			this.$nextTick(()=>{
-				this.$refs.listYes.scrollTop = this.scrollTopYes
-			})
+			break;
+			case 'no':
+			this.all = false;
+			this.yes = false;
+			this.no = true;
+			// if(this.noData){
+			// 	this.noNextPageFn();
+			// 	this.noData = false;
+			// 	console.log(this.noItems)
+			// }
+			// console.log('no')
+			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width*3)+"px) translateX(-50%)"
 			break;
 		}
 	},
@@ -292,13 +238,13 @@ export default {
 		}, 500);
 	},
 	initData() {
-		Object.assign(this.$data, this.$options.data());
-		let width = document.getElementById('navType').getBoundingClientRect().width/6
-		this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
-		this.getAllNum();
-		this.nextPageFn();
-		this.yesNextPageFn();
-		this.noNextPageFn();
+	  Object.assign(this.$data, this.$options.data());
+	  let width = document.getElementById('navType').getBoundingClientRect().width/6
+	  this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
+	  this.getAllNum();
+	  this.nextPageFn();
+	  this.yesNextPageFn();
+	  this.noNextPageFn();
 	},
 	getAllNum() {
 		var num = '';
@@ -318,108 +264,88 @@ export default {
 	goBackFn(){
 		this.$router.back()
 	},
-	// 获取下一页的方法
-	getDataAll(){
-		this.$axios.post('/c2/patient/items',qs.stringify({
-			hospitalId: this.$store.state.hospital.login.hospital.hospitalId,
-			hospitalUserId : this.$store.state.hospital.login.hospitalUserId,
-			pn : this.page,
-			ps : 10,
-		}))
-		.then(res => {
-			if(res.data.data.items.length != 0){
-				for (let nums in res.data.data.items) {
-					this.items.push({
-						clinicName : res.data.data.items[nums].clinicName,
-						itemId : res.data.data.items[nums].itemId,
-						pushTime : res.data.data.items[nums].pushTime,
-						realname : res.data.data.items[nums].realname,
-						status : res.data.data.items[nums].status,
-						img : require("../../../../assets/image/orange@2x.png"),
-						button : "确认就诊",
-						span : "未就诊"
-					});
-				}
-				// 加载状态结束
-				this.loading = false;
-			}else{
-				this.loading = false;
-				this.finishedAll = true;
-			}
-		})
-		.catch((err)=>{
-			//Dialog({ message: err});;
-		});
+	//显示筛选弹窗
+	showPopup() {
+	   this.show = true;
+	   // 
 	},
 	// 获取下一页的方法
-	getDataNo(){
+	getData(data,page){
 		this.$axios.post('/c2/patient/items',qs.stringify({
-			hospitalId: this.$store.state.hospital.login.hospital.hospitalId,
-			hospitalUserId : this.$store.state.hospital.login.hospitalUserId,
-			status: 1,
-			pn : this.noPage,
-			ps : 10,
-		}))
-		.then(res => {
-			if(res.data.data.items.length != 0){
-				for (let nums in res.data.data.items) {
-					this.noItems.push({
-						clinicName : res.data.data.items[nums].clinicName,
-						itemId : res.data.data.items[nums].itemId,
-						pushTime : res.data.data.items[nums].pushTime,
-						realname : res.data.data.items[nums].realname,
-						status : res.data.data.items[nums].status,
-						img : require("../../../../assets/image/orange@2x.png"),
-						button : "确认就诊",
-						span : "未就诊"
-					});
+				hospitalId: this.$store.state.hospital.login.hospital.hospitalId,
+				hospitalUserId : this.$store.state.hospital.login.hospitalUserId,
+				status: data,
+				pn : page,
+				ps : 10,
+			}))
+			.then(res => {
+				if(res.data.data.items.length != 0){
+					for (let nums in res.data.data.items) {
+						if(res.data.data.items[nums].status == 1){
+							if(!data){
+								this.items.push({
+									clinicName : res.data.data.items[nums].clinicName,
+									itemId : res.data.data.items[nums].itemId,
+									pushTime : res.data.data.items[nums].pushTime,
+									realname : res.data.data.items[nums].realname,
+									status : res.data.data.items[nums].status,
+									img : require("../../../../assets/image/orange@2x.png"),
+									button : "确认就诊",
+									span : "未就诊"
+								});
+							}
+							if(data){
+								this.noItems.push({
+									clinicName : res.data.data.items[nums].clinicName,
+									itemId : res.data.data.items[nums].itemId,
+									pushTime : res.data.data.items[nums].pushTime,
+									realname : res.data.data.items[nums].realname,
+									status : res.data.data.items[nums].status,
+									img : require("../../../../assets/image/orange@2x.png"),
+									button : "确认就诊",
+									span : "未就诊"
+								});
+							}
+						}else if(res.data.data.items[nums].status == 4){
+							if(!data){
+								this.items.push({
+									clinicName : res.data.data.items[nums].clinicName,
+									itemId : res.data.data.items[nums].itemId,
+									pushTime : res.data.data.items[nums].pushTime,
+									realname : res.data.data.items[nums].realname,
+									status : res.data.data.items[nums].status,
+									img :require( "../../../../assets/image/blue@2x.png"),
+									button : "已就诊",
+									buttonColor : "buttonColor",
+									span : "已就诊"
+								});
+							}
+							if(data){
+								this.yesItems.push({
+									clinicName : res.data.data.items[nums].clinicName,
+									itemId : res.data.data.items[nums].itemId,
+									pushTime : res.data.data.items[nums].pushTime,
+									realname : res.data.data.items[nums].realname,
+									status : res.data.data.items[nums].status,
+									img :require( "../../../../assets/image/blue@2x.png"),
+									button : "已就诊",
+									buttonColor : "buttonColor",
+									span : "已就诊"
+								});
+							}
+						}
+					}
+					// 加载状态结束
+					this.loading = false;
+				}else{
+					this.loading = false;
+					this.finished = true;
 				}
-				// 加载状态结束
-				this.loading = false;
-			}else{
-				this.loading = false;
-				this.finishedNo = true;
-			}
-		})
-		.catch((err)=>{
-					
-		});
-	},
-	// 获取下一页的方法
-	getDataYse(){
-		this.$axios.post('/c2/patient/items',qs.stringify({
-			hospitalId: this.$store.state.hospital.login.hospital.hospitalId,
-			hospitalUserId : this.$store.state.hospital.login.hospitalUserId,
-			status: 4,
-			pn : this.yesPage,
-			ps : 10,
-		}))
-		.then(res => {
-			if(res.data.data.items.length != 0){
-				for (let nums in res.data.data.items) {
-					this.yesItems.push({
-						clinicName : res.data.data.items[nums].clinicName,
-						itemId : res.data.data.items[nums].itemId,
-						pushTime : res.data.data.items[nums].pushTime,
-						realname : res.data.data.items[nums].realname,
-						status : res.data.data.items[nums].status,
-						img :require( "../../../../assets/image/blue@2x.png"),
-						button : "已就诊",
-						buttonColor : "buttonColor",
-						span : "已就诊"
-					});
-				}
-				// 加载状态结束
-				this.loading = false;
-			}else{
-				this.loading = false;
-				this.finishedYes = true;
-			}
-		})
-		.catch((err)=>{
-			
-			//Dialog({ message: err});;
-		});
+			})
+			.catch((err)=>{
+				
+				//Dialog({ message: err});;
+			});
 	},
 	
 	// 获取下一页的方法
@@ -447,17 +373,42 @@ export default {
 	nextPageFn(){
 		debugger;
 		this.page++;
-		this.getDataAll();
+		this.getData('',this.page);
 	},
 	// 已就诊病原列表的下一页
 	yesNextPageFn(){
 		this.yesPage++;
-		this.getDataYse();
+		this.getData(4,this.yesPage);
 	},
 	// 未就诊病原列表的下一页
 	noNextPageFn(){
 		this.noPage++;
-		this.getDataNo();
+		this.getData(1,this.noPage);
+	},
+	// 菜单切换的清空值
+	tabFn(_value){
+		
+		switch(_value){
+			case 0:
+			debugger
+			if(!this.items.length){
+				this.page = 0;
+				this.finished = false;
+			}
+			break;
+			case 1:
+			if(!this.yesItems.length){
+				this.page = 0;
+				this.finished = false;
+			}
+			break;
+			case 2:
+			if(!this.noItems.length){
+				this.page = 0;
+				this.finished = false;
+			}
+			break;
+		}
 	},
 	submitFn(_item,_button){
 		this.$axios.post('/c2/patient/confirmjiuzhen',qs.stringify({
@@ -487,16 +438,15 @@ export default {
 <style scoped>
 .index{
 	width: 100%;
-	height: 100%;
+  height: 100%;
 	background-color: #F5F5F5;
-	overflow: hidden;
 }
 .navWarp{
 	height: .8rem;
     line-height: .335rem;
     width: 100%;
     /* padding-top: 0.07rem; */
-    background: url('/assets/img/BJ-blue.5dbb0cc.png');
+    background: url(/assets/img/BJ-blue.5dbb0cc.png);
     /* background-size: 100% 100%; */
     background-color: #2B77EF;
     position: fixed;
@@ -509,11 +459,11 @@ export default {
 }
 .indexReturn{
 	width: 10%;
+	float: left;
 	text-align: center;
-	/* display: inline-block; */
+	display: inline-block;
 	z-index: 999;
 	padding-top: 6px;
-	float: left;
 }
 .indexReturn img{
 	width: .09rem;
@@ -521,7 +471,7 @@ export default {
 	margin: auto;
 }
 .indexSearch{
-	/* display: inline-block; */
+	display: inline-block;
 	/* width: .43rem; */
 	width: 65%;
 	float: left;
@@ -628,18 +578,10 @@ export default {
     border-radius: 3px;
 	transition-duration: 0.3s;
 }
-.list{
-	width: 100%;
-	height: calc(100vh - .85rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
-}
-.list ul{	
+.list{	
 	width: 91.46%;
 	margin: 0rem auto;
-	height: auto;
+	height: calc(100% - .5rem);
 }
 .list li{
 	width: 100%;
@@ -701,9 +643,6 @@ export default {
 }
 .tabTitle span{
 	display: block;
-}
->>>.van-list__finished-text{
-	/* height: 1rem; */
 }
 </style>
 

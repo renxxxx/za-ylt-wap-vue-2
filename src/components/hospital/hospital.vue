@@ -1,9 +1,18 @@
 <template>
-  <div id="hospital" ref='hospitalRef' :style="{'margin-bottom':bottomShow?'0':'' }" @touchstart='touchStartFn' @touchend='touchEndFn'>
+  <div id="hospital" ref='hospitalRef' :style="{'margin-bottom':bottomShow?'.55rem':'' }" @touchstart='touchStartFn' @touchend='touchEndFn'>
 
   <keep-alive>
       <router-view  class="appView"></router-view>
   </keep-alive>
+
+  <div class="returnHomePage" @click="returnHomePageFn" id="returnHomePageId" ref="returnHomePageRef" v-show="hospitalReturnHomePage">
+    <img src="../../assets/image/returnHome.png" alt />
+    <span>首页</span>
+  </div>
+  <!-- <div class="returnTop" @click="returnTopFn" ref="returnTopRef" v-show="hospitalReturnTopPage">
+    <img src="../../assets/image/returnTop.png" alt />
+    <span>顶部</span>
+  </div> -->
   <van-tabbar v-model="active" route :style="{'padding-bottom':$store.state.paddingBottom}" v-if="bottomShow">
   	<van-tabbar-item replace :to="{path : '/hospital/hospital_index',query:{transition:'def'}}">
   	    <span>首页</span>
@@ -106,9 +115,9 @@ export default {
     // window.addEventListener("scroll", this.handleScroll, true);
   },
   activated(){
-    
-
     localStorage.setItem("entrance",1)
+   
+    
   },
   watch:{
 
@@ -198,7 +207,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
-  
   /* overflow-y: scroll; */
 	/* touch-action: pan-y; */
 	/* -webkit-overflow-scrolling: touch; */
@@ -213,11 +221,6 @@ export default {
      min-height: 100vh;
      transition: transform 0.24s ease-out;
      /* height: 100%; */
-     height: 100%;
-    /* touch-action: pan-y; */
-    /* -webkit-overflow-scrolling: touch; */
-    /* overflow: scroll; */
-    /* overflow-x: hidden; */
  }
  #app.quickback .appView{
      transition-duration: 10s;
@@ -269,6 +272,7 @@ export default {
   position: fixed;
   right: 0.2rem;
   bottom: 1rem;
+  opacity: 0;
   width: 0.4rem;
   height: 0.4rem;
   /* line-height: .4rem; */

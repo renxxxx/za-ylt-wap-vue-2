@@ -46,29 +46,31 @@
 			<span>顶部</span>
 		</div>
 	</div>
+	</topSolt>
 </template>
 
 <script>
 import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'case',
 	data () {
 		return {
 			active:[],
-			loading: false,
-			finished: false,
-			page: 0,
-			query:'',
-			pullingDown:false,
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
+      loading: false,
+      finished: false,
+      page: 0,
+	  query:'',
+	  pullingDown:false,
 		}
 	},
 	computed:{
+	  ...mapGetters(['account','isLogin']),
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
 
@@ -82,9 +84,6 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.center.scrollTop = this.scrollTop;
-		}
 	},
   mounted() {
 		if(window.plus){
@@ -94,16 +93,6 @@ export default {
 		// this.getdata()
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.center.scrollTop || this.$refs.center.pageYOffset
-			// console.log(this.scrollTop)
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		afterPullDown() {
 			//下拉刷新
 		  setTimeout(() => {
@@ -127,12 +116,13 @@ export default {
 			this.$router.back(-1)
 		},
 		deleteActiviteFn(_item){
-			for(let i=0;i<this.active.length;i++){
-				if(this.active[i].itemId ==_item.itemId){
-				this.active.splice(i,1)
-				i--;
-				}
-			}
+      for(let i=0;i<this.active.length;i++){
+        if(this.active[i].itemId ==_item.itemId){
+          this.active.splice(i,1)
+          i--;
+        }
+      }
+      
 			this.$axios.post('/c2/activity/itemdel',qs.stringify({
 				itemId : _item.itemId,
 			}))
@@ -180,8 +170,7 @@ export default {
 <style scoped>
 .active{
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
+	/* height: 100%; */
 	background-color: #FFFFFF;
 }
 .topNav{
@@ -305,15 +294,5 @@ export default {
     position: relative;
     overflow: hidden;
     width: 93.6%;
-}
-.center{
-	height: calc(100% - .47rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

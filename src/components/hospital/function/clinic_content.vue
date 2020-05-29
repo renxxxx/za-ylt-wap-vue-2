@@ -1,9 +1,8 @@
 <template>
-	<div class="content" @scroll="handleScroll" ref="content">
+	<div class="content">
 		<span v-if="show? true:false">已找到 {{clinicNum}} 条数据</span>
 			<ul>
 				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
-					<!-- content -->
 					<li v-for="(items,inx) in content" :key="inx">
 						<router-link :to="{path : '/hospital/hospital_clinicDetails' ,query :  {clinicId : items.hospitalClinicId,}}">
 							<div class="contentLi">
@@ -11,19 +10,19 @@
 								<span>推广人: {{items.hospitalUserName}}</span>
 								<input type="text" v-model="items.patientCount" readonly="readonly">
 							</div>
-						</router-link>	
+						</router-link>
 					</li>
 				</van-list>
 			</ul>
-			<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-				<img src="../../../assets/image/returnTop.png" alt />
-				<span>顶部</span>
-			</div>
+		<!-- </van-pull-refresh> -->
 	</div>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs'
+import { Dialog } from 'vant'
 export default {
 	name: 'content',
 	data () {
@@ -33,15 +32,12 @@ export default {
 			content : [],
 			page:0,
 			clinicNum : 0,
-			test:'',
-			query:'',
-			scrollTop:0,
-     		hospitalReturnTopPage:false,
+      test:'',
+	  query:''
 		}
 	},
 	props:['show'],
 	computed:{
-
 	},
 	components:{
 
@@ -49,7 +45,8 @@ export default {
 	created () {
 
 	},
- 	mounted() {
+  mounted() {
+	  
 		// if(window.plus){
 		// 	//plus.navigator.setStatusBarBackground("#ffffff");
 		// 	plus.navigator.setStatusBarStyle("dark")
@@ -71,30 +68,18 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
-		if(this.scrollTop != 0){
-			this.$refs.content.scrollTop = this.scrollTop
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		initData() {
-			Object.assign(this.$data, this.$options.data());
-			this.getNextPage();
-    		this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
-			.then(res => {
-				this.clinicNum = res.data.data.rowCount;
-			})
-			.catch((err)=>{
-				
-			})
+		  Object.assign(this.$data, this.$options.data());
+		  this.getNextPage();
+      this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
+       .then(res => {
+       	this.clinicNum = res.data.data.rowCount;
+       })
+       .catch((err)=>{
+       	
+       })
 		},
 		getdata(){
 			this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({pn:this.page})+'&'+qs.stringify({ps:10}))
@@ -138,12 +123,8 @@ export default {
 	width: 100%;
 	/* position: fixed; */
 	/* height: calc(100% - 2.5rem); */
-	/* height: 100%; */
+	height: 100%;
 	/* overflow: scroll; */
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
- 	overflow: scroll;
- 	overflow-x: hidden;
 }
 .content>span{
 	width: 94.6%;

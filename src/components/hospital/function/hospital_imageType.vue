@@ -29,7 +29,9 @@ export default {
   },
   mounted() {
   },
-  activated() {	 
+  activated() {
+	  console.log('z这是activated')
+	 
   	if(this.query != JSON.stringify(this.$route.query)){
 		Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
@@ -67,8 +69,6 @@ export default {
 <style scoped>
 .imageType{
 	width: 100%;
-	height: calc(100% - .76rem);
-	overflow: scroll;
 }
 .content ul{
 	width: 97.2%;

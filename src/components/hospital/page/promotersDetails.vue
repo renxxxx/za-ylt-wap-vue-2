@@ -1,5 +1,6 @@
 <template>
-	<div class="promotersDetails" ref="promotersDetailsRef">
+<topSolt>
+	<div class="promotersDetails" ref="promotersDetailsRef" slot="returnTopSolt">
 		<div class="nav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="topNav">
 				<div class="leftImg" @click="returnFn" id="navback">
@@ -99,27 +100,31 @@
 									<button @click="modifySubmitFn">确定</button>
 								</div>
 							</div>
-						</van-popup>
-						<van-dialog v-model="modify.show" show-cancel-button @confirm='modifyPromoterFn(item)'>
-							<h4>门诊转移</h4>
-							<span>用户{{promoters.name}}下的{{item.name}}将转移至{{modify.name}}</span>
-						</van-dialog>
-					</li>
-				</ul>
-			<div class="popup"  v-if="choicePromoterAllShow">
-				<van-picker show-toolbar :columns="option" @cancel="cancel" @confirm="onConfirm"/>
-			</div>
-			</van-list>
+							<button @click="modifySubmitFn">确定</button>
+						<!-- </div> -->
+					<!-- </div> -->
+				</van-popup>
+				<van-dialog v-model="modify.show" show-cancel-button @confirm='modifyPromoterFn(item)'>
+					<h4>门诊转移</h4>
+					<span>用户{{promoters.name}}下的{{item.name}}将转移至{{modify.name}}</span>
+				</van-dialog>
+			</li>
+		</ul>
+		<div class="popup"  v-if="choicePromoterAllShow">
+		<!-- <van-popup v-model="choicePromoterAllShow" position="bottom"> -->
+		  <van-picker show-toolbar :columns="option" @cancel="cancel" @confirm="onConfirm"/>
+		<!-- </van-popup> -->
 		</div>
-		<div class="returnTop" @click="$refs.promotersDetails_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
-			<span>顶部</span>
-		</div>
+		</van-list>
 	</div>
+	</topSolt>
 </template>
 
 <script>
+import axios from 'axios'
+import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
+import topSolt from "../function/topSolt.vue";
 export default {
 	name: 'promotersDetails',
 	data () {
@@ -153,10 +158,7 @@ export default {
 			},
 			//单个的
 			modifyPromotersShow	: false	,//修改推广人弹窗显示
-			query:'',
-			scrollTop:0,
-    		hospitalReturnTopPage:false,
-
+			query:''
 		}
 	},
 	computed:{
@@ -171,22 +173,27 @@ export default {
 	  },
 	},
 	components:{
-		
+		topSolt
 	},
 	created(){
-		
+		var heightRexg = /^[0-9]*/g;
+		//var topHeight = this.topHeight.match(heightRexg);
+		//this.height = parseInt(topHeight.join()) ;
+		// //
 	},
   
 	mounted(){
 	},
 	activated() {
+		console.log('activated')
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+
+			Object.assign(this.$data, this.$options.data());
 			this.$axios.get('/hospital/def/hospital-operator-user/'+this.$route.query.hospitalUserId)
 			.then(res => {
 				if(res.data.codeMsg){
@@ -227,20 +234,8 @@ export default {
 			})
 			// this.onLoad();
 		}
-		if(this.scrollTop != 0){
-			this.$refs.promotersDetails_list.scrollTop = this.scrollTop;
-		}
 	},
 	methods: {
-		// 滑动一定距离出现返回顶部按钮
-		handleScroll() {
-			this.scrollTop = this.$refs.promotersDetails_list.scrollTop || this.$refs.promotersDetails_list.pageYOffset
-			if (this.scrollTop > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-		},
 		cancel(){
 			debugger
 			this.choicePromoterAllShow = false
@@ -801,14 +796,6 @@ export default {
 >>>.van-picker{
 	position: absolute;
 	bottom: 0;
-	width: 100%;
-}
-.promotersDetails_list{
-	height: calc(100% - 2.46rem);
-	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
-	overflow-x: hidden;
 	width: 100%;
 }
 </style>
