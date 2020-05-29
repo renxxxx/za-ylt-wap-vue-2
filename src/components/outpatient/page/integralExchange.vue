@@ -15,7 +15,7 @@
 					<router-link :to="{path : '/outpatient/outpatient_integralDetails',query:{time:new Date().getTime()}}">
 					<button>积分明细</button>
 					</router-link>
-					<router-link :to="{path : '/outpatient/outpatient_integralHistory',query:{}}">
+					<router-link :to="{path : '/outpatient/outpatient_integralHistory',query:{time:new Date().getTime()}}">
 					<button>兑换记录</button>
 					</router-link>
 				</div>

@@ -74,6 +74,7 @@ export default {
 			if(this.query != JSON.stringify(query)){
 				Object.assign(this.$data, this.$options.data());
 				this.query = JSON.stringify(query);
+				this.getNextPage()
 				if(window.plus){
 					plus.navigator.setStatusBarStyle("dark")
 				}

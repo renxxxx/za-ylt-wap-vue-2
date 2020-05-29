@@ -97,18 +97,20 @@ export default {
 					stock: this.exchangeAdd.stock,
 					payExchangepoint : this.exchangeAdd.payExchangepoint,
 				})).then(res  =>{
-					res.data.codeMsg? Toast.fail(res.data.codeMsg) : this.successFn();
+					debugger
+					if(res.data.codeMsg)
+						this.$toast(res.data.codeMsg)
+					if(res.data.code == 0){
+						this.$toast.success('操作成功');
+						this.$router.go(-2);
+					}
           		}).catch(err =>{
 					
 				})
 			}else{
-				Toast.fail('请先添加图片');
+				this.$toast('请先添加图片')
 			}
 		},
-		successFn(){
-			Toast.success('操作成功');
-			this.$router.go(-2);
-		}
 	},
 }
 </script>

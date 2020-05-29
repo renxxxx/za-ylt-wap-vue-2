@@ -44,7 +44,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Toast } from 'vant';
 export default {
 	name: 'exchangeEditor',
 	data () {
@@ -137,16 +136,16 @@ export default {
 							
 							this.$router.push({ path : '/hospital/hospital_exchangeEditorImg',query : {exchangeEditor : JSON.stringify(this.exchangeEditor),time: new Date().getTime()}});
 						}else{
-							Toast.fail('请填写简介');
+							this.$toast.fail('请填写简介');
 						}
 					}else{
-						Toast.fail('请填写数量');
+						this.$toast.fail('请填写数量');
 					}
 				}else{
-					Toast.fail('请填写积分');
+					this.$toast.fail('请填写积分');
 				}
 			}else{
-				Toast.fail('请填写名称');
+				this.$toast.fail('请填写名称');
 			}
 		},
 		// modifyFn(){

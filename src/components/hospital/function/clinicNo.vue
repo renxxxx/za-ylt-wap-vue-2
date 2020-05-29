@@ -84,6 +84,7 @@ export default {
 			if(this.query != JSON.stringify(this.$route.query)){
 				Object.assign(this.$data, this.$options.data());
 				this.query = JSON.stringify(this.$route.query);
+				this.getNextPage()
 				if(window.plus){
 					plus.navigator.setStatusBarStyle("dark")
 				}

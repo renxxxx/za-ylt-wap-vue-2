@@ -87,7 +87,7 @@ export default {
 		// 	orderId : this.$route.query.item.orderId,
 		// }))
 		// .then(res => {
-		// 	res.data.codeMsg? Toast.success(res.data.codeMsg) : this.successFn(res);
+		// 	res.data.codeMsg? this.$toast.success(res.data.codeMsg) : this.successFn(res);
 		// })
 		// .catch((err)=>{
 		// 	//Dialog({ message: err});;

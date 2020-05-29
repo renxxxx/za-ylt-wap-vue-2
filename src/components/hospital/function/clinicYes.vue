@@ -85,6 +85,7 @@ export default {
 		show(){
 			if(this.query != JSON.stringify(this.$route.query)){
 				Object.assign(this.$data, this.$options.data());
+				this.getNextPage()
 				this.query = JSON.stringify(this.$route.query);
 				if(window.plus){
 					//plus.navigator.setStatusBarBackground("#ffffff");

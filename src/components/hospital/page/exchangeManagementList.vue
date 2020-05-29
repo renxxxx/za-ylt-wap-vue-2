@@ -139,7 +139,7 @@ export default {
 					this.loading = false;
 					this.finished = true;
 				}else{
-					_d.data.codeMsg? Toast.success(_d.data.codeMsg) : this.successFn(_d);
+					_d.data.codeMsg? this.$toast.success(_d.data.codeMsg) : this.successFn(_d);
 					// 
 					this.isLoading = false;
 					// 加载状态结束

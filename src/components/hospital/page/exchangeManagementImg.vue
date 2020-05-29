@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="zhangwei"></div>
-		<div class="addImg" v-model="exchangeAdd" :style="{'padding-top':$store.state.paddingTop}">
+		<div class="addImg" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="addImgButton" v-show="imgUrl? false : true">
 				<img src="../../../assets/image/append@2x.png" alt="">
 				<span>请添加照片</span>
@@ -97,17 +97,17 @@ export default {
 					stock: this.exchangeAdd.stock,
 					payExchangepoint : this.exchangeAdd.payExchangepoint,
 				})).then(res  =>{
-					res.data.code? Toast.fail(res.data.codeMsg) : this.successFn();
+					res.data.code? this.$toast.fail(res.data.codeMsg) : this.successFn();
 					
 				}).catch(err =>{
 					
 				})
 			}else{
-				Toast.fail('请先添加图片');
+				this.$toast.fail('请先添加图片');
 			}
 		},
 		successFn(){
-			Toast.success('操作成功');
+			this.$toast.success('操作成功');
 			  this.exchangeAdd = {
 				path : '/hospital/',
 				payExchangepoint : 0,

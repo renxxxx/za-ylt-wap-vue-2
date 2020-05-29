@@ -99,16 +99,16 @@ export default {
 						if(this.exchangeAdd.intro != ''){
 							this.$router.push({ path : '/hospital/hospital_exchangeManagementImg',query : {exchangeAdd : JSON.stringify(this.exchangeAdd),time: new Date().getTime()}});
 						}else{
-							Toast.fail('请填写简介');
+							this.$toast.fail('请填写简介');
 						}
 					}else{
-						Toast.fail('请填写数量');
+						this.$toast.fail('请填写数量');
 					}
 				}else{
-					Toast.fail('请填写积分');
+					this.$toast.fail('请填写积分');
 				}
 			}else{
-				Toast.fail('请填写名称');
+				this.$toast.fail('请填写名称');
 			}
 		},
 	},
