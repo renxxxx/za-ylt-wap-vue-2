@@ -17,63 +17,63 @@
             <div class="slider">
               <van-swipe>
                 <van-swipe-item v-for="(image, index) in images" :key="index">
-                  <router-link :to="{name : image.url}">
-                    <img  v-lazy="image.cover" class="silder_img" />
-                  </router-link>
+                  <!-- <router-link :to="{name : image.url}"> -->
+                    <img  v-lazy="image.cover" class="silder_img" @click="$router.push({path:image.url,query:{time: new Date().getTime()}})"/>
+                  <!-- </router-link> -->
                 </van-swipe-item>
               </van-swipe>
             </div>
           </div>
           <div class="typeList">
             <ul>
-              <li>
-                <router-link :to="{path : '/operating/operating_clinicSearch',query:{hospitalId: this.$route.query.hospitalId,}}">
+              <li @click="$router.push({path: '/operating/operating_clinicSearch',query:{hospitalId: $route.query.hospitalId,time: new Date().getTime()}})">
+                <!-- <router-link :to="{path : '/operating/operating_clinicSearch',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
                   <img src="../../../assets/image/qudaomenzhen@2x.png" alt />
                   <span>渠道门诊</span>
-                </router-link>
+                <!-- </router-link> -->
               </li>
-              <li>
-                <router-link :to="{path : '/operating/operating_sourceManagement',query:{hospitalId: this.$route.query.hospitalId,}}" >
+              <li @click="$router.push({path: '/operating/operating_sourceManagement',query:{hospitalId: $route.query.hospitalId,time: new Date().getTime()}})">
+                <!-- <router-link :to="{path : '/operating/operating_sourceManagement',query:{hospitalId: this.$route.query.hospitalId,}}" > -->
                   <img src="../../../assets/image/bingyuanguanli@2x.png" alt />
                   <span>病员管理</span>
-                </router-link>
+                <!-- </router-link> -->
               </li>
               <li @click="upgradeFn">
                 <!-- /operating/operating_collect -->
-                <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}">
+                <!-- <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
                   <img src="../../../assets/image/qixiejicai@2x.png" alt />
                   <span>器械集采</span>
-                </router-link>
+                <!-- </router-link> -->
               </li>
-              <li>
-                <router-link :to="{path : '/operating/operating_operating',query:{hospitalId: this.$route.query.hospitalId,}}">
+              <li @click="$router.push({path: '/operating/operating_operating',query:{hospitalId: $route.query.hospitalId,time: new Date().getTime()}})">
+                <!-- <router-link :to="{path : '/operating/operating_operating',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
                   <img src="../../../assets/image/yunyingzhongxin@2x.png" alt />
                   <span>运营中心</span>
-                </router-link>
+                <!-- </router-link> -->
               </li>
               <li @click="noLinkFn">
-                <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}">
+                <!-- <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
                   <img src="../../../assets/image/jiyinjiance@2x.png" alt />
                   <span>基因检测</span>
-                </router-link>
+                <!-- </router-link> -->
               </li>
               <li @click="noLinkFn">
-                <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}">
+                <!-- <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
                   <img src="../../../assets/image/yiliaoziyuan@2x.png" alt />
                   <span>医疗资源</span>
-                </router-link>
+                <!-- </router-link> -->
               </li>
-              <li>
-                <router-link :to="{path : '/operating/operating_activityReleased',query:{hospitalId: this.$route.query.hospitalId,}}">
+              <li @click="$router.push({path:image.url,query:{time: new Date().getTime()}})">
+                <router-link :to="{path : '/operating/operating_activityReleased',query:{hospitalId: $route.query.hospitalId,}}">
                   <img src="../../../assets/image/yiyuanhuodong@2x.png" alt />
                   <span>医院活动</span>
                 </router-link>
               </li>
               <li @click="noLinkFn">
-                <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}">
+                <!-- <router-link :to="{path : '',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
                   <img src="../../../assets/image/qita@2x.png" alt />
                   <span>其他项目</span>
-                </router-link>
+                <!-- </router-link> -->
               </li>
             </ul>
           </div>
@@ -85,10 +85,8 @@
             </div>
             <ul :model="article">
               <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-                <li v-for="(items,inx) in article" :key="inx">
-                  <router-link
-                    :to="{path : '/operating/operating_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"
-                  >
+                <li v-for="(items,inx) in article" :key="inx" @click="$router.push({path: '/operating/operating_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+                  <!-- <router-link :to="{path : '/operating/operating_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
                     <div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
                       <p>{{items.content}}</p>
                       <div class="article_leftTime">
@@ -99,7 +97,7 @@
                     <div v-if="items.img" class="article_right">
                       <img   v-lazy="items.img" alt />
                     </div>
-                  </router-link>
+                  <!-- </router-link> -->
                 </li>
               </van-list>
             </ul>
@@ -107,14 +105,10 @@
           <div style="height: .55rem;"></div>
       </van-pull-refresh>
     </topSolt>
-      <!-- <bottomNav></bottomNav> -->
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import topSolt from "../function/topSolt.vue";
 export default {
   name: "gene",
@@ -132,7 +126,6 @@ export default {
     topSolt
   },
   computed: {
-    // ...mapGetters(["account", "isLogin"])
   },
 
   beforeCreate(){
@@ -146,13 +139,6 @@ export default {
     
   },
   mounted() {
-    // debugger
-    // let thisVue = this;
-    // if (window.plus) {
-    //   //plus.navigator.setStatusBarBackground("#ffffff");
-    //   plus.navigator.setStatusBarStyle("dark");
-    // }
-    // this.initData();
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -188,9 +174,9 @@ export default {
       let thisVue = this
       Object.assign(this.$data, this.$options.data());
 				//轮播图图片路径请求
-		this.$axios.post("/manager/hospitalMaincarouselList",qs.stringify({
-			hospitalId: this.$route.query.hospitalId
-		}))
+      this.$axios.post("/manager/hospitalMaincarouselList",qs.stringify({
+        hospitalId: this.$route.query.hospitalId
+      }))
         .then(res => {
           for (let i in res.data.data.items) {
             // 
@@ -418,7 +404,7 @@ li:nth-child(7),
 li:nth-child(8) {
   margin-top: 0.25rem;
 }
-.typeList ul li a img {
+.typeList ul li img {
   width: 0.3rem;
   margin: 0rem auto;
   display: block;

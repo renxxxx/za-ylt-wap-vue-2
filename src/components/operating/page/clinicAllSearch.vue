@@ -24,14 +24,14 @@
 		<div class="content">
 			<ul >
 				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
-					<li v-for="(items,inx) in content" :key="inx">
-						<router-link :to="{path : '/operating/operating_clinicDetails' ,query :  {clinicId : items.itemId,clinicName:items.name,}}">
+					<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/operating/operating_clinicDetails',query:{clinicId : items.itemId,clinicName:items.name,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/operating/operating_clinicDetails' ,query :  {clinicId : items.itemId,clinicName:items.name,}}"> -->
 							<div class="contentLi">
 								<h4>{{items.name}}</h4>
 								<span>推广人: {{items.clinicPromoterName}}</span>
 								<input type="text" v-model="items.pushCount" readonly="readonly">
 							</div>
-						</router-link>
+						<!-- </router-link> -->
 					</li>
 				</van-list>
 			</ul>
@@ -80,58 +80,38 @@ import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
 import { Dialog } from "vant";
 import topSolt from "../function/topSolt.vue";
-// import moment from 'moment'
 export default {
   name: "gene",
   data() {
     return {
-      page: 1,
-      pullingDown: false,
-	  show:false,
-	  listStyleData:[false,false,false,false,false,false,false],
-	  sorts:'',
-	  orders:'',
-	  loading: false,
-	  			finished: false,
-	  			content : [],
-	  			page:0,
-	  			clinicNum : 0,
-	  test:'',
-	  kw:'',
+		page: 1,
+		pullingDown: false,
+		show:false,
+		listStyleData:[false,false,false,false,false,false,false],
+		sorts:'',
+		orders:'',
+		loading: false,
+	  	finished: false,
+	  	content : [],
+	  	page:0,
+	  	clinicNum : 0,
+		test:'',
+		kw:'',
     };
   },
   components: {
     topSolt
   },
   computed: {
-    // ...mapGetters(["account", "isLogin"])
   },
-
   beforeCreate(){
-    
   },
   created() {
-
   },
   beforeMount(){
-    debugger
-	this.getNextPage()
+	
   },
 	mounted() {
-		// debugger
-		// let thisVue = this;
-		// if (window.plus) {
-		// //plus.navigator.setStatusBarBackground("#ffffff");
-		// plus.navigator.setStatusBarStyle("dark");
-		// }
-		
-		// let lastRoute = localStorage.getItem('lastRoute')
-		// 	if(lastRoute){
-		// 	this.$router.push(JSON.parse(lastRoute));
-		// 	return
-		// 	}
-		// this.initData();
-
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -284,7 +264,8 @@ export default {
         thisVue.$router.replace({ path : '/operating/operatingLogin',query:{time:1}});
       }})
 
-      Object.assign(this.$data, this.$options.data());
+	  Object.assign(this.$data, this.$options.data());
+	  this.getNextPage()
       // this.getdata();
       // this.$refs.clinic.initData();
     },

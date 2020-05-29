@@ -18,21 +18,18 @@
           <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
       </li>
       <!-- </router-link> -->
-      <router-link :to="{path:'/operating/operating_operatingManual',query:{hospitalId: this.$route.query.hospitalId,}}">
-        <li>
-          <h4>运营手册</h4>
-          <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-        </li>
-      </router-link>
+      <!-- <router-link :to="{path:'/operating/operating_operatingManual',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
+      <li @click="$router.push({path: '/operating/operating_operatingManual',query:{hospitalId: $route.query.hospitalId,time: new Date().getTime()}})">
+        <h4>运营手册</h4>
+        <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
+      </li>
+      <!-- </router-link> -->
     </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operating',
   data () {
@@ -47,13 +44,10 @@ export default {
 
   },
   mounted () {
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#ffffff");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

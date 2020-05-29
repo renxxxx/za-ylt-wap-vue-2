@@ -5,10 +5,10 @@
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="topNav_search">
 				<img src="../../../assets/image/sousuo@2x.png" alt="">
-				<router-link :to="{path:'/operating/operating_hospiatlAllSearch'}">
-					<input type="search">
+				<!-- <router-link :to="{path:'/operating/operating_hospiatlAllSearch',query:{time: new Date().getTime()}}"> -->
+				<input type="search" @click="$router.push({path:'/operating/operating_hospiatlAllSearch',query:{time: new Date().getTime()}})">
 					
-				</router-link>
+				<!-- </router-link> -->
 				<div class="shaixuan" @click="shaixuanFn">
 					<span>筛选</span>
 					<img src="../../../assets/image/shaixuan.svg" alt="">
@@ -16,9 +16,12 @@
 			</div>
 			<div class="topNav_Title">
 				<h4>合作医院<span>{{hospitalSum}}</span></h4>
-				<router-link :to="{path:'/operating/operating_addHospital'}">
-					<div class="addHospital">新增医院<img src="../../../assets/image/right@2x.png" alt=""></div>
-				</router-link>
+				<!-- <router-link :to="{path:'/operating/operating_addHospital'}"> -->
+				<div class="addHospital" @click="$router.push({path:'/operating/operating_addHospital',query:{time: new Date().getTime()}})">
+					新增医院
+					<img src="../../../assets/image/right@2x.png" alt="">
+				</div>
+				<!-- </router-link> -->
 			</div>
 		</div>
 		<div style="width: 100%;height: 1rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
@@ -56,20 +59,20 @@
 		</van-popup>
 		<div class="hospitalContent">
 		<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
-			<router-link :to="{path:'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId}}"  v-for="(item,inx) in hospitalList" :key="inx">
-				<div class="hospitalList">
-					<div class="hospitalContent_title">
-						<img :src="item.cover" alt="">
-						<h5>{{item.hospitalName}}</h5>
-						<img :src="item.img" alt="">
-					</div>
-					<div class="hospitalContent_message">
-						<p>创建时间：{{moment(item.time).format('YYYY-MM-DD HH-MM')}}</p>
-						<p>门诊数：{{item.clinicCount}}</p>
-						<p>病源数：{{item.patientCount}}</p>
-					</div>
+			<!-- <router-link :to="{path:'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId}}"  v-for="(item,inx) in hospitalList" :key="inx"> -->
+			<div class="hospitalList" @click="$router.push({path:'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId,time: new Date().getTime()}})" v-for="(item,inx) in hospitalList" :key="inx">
+				<div class="hospitalContent_title">
+					<img :src="item.cover" alt="">
+					<h5>{{item.hospitalName}}</h5>
+					<img :src="item.img" alt="">
 				</div>
-			</router-link>
+				<div class="hospitalContent_message">
+					<p>创建时间：{{moment(item.time).format('YYYY-MM-DD HH-MM')}}</p>
+					<p>门诊数：{{item.clinicCount}}</p>
+					<p>病源数：{{item.patientCount}}</p>
+				</div>
+			</div>
+			<!-- </router-link> -->
 		</van-list>
 		</div>
 		<div style="height: .55rem;"></div>
@@ -79,10 +82,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import topSolt from "../function/topSolt.vue";
 export default {
   name: "gene",
@@ -108,32 +108,14 @@ export default {
     topSolt
   },
   computed: {
-    // ...mapGetters(["account", "isLogin"])
   },
-
   beforeCreate(){
-    
   },
   created() {
-
   },
-  beforeMount(){
-    debugger
-    
+  beforeMount(){    
   },
   mounted() {
-    // debugger
-    // let thisVue = this;
-    // if (window.plus) {
-    //   //plus.navigator.setStatusBarBackground("#ffffff");
-    //   plus.navigator.setStatusBarStyle("dark");
-    // }
-    // if(this.$route.meta.auth && !this.$store.state.operating.login){
-    // 	this.$toast({message:'请登录',onClose:function(){
-	// 		debugger
-    // 		thisVue.$router.replace({ path : '/operating/operatingLogin',query:{time:1}});
-    // 	}})
-    // }
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -143,12 +125,6 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			// if(this.$route.meta.auth && !this.$store.state.operating.login){
-			// 	this.$toast({message:'请登录',onClose:function(){
-			// 		debugger
-			// 		thisVue.$router.replace({ path : '/operating/operatingLogin',query:{time:1}});
-			// 	}})
-			// }
 		}
   	},
   deactivated(){

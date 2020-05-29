@@ -1,6 +1,6 @@
 <template>
 	<div class="active">
-		<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" >
+		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" ref="refersh" style="height:100%">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -11,25 +11,25 @@
 			<div class="right"></div>
 		</div>
 		<div class="zhangwei"></div>
-		<router-link :to="{path:'/operating/operating_addActivity',query:{hospitalId: this.$route.query.hospitalId}}">
-			<div class="addActive" :style="{'padding-top':$store.state.paddingTop}">
-				<span>+</span>
-				<span>新建活动</span>
-			</div>
-		</router-link>
+		<!-- <router-link :to="{path:'/operating/operating_addActivity',query:{hospitalId: this.$route.query.hospitalId}}"> -->
+		<div class="addActive" @click="$router.push({path:'/operating/operating_addActivity',query:{hospitalId: $route.query.hospitalId,time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
+			<span>+</span>
+			<span>新建活动</span>
+		</div>
+		<!-- </router-link> -->
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" style="height:100%">
 	<topSolt style="height:calc(100% - .96rem)">
       <van-swipe-cell slot="returnTopSolt" v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
         <van-cell :border="false" >
-          <router-link :to="{path : '/operating/operating_activityDetails',query:{itemId:item.itemId,}}">
-            <div class="activeList">
+          <!-- <router-link :to="{path : '/operating/operating_activityDetails',query:{itemId:item.itemId,}}"> -->
+        	<div class="activeList" @click="$router.push({path:'/operating/operating_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
               <img v-lazy="item.cover" alt="">
               <div class="activeTitle">
                 <h4>{{item.title}}</h4>
                 <span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
               </div>
             </div>
-          </router-link>
+          <!-- </router-link> -->
         </van-cell>
         <template slot="right">
           <button class="deleteStyle" @click="deleteActiviteFn(item)">
@@ -45,7 +45,6 @@
 
 <script>
 import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import topSolt from "../function/topSolt.vue";
 export default {
@@ -60,7 +59,6 @@ export default {
 		}
 	},
 	computed:{
-	  ...mapGetters(['account','isLogin']),
 	},
 	components:{
 		topSolt
@@ -68,12 +66,7 @@ export default {
 	created(){
 
 	},
- mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.getdata()
+ 	mounted() {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -95,20 +88,20 @@ export default {
 		initData(){
 			 let thisVue = this;
 			console.log(this.$store.state.operating.login)
-			if(!this.$store.state.operating.login){
-				this.$toast('请登录')
-				let exit = setTimeout(()=>{
-					thisVue.$router.replace({path:"/operating/operatingLogin",query:{}})
-					clearTimeout(exit)
-				},1500)
-			}
+			// if(!this.$store.state.operating.login){
+			// 	this.$toast('请登录')
+			// 	let exit = setTimeout(()=>{
+			// 		thisVue.$router.replace({path:"/operating/operatingLogin",query:{}})
+			// 		clearTimeout(exit)
+			// 	},1500)
+			// }
 			Object.assign(this.$data, this.$options.data());
 			this.onLoad();
 		},
 		//回退方法
 		goBackFn(){
 			// this.$router.push({name:'hospital_clinic'})
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		deleteActiviteFn(_item){
 			for(let i=0;i<this.active.length;i++){
@@ -130,7 +123,6 @@ export default {
 		},
 		onLoad(){
 			++this.page;
-			// 
 			this.getdata();
 		},
 		getdata(){
@@ -146,11 +138,11 @@ export default {
 						this.active.push(res.data.data.items[i])
 						// 
 					}
-          this.loading = false;
+        			this.loading = false;
 				}else {
-            this.loading = false;
-            this.finished = true;
-          }
+					this.loading = false;
+					this.finished = true;
+         		}
 			})
 			.catch((err)=>{
 				

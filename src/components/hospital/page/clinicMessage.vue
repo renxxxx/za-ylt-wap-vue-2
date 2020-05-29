@@ -69,6 +69,7 @@ export default {
 		if(this.query != JSON.stringify(this.$route.query)){
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
+			this.onLoad()
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
@@ -95,30 +96,30 @@ export default {
 		  this.getData();
 		},
 		getData(){
-      this.$axios.post('/c2/patient/items',qs.stringify({
-      	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-        pn: this.page,
-        ps: 10
-      }))
-      .then(_d => {
-        if(_d.data.data.items.length != 0){
-          for(let i in _d.data.data.items){
-          	// 
-          	if(_d.data.data.items[i]){
-          		this.clinicMessage.push(_d.data.data.items[i])
-          	}
-          }
-          this.loading = false;
-      	}else{
-          this.loading = false;
-          this.finished = true;
-        }
-      })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: err});;
-      })
-    }
+			this.$axios.post('/c2/patient/items',qs.stringify({
+				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
+				pn: this.page,
+				ps: 10
+			}))
+			.then(_d => {
+				if(_d.data.data.items.length != 0){
+				for(let i in _d.data.data.items){
+					// 
+					if(_d.data.data.items[i]){
+						this.clinicMessage.push(_d.data.data.items[i])
+					}
+				}
+				this.loading = false;
+				}else{
+				this.loading = false;
+				this.finished = true;
+				}
+			})
+			.catch((err)=>{
+				
+				//Dialog({ message: err});;
+			})
+		}
 	},
 }
 </script>

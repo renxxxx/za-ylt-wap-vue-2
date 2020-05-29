@@ -11,11 +11,11 @@
       <!-- operatingManualListDetails -->
       <li v-for="(item,inx) in operatingManualListDetails" :key="inx">
         <div class="operatingCenter">
-          <div v-for="(_item,_inx) in item.image" :key="_inx" style="display: inline;">
-            <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,}}">
+          <div v-for="(_item,_inx) in item.image" :key="_inx" style="display: inline;" @click="$router.push({name: 'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,time: new Date().getTime()}})">
+            <!-- <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,}}"> -->
             	<!-- <img v-bind:src="item" alt=""> -->
               <img  v-if="_item" :src="_item" alt="" >
-            </router-link>
+            <!-- </router-link> -->
           </div>
           <div v-for="(video,index) in item.video" :key="index" style="display: inline;position: relative" @click="showVideoFn(video)" class="video">
             <video class="ArcanaVideo">
@@ -80,10 +80,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import topSolt from "../function/topSolt.vue";
 export default {
   name: 'operatingManualListDetails',
@@ -109,15 +106,10 @@ export default {
   created () {
   },
   mounted () {
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#ffffff");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
-    // this.getdata();
-    // 
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+      Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

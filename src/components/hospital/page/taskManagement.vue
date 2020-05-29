@@ -1,6 +1,6 @@
 <template>
 	<div class="task">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@3x.png" alt="">
@@ -31,7 +31,7 @@
 					</li>
 				</ul>
 			</div>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 	</div>
 </template>
 

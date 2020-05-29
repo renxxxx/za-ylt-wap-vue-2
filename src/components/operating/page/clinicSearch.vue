@@ -37,8 +37,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import clinicContent from '../function/clinic_content.vue'
 import topSolt from "../function/topSolt.vue";
@@ -54,7 +52,6 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account'])
 	},
 	components:{
 		clinicContent,topSolt
@@ -62,14 +59,10 @@ export default {
 	created(){
 	},
  	 mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// };
-		// this.getdata()
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -80,7 +73,7 @@ export default {
   	},
 	methods: {
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		//获取数据
 		getdata(){

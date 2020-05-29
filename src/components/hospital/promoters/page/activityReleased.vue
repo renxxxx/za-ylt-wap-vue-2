@@ -12,8 +12,8 @@
 		<div class="zhangwei":style="{'padding-top':$store.state.paddingTop}"></div>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
-        <van-cell :border="false" >
-          <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:item.itemId,}}">
+        <van-cell :border="false"  @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
+          <!-- <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:item.itemId,time:new Date().getTime()}}"> -->
             <div class="activeList">
               <img v-lazy="item.cover" alt="">
               <div class="activeTitle">
@@ -21,7 +21,7 @@
                 <span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
               </div>
             </div>
-          </router-link>
+          <!-- </router-link> -->
         </van-cell>
         <template slot="right">
           <button class="deleteStyle" @click="deleteActiviteFn(item)">
@@ -68,6 +68,7 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

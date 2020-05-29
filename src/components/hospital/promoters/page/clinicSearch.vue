@@ -18,11 +18,11 @@
 					<div class="titleleft">
 						<h3>合作门诊 {{clinic.num}}</h3>
 					</div>
-						<div class="titleRight">
-						<router-link :to="{path : '/promoters/promoters_addClinic',query:{}}">
-							<span>新增</span>
-							<img src="../../../../assets/image/xinzeng@2x.png" alt="">
-						</router-link>
+						<div class="titleRight" @click="$router.push({path:'/promoters/promoters_addClinic',query:{time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/promoters/promoters_addClinic',query:{}}"> -->
+						<span>新增</span>
+						<img src="../../../../assets/image/xinzeng@2x.png" alt="">
+						<!-- </router-link> -->
 					</div>
 				</div>
 			</div>
@@ -31,14 +31,14 @@
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content -->
-						<li v-for="(items,inx) in content" :key="inx">
-							<router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime}}">
+						<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime}}"> -->
 								<div class="contentLi">
 									<h4>{{items.name}}</h4>
 									<span>推广人: {{items.hospitalUserName}}</span>
 									<input type="text" v-model="items.patientCount" readonly="readonly">
 								</div>	
-							</router-link>
+							<!-- </router-link> -->
 						</li>
 					</van-list>
 				</ul>

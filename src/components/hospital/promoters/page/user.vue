@@ -81,12 +81,12 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.initData();
 		}
     },
 	mounted() {
@@ -98,14 +98,14 @@ export default {
 	},
 	methods: {
 		initData(){
-			  let thisVue = this
-      if(this.$route.meta.auth && !this.$store.state.hospital.login)
-      this.$toast({message:'请登录',onClose:function(){
-        thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
-	  }})
-	  this.userFn();
-		this.coverImg = this.$store.state.hospital.login.hospital.cover;
-		this.images.push(this.$store.state.hospital.login.hospital.license)
+			let thisVue = this
+			if(this.$route.meta.auth && !this.$store.state.hospital.login)
+			this.$toast({message:'请登录',onClose:function(){
+				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
+			}})
+			this.userFn();
+			this.coverImg = this.$store.state.hospital.login.hospital.cover;
+			this.images.push(this.$store.state.hospital.login.hospital.license)
 		},
 		onChange(index) {
 			this.index = index;
@@ -138,24 +138,15 @@ export default {
 		 },
 		//退出方法
 		exitFn(){
-			// this.$axios.post('/hospital/logout');
-			// if(window.plus){
-			// 		plus.webview.currentWebview().clear()
-			// 		plus.webview.currentWebview().loadURL(location.href.substr(0,location.href.indexOf('#'))+'#/account')
-			// }
 			localStorage.clear();
 			let thisVue=this
 			this.$axios.post('/hospital/logout').then(function(){
 				localStorage.removeItem('entrance')
-				// localStorage.clear()
 				thisVue.$toast("操作成功")
 				setTimeout(()=>{
-					// thisVue.$router.push({path:"/hospital/hospitalLogin",query:{}})
 					location.href=location.pathname
 				},1500)
 			})
-			// location.href=location.pathname
-			// location.reload()
 		}
 	},
 }

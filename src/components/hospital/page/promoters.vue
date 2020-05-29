@@ -1,6 +1,6 @@
 <template>
 	<div class="promoters" ref='promotersRef'>
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@3x.png" alt="">
@@ -36,7 +36,7 @@
 					</ul>
 				</van-list>
 			</div>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 		<div class="returnTop" @click="$refs.promoters_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -55,7 +55,9 @@ export default {
 			finished: false,
 			page: 0,
 			query:'',
-	 		pullingDown:false,
+			pullingDown:false,
+			scrollTop:0,
+     		hospitalReturnTopPage:false,
 		}
 	},
 	computed:{
@@ -72,7 +74,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

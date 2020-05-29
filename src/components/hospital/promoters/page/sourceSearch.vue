@@ -67,8 +67,8 @@
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="nextPageFn">
 					<ul class="list" :style="{'padding-top':$store.state.paddingTop}">
 						<!--  -->
-						<li v-for="(item,inx) in  items" :key="inx">
-							<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
+						<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 								<div class="style">
 									<div class="contentTitle">
 										<img :src="item.img" alt="">
@@ -79,7 +79,7 @@
 										<span>状态：{{item.span}}</span>
 									</div>
 								</div>
-							</router-link>
+							<!-- </router-link> -->
 							<div class="content_right">
 								<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 							</div>

@@ -16,20 +16,20 @@
 			<topSolt style="height: calc(100% - .6rem);">
 			<van-list  slot="returnTopSolt" v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 				<!-- hospitalList -->
-				<router-link :to="{path :'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId}}"  v-for="(item,inx) in hospitalList" :key="inx">
-					<div class="hospitalList">
-						<div class="hospitalContent_title">
-							<img :src="item.cover" alt="">
-							<h5>{{item.hospitalName}}</h5>
-							<img :src="item.img" alt="">
-						</div>
-						<div class="hospitalContent_message">
-							<p>创建时间：{{moment(item.time).format('YYYY-MM-DD HH-MM')}}</p>
-							<p>门诊数：{{item.clinicCount}}</p>
-							<p>病源数：{{item.patientCount}}</p>
-						</div>
+				<!-- <router-link :to="{path :'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId}}"  v-for="(item,inx) in hospitalList" :key="inx"> -->
+				<div class="hospitalList" @click="$router.push({path:'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId,time: new Date().getTime()}})" v-for="(item,inx) in hospitalList" :key="inx">
+					<div class="hospitalContent_title">
+						<img :src="item.cover" alt="">
+						<h5>{{item.hospitalName}}</h5>
+						<img :src="item.img" alt="">
 					</div>
-				</router-link>
+					<div class="hospitalContent_message">
+						<p>创建时间：{{moment(item.time).format('YYYY-MM-DD HH-MM')}}</p>
+						<p>门诊数：{{item.clinicCount}}</p>
+						<p>病源数：{{item.patientCount}}</p>
+					</div>
+			</div>
+				<!-- </router-link> -->
 			</van-list>
 			</topSolt>
 		</div>
@@ -73,15 +73,11 @@ export default {
     
   },
   mounted() {
-    // let thisVue = this;
-    // if (window.plus) {
-    //   //plus.navigator.setStatusBarBackground("#ffffff");
-    //   plus.navigator.setStatusBarStyle("dark");
-	// }
 	this.getNextPage()
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -155,7 +151,6 @@ export default {
 	      }
 	    })
 	    .catch(err => {
-	      
 	    });
 	},
   }

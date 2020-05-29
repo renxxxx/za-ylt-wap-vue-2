@@ -66,8 +66,8 @@
       </div>
 	  <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
 	  	<ul class="list" :style="{'padding-top':$store.state.paddingTop}">
-	  		<li v-for="(item,inx) in  items" :key="inx">
-	  			<router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}">
+	  		<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({name: '/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+	  			<!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 	  				<div class="style">
 	  					<div class="contentTitle">
 	  						<img :src="item.img" alt="">
@@ -78,7 +78,7 @@
 	  						<span>状态：{{item.span}}</span>
 	  					</div>
 	  				</div>
-	  			</router-link>
+	  			<!-- </router-link> -->
 	  			<div class="content_right">
 	  				<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 	  			</div>
@@ -92,10 +92,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import moment from 'moment'
 import Vue from 'vue';
 import topSolt from "../function/topSolt.vue";
@@ -104,32 +101,31 @@ export default {
   data() {
     return {
       timer: undefined,
-	  items:[],
+	    items:[],
       keywords: "", //搜索框的关键字value
       pullingDown: false,
-	  // lable的dom节点
-	  labelDocument:['labelDocument','labelDocument2','labelDocument3','labelDocument4','labelDocument5','labelDocument6'],
-	  //筛选数据
-	  Time:{
-	  	look:'',
-	  	noLook:'',
-	  	confirmStart : undefined,
-	  	confirmOver : undefined,
-	  	pushStart : undefined,
-	  	pushOver : undefined,
-	  	postState : undefined,
-	  },
-	  dateStata : '',
-	  loading: false,
-	  // 加载状态结束
-	  finished: false,
-	  page:0,
-	  noItems:[],
-     test:''
-    };
+      // lable的dom节点
+      labelDocument:['labelDocument','labelDocument2','labelDocument3','labelDocument4','labelDocument5','labelDocument6'],
+      //筛选数据
+      Time:{
+        look:'',
+        noLook:'',
+        confirmStart : undefined,
+        confirmOver : undefined,
+        pushStart : undefined,
+        pushOver : undefined,
+        postState : undefined,
+      },
+      dateStata : '',
+      loading: false,
+      // 加载状态结束
+      finished: false,
+      page:0,
+      noItems:[],
+        test:''
+      };
   },
   computed: {
-    ...mapGetters(["showTime", "detail", "account",'isLogin']),
     show: {
       get: function() {
         // 
@@ -175,13 +171,6 @@ export default {
 
   },
   mounted() {
-    // if (window.plus) {
-    //   plus.navigator.setStatusBarStyle("dark");
-    // }
-    // this.initData();
-    // if(this.$route.query.show == 'false'){
-    //   this.hospitalReturnHomePage = false;
-    // }
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){

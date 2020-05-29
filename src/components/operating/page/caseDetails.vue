@@ -21,10 +21,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import Dialog from 'vant';
 export default {
 	name: 'caseDetails',
 	data () {
@@ -40,7 +37,6 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 
@@ -51,26 +47,12 @@ export default {
 	created(){
     let myDate = new Date();
     this.caseInfo.alterTime = myDate.toLocaleDateString()
-		// 
 	},
  	mounted(){
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// // 
-		// let postUrl = '';
-		// if(this.$route.query.data ==1){
-		// 	let postUrl ='/c2/article/item';
-		// 	this.getData(postUrl)
-		// }else{
-		// 	let postUrl ='/c2/project/item'
-		// 	this.getData(postUrl)
-		// }
-		// 
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

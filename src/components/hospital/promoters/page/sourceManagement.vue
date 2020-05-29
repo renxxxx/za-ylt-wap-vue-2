@@ -7,23 +7,23 @@
 					<div class="indexReturn" @click="goBackFn"  id="navback">
 						<img src="../../../../assets/image/back-white@2x.png" alt="">
 					</div>
-					<router-link :to="{name:'promoters_sourceSearch',query:{focus : 1}}">
-					<div class="indexSearch">
+					<!-- <router-link :to="{name:'promoters_sourceSearch',query:{focus : 1}}"> -->
+					<div class="indexSearch" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{focus : 1,time: new Date().getTime()}})">
 						<input type="text" placeholder="搜索病员" readonly="readonly">
 						<img src="../../../../assets/image/sousuo@2x.png" alt="">
 					</div>
-						</router-link>
-					<router-link :to="{name:'promoters_sourceSearch',query:{}}">
-						<div class="clinic_buttton">
-							<button>搜索</button>
-						</div>
-					</router-link>
-					<router-link :to="{name:'promoters_sourceSearch',query:{show:1}}">
-						<div class="indexScreening">
-							<span>筛选 </span>
-							<img src="../../../../assets/image/screen@2x.png" alt="加载中" >
-						</div>
-					</router-link>
+						<!-- </router-link> -->
+					<!-- <router-link :to="{name:'promoters_sourceSearch',query:{}}"> -->
+					<div class="clinic_buttton" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{time: new Date().getTime()}})">
+						<button>搜索</button>
+					</div>
+					<!-- </router-link> -->
+					<!-- <router-link :to="{name:'promoters_sourceSearch',query:{show:1}}"> -->
+					<div class="indexScreening" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{show:1,time: new Date().getTime()}})">
+						<span>筛选 </span>
+						<img src="../../../../assets/image/screen@2x.png" alt="加载中" >
+					</div>
+					<!-- </router-link> -->
 				</div>
 				<div id="navType">
 					<div class="navType_one" @click="xiaclickFn(0)">
@@ -43,8 +43,8 @@
 						<van-list  v-model="loading" :finished="finishedAll" finished-text="没有更多了"  @load="nextPageFn">
 							<ul :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}">
 								<!-- items -->
-								<li v-for="(item,inx) in items " :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
+								<li v-for="(item,inx) in items " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
 												<img :src="item.img" alt="">
@@ -55,7 +55,7 @@
 												<span>状态：{{item.span}}</span>
 											</div>
 										</div>
-									</router-link>
+									<!-- </router-link> -->
 									<div class="content_right">
 										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 									</div>
@@ -67,8 +67,8 @@
 					<div class="list" v-show="yes" @scroll="handleScroll" ref="listYes">
 						<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in yesItems" :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
+								<li v-for="(item,inx) in yesItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
 												<img :src="item.img" alt="">
@@ -79,7 +79,7 @@
 												<span>状态：{{item.span}}</span>
 											</div>
 										</div>
-									</router-link>
+									<!-- </router-link> -->
 									<div class="content_right">
 										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 									</div>
@@ -90,8 +90,8 @@
 					<div class="list" v-show="no" @scroll="handleScroll" ref="listNo">
 						<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in noItems " :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
+								<li v-for="(item,inx) in noItems " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
 												<img :src="item.img" alt="">
@@ -102,7 +102,7 @@
 												<span>状态：{{item.span}}</span>
 											</div>
 										</div>
-									</router-link>
+									<!-- </router-link> -->
 									<div class="content_right">
 										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 									</div>

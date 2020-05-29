@@ -50,9 +50,7 @@
 
 <script>
 import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'collect',
   data () {
@@ -60,26 +58,16 @@ export default {
 		images: [],
     }
   },
-  computed:{
-	 ...mapGetters([]),
-	
+  computed:{	
   },
   created () {
 		
   },
 	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// document.addEventListener('scroll',this.scrollToTop)
-		// // window.addEventListener('scroll', 
-		// this.getData();
-		
-		// this.navTopFn();
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -91,11 +79,9 @@ export default {
   methods: {
 	//回退方法
 	goBackFn(){
-			 this.$router.back(-1)
+			 this.$router.back()
 	},
 	scrollToTop (e) {
-	    // let _this = this
-	    // let read = _this.$el.querySelector('#topNav')
 		this.$refs.Box.scrollTop = 0 ;		  
 	},
 	getData(){
@@ -107,8 +93,6 @@ export default {
 			}
 		})
 		.catch((err)=>{
-			
-			//Dialog({ message: '加载失败!'});
 		})
 	}
   },

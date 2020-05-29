@@ -1,13 +1,16 @@
 <template>
-	<div class="index">
-		<topSolt>
-		<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh">
+	<topSolt>
+		<div class="index" slot="returnTopSolt">
+		<!-- <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh"> -->
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="topNav_search">
-					<router-link :to="{path:'/operating/operating_clinicAllSearch'}">
+					<!-- <router-link :to="{path:'/operating/operating_clinicAllSearch'}"> -->
+					<div class="xiugai" @click="$router.push({path:'/operating/operating_clinicAllSearch',query:{time: new Date().getTime()}})">
 						<img src="../../../assets/image/sousuo@2x.png" alt="">
 						<input type="search">
-					</router-link>
+					</div>
+						
+					<!-- </router-link> -->
 					<div class="shaixuan" @click="shaixuanFn">
 						<span>筛选</span>
 						<img src="../../../assets/image/shaixuan.svg" alt="">
@@ -22,14 +25,14 @@
 				<!-- <topSolt style="height:calc(100% - 1rem)"> -->
 					<van-list v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 						<ul >
-							<li v-for="(items,inx) in content" :key="inx">
-								<router-link :to="{path : '/operating/operating_clinicDetails' ,query :  {clinicId : items.itemId,clinicName:items.name,}}">
+							<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/operating/operating_clinicDetails',query:{clinicId : items.itemId,clinicName:items.name,time: new Date().getTime()}})">
+								<!-- <router-link :to="{path : '/operating/operating_clinicDetails' ,query :  {}}"> -->
 									<div class="contentLi">
 										<h4>{{items.name}}</h4>
 										<span>推广人: {{items.clinicPromoterName}}</span>
 										<input type="text" v-model="items.pushCount" readonly="readonly">
 									</div>
-								</router-link>
+								<!-- </router-link> -->
 							</li>
 						</ul>
 					</van-list>
@@ -68,63 +71,45 @@
 					</div>
 				</div>
 			</van-popup>
-		</van-pull-refresh>
-		</topSolt>
-	</div>
+		<!-- </van-pull-refresh> -->
+		</div>
+	</topSolt>
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import topSolt from "../function/topSolt.vue";
 // import moment from 'moment'
 export default {
   name: "gene",
   data() {
     return {
-      page: 1,
-      pullingDown: false,
-	  show:false,
-	  listStyleData:[false,false,false,false,false,false,false],
-	  sorts:'',
-	  orders:'',
-	  loading: false,
-	  			finished: false,
-	  			content : [],
-	  			page:0,
-	  			clinicNum : 0,
-	  test:''
+		page: 1,
+		pullingDown: false,
+		show:false,
+		listStyleData:[false,false,false,false,false,false,false],
+		sorts:'',
+		orders:'',
+		loading: false,
+		finished: false,
+	  	content : [],
+	  	page:0,
+	  	clinicNum : 0,
+		test:''
     };
   },
   components: {
     topSolt
   },
   computed: {
-    // ...mapGetters(["account", "isLogin"])
   },
-
   beforeCreate(){
-    
   },
   created() {
-
   },
-  beforeMount(){
-    debugger
-    
+  beforeMount(){    
   },
   mounted() {
-    // debugger
-    // let thisVue = this;
-    // if (window.plus) {
-    //   //plus.navigator.setStatusBarBackground("#ffffff");
-    //   plus.navigator.setStatusBarStyle("dark");
-    // }
-    
- 
-    // this.getNextPage();
   },
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -139,10 +124,10 @@ export default {
   activated(){
   },
   deactivated(){
-    debugger
     },
   methods: {
 	getdata(){
+		console.log('s')
 		this.$axios.get('/c2/clinic/items?'+qs.stringify({
 			pn:this.page,
 			// hospitalId: this.$store.state.operating.login,
@@ -267,7 +252,8 @@ export default {
         thisVue.$router.replace({ path : '/operating/operatingLogin',query:{time:1}});
       }})
 
-      Object.assign(this.$data, this.$options.data());
+	  Object.assign(this.$data, this.$options.data());
+	  this.getNextPage()
       // this.getdata();
       // this.$refs.clinic.initData();
     },
@@ -297,7 +283,10 @@ export default {
 	position: relative;
 	margin-top: .08rem;
 }
-.topNav_search>a>img{
+.xiugai{
+	display: inline;
+}
+.xiugai>img{
 	width: .13rem;
 	height: .145rem;
 	position: absolute;
@@ -306,7 +295,7 @@ export default {
 	bottom: 0rem;
 	margin: auto 0rem;
 }
-.topNav_search>a>input{
+.xiugai>input{
 	width: 82%;
 	height: .335rem;
 	background-color: #FFFFFF;

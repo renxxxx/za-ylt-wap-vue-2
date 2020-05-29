@@ -8,17 +8,17 @@
 				<div class="indexReturn" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/back-white@2x.png" alt="">
 				</div>
-				<router-link :to="{path:'/operating/operating_pathogenicSearch',query:{hospitalId: this.$route.query.hospitalId,focus : true,}}">
-          <div class="indexSearch ">
-              <input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
-              <img src="../../../assets/image/sousuo@2x.png" alt="">
-          </div>
-				</router-link>
-        <router-link :to="{path:'/operating/operating_pathogenicSearchoperating_pathogenicSearch',query:{hospitalId: this.$route.query.hospitalId,}}">
-          <div class="clinic_buttton">
-            <button>搜索</button>
-          </div>
-        </router-link>
+				<!-- <router-link :to="{path:'/operating/operating_pathogenicSearch',query:{hospitalId: this.$route.query.hospitalId,focus : true,}}"> -->
+				<div class="indexSearch " @click="$router.push({path: '/operating/operating_pathogenicSearch',query:{hospitalId: $route.query.hospitalId,focus : true,time: new Date().getTime()}})">
+					<input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
+					<img src="../../../assets/image/sousuo@2x.png" alt="">
+				</div>
+				<!-- </router-link> -->
+				<!-- <router-link :to="{path:'/operating/operating_pathogenicSearchoperating_pathogenicSearch',query:{hospitalId: this.$route.query.hospitalId,}}"> -->
+				<div class="clinic_buttton" @click="$router.push({path: '/operating/operating_pathogenicSearch',query:{hospitalId: $route.query.hospitalId,time: new Date().getTime()}})">
+					<button>搜索</button>
+				</div>
+				<!-- </router-link> -->
         <!-- <router-link }}"> -->
           <div class="indexScreening" @click="showPopup">
             <span>筛选</span>
@@ -47,16 +47,12 @@
 				</van-tabs>
 			</div>
 		</div>
-		<!-- <router v-if="isLogin == 200? true:false"></router> -->
   </div>
   </van-pull-refresh>
   </topSolt>
 </template>
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters,mapState} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import clinicAll from '../function/clinicAll.vue'
 import clinicYes from '../function/clinicYes.vue'
 import clinicNo from '../function/clinicNo.vue'
@@ -89,20 +85,10 @@ export default {
     }
   },
   created(){
-	
-  }
-  ,destroyed(){
-	  debugger
-	  
+  },
+  destroyed(){
   },
   mounted(){
-	//   console.dir(this.$route.query)
-	//   debugger
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#2B77EF");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
-	// this.getNum();
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -143,8 +129,6 @@ export default {
     	this.$store.state.hospitalReturnHomePage = newValue;
     	},
     },
-
-		...mapGetters(['Time','account','isLogin']),
   },
   //注册组件
   components:{
@@ -211,7 +195,6 @@ export default {
 
 		// 
 	},
-	...mapActions(['labelLabelFn','dateConfirm','closeFn','screeningSubmit','screeningResult','confirm','cancel','hospitalSubmit'])
   },
 }
 </script>

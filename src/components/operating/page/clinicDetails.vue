@@ -86,10 +86,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import clinicContent from '../function/clinic_content.vue'
 import topSolt from "../function/topSolt.vue";
 export default {
@@ -124,15 +121,10 @@ export default {
 		
 	},
 	mounted() {
-		// let thisVue = this;
-		// if (window.plus) {
-		// //plus.navigator.setStatusBarBackground("#ffffff");
-		// plus.navigator.setStatusBarStyle("dark");
-		// }
-		// this.getMessages()
 	},
   	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -150,9 +142,14 @@ export default {
 		},
 		typeClickFn(value){
 			if(value){
-				this.typeData = true
+				this.typeData = true;
+				this.content = []
+				this.page = 0
+				this.getNextPage()
 			}else{
-				this.typeData = false
+				this.typeData = false;
+				this.message = ''
+				this.getMessages()
 			}
 		},
 		getMessages(){

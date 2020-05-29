@@ -9,7 +9,7 @@
 			<div class="nav_center">
 				<h3>病员信息</h3>
 			</div>
-			<div class="nav_right" @click="modifyFn" v-model='modify' v-if="isLogin == 200? false:true">
+			<div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
 				<span>{{modify.value}}</span>
 				<img :src=modify.img alt="">
 			</div>
@@ -60,10 +60,10 @@
 		<div class="_photo">
 			<h3>发票照片</h3>
       <ul>
-        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx)">
-          <router-link :to="{name:'promoters_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true,}}">
+        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx,imgUrl)">
+          <!-- <router-link :to="{name:'promoters_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true,}}"> -->
             <img v-bind:src="item" alt="">
-          </router-link>
+          <!-- </router-link> -->
           <img v-show="show" src="../../../../assets/image/detele.png" alt="" @click="deteleFn(item)">
 		 <!-- <van-image-preview
 		    v-model="enlarge"
@@ -145,6 +145,7 @@ export default {
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -214,10 +215,11 @@ export default {
 		initData(){
 			Object.assign(this.$data, this.$options.data());
 		},
-		enlargeFn(_value){
+		enlargeFn(_value,imgUrl){
 			this.photoNum = _value;
 			
 			this.enlarge = true;
+			this.$router.push({path:'/promoters/promoters_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime()}})
 		},
 		onChange(_value){
 			this.photoPage = _value;

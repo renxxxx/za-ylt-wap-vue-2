@@ -21,31 +21,11 @@
       </div>
       </topSolt>
     </div>
-    <!-- <van-collapse v-model="activeNames">
-       <van-collapse-item :title="this.$route.query.name" name="1">
-         <div slot="title" class="title">
-           <span>{{this.$route.query.name}}</span>
-           <p><span>{{yesNum}}</span>/{{num}}</p>
-         </div>
-         <div v-for="(_item,inx) in operatingManualList" :key="inx">
-           <router-link :to="{path : '/hospital/hospital_operatingManualListDetails',query:{name:_item.name ,operatingManualId:_item.operatingManualId,operatingManualSectionId:_item.operatingManualSectionId}}">
-             <div  class="manualList">
-               <span :class="[_item.done? '':'doColor']">{{_item.name}}</span>
-               <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-             </div>
-
-           </router-link>
-         </div>
-       </van-collapse-item>
-    </van-collapse> -->
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import topSolt from "../function/topSolt.vue";
 export default {
   name: 'operatingManualList',
@@ -55,7 +35,7 @@ export default {
       operatingManualList : [],
       num:0,
       yesNum:0,
-	  query:{}
+	    query:{}
     }
   },
   components: {
@@ -63,21 +43,9 @@ export default {
   },
   computed:{
   },
-  // beforeRouteUpdate(to,from,next){
-  //   this.operatingManualList = [];
-  //   
-  //   this.getData()
-  //   next();
-  // },
   created () {
   },
   mounted () {
-  //   if(window.plus){
-  //   	//plus.navigator.setStatusBarBackground("#ffffff");
-  //   	plus.navigator.setStatusBarStyle("dark")
-  //   }
-	// this.query = qs.parse(this.$route.query)
-  //   this.getData()
   },
    activated(){
 		if(this.query != JSON.stringify(this.$route.query)){

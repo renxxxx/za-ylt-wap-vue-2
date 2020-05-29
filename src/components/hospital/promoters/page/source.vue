@@ -7,10 +7,10 @@
 			<div class="centerTitle">
 				<h3>{{this.$route.query.clinicName}}</h3>
 			</div>
-			<div class="rightImg">
-				<router-link :to="{name:'promoters_clinicInfo',query:{clinicId:this.$route.query.clinicId}}">
+			<div class="rightImg" @click="$router.push({path:'/promoters/promoters_clinicInfo',query:{clinicId:$route.query.clinicId,time: new Date().getTime()}})">
+				<!-- <router-link :to="{name:'promoters_clinicInfo',query:{clinicId:this.$router.query.clinicId}}"> -->
 					<img src="../../../../assets/image/promotersEditor.png" alt="">
-				</router-link>
+				<!-- </router-link> -->
 			</div>
 			<div class="navZhanwei"></div>
 			<div class="navTime">
@@ -18,12 +18,12 @@
 			</div>
 		</div>
 		<div style="height: .575rem;width: 100%;"></div>
-		<router-link :to="{name:'promoters_addSource',query:{clinicId:this.$route.query.clinicId}}">
-			<div class="addEtiology">
+		<!-- <router-link :to="{name:'promoters_addSource',query:{clinicId:this.$router.query.clinicId}}"> -->
+			<div class="addEtiology" @click="$router.push({path:'/promoters/promoters_addSource',query:{clinicId:$route.query.clinicId,time: new Date().getTime()}})">
 				<img src="../../../../assets/image/xinzeng@2x.png" alt="">
 				<span>新增病原</span>
 			</div>
-		</router-link>
+		<!-- </router-link> -->
 		<div class="stateNav">
 			<van-tabs title-inactive-color='#333333' title-active-color="#FF932E" @change="tabFn">
 				<van-tab>
@@ -35,8 +35,8 @@
 						<van-list  v-model="loading" :finished="finishedAll" finished-text="没有更多了"  @load="nextPageFn">
 							<ul>
 								<!-- items -->
-								<li v-for="(item,inx) in  items" :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
+								<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
 												<img :src="item.img" alt="">
@@ -47,7 +47,7 @@
 												<span>状态：{{item.span}}</span>
 											</div>
 										</div>
-									</router-link>
+									<!-- </router-link> -->
 									<div class="content_right">
 										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 									</div>
@@ -64,8 +64,8 @@
 					<div class="list" @scroll="handleScroll" ref="listYes">
 						<van-list  v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in  yesItems" :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
+								<li v-for="(item,inx) in  yesItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
 												<img :src="item.img" alt="">
@@ -76,7 +76,7 @@
 												<span>状态：{{item.span}}</span>
 											</div>
 										</div>
-									</router-link>
+									<!-- </router-link> -->
 									<div class="content_right">
 										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 									</div>
@@ -93,8 +93,8 @@
 					<div class="list" @scroll="handleScroll" ref="listNo">
 						<van-list  v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in  noItems" :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
+								<li v-for="(item,inx) in  noItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
 												<img :src="item.img" alt="">
@@ -105,7 +105,7 @@
 												<span>状态：{{item.span}}</span>
 											</div>
 										</div>
-									</router-link>
+									<!-- </router-link> -->
 									<div class="content_right">
 										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 									</div>
@@ -170,6 +170,9 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.getAllNum();
+			this.nextPageFn();
+			this.yesNextPageFn();
+			this.noNextPageFn();
 		}
 		if(this.scrollTopAll != 0){
 			this.$refs.listAll.scrollTop = this.scrollTopAll;

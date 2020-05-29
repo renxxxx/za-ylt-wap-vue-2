@@ -155,7 +155,7 @@ export default {
 <style scoped>
 .activityDetailsList{
 	width: 100%;
-	height: calc(100% - .98rem);
+	height: calc(100% - .47rem);
   	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;

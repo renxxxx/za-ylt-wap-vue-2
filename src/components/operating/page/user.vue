@@ -13,15 +13,8 @@
 					<h3>{{this.$store.state.operating.login? this.$store.state.operating.login.name:''}}</h3>
 					<p>账号：{{this.$store.state.operating.login? this.$store.state.operating.login.phone:''}}</p>
 				</div>
-				<!-- <div class="top_right" @click="showImgFn">
-					<span>营业执照</span>
-					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-				</div> -->
 			</div>
 		</div>
-		<!-- <van-image-preview v-model="show" :images="images" @change="onChange" > -->
-		  <!-- <template v-slot:index>第{{ index }}页</template> -->
-		</van-image-preview>
 		<div class="user_center"  :style="{'padding-top': (parseInt($store.state.paddingTop.replace('px',''))+140)+'px'}">
 			<ul>
 				<li @click="exitFn">
@@ -32,7 +25,6 @@
 			</ul>
 		</div>
 		<span>版本：{{this.$version.split('-')[0]}}</span>
-    <!-- <div style="height: .55rem;"></div> -->
 	</div>
 </template>
 

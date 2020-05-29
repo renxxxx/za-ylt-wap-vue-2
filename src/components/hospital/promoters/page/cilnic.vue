@@ -3,20 +3,20 @@
 		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
 			<div class="navWarp">
 				<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
-					<div class="hospital_search">
-						<router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}">
+					<div class="hospital_search" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}"> -->
 							<input type="text" placeholder="搜索门诊">
 							<img src="../../../../assets/image/sousuo@2x.png" alt="">
-						</router-link>
+						<!-- </router-link> -->
 					</div>
 				</div>
 				<div class="statisticalTitle">
 					<h3>合作门诊 {{clinic.num}}</h3>
-					<div class="statisticalAdd">
-						<router-link :to="{path : '/promoters/promoters_addClinic',query:{}}">
+					<div class="statisticalAdd" @click="$router.push({path:'/promoters/promoters_addClinic',query:{time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/promoters/promoters_addClinic',query:{}}"> -->
 							<span>新增</span>
 							<img src="../../../../assets/image/xinzeng@2x.png" alt="">
-						</router-link>
+						<!-- </router-link> -->
 					</div>
 				</div>
 			</div>
@@ -25,14 +25,14 @@
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content	 -->
-						<li v-for="(items,inx) in content" :key="inx">
-							<router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,}}">
+						<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,}}"> -->
 								<div class="contentLi">
 									<h4>{{items.name}}</h4>
 									<span>推广人: {{items.hospitalUserName}}</span>
 									<input type="text" v-model="items.patientCount" readonly="readonly">
 								</div>
-							</router-link>
+							<!-- </router-link> -->
 						</li>
 					</van-list>
 				</ul>
@@ -60,7 +60,7 @@ export default {
 			loading: false,
 			finished: false,
 			content : [],
-			page:1,
+			page:0,
 			hospitalReturnTopPage:false,
 		 	show:false,
 		}
@@ -68,34 +68,23 @@ export default {
 	computed:{
 	},
 	components:{
-		
 	},
 	created(){
 	},
-
-  	destroyed(){
-	  debugger
-	  
+  	destroyed(){	  
  	},
 	mounted() {
-	//   debugger
-	// 	if(window.plus){
-	// 		//plus.navigator.setStatusBarBackground("#ffffff");
-	// 		plus.navigator.setStatusBarStyle("dark")
-	// 	}
-
-		// this.getdata(0);
-		// this.initData()
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			// 加载dom节点后,获取推广人列表请求
-			this.getdata();
+			this.getNextPage();
 		}
 		if(this.scrollTop != 0){
 			this.$refs.content.scrollTop = this.scrollTop;
@@ -119,26 +108,21 @@ export default {
 		  }, 500);
 		},
 		initData() {
-
-			debugger
-
 			let thisVue=this;
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 				this.$toast({message:'请登录',onClose:function(){
 					thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
 				}})
-
-
-		  Object.assign(this.$data, this.$options.data());
-		  // this.$refs.clinic.initData();
-		  this.$axios.get('/hospital/operator/hospital-clinics-sum?')
-		  .then(res => {
-		  	this.clinic.num = res.data.data.rowCount;
-		  })
-		  .catch((err)=>{
-		  	
-		  })
-		  this.getNextPage();
+			Object.assign(this.$data, this.$options.data());
+			// this.$refs.clinic.initData();
+			this.$axios.get('/hospital/operator/hospital-clinics-sum?')
+			.then(res => {
+				this.clinic.num = res.data.data.rowCount;
+			})
+			.catch((err)=>{
+				
+			})
+			this.getNextPage();
 		},
 		getNextPage(){
 			this.page++
