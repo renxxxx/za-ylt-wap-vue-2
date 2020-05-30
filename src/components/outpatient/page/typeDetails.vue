@@ -96,9 +96,7 @@ export default {
 	components:{
 	},
 	created(){
-
 	},
- 
 	mounted(){
 	},
 	activated(){

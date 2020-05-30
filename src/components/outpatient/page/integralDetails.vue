@@ -15,15 +15,17 @@
       <span>积分使用明细</span>
     </div>
     <div class="integralDetailsList" @scroll="handleScroll" ref="integralDetailsList">
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <ul>
-          <li v-for="(item,inx) in integralDetails" :key="inx">
-            <h4>{{item.note}}</h4>
-            <p>{{moment(item.addTime).format('YYYY-MM-DD hh:mm')}}</p>
-            <span>{{item.amount}}</span>
-          </li>
-        </ul>
-      </van-list>
+      <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <ul>
+            <li v-for="(item,inx) in integralDetails" :key="inx">
+              <h4>{{item.note}}</h4>
+              <p>{{moment(item.addTime).format('YYYY-MM-DD hh:mm')}}</p>
+              <span>{{item.amount}}</span>
+            </li>
+          </ul>
+        </van-list>
+      </van-pull-refresh>
     </div>
     <div class="returnTop" @click="$refs.integralDetailsList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -43,7 +45,8 @@ export default {
       finished: false,
       page: 0,
       hospitalReturnTopPage:false,
-			scrollTop:0
+      scrollTop:0,
+      pullingDown: false,
     }
   },
   computed:{
@@ -53,13 +56,10 @@ export default {
   components:{
 	},
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+      this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -71,6 +71,17 @@ export default {
 		}
   },
   methods: {
+    afterPullDown() {
+		  //下拉刷新
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+    },
+    initData(){
+			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
+		},
     // 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.integralDetailsList.scrollTop || this.$refs.integralDetailsList.pageYOffset

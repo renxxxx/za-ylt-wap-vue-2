@@ -7,11 +7,11 @@
 			<div class="centerTitle">
 				<!-- <h3>任务管理</h3> -->
 			</div>
-			<router-link :to="{name: 'outpatient_integralExchange',query:{}}">
-				<div class="right">
-					<span>我要兑换</span>
-				</div>
-			</router-link>
+			<!-- <router-link :to="{name: 'outpatient_integralExchange',query:{}}"> -->
+			<div class="right" @click="$router.push({path:'/outpatient/outpatient_integralExchange',query:{time: new Date().getTime()}})">
+				<span>我要兑换</span>
+			</div>
+			<!-- </router-link> -->
 			<div class="Explain" @click="showExplainFn">
 				<button>积分说明</button>
 			</div>
@@ -59,8 +59,6 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'taskCenter',
@@ -75,27 +73,16 @@ export default {
 		}
 	},
 	computed:{
-	  ...mapGetters(['account'])
 	},
 	components:{
-
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join()) 
-		//
 	},
  	mounted(){
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.getData()
-		
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

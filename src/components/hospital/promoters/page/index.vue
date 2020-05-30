@@ -1,33 +1,33 @@
 <template>
 	<div class="index" id="promotersIndex">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
-			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
-				<h3>—&nbsp;&nbsp;推广人端&nbsp;&nbsp;—</h3>
-			</div>
-			<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-			<div class="indexList" @scroll="handleScroll" ref="indexList"> 
+		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
+			<h3>—&nbsp;&nbsp;推广人端&nbsp;&nbsp;—</h3>
+		</div>
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="indexList" @scroll="handleScroll" ref="indexList"> 
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
 				<div class="typeNav">
-					<router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}">
-						<img src="../../../../assets/image/qudaomenzhen@2.png" alt="">
-					</router-link>
-					<router-link :to="{path : '/promoters/promoters_sourceManagement',query:{}}">
-						<img src="../../../../assets/image/bingyuanguanli@2.png" alt="">
-					</router-link>
+					<!-- <router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}"> -->
+					<img src="../../../../assets/image/qudaomenzhen@2.png" alt="" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime()}})">
+					<!-- </router-link> -->
+					<!-- <router-link :to="{path : '/promoters/promoters_sourceManagement',query:{}}"> -->
+						<img src="../../../../assets/image/bingyuanguanli@2.png" alt="" @click="$router.push({path:'/promoters/promoters_sourceManagement',query:{time: new Date().getTime()}})">
+					<!-- </router-link> -->
 				</div>
 				<div class="article" v-if="article.length">
 					<div class="articleTitle">
 						<img src="../../../../assets/image/Combined Shape@2x.png" alt />
 						<h3>运营文章</h3>
-						<div class="articleDetails">
-							<router-link :to="{path : '/promoters/promoters_case'}">							
+						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_case',query:{time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_case'}">							 -->
 								<span>查看更多</span>
 								<img src="../../../../assets/image/Chevron Copy 2@2x.png" alt="">
-							</router-link>
+							<!-- </router-link> -->
 						</div>
 					</div>
 					<ul>
-						<li v-for="(items,inx) in article" :key="inx">
-							<router-link :to="{path : '/promoters/promoters_caseDetails' ,query : {itemId : items.itemId,data: 1}}">
+						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_caseDetails' ,query : {itemId : items.itemId,data: 1}}"> -->
 								<div class="article_left">
 									<p>{{items.content}}</p>
 									<div class="article_leftTime">
@@ -38,7 +38,7 @@
 								<div class="article_right">
 									<img :src="items.img" alt />
 								</div>
-							</router-link>
+							<!-- </router-link> -->
 						</li>
 					</ul>
 				</div>
@@ -46,25 +46,25 @@
 					<div class="articleTitle">
 						<img src="../../../../assets/image/huodong@2x.png" alt />
 						<h3>推广活动</h3>
-						<div class="articleDetails">
-							<router-link :to="{path : '/promoters/promoters_activityReleased'}">
+						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_activityReleased',query:{time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_activityReleased'}"> -->
 							<span>查看更多</span>
 							<img src="../../../../assets/image/Chevron Copy 2@2x.png" alt="">
-							</router-link>
+							<!-- </router-link> -->
 						</div>
 					</div>
-					<div class="activeList">
-						<router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:qualityCase[0].itemId,}}">
+					<div class="activeList"  @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:qualityCase[0].itemId,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:qualityCase[0].itemId,}}"> -->
 						<img :src="qualityCase[0].img" alt="">
 						<div class="activeTitle">
 							<h4>{{qualityCase[0].content}}</h4>
 							<span>{{moment(qualityCase[0].time).format('YYYY-MM-DD HH:mm')}}</span>
 						</div>
-						</router-link>
+						<!-- </router-link> -->
 					</div>
 					<ul style="">
-						<li v-for="(items,num) in qualityCase" :key="num">
-							<router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:items.itemId,}}">
+						<li v-for="(items,num) in qualityCase" :key="num" @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:items.itemId,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:items.itemId,}}"> -->
 							<div class="article_left">
 								<p>{{items.content}}</p>
 								<div class="article_leftTime">
@@ -75,13 +75,13 @@
 							<div class="article_right">
 								<img :src="items.img" alt />
 							</div>
-							</router-link>
+							<!-- </router-link> -->
 						</li>
 					</ul>
 				</div>
 				<!-- <div style="height: .5rem;"></div> -->
-			</div>
-		</van-pull-refresh>
+			</van-pull-refresh>
+		</div>
 		<div class="returnTop" @click="$refs.indexList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -149,6 +149,7 @@ export default {
 			}, 500);
 		},
 		initData(_data) {
+			Object.assign(this.$data, this.$options.data());
 			let thisVue=this;
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 				this.$toast({message:'请登录',onClose:function(){
@@ -382,8 +383,5 @@ export default {
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;
   	overflow-x: hidden;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

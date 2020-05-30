@@ -1,24 +1,24 @@
 <template>
 	<div class="all">
-		<!-- <van-pull-refresh v-model="isLoading" @refresh="refresh"> -->
+		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
-			<ul class="clinicList">
-				<!-- items -->
-				<li v-for="(item,inx) in items" :key="inx">
-					<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
-						<div class="content_left">
-							<span>{{item.realname}}</span>
-						</div>
-						<div class="content_right">
-							<img :src='item.img'>
-							<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
-						</div>
-						<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
-					</router-link>
-				</li>
-			</ul>
-      </van-list>
-		<!-- </van-pull-refresh> -->
+				<ul class="clinicList">
+					<!-- items -->
+					<li v-for="(item,inx) in items" :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}"> -->
+							<div class="content_left">
+								<span>{{item.realname}}</span>
+							</div>
+							<div class="content_right">
+								<img :src='item.img'>
+								<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
+							</div>
+							<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
+						<!-- </router-link> -->
+					</li>
+				</ul>
+			</van-list>
+		</van-pull-refresh>
 	</div>
 </template>
 <script>
@@ -37,24 +37,18 @@ export default {
 			yesNum: 0,
 			clinicId:'',
 			items:[],
-      test:''
+			test:'',
+			pullingDown: false,
 		}
 	},
 	computed:{
 	},
-	 props:['list'],
+	props:['list'],
 	components:{
-
 	},
 	created () {
-		debugger
 	},
  	mounted() {
-	//   debugger
-	// 	if(window.plus){
-	// 		//plus.navigator.setStatusBarBackground("#ffffff");
-	// 		plus.navigator.setStatusBarStyle("dark")
-	// 	}
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -67,6 +61,13 @@ export default {
 		}
     },
 	methods:{
+		afterPullDown() {
+			//下拉刷新
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
 		submitFn(_item,_button){
 			this.$axios.post('/c2/patient/confirmjiuzhen',qs.stringify({
 				patientId : _item.itemId

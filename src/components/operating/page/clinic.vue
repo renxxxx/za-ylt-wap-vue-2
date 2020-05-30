@@ -1,7 +1,6 @@
 <template>
-	<div class="index">
-		<topSolt>
-		<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh">
+	<topSolt>
+		<div class="index" slot="returnTopSolt">
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="topNav_search">
 					<router-link :to="{path:'/operating/operating_clinicAllSearch'}">
@@ -19,7 +18,7 @@
 			</div>
 			<div style="width: 100%;height: 1rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
 			<div class="content">
-				<!-- <topSolt style="height:calc(100% - 1rem)"> -->
+				<van-pull-refresh  v-model="pullingDown" @refresh="afterPullDown" ref="refersh">
 					<van-list v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 						<ul >
 							<li v-for="(items,inx) in content" :key="inx">
@@ -33,6 +32,7 @@
 							</li>
 						</ul>
 					</van-list>
+				</van-pull-refresh>
 				<!-- </topSolt> -->
 			</div>
 			<div style="height: .55rem;"></div>
@@ -68,9 +68,8 @@
 					</div>
 				</div>
 			</van-popup>
-		</van-pull-refresh>
-		</topSolt>
-	</div>
+		</div>
+	</topSolt>
 </template>
 
 <script>
@@ -163,13 +162,12 @@ export default {
 			this.loading = false;
 			}else{
 				this.loading = false;
-	  this.test='没有更多了'
+				this.test='没有更多了'
 				this.finished = true;
 			}
-	
-	if(this.content.length == 0){
-	  this.test='无数据'
-	}
+			if(this.content.length == 0){
+				this.test='无数据'
+			}
 			// this.clinic.num = res.data.data.sum.totalCount;
 		})
 		.catch((err)=>{
@@ -262,13 +260,8 @@ export default {
     initData() {
       let thisVue = this;
 	  console.log(this.$store.state.operating.login)
-      if(this.$route.meta.auth && !this.$store.state.operating.login)
-      this.$toast({message:'请登录',onClose:function(){
-        thisVue.$router.replace({ path : '/operating/operatingLogin',query:{time:1}});
-      }})
-
       Object.assign(this.$data, this.$options.data());
-      // this.getdata();
+      this.getNextPage();
       // this.$refs.clinic.initData();
     },
   }

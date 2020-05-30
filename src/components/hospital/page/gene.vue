@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import qs from 'qs';
 import topSolt from "../function/topSolt.vue";
 export default {
@@ -118,13 +117,7 @@ export default {
 			this.initData()
 		}
 	},
-  mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-
-		// this.initData()
+  	mounted() {
 	},
 	methods: {
 		initData(){
@@ -137,7 +130,6 @@ export default {
 		// 基因状态菜单选择返回值
 		menuFn(_value){
 			let _geneData =  this.option.find( n => n.value == _value);
-			
 		}
 	},
 }

@@ -17,49 +17,36 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
-import qs from 'qs';
-import { Dialog } from 'vant'
 import hospital_imageAbout from '../function/hospital_imageAbout.vue'
 import hospital_imageType from '../function/hospital_imageType.vue'
 export default {
-  name: 'hospitalImage',
-  data () {
-    return {
-		hospitalImage:{
-			address : '',
-			cover : '',
-			headmanName : '',
-			intro : '',
-			name : '',
-			tel : '',
-		},
-		componentName : 'hospital_imageAbout',
-    }
-  },
-  computed:{
-	 ...mapGetters(['account','isLogin']),
+	name: 'hospitalImage',
+	data () {
+		return {
+			hospitalImage:{
+				address : '',
+				cover : '',
+				headmanName : '',
+				intro : '',
+				name : '',
+				tel : '',
+			},
+			componentName : 'hospital_imageAbout',
+		}
+	},
+	computed:{
 
-  },
-  components:{
-  	hospital_imageAbout,hospital_imageType
-  },
-  created(){
-  	var heightRexg = /^[0-9]*/g
-  	//var topHeight = this.topHeight.match(heightRexg)
-  	//this.height = parseInt(topHeight.join()) 
-  	//
-  },
-   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.getData();
-  },
+	},
+	components:{
+		hospital_imageAbout,hospital_imageType
+	},
+	created(){
+	},
+	mounted() {
+	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -68,64 +55,58 @@ export default {
 			this.getData()
 		}
     },
-  methods: {
-	getData(){
-		this.$router.currentRoute.query.components? this.backFN(): this.componentName = 'hospital_imageAbout'
-		this.$axios.post('/c2/hospital/item',qs.stringify({
-			itemId : this.$store.state.outpatient.login.hospital.hospitalId,
-		}))
-		.then(_d => {
-			this.hospitalImage = {
-				address : _d.data.data.address,
-				cover : _d.data.data.cover,
-				headmanName :_d.data.data.headmanName,
-				intro : _d.data.data.intro,
-				name : _d.data.data.name,
-				tel : _d.data.data.tel,
-			};
-			let imgUrl = '';
-			this.hospitalImage.cover? imgUrl = this.hospitalImage.cover : imgUrl = ''
-			// imgUrl = this.hospitalImage.cover;
-			// 
-			if(imgUrl != ''){
-				this.$refs.img.style['background-image']='url('+imgUrl+')';
+  	methods: {
+		getData(){
+			this.$router.currentRoute.query.components? this.backFN(): this.componentName = 'hospital_imageAbout'
+			this.$axios.post('/c2/hospital/item',qs.stringify({
+				itemId : this.$store.state.outpatient.login.hospital.hospitalId,
+			}))
+			.then(_d => {
+				this.hospitalImage = {
+					address : _d.data.data.address,
+					cover : _d.data.data.cover,
+					headmanName :_d.data.data.headmanName,
+					intro : _d.data.data.intro,
+					name : _d.data.data.name,
+					tel : _d.data.data.tel,
+				};
+				let imgUrl = '';
+				this.hospitalImage.cover? imgUrl = this.hospitalImage.cover : imgUrl = ''
+				if(imgUrl != ''){
+					this.$refs.img.style['background-image']='url('+imgUrl+')';
+				}
+			})
+			.catch((err)=>{})	
+		},
+		//回退方法
+		goBackFn(){
+			this.$router.back(-1)
+		},
+		// 组件切换
+		switchFn(data){
+			if(data == 'about'){
+				this.componentName = 'hospital_imageAbout';
+				this.$refs.about.style.color='#2B77EF'
+				this.$refs.type.style.color='#666666'
+				this.$refs.about.classList.add('xiahuaxian');
+				this.$refs.type.classList.remove('xiahuaxian');
+				
+			}else{
+				this.$refs.about.style.color='#666666'
+				this.$refs.type.style.color='#2B77EF'
+				this.$refs.about.classList.remove('xiahuaxian');
+				this.$refs.type.classList.add('xiahuaxian');
+				this.componentName = 'hospital_imageType';
 			}
-			// 
-		})
-		.catch((err)=>{
-			
-			//Dialog({ message: '加载失败!'});
-		})	
-	},
-	//回退方法
-	goBackFn(){
-		this.$router.back(-1)
-	},
-	  // 组件切换
-	switchFn(data){
-		if(data == 'about'){
-			this.componentName = 'hospital_imageAbout';
-			this.$refs.about.style.color='#2B77EF'
-			this.$refs.type.style.color='#666666'
-			this.$refs.about.classList.add('xiahuaxian');
-			this.$refs.type.classList.remove('xiahuaxian');
-			
-		}else{
+		},
+		backFN(){
 			this.$refs.about.style.color='#666666'
 			this.$refs.type.style.color='#2B77EF'
 			this.$refs.about.classList.remove('xiahuaxian');
 			this.$refs.type.classList.add('xiahuaxian');
-			this.componentName = 'hospital_imageType';
+			this.componentName = this.$router.currentRoute.query.components;
 		}
-	},
-	backFN(){
-		this.$refs.about.style.color='#666666'
-		this.$refs.type.style.color='#2B77EF'
-		this.$refs.about.classList.remove('xiahuaxian');
-		this.$refs.type.classList.add('xiahuaxian');
-		this.componentName = this.$router.currentRoute.query.components;
-	}
-  },
+  	},
 }
 </script>
 

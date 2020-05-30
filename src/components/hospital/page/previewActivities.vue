@@ -23,7 +23,6 @@
 
 <script>
 import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'preview',
@@ -35,7 +34,6 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
 		
@@ -51,7 +49,6 @@ export default {
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.activity = JSON.parse(this.$route.query.activity)
@@ -64,7 +61,6 @@ export default {
 		},
 		//发布活动
 		releaseFn(){	
-			
 			this.activity.endTime = new Date(this.activity.endTime).getTime();
 			this.activity.startTime = new Date(this.activity.startTime).getTime();
 			this.$axios.post('/c2/activity/itemadd',qs.stringify({
@@ -97,13 +93,8 @@ export default {
 					}
 					this.$router.go(-2)
 				}
-				//window.location.href='#/hospital_activityReleased';
-				
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			.catch((err)=>{})
 		},
 	},
 }

@@ -42,15 +42,6 @@ export default {
 	},
 	
 	mounted () {
-		// let _this = this
-		// ImagePreview({
-		// 	images: this.imgUrl,
-		// 	asyncClose: false,
-		// 	startPosition: this.$route.query.inx? this.$route.query.inx : 0,
-		// 	onClose(){
-		// 		_this.$router.back()
-		// 	}
-		// });
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){

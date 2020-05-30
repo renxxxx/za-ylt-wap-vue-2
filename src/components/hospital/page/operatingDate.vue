@@ -18,31 +18,17 @@
       </div>
     </van-swipe>
     </div>
-    
-    
     <div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
     <div class="center" @scroll="handleScroll" ref="center">
       <div class="title" v-for="(data,index) in dataValue" :key="index">
         <span>{{moment(data.time[0]).format('YYYY-MM-DD')}}</span>
-        <!-- <span>{{data.value[0].content}}</span> -->
         <van-steps direction="vertical" :active="-9999">
           <van-step v-for="(riqi,num) in data.value" :key="num">
             <span class="addTime">{{moment(riqi.addTime).format('hh:mm')}}</span>
             <p class="riqiP">{{riqi.hospitalUserName}} 上传了 <span>{{riqi.operatingManualSectionName}}</span> </p>
           </van-step>
         </van-steps>
-        <!-- <ul>
-          <li v-for="riqi in data.value">
-
-            <span>{{moment(riqi.addTime).format('mm:ss')}}</span>
-            <div>
-              <span>{{riqi.hospitalUserName}}</span>
-              <span>{{riqi.operatingManualSectionName}}</span>
-            </div>
-          </li>
-        </ul> -->
       </div>
-
     </div>
     <div class="returnTop" @click="$refs.center.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -52,14 +38,10 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import moment from 'moment'
 export default {
   name: 'operatingDate',
-
   data () {
     return {
       nowYear:undefined,
@@ -76,20 +58,13 @@ export default {
   },
   computed:{
   },
-  
   mounted () {
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#ffffff");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
-    // this.riliFn()
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
       Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
       this.riliFn()
@@ -177,20 +152,10 @@ export default {
         }
 
       }
-      console.dir(this.data)
+      // console.dir(this.data)
       this.getData(this.nowYear,this.nowMonth)
     },
     changeFn(index) {
-      // let timestamp = Date.parse(new Date());
-      // let date = new Date(timestamp);
-      // if(this.nowYear == date.getFullYear()){
-      //   if(this.nowMonth>6){
-      //     this.$refs.Swipe.next();
-      //     this.maxMounth[this.nowMonth-7].color = 'color'
-      //   }else{
-      //     this.minMounth[this.nowMonth-1].color = 'color'
-      //   }
-      // }
       if((this.start-this.end)<0){
         if(index%2){
           --this.nowYear
@@ -200,14 +165,12 @@ export default {
           ++this.nowYear
         }
       }
-
     },
     startFn(e){
       this.start = e.changedTouches[0].pageX;
     },
     endFn(e){
       this.end = e.changedTouches[0].pageX;
-
     },
     mouthFn(year,mounth){
       this.data=[];
@@ -229,7 +192,6 @@ export default {
         }
       }
       this.dataValue = []
-
       this.getData(year,mounth)
     },
     getData(year,mounth){
@@ -248,23 +210,18 @@ export default {
             _dataValue.push(res.data.data.rows[i])
             _dataValue[i].addTime = moment(_dataValue[i].addTime).format('YYYY-MM-DD HH:mm:ss')
             _dataValue[i].alterTime = moment(_dataValue[i].alterTime).format('YYYY-MM-DD HH:mm:ss')
-            // console.dir(_dataValue)
           }
         }else{
           this.$toast(res.data.codeMsg)
         }
-
         if(res.data.data.rows.length){
-          // let _time = _dataValue[0].addTime.split(' ');
           let num = 0;
           this.dataValue.push({
             time:undefined,
             value:[]
           })
-          console.dir(_dataValue[0]);
-          
+          // console.dir(_dataValue[0]);
           this.dataValue[num].time = _dataValue[0].addTime.split(' ');
-          
           for(let i = 0;i<_dataValue.length;i++){
             let _time = _dataValue[i].addTime.split(' ');
             if(this.dataValue[num].time[0] == _time[0]){
@@ -278,21 +235,14 @@ export default {
               }
               this.dataValue[num].time = _dataValue[i].addTime.split(' ');
               this.dataValue[num].value.push(_dataValue[i])
-              // this.dataValue[num].time = _dataValue[i].addTime.split(' ')[0];
-              // this.dataValue[num].value.push(_dataValue[i])
             }
           }
         }
-          
-
-        // console.dir(this.dataValue)
       })
       .catch((err)=>{
-      	
       })
     },
     zhuanHuanFn(year,mounth){
-      // let data = undefined;
       let _time = undefined
       if(mounth<10){
         _time = year.toString()+0+mounth.toString()+'01'
@@ -300,7 +250,6 @@ export default {
         _time = year.toString()+mounth.toString()+'01'
       }
       _time = moment(_time).format('YYYY-MM-DD HH:mm:ss')
-      // console.log(_time)
       let data = new Date(_time).getTime();
       return data;
     }

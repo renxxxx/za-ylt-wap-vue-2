@@ -12,25 +12,27 @@
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
 		<div class="content" @scroll="handleScroll" ref="content">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-				<li v-for="(item,inx) in clinicMessage" :key='inx' @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
-					<!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
-					<div class="triangle_border_up">
-						<span></span>
-					</div>
-					<div class="contentTitle">
-						<span>{{item.realname}}</span>
-						<span>所属：{{item.clinicName}}</span>
-						<span>时间 : {{moment(item.pushTime).format('YYYY-MM-DD HH:MM')}}</span>
-					</div>
-					<div class="contentTel">
-						<span>去联系</span>
-					</div>
-					<!-- </router-link> -->
-				</li>
-				</ul>
-			</van-list>
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+					<ul>
+					<li v-for="(item,inx) in clinicMessage" :key='inx' @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
+						<div class="triangle_border_up">
+							<span></span>
+						</div>
+						<div class="contentTitle">
+							<span>{{item.realname}}</span>
+							<span>所属：{{item.clinicName}}</span>
+							<span>时间 : {{moment(item.pushTime).format('YYYY-MM-DD HH:MM')}}</span>
+						</div>
+						<div class="contentTel">
+							<span>去联系</span>
+						</div>
+						<!-- </router-link> -->
+					</li>
+					</ul>
+				</van-list>
+			</van-pull-refresh>
 		</div>
 		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -40,10 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'case',
 	data () {
@@ -54,7 +53,8 @@ export default {
 			page: 0,
 			query:'',
 			scrollTop:0,
-     		hospitalReturnTopPage:false,
+			hospitalReturnTopPage:false,
+			pullingDown: false,
 		}
 	},
 	computed:{
@@ -63,11 +63,11 @@ export default {
 	},
 	created(){
 	},
-  mounted() {
+  	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -76,6 +76,17 @@ export default {
 		}
 	},
 	methods: {
+		afterPullDown() {
+			debugger
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
+		initData(){
+			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
+		},
 		// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
@@ -95,29 +106,26 @@ export default {
 		  this.getData();
 		},
 		getData(){
-      this.$axios.post('/c2/patient/items',qs.stringify({
-      	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-        pn: this.page,
-        ps: 10
-      }))
-      .then(_d => {
-        if(_d.data.data.items.length != 0){
-          for(let i in _d.data.data.items){
-          	// 
-          	if(_d.data.data.items[i]){
-          		this.clinicMessage.push(_d.data.data.items[i])
-          	}
-          }
-          this.loading = false;
-      	}else{
-          this.loading = false;
-          this.finished = true;
-        }
-      })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: err});;
-      })
+			this.$axios.post('/c2/patient/items',qs.stringify({
+				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
+				pn: this.page,
+				ps: 10
+			}))
+			.then(_d => {
+				if(_d.data.data.items.length != 0){
+				for(let i in _d.data.data.items){
+					// 
+					if(_d.data.data.items[i]){
+						this.clinicMessage.push(_d.data.data.items[i])
+					}
+				}
+				this.loading = false;
+				}else{
+				this.loading = false;
+				this.finished = true;
+				}
+			})
+			.catch((err)=>{})
     }
 	},
 }

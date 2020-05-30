@@ -22,37 +22,25 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'preview',
 	data () {
 		return {
-			activity : {
-				
-			},
+			activity : {},
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
-		
 	},
 	created () {
-		
 	},
   	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.activity = JSON.parse(this.$route.query.activity)
-		
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

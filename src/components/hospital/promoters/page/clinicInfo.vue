@@ -72,11 +72,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
-import { Toast } from 'vant'
 export default {
 	name: 'search',
 	data () {
@@ -102,23 +98,16 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
-		
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
  	mounted() {
-		// 加载dom节点后,获取推广人列表请求
-		// this.getdata()
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -145,10 +134,7 @@ export default {
 		// 
       	this.imageUpload = _d.data.data.license
       })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: err});;
-      })
+      .catch((err)=>{})
     },
 		// 返回键
 		goBackFn(){
@@ -161,13 +147,10 @@ export default {
 		// 关闭上传图片选择弹窗
 		closeFn() {
 		      this.show = false;
-			  
 		},
 		changeFn(id){
-			debugger
 			let promoter= this.option.find((n)=>n.value == id)
 				this.addClinic.clinicPromoterId = promoter.clinicPromoterId
-			
 		},
 	}
 }

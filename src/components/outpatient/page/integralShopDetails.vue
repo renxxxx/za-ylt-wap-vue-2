@@ -45,10 +45,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'integralShopDetails',
 	data () {
@@ -59,22 +56,12 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),	
 	},
 	components:{
-		
 	},
 	created () {
-		
 	},
  	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		
-		
-		// this.getdata();
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -85,10 +72,8 @@ export default {
 			}
 			this.getdata();
 		}
-		// localStorage.getItem('address')
   	},
 	methods: {
-
 		goBackFn(){
 			this.$router.back(-1);
 		},
@@ -118,11 +103,8 @@ export default {
 					this.$toast.success('操作成功');
 					this.$router.go(-2)
 				}
-				// res.data.codeMsg? this.$toast(res.data.codeMsg):this.$toast.success('操作成功')
 			})
-			.catch((err)=>{
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 		},
 		getdata(){
 			this.$axios.post('/clientend2/clinicend/pointexchange/commoditydetail',qs.stringify({
@@ -145,9 +127,7 @@ export default {
 					this.shopDetails.cover = res.data.data.cover.split(',')
 				}
 			})
-			.catch((err)=>{
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 			this.$axios.post('/clientend2/clinicend/pointexchange/receivers',qs.stringify({
 				clinicId : this.$store.state.outpatient.login.clinicId,
 				pn : 1,
@@ -160,9 +140,7 @@ export default {
 					this.$toast(res.data.codeMsg)
 				}	
 			})
-			.catch((err)=>{
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 		}
 	},
 }

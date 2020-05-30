@@ -1,6 +1,6 @@
 <template>
 	<div class="search_clinic">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+		
 			<div class="navWarp" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="topNav">
 					<div class="clinic_information" @click="goBackFn"  id="navback">
@@ -18,7 +18,7 @@
 					<div class="titleleft">
 						<h3>合作门诊 {{clinic.num}}</h3>
 					</div>
-						<div class="titleRight">
+						<div class="titleRight" @click="$router.push({path:'/promoters/promoters_addClinic',query:{time: new Date().getTime()}})">
 						<router-link :to="{path : '/promoters/promoters_addClinic',query:{}}">
 							<span>新增</span>
 							<img src="../../../../assets/image/xinzeng@2x.png" alt="">
@@ -28,22 +28,24 @@
 			</div>
 			<div style="height: .98rem"  :style="{'padding-top':$store.state.paddingTop}"></div>
 			<div class="content" ref="content" @scroll="handleScroll">
+				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content -->
-						<li v-for="(items,inx) in content" :key="inx">
-							<router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime}}">
+						<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime}}"> -->
 								<div class="contentLi">
 									<h4>{{items.name}}</h4>
 									<span>推广人: {{items.hospitalUserName}}</span>
 									<input type="text" v-model="items.patientCount" readonly="readonly">
 								</div>	
-							</router-link>
+							<!-- </router-link> -->
 						</li>
 					</van-list>
 				</ul>
+				</van-pull-refresh>
 			</div>
-		</van-pull-refresh>
+		
 		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -108,9 +110,7 @@ export default {
 			this.$router.back()
 		},
 		initData() {
-			debugger
-		  Object.assign(this.$data, this.$options.data());
-		  // this.$refs.clinic.initData();
+		  	Object.assign(this.$data, this.$options.data());
 		 	this.getSum();
 		 	this.getNextPage();
 		},
@@ -123,9 +123,7 @@ export default {
 			.then(res => {
 				this.clinic.num = res.data.data.rowCount;
 			})
-			.catch((err)=>{
-				
-			})
+			.catch((err)=>{})
 		},
 		//获取数据
 		getdata(){
@@ -136,7 +134,6 @@ export default {
 						if(res.data.data.rows[i]){
 							this.content.push(res.data.data.rows[i])
 						}
-						// 
 					}
 				// 加载状态结束
 				this.loading = false;
@@ -145,9 +142,7 @@ export default {
 					this.finished = true;
 				}
 			})
-			.catch((err)=>{
-				
-			})
+			.catch((err)=>{})
 		},
 		//键盘输入值时触发
 		inputNow(_keywordsCode){
@@ -257,9 +252,6 @@ export default {
     height: 100%;
     margin-top: 0rem;
 
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 .content{
     width: 100%;

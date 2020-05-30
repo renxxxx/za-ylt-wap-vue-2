@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'exchangeDetails',
@@ -50,10 +48,8 @@ export default {
 		}
 	},
 	computed:{
-	  
 	},
 	components:{
-		
 	},
 	created(){
 	},
@@ -71,27 +67,10 @@ export default {
 			.then(res => {
 				res.data.codeMsg? Toast.success(res.data.codeMsg) : this.successFn(res);
 			})
-			.catch((err)=>{
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 		}
 	},
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		
-		
-		// this.$axios.post('/clientend2/hospitalend/exchangemanage/orderinfo',qs.stringify({
-		// 	orderId : this.$route.query.item.orderId,
-		// }))
-		// .then(res => {
-		// 	res.data.codeMsg? this.$toast.success(res.data.codeMsg) : this.successFn(res);
-		// })
-		// .catch((err)=>{
-		// 	//Dialog({ message: err});;
-		// })
 	},
 	methods: {
 		goBackFn(){

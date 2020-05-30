@@ -102,9 +102,6 @@ export default {
 	name: 'search',
 	data () {
 		return {
-			// 推广人下拉列表参数
-			// value: "000",
-			// option: [],
 			// 添加列表绑定数据
 			addClinic:{
 				path : '/hospital/',
@@ -128,66 +125,54 @@ export default {
 		}
 	},
  	activated() {
-	  if(localStorage.getItem('list_promoterValue') || localStorage.getItem('list_promoterId')){
-			  debugger
-			delete this.addClinic.promoter;
-			// this.addClinic.promoter = localStorage.getItem('list_promoterValue')
-			// this.addClinic.hospitalUserId = localStorage.getItem('list_promoterId')
-  			Vue.set(this.addClinic,'promoter',localStorage.getItem('list_promoterValue'));
-			Vue.set(this.addClinic,'hospitalUserId',localStorage.getItem('list_promoterId'));
-			// console.log(localStorage.getItem('list_promoterId'))
-			localStorage.clear('promoter','hospitalUserId');
-  		}
   		if(this.query != JSON.stringify(this.$route.query)){
-			  Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			debugger
-			
 			this.clinicFn()
-  		}
+		}else{
+			this.$nextTick(()=>{
+			  if(localStorage.getItem('list_promoterValue') || localStorage.getItem('list_promoterId')){
+					delete this.addClinic.promoter;
+					Vue.set(this.addClinic,'promoter',localStorage.getItem('list_promoterValue'));
+					Vue.set(this.addClinic,'hospitalUserId',localStorage.getItem('list_promoterId'));
+					localStorage.clear('promoter','hospitalUserId');
+				}
+		  	})
+		}
  	},
  	mounted() {
 	},
 	methods: {
 		clinicFn(){
-		this.$axios.get('/hospital/super-admin/hospital-clinic/'+this.$route.query.item)
-		.then(_d => {
-			this.addClinic = {
-				name : _d.data.data.name,
-				phone : _d.data.data.clinicUserPhone,
-				pwd :'',
-				headmanName : _d.data.data.headman,
-				contactTel : _d.data.data.tel,
-				address : _d.data.data.address,
-				remark : _d.data.data.remark,
-				hospitalUserId : _d.data.data.hospitalUserId,
-			},
-			_d.data.data.hospitalUserName? this.addClinic.promoter = _d.data.data.hospitalUserName: ''
-			this.$route.query.promoterValue? this.addClinic.promoter = this.$route.query.promoterValue:''
-			// if(_d.data.data.hospitalUserName){
-
-			// }
-			// 
-			this.imageUpload = _d.data.data.license
-			// this.$axios.get('/hospital/def/hospital-operator-users?'+qs.stringify({hospitalUserId:this.addClinic.hospitalUserId}))
-			// .then(res => {
-			// 	// 
-			// 	// this.promoter= this.option.find((n)=>n.text == res.data.data.rows[0].name)
-			// 	this.value = promoter
-			// 	// 
-			// })
-			// .catch((err)=>{
-			// 	
-			// })
-		})
-		.catch((err)=>{
-			
-			//Dialog({ message: err});;
-		})
+			this.$axios.get('/hospital/super-admin/hospital-clinic/'+this.$route.query.item)
+			.then(_d => {
+				this.addClinic = {
+					name : _d.data.data.name,
+					phone : _d.data.data.clinicUserPhone,
+					pwd :'',
+					headmanName : _d.data.data.headman,
+					contactTel : _d.data.data.tel,
+					address : _d.data.data.address,
+					remark : _d.data.data.remark,
+					hospitalUserId : _d.data.data.hospitalUserId,
+				},
+				_d.data.data.hospitalUserName? this.addClinic.promoter = _d.data.data.hospitalUserName: ''
+				this.$route.query.promoterValue? this.addClinic.promoter = this.$route.query.promoterValue:''
+				this.$nextTick(()=>{
+				if(localStorage.getItem('list_promoterValue') || localStorage.getItem('list_promoterId')){
+						delete this.addClinic.promoter;
+						Vue.set(this.addClinic,'promoter',localStorage.getItem('list_promoterValue'));
+						Vue.set(this.addClinic,'hospitalUserId',localStorage.getItem('list_promoterId'));
+						// console.log(localStorage.getItem('list_promoterId'))
+						localStorage.clear('promoter','hospitalUserId');
+					}
+			})
+				this.imageUpload = _d.data.data.license
+			})
+			.catch((err)=>{})
 		},
 		// 返回键
 		goBackFn(){
@@ -200,14 +185,7 @@ export default {
 		// 关闭上传图片选择弹窗
 		closeFn() {
 		      this.show = false;
-			  
 		},
-		// changeFn(id){
-		// 	debugger
-		// 	let promoter= this.option.find((n)=>n.value == id)
-		// 		this.addClinic.clinicPromoterId = promoter.clinicPromoterId
-		// 	
-		// },
 		addImg(_fileLIst){
 			var file = _fileLIst.target.files[0]
 			// 
@@ -216,22 +194,16 @@ export default {
 				formData.append('file', file)
 				this.$axios.post('/other/fileupload?cover&duration',formData,{headers: {'Content-Type': 'multipart/form-data'
 				}}).then(res =>{
-					// this.imageUpload.push({name:file.name,url:res.data.data.url})
 					this.imageUpload = res.data.data.url
-					
 					this.show = false;
-				}).catch(err =>{
-					
-				})
+				}).catch(err =>{})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片');
 				return false;
 			}
-
 		},
 		// 保存方法
 		saveFn(){
-			
 			this.$axios.post('/hospital/super-admin/hospital-clinic-alter',qs.stringify({
 				hospitalClinicId :  this.$route.query.item,
 				name :  this.addClinic.name,
@@ -246,14 +218,9 @@ export default {
 				clinicUserPasswordConfirm : this.addClinic.pwdConfirm,  //确认密码
 			}))
 			.then(res => {
-				// 
 				res.data.codeMsg? this.$toast.fail(res.data.codeMsg) : this.successFn();
-
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			.catch((err)=>{})
 		},
 		successFn(){
 			this.$toast.success('操作成功');

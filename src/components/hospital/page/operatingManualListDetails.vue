@@ -82,10 +82,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operatingManualListDetails',
   data () {
@@ -106,18 +103,10 @@ export default {
     }
   },
   computed:{
-
-
   },
   created () {
   },
   mounted () {
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#ffffff");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
-    // this.getdata();
-    // 
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -129,7 +118,6 @@ export default {
       }
 			this.getdata()
     }
-    
     if(this.scrollTop != 0){
 			this.$refs.operatingManualListDetails.scrollTop = this.scrollTop
 		}

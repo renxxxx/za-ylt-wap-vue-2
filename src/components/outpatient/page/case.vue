@@ -8,8 +8,8 @@
 		<div class="article" @scroll="handleScroll" ref="article">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
-				<li v-for="(items,inx) in article" :key="inx">
-					<router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 4,}}">
+				<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/outpatient/outpatient_caseDetails',query:{itemId : items.itemId,data: 4,time: new Date().getTime()}})">
+					<!-- <router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 4,}}"> -->
 					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
 						<p>{{items.content}}</p>
 						<div class="article_leftTime">
@@ -20,7 +20,7 @@
 					<div v-if="items.img"  class="article_right">
 						<img :src=items.img alt="">
 					</div>
-					</router-link>
+					<!-- </router-link> -->
 				</li>
 				</ul>
 			</van-list>
@@ -56,6 +56,7 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");

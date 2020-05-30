@@ -83,10 +83,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog,Toast } from 'vant'
 export default {
 	name: 'search',
 	data () {
@@ -111,25 +108,16 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
 	},
 	components:{
-
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
- mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
+ 	mounted() {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -167,7 +155,7 @@ export default {
 					
 				})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片');
 				return false;
 			}
 
@@ -200,10 +188,7 @@ export default {
                     }})
 				}
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			.catch((err)=>{})
 		},
 	}
 }

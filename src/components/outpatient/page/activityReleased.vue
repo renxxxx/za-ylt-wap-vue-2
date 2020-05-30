@@ -10,25 +10,25 @@
 			<div class="right"></div>
 		</div>
 		<div class="zhangwei"></div>
-		<router-link :to="{name:'outpatient_addActivity'}">
-			<div class="addActive" :style="{'padding-top':$store.state.paddingTop}">
-				<span>+</span>
-				<span>新建活动</span>
-			</div>
-		</router-link>
+		<!-- <router-link :to="{name:'outpatient_addActivity'}"> -->
+		<div class="addActive" @click="$router.push({path:'/outpatient/outpatient_addActivity',query:{time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
+			<span>+</span>
+			<span>新建活动</span>
+		</div>
+		<!-- </router-link> -->
 		<div class="_activeList" @scroll="handleScroll" ref="_activeList">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
-					<van-cell :border="false" >
-						<router-link :to="{path : '/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,}}">
-							<div class="activeList">
-								<img v-lazy="item.cover" alt="">
-								<div class="activeTitle">
-									<h4>{{item.title}}</h4>
-									<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
-								</div>
+					<van-cell :border="false" @click="$router.push({path:'/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,}}"> -->
+						<div class="activeList">
+							<img v-lazy="item.cover" alt="">
+							<div class="activeTitle">
+								<h4>{{item.title}}</h4>
+								<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
 							</div>
-						</router-link>
+						</div>
+						<!-- </router-link> -->
 					</van-cell>
 					<template slot="right">
 						<button class="deleteStyle" @click="deleteActiviteFn(item)">
@@ -78,6 +78,7 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+			this.onLoad()
 		}
 		if(this.scrollTop != 0){
 			this.$refs._activeList.scrollTop = this.scrollTop;

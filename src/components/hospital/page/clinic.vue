@@ -1,6 +1,6 @@
 <template>
 	<div class="hospitalClinic" :style="{'padding-top':$store.state.paddingTop}">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="navWarp">
 				<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
 					<div class="hospital_search" @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime()}})">
@@ -58,13 +58,11 @@
 			</div>
 			<div style="height:2rem"></div>
 			<clinicContent  ref="clinic" :show = 'show'></clinicContent>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 	</div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import clinicContent from '../function/clinic_content.vue'
 export default {
@@ -85,10 +83,8 @@ export default {
 		clinicContent
 	},
 	beforeCreate(){
-		
 	},
 	created(){
-	
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -101,16 +97,10 @@ export default {
 			this.initData()
 		}
 	},
-		deactivated(){}
-,
-  destroyed(){
-  },
-  mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.initData()
+	deactivated(){},
+	destroyed(){
+	},
+	mounted() {
 	},
 	methods: {
 		 afterPullDown() {
@@ -259,8 +249,5 @@ export default {
 }
 .content{
 	height: calc(100% - 2rem)!important;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

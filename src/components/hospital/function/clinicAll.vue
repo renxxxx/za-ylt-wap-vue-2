@@ -1,6 +1,6 @@
 <template>
 	<div id="all" class="all" @scroll="handleScroll" ref="all">
-		<!-- <van-pull-refresh v-model="isLoading" @refresh="refresh"> -->
+		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
 				<li v-for="(item,inx) in  items" :key="inx">
@@ -22,7 +22,7 @@
 				</li>
 			</ul>
       </van-list>
-		<!-- </van-pull-refresh> -->
+		</van-pull-refresh>
 		<div class="returnTop" @click="$refs.all.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -48,16 +48,12 @@ export default {
 			query:'',
 			hospitalReturnTopPage:false,
 			scrollTop:0,
+			pullingDown: false,
 		}
 	},
 	 props:['list'],
 	components:{
 
-	},
-	watch:{
-		$route(to,from){
-			debugger
-		}
 	},
 	created () {
 		debugger
@@ -70,6 +66,13 @@ export default {
 		this.show(this.$route.query);
 	},
 	methods:{
+		afterPullDown() {
+			debugger
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
 		show(query){
 			if(this.query != JSON.stringify(query)){
 				Object.assign(this.$data, this.$options.data());
@@ -177,6 +180,8 @@ export default {
 					}
 					// 加载状态结束
 					this.loading = false;
+					this.test='没有更多了'
+					this.finished = true;
 
 				}else{
 					this.loading = false;

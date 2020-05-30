@@ -1,5 +1,5 @@
 <template>
-	<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+	<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
   	<div class="index">
 		<div class="navWarp">
 			<!-- 搜索及其筛选 -->
@@ -49,7 +49,7 @@
 		</div>
 		<!-- <router v-if="isLogin == 200? true:false"></router> -->
   </div>
-  </van-pull-refresh>
+  <!-- </van-pull-refresh> -->
 </template>
 
 <script>
@@ -85,16 +85,8 @@ export default {
     }
   },
   destroyed(){
-	  debugger
-	  
   },
   mounted(){
-	   debugger
- //    if(window.plus){
- //    	//plus.navigator.setStatusBarBackground("#2B77EF");
- //    	plus.navigator.setStatusBarStyle("dark")
- //    }
-	// this.getNum();
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
@@ -108,33 +100,29 @@ export default {
 		// window.addEventListener("scroll", this.$refs.all.handleScrollAll, true);
   	}
   },
-  computed:{
+	computed:{
 		show: {
 			get: function() {
-			
 				return this.$store.state.show
 			},
 			set: function (newValue) {
-			this.$store.state.show = newValue;
-		   },
+				this.$store.state.show = newValue;
+			},
 		},
 		showTime: {
 			get: function() {
-			// 
 				return this.$store.state.showTime
 			},
 			set: function (newValue) {
-			this.$store.state.showTime = newValue;
+				this.$store.state.showTime = newValue;
 			},
 		},
-
-  },
-  //注册组件
-  components:{
-	  clinicAll,clinicYes,clinicNo
-  },
-  methods:{
-	
+	},
+	//注册组件
+	components:{
+		clinicAll,clinicYes,clinicNo
+	},
+  	methods:{
 		tabsFn(_value){
 			debugger
 			// console.log(_value)

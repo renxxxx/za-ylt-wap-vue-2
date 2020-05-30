@@ -39,12 +39,10 @@ export default {
 	computed:{
 	},
 	components:{
-
 	},
 	created(){
-	
 	},
-   mounted() {
+   	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -61,8 +59,6 @@ export default {
 		//回退方法
 		goBackFn(){
 			this.$router.go(-1)
-			// this.$router.push({ path : '/hospital/hospital_exchangeManagementAdd',query : {item : this.commodity}});
-			// exchangeManagementAdd
 		},
 		//添加图片
 		addImg(_fileLIst){
@@ -73,15 +69,11 @@ export default {
 				formData.append('file', file)
 				this.$axios.post('/other/fileupload?cover&duration',formData,{headers: {'Content-Type': 'multipart/form-data'
 				}}).then(res =>{
-					// this.imageUpload.push({name:file.name,url:res.data.data.url})
 					// this.$set(this.exchangeAdd,'cover',res.data.data.url);
 					this.imgUrl = res.data.data.url
 					this.exchangeAdd.cover = this.imgUrl;
 					this.exchangeAdd.show = false;
-					
-				}).catch(err =>{
-					
-				})
+				}).catch(err =>{})
 			 }else{
 				Dialog({ message: '请选择图片' });
 				return false;
@@ -98,9 +90,7 @@ export default {
 					payExchangepoint : this.exchangeAdd.payExchangepoint,
 				})).then(res  =>{
 					res.data.code? this.$toast.fail(res.data.codeMsg) : this.successFn();
-					
 				}).catch(err =>{
-					
 				})
 			}else{
 				this.$toast.fail('请先添加图片');
@@ -128,8 +118,6 @@ export default {
 				console.log(inx[a])
 				delete this.$vnode.parent.componentInstance.cache[inx[a]]
 			}
-			// console.log(inx)
-			// console.log(this.$vnode.parent.componentInstance.cache)
 			this.$router.go(-2)
 		}
 	},

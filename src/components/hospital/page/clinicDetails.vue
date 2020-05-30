@@ -47,13 +47,10 @@
         	<img src="../../../assets/image/returnTop.png" alt />
         	<span>顶部</span>
    		</div>
-		
 	</div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import clinicAll from '../function/clinicAll.vue'
 import clinicYes from '../function/clinicYes.vue'
@@ -94,16 +91,11 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
-
 		num: {
 			get: function() {
-				// 
 				return this.list.yesNum /(this.list.yesNum + this.list.noNum)*100;
 			},
 			set: function (newValue) {
-				// 图形数据加载后v-model返回的修改值,暂时项目不需要
-				// 
 			},
 		}
 	},
@@ -111,7 +103,6 @@ export default {
 		clinicAll,clinicYes,clinicNo
 	},
 	created(){
-		
 	},
 	async activated() {
 		debugger
@@ -119,27 +110,15 @@ export default {
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.clinicId=this.$route.query.clinicId
 			await this.ItemIdFn()
 			await this.getNum();
-			// if(this.clinicId!=this.$route.query.clinicId){
-			// 	this.clinicId=this.$route.query.clinicId
-			// 	this.$route.query.clinicId?  this.ItemIdFn() : this.list.clinicId = '';
-			// 	this.getNum();
-			// }
 			await this.$refs.clinicAll.initData()
 		}
 	},
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.ItemIdFn();
-		
 	},
 	methods: {
 		// 滑动一定距离出现返回顶部按钮
@@ -158,8 +137,6 @@ export default {
 		},
 		// 列表来回切换组件
 		menuFn(){
-			// let _geneData =  this.option.find( n => n.value == this.value);
-			// 
 			switch(this.value){
 				case 0:
 				this.componentName = 'clinicAll';
@@ -409,15 +386,8 @@ export default {
     text-align: center;
     z-index: -1!important;
 }
-/* >>>.van-circle svg, .van-loading__spinner--spinner i {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+>>>.van-dropdown-menu__bar {
+	background: transparent;
+	box-shadow: none;
 }
->>>.van-circle__text {
-    z-index: -1;
-} */
 </style>

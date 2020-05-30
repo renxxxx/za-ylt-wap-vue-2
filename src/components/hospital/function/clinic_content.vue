@@ -1,6 +1,7 @@
 <template>
 	<div class="content" @scroll="handleScroll" ref="content">
 		<span v-if="show? true:false">已找到 {{clinicNum}} 条数据</span>
+		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
 			<ul>
 				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 					<!-- content -->
@@ -15,10 +16,12 @@
 					</li>
 				</van-list>
 			</ul>
+		</van-pull-refresh>
 			<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 				<img src="../../../assets/image/returnTop.png" alt />
 				<span>顶部</span>
 			</div>
+		
 	</div>
 </template>
 
@@ -36,6 +39,7 @@ export default {
 			test:'',
 			query:'',
 			scrollTop:0,
+			pullingDown: false,
      		hospitalReturnTopPage:false,
 		}
 	},
@@ -50,17 +54,6 @@ export default {
 
 	},
  	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		//  this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
-		//   .then(res => {
-		//   	this.clinicNum = res.data.data.rowCount;
-		//   })
-		//   .catch((err)=>{
-		  	
-		//   })
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -76,6 +69,13 @@ export default {
 		}
 	},
 	methods: {
+		afterPullDown() {
+			debugger
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
 		// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.content.scrollTop || this.$refs.content.pageYOffset
@@ -169,12 +169,12 @@ export default {
 /* .content ul li:first-child {
     margin-top: 2.1rem;
 } */
->>>.van-pull-refresh {
+/* >>>.van-pull-refresh {
     overflow: visible;
     -webkit-user-select: none;
     user-select: none;
     margin-top: 2rem;
-}
+} */
 .content ul li:nth-child(1),.content ul li:nth-child(2){
 	margin-top: 0rem;
 }

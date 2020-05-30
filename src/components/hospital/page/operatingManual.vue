@@ -25,34 +25,12 @@
         </van-cell>
         <!-- </router-link> -->
       </div>
-
     </div>
-
-    <!-- <van-collapse v-model="activeNames"> -->
-
-       <!-- <van-collapse-item :name="inx" v-for="(item,inx) in operatingManual" :key="inx">
-         <div slot="title" class="title">
-           <span>{{item.name}}</span>
-           <p><span>{{yesNum[inx]}}</span>/{{num[inx]}}</p>
-         </div>
-         <div v-for="(_item,inx) in item._data" :key="inx">
-           <router-link :to="{path : '/hospital/hospital_operatingManualList',query:{name:_item.name,operatingManualId:item.operatingManualId,operatingManualSectionId : _item.operatingManualSectionId}}">
-             <div  class="manualList">
-               <span :class="[_item.done? '':'doColor']">{{_item.name}}</span>
-               <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-             </div>
-           </router-link>
-         </div>
-       </van-collapse-item> -->
-    <!-- </van-collapse> -->
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operatingManual',
   data () {
@@ -72,11 +50,6 @@ export default {
 
   },
   mounted () {
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#ffffff");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
-    // this.getdata()
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -101,53 +74,22 @@ export default {
         if(!res.data.codeMsg){
             for(let i in res.data.data.rows){
             this.operatingManual.push(res.data.data.rows[i])
-            // this.$axios.get('/hospital/operating-manual/operating-manual-sections?'+qs.stringify({operatingManualId:res.data.data.rows[i].operatingManualId}))
-            // .then(_res => {
-            //   if(!_res.data.codeMsg){
-            //     this.operatingManual[i]._data=[]
-            //      let num = 0;
-            //     for(let _i in _res.data.data.rows){
-            //       if(_res.data.data.rows[_i].done){
-            //         ++num
-            //       }
-            //       // 
-            //         this.yesNum.push(num)
-            //     // 
-            //       this.operatingManual[i]._data.push(_res.data.data.rows[_i])
-            //      // console.dir(this.operatingManual[i]._data)
-            //     }
-            //   }else{
-            //     this.$toast(_res.data.codeMsg)
-            //   }
-            // })
-            // .catch((err)=>{
-            // 	
-            // })
             this.$axios.get('/hospital/operating-manual/operating-manual-sections-sum?'+qs.stringify({operatingManualId:res.data.data.rows[i].operatingManualId}))
             .then(res => {
               console.dir(res)
               if(!res.data.codeMsg){
-                
                 this.num.push(res.data.data.rowCount)
-                // this.num = res.data.data.rowCount
-                // 
               }else{
                 this.$toast(res.data.codeMsg)
               }
             })
-            .catch((err)=>{
-            	
-            })
+            .catch((err)=>{})
           }
         }else{
           this.$toast(res.data.codeMsg)
         }
     	})
-    	.catch((err)=>{
-    		
-    	})
-
-
+    	.catch((err)=>{})
     },
   },
 }

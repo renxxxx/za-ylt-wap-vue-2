@@ -13,19 +13,19 @@
 		<div class="content" @scroll="handleScroll" ref="content" :style="{'padding-top':$store.state.paddingTop}">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
-				<li v-for="(item,inx) in doctor" :key='inx'>
-					<img :src="item.headimg" alt="">
-					<div class="contentLists">
-					<h4>{{item.name}}</h4>
-					<span>{{item.hosptialName}}</span>
-					<span class="xia line-1">{{item.jobTitles}}</span>
-					<div class="duanluo" @click="showContent(inx)" >
-						<p ref='showP'>{{item.intro}}</p>
-						<img :src="downImg" alt="" ref='showimg'>
-					</div>
-					</div>
-					<hr>
-				</li>
+					<li v-for="(item,inx) in doctor" :key='inx'>
+						<img :src="item.headimg" alt="">
+						<div class="contentLists">
+						<h4>{{item.name}}</h4>
+						<span>{{item.hosptialName}}</span>
+						<span class="xia line-1">{{item.jobTitles}}</span>
+						<div class="duanluo" @click="showContent(inx)" >
+							<p ref='showP'>{{item.intro}}</p>
+							<img :src="downImg" alt="" ref='showimg'>
+						</div>
+						</div>
+						<hr>
+					</li>
 				</ul>
 			</van-list>
 		</div>
@@ -54,10 +54,8 @@ export default {
 		}
 	},
 	components:{
-		
 	},
 	computed:{
-
 	},
 	created(){
 	},
@@ -103,43 +101,35 @@ export default {
 				this.$refs.showimg[inx].src=require('../../../assets/image/down@2x.png')
 			}
 		},
-    onLoad(){
-      ++this.page;
-      // 
-      this.getData();
-    },
-    getData(){
-      this.$axios.post('/c2/doctor/items',qs.stringify({
-      	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-        pn: this.page,
-        ps: 10
-      }))
-      .then(_d => {
-        if(_d.data.data.items.length != 0){
-          for(let i in _d.data.data.items){
-            this.doctor.push({
-              name : _d.data.data.items[i].name,
-              hosptialName : _d.data.data.items[i].hosptialName,
-              intro : _d.data.data.items[i].intro,
-              jobTitles : _d.data.data.items[i].jobTitles,
-              headimg : _d.data.data.items[i].headimg,
-            })
-          }
-          this.loading = false;
-        }else {
-              this.loading = false;
-              this.finished = true;
-            }
-
-      	// 
-      	// this.$refs.scrollId.style.width = 50 * _d.data.data.items.length +'%'
-      	// 
-      })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: err});;
-      })
-    }
+		onLoad(){
+			++this.page;
+			this.getData();
+		},
+		getData(){
+			this.$axios.post('/c2/doctor/items',qs.stringify({
+				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
+				pn: this.page,
+				ps: 10
+			}))
+			.then(_d => {
+				if(_d.data.data.items.length != 0){
+				for(let i in _d.data.data.items){
+					this.doctor.push({
+					name : _d.data.data.items[i].name,
+					hosptialName : _d.data.data.items[i].hosptialName,
+					intro : _d.data.data.items[i].intro,
+					jobTitles : _d.data.data.items[i].jobTitles,
+					headimg : _d.data.data.items[i].headimg,
+					})
+				}
+				this.loading = false;
+				}else {
+					this.loading = false;
+					this.finished = true;
+				}
+			})
+			.catch((err)=>{})
+		}
 	},
 }
 </script>

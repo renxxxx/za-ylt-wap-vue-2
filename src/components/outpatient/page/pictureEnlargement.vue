@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import { ImagePreview } from 'vant';
 export default {
@@ -30,28 +28,15 @@ export default {
 		}
 	},
 	computed:{
-
 	},
 	components:{
-
 	},
 	created () {
 		this.imgUrl = this.$route.query.imgUrl;
 		this.inx = this.$route.query.inx;
 		this.enlarge = this.$route.query.data;
-		// 
 	},
-
 	mounted () {
-		// let _this = this
-		// ImagePreview({
-		// 	images: this.imgUrl,
-		// 	asyncClose: false,
-		// 	startPosition: this.$route.query.inx? this.$route.query.inx : 0,
-		// 	onClose(){
-		// 		_this.$router.back()
-		// 	}
-		// });
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -72,22 +57,6 @@ export default {
 		}
   	},
 	methods: {
-		// backFn(){
-		// 	debugger
-
-		// 	//this.enlarge = false;
-		// 	this.$router.back()
-		// 	
-		// },
-		// enlargeFn(_value){
-		// 	this.photoNum = _value;
-		// 	
-		// 	this.enlarge = true;
-		// },
-		// onChange(_value){
-		// 	this.photoPage = _value;
-		// 	
-		// },
 	},
 }
 </script>

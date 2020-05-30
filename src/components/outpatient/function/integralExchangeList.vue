@@ -1,27 +1,28 @@
 <template>
 	<div class="productsExchange">
-		<div class="title" v-show="show? true : false">
+		<div class="title" v-if="$route.query.show">
 			<span>热门兑换</span>
-			<router-link :to="{path : '/outpatient/outpatient_ExchangeList',query:{}}">
-				<span>更多</span>
-			</router-link>
+			<!-- <router-link :to="{path : '/outpatient/outpatient_ExchangeList',query:{}}"> -->
+			<span @click="$router.push({path:'/outpatient/outpatient_ExchangeList',query:{time: new Date().getTime()}})">更多</span>
+			<!-- </router-link> -->
 		</div>
 		<div class="productsExchangeList" @scroll="handleScroll" ref="productsExchangeList">
-			<van-list  v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-					<li v-for="(item,inx) in list" :key='inx'>
-					<router-link :to="{path : '/outpatient/outpatient_integralShop',query : {commodityId : item.commodityId,}}">
-						<div class="productsImg">
-						<img :src="item.cover" alt="">
-						</div>
-						<h4>{{item.name}}</h4>
-						<p><span>{{item.payExchangepoint}}</span> 积分</p>
-						<button>立即兑换</button>
-					</router-link>
-					</li>
-				</ul>
-			</van-list>
-
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+					<ul>
+						<li v-for="(item,inx) in list" :key='inx' @click="$router.push({path:'/outpatient/outpatient_integralShop',query:{commodityId : item.commodityId,time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/outpatient/outpatient_integralShop',query : {commodityId : item.commodityId,}}"> -->
+							<div class="productsImg">
+							<img :src="item.cover" alt="">
+							</div>
+							<h4>{{item.name}}</h4>
+							<p><span>{{item.payExchangepoint}}</span> 积分</p>
+							<button>立即兑换</button>
+						<!-- </router-link> -->
+						</li>
+					</ul>
+				</van-list>
+			</van-pull-refresh>
 		</div>
 		<div class="returnTop" @click="$refs.productsExchangeList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -43,7 +44,8 @@ export default {
 			finished: false,
 			page: 0,
 			hospitalReturnTopPage:false,
-			scrollTop:0
+			scrollTop:0,
+			pullingDown: false,
 		}
 	},
 	computed:{
@@ -57,6 +59,7 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -68,6 +71,17 @@ export default {
 		}
     },
 	methods: {
+		afterPullDown() {
+		  //下拉刷新
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
+		initData(){
+			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
+		},
 		// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.productsExchangeList.scrollTop || this.$refs.productsExchangeList.pageYOffset
@@ -116,7 +130,7 @@ export default {
 	width: 100%;
 	background-color: #FFFFFF;
 	/* padding: .12rem 4.8%; */
-	height: calc(100% - 2.28rem);
+	/* height: calc(100% - 2.28rem); */
 	overflow: hidden;
 }
 .productsExchangeList{
@@ -141,7 +155,7 @@ export default {
 	height: .37rem;
 	line-height: .37rem
 }
-.title>a{
+.title span:last-child{
 	float: right;
 }
 .productsExchangeList ul{

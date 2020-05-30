@@ -53,18 +53,12 @@ export default {
 		}
 	},
 	computed:{
-	  
 	},
 	components:{
-		
 	},
 	created(){
 	},
-  
-		
-
 	mounted(){
-		
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -93,10 +87,7 @@ export default {
 			.then(res => {
 				res.data.codeMsg? this.$toast(res.data.codeMsg):this.$toast.success('操作成功')
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			.catch((err)=>{})
 		}
 	},
 }

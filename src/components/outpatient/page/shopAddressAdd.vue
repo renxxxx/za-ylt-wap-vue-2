@@ -35,10 +35,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'shopAddressAdd',
 	data () {
@@ -52,28 +49,12 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account'])
 	},
 	components:{
-
 	},
 	created () {
-
 	},
-  mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		
-		// let querAddress = JSON.parse(this.$route.query.address)
-		// this.address = {
-		// 	name : querAddress.name,
-		// 	tel : querAddress.tel,
-		// 	city : querAddress.area,
-		// 	detailedAddress : querAddress.address,
-		// 	receiverId : querAddress.receiverId
-		// }
+  	mounted() {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -116,9 +97,7 @@ export default {
 				}
 				
 			})
-			.catch((err)=>{
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 		},
 	},
 }

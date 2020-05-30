@@ -9,7 +9,7 @@
 			<div class="nav_center">
 				<h3>病员信息</h3>
 			</div>
-			<div class="nav_right" @click="modifyFn" v-model='modify' v-if="isLogin == 200? false:true">
+			<div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
 				<span>{{modify.value}}</span>
 				<img :src=modify.img alt="">
 			</div>
@@ -60,10 +60,10 @@
 		<div class="_photo">
 			<h3>发票照片</h3>
       <ul>
-        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx)">
-          <router-link :to="{name:'promoters_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true,}}">
+        <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx,imgUrl)">
+          <!-- <router-link :to="{name:'promoters_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true,}}"> -->
             <img v-bind:src="item" alt="">
-          </router-link>
+          <!-- </router-link> -->
           <img v-show="show" src="../../../../assets/image/detele.png" alt="" @click="deteleFn(item)">
 		 <!-- <van-image-preview
 		    v-model="enlarge"
@@ -90,10 +90,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import moment from 'moment'
 export default {
 	name: 'gene',
@@ -131,20 +128,14 @@ export default {
 		}
 	},
 	computed:{
-			...mapGetters(['account','isLogin']),
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
- 
-  destroyed(){
-	  
-  },
-  activated(){
+	destroyed(){
+	},
+	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -152,14 +143,8 @@ export default {
 			}
 			this.getData();
 		}
-    },
-   mounted() {
-		// if(window.plus){
-		// 		//plus.navigator.setStatusBarBackground("#ffffff");
-		// 		plus.navigator.setStatusBarStyle("dark")
-		// 	}
-
-		
+	},
+	mounted() {
 	},
 	methods: {
 		getData(){
@@ -214,9 +199,9 @@ export default {
 		initData(){
 			Object.assign(this.$data, this.$options.data());
 		},
-		enlargeFn(_value){
+		enlargeFn(_value,imgUrl){
 			this.photoNum = _value;
-			
+			this.$router.push({path:'/promoters/promoters_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime()}})
 			this.enlarge = true;
 		},
 		onChange(_value){
@@ -297,7 +282,7 @@ export default {
 					
 				})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片');
 				return false;
 			}
 		},

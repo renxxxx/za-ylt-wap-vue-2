@@ -1,5 +1,5 @@
 <template>
-	<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" class="refresh">
+	<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" class="refresh"> -->
 		<div class="index">
 			<div class="navWarp">
 				<!-- 搜索及其筛选 -->
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 		</div>
-  	</van-pull-refresh>
+  	<!-- </van-pull-refresh> -->
 </template>
 
 <script>
@@ -82,16 +82,8 @@ export default {
     }
   },
   destroyed(){
-	  debugger
-	  
   },
   mounted(){
-	   debugger
- //    if(window.plus){
- //    	//plus.navigator.setStatusBarBackground("#2B77EF");
- //    	plus.navigator.setStatusBarStyle("dark")
- //    }
-	// this.getNum();
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
@@ -101,13 +93,11 @@ export default {
   			//plus.navigator.setStatusBarBackground("#ffffff");
   			plus.navigator.setStatusBarStyle("dark")
   		}
-		// window.addEventListener("scroll", this.$refs.all.handleScrollAll, true);
   	}
   },
   computed:{
 		show: {
 			get: function() {
-			
 				return this.$store.state.show
 			},
 			set: function (newValue) {
@@ -120,7 +110,7 @@ export default {
 				return this.$store.state.showTime
 			},
 			set: function (newValue) {
-			this.$store.state.showTime = newValue;
+				this.$store.state.showTime = newValue;
 			},
 		},
 
@@ -130,33 +120,19 @@ export default {
 	  clinicAll,clinicYes,clinicNo
   },
   methods:{
-	
 		tabsFn(_value){
 			debugger
-			// console.log(_value)
 			switch(_value){
 				case 0 :
 					this.$refs.all.show()
-					// this.$nextTick(()=>{
-					// 	this.$refs.all.scrollTop = this.$refs.all.scrollTopAll
-					// })
 				break;
 				case 1 :
 					this.$refs.no.show()
-					// this.$nextTick(()=>{
-					// 	this.$refs.all.scrollTop = this.$refs.all.scrollTopAll
-					// })
 				break;
 				case 2 :
 					this.$refs.yes.show()
-					// this.$nextTick(()=>{
-					// 	this.$refs.all.scrollTop = this.$refs.all.scrollTopAll
-					// })
 				break;
 			}
-		//   console.log(this.$refs.all.lineHeightAll);
-		//   console.log(this.$refs.no.lineHeightNo);
-		//   console.log(this.$refs.yes.lineHeightYes);
 	  },
 	 afterPullDown() {
       //下拉刷新
@@ -181,7 +157,6 @@ export default {
 	showPopup() {
 	  	this.show = true;
    		this.$router.push({name:'hospital_pathogenicSearch',query:{show:false,time: new Date().getTime()}})
-
 	},
 	getNum(){
 		debugger
@@ -198,12 +173,8 @@ export default {
 		}))
 		.then(_d => {
 			this.list.noNum = _d.data.data.sum.totalCount;
-			// 
 		})
-		.catch((err)=>{
-			
-			// //Dialog({ message: err});;
-		})
+		.catch((err)=>{})
 		this.$axios.post('/c2/patient/items',qs.stringify({
 			kw : this.list.keywords,
 			hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
@@ -214,14 +185,8 @@ export default {
 		}))
 		.then(_d => {
 			this.list.yesNum = _d.data.data.sum.totalCount;
-			// 
 		})
-		.catch((err)=>{
-			
-			// //Dialog({ message: err});;
-		});
-
-		// 
+		.catch((err)=>{});
 	},
   },
 }

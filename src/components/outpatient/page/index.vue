@@ -1,26 +1,26 @@
 <template>
   	<div class="index">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="navWarp" :style="{'padding-top':$store.state.paddingTop}">
 				<!-- 搜索及其筛选 -->
 				<div class="topNav" ref="topNav">
-					<router-link :to="{name:'outpatient_pathogenicSearch'}">
-					<div class="indexSearch">
+					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{time:new Date().getTime()}}"> -->
+					<div class="indexSearch" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{time: new Date().getTime()}})">
 						<input type="text" placeholder="搜索病员" readonly="readonly">
 						<img src="../../../assets/image/sousuo@2x.png" alt="">
 					</div>
-						</router-link>
-					<router-link :to="{name:'outpatient_pathogenicSearch',query:{}}">
-						<div class="clinic_buttton">
-							<button>搜索</button>
-						</div>
-					</router-link>
-					<router-link :to="{name:'outpatient_pathogenicSearch',query:{show:1}}">
-						<div class="indexScreening">
-							<span>筛选 </span>
-							<img src="../../../assets/image/screen@2x.png" alt="加载中" >
-						</div>
-					</router-link>
+						<!-- </router-link> -->
+					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{}}"> -->
+					<div class="clinic_buttton" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{time: new Date().getTime()}})">
+						<button>搜索</button>
+					</div>
+					<!-- </router-link> -->
+					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{show:1}}"> -->
+					<div class="indexScreening" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{show:1,time: new Date().getTime()}})">
+						<span>筛选 </span>
+						<img src="../../../assets/image/screen@2x.png" alt="加载中" >
+					</div>
+					<!-- </router-link> -->
 				</div>
 				<div id="navType">
 					<div class="navType_one" @click="xiaclickFn(0)">
@@ -71,53 +71,57 @@
 					</div>
 					<!-- :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}" -->
 					<div class="list" v-show="yes" @scroll="handleScroll" ref="listYes">
-						<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
-							<ul>
-								<li v-for="(item,inx) in yesItems" :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
-										<div class="style">
-											<div class="contentTitle">
-												<img :src="item.img" alt="">
-												<span>{{item.realname}}</span>
+						<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+							<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
+								<ul>
+									<li v-for="(item,inx) in yesItems" :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+										<!-- <router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}"> -->
+											<div class="style">
+												<div class="contentTitle">
+													<img :src="item.img" alt="">
+													<span>{{item.realname}}</span>
+												</div>
+												<div class="contnet_left">
+													<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
+													<span>状态：{{item.span}}</span>
+												</div>
 											</div>
-											<div class="contnet_left">
-												<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
-												<span>状态：{{item.span}}</span>
-											</div>
+										<!-- </router-link> -->
+										<div class="content_right">
+											<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 										</div>
-									</router-link>
-									<div class="content_right">
-										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
-									</div>
-								</li>
-							</ul>
-						</van-list>
+									</li>
+								</ul>
+							</van-list>
+						</van-pull-refresh>
 					</div>
 					<div class="list" v-show="no" @scroll="handleScroll" ref="listNo">
-						<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
-							<ul>
-								<li v-for="(item,inx) in noItems " :key="inx">
-									<router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}">
-										<div class="style">
-											<div class="contentTitle">
-												<img :src="item.img" alt="">
-												<span>{{item.realname}}</span>
+						<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+							<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
+								<ul>
+									<li v-for="(item,inx) in noItems " :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+										<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
+											<div class="style">
+												<div class="contentTitle">
+													<img :src="item.img" alt="">
+													<span>{{item.realname}}</span>
+												</div>
+												<div class="contnet_left">
+													<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
+													<span>状态：{{item.span}}</span>
+												</div>
 											</div>
-											<div class="contnet_left">
-												<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
-												<span>状态：{{item.span}}</span>
-											</div>
+										<!-- </router-link> -->
+										<div class="content_right">
+											<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 										</div>
-									</router-link>
-									<div class="content_right">
-										<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
-									</div>
-								</li>
-							</ul>
-						</van-list>
+									</li>
+								</ul>
+							</van-list>
+						</van-pull-refresh>
 					</div>
 			</div>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 		<div class="returnTop" @click="returnTopFn" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -132,7 +136,7 @@ export default {
     return {
 		name: 'index',
 		//导航栏切换标题
-		pullingDown: false,
+		// pullingDown: false,
 		yesItems:[],
 		noItems:[],
 		itemsNum:'',
@@ -193,7 +197,6 @@ export default {
   },
   //注册组件
   components:{
-	 
   },
   methods:{
 	hospitalSubmit(){

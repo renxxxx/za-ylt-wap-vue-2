@@ -41,17 +41,10 @@ export default {
     }
   },
   computed:{
-
   },
- 
   created () {
-
   },
   mounted () {
-    if(window.plus){
-    	//plus.navigator.setStatusBarBackground("#ffffff");
-    	plus.navigator.setStatusBarStyle("dark")
-    }
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
@@ -68,9 +61,9 @@ export default {
     goBackFn(){
     	this.$router.back()
     },
-	data(){
-		this.$toast("升级中");
-	}
+    data(){
+      this.$toast("升级中");
+    }
   },
 }
 </script>

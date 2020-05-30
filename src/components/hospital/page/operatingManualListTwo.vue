@@ -19,31 +19,11 @@
           </van-cell>
       </div>
     </div>
-    <!-- <van-collapse v-model="activeNames">
-       <van-collapse-item :title="this.$route.query.name" name="1">
-         <div slot="title" class="title">
-           <span>{{this.$route.query.name}}</span>
-           <p><span>{{yesNum}}</span>/{{num}}</p>
-         </div>
-         <div v-for="(_item,inx) in operatingManualList" :key="inx">
-           <router-link :to="{path : '/hospital/hospital_operatingManualListDetails',query:{name:_item.name ,operatingManualId:_item.operatingManualId,operatingManualSectionId:_item.operatingManualSectionId}}">
-             <div  class="manualList">
-               <span :class="[_item.done? '':'doColor']">{{_item.name}}</span>
-               <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-             </div>
-
-           </router-link>
-         </div>
-       </van-collapse-item>
-    </van-collapse> -->
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operatingManualList',
   data () {
@@ -57,17 +37,9 @@ export default {
   },
   computed:{
   },
- 
   created () {
   },
   mounted () {
-  //   if(window.plus){
-  //   	//plus.navigator.setStatusBarBackground("#ffffff");
-  //   	plus.navigator.setStatusBarStyle("dark")
-  //   }
-		// // console.log(this.$route.query)
-		// // console.log(JSON.parse(this.$route.query))
-  //   this.getData()
   },
 	activated() {
     debugger
@@ -75,7 +47,6 @@ export default {
       Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
       }
 			this.getData()
@@ -87,7 +58,7 @@ export default {
     	this.$router.back()
     },
     nextPageFn(item){
-      console.dir(item.lowerCount)
+      // console.dir(item.lowerCount)
       if(item.lowerCount){
         console.dir(item.operatingManualSectionId)
 
@@ -106,18 +77,6 @@ export default {
           for(let i in res.data.data.rows){
             this.operatingManualList.push(res.data.data.rows[i])
           }
-          // this.operatingManual[i]._data=[]
-          //  let num = 0;
-          // for(let _i in _res.data.data.rows){
-          //   if(_res.data.data.rows[_i].done){
-          //     ++num
-          //   }
-          //   // 
-          //     this.yesNum.push(num)
-          // // 
-          //   this.operatingManual[i]._data.push(_res.data.data.rows[_i])
-          //  // console.dir(this.operatingManual[i]._data)
-          // }
         }else{
           this.$toast(res.data.codeMsg)
         }
@@ -126,51 +85,6 @@ export default {
       	
       })
     }
-    // async getdata(){
-    //   
-    // 	await this.$axios.get('/hospital/operating-manual/operating-manual-sections?'
-    //   +qs.stringify({"operatingManualId":this.$route.query.operatingManualId})+'&'
-    //   +qs.stringify({"upperId":this.$route.query.operatingManualSectionId})
-    //   )
-    // 	.then(res => {
-    //     if(!res.data.codeMsg){
-    //       for(let i in res.data.data.rows){
-    //         this.operatingManualList.push(res.data.data.rows[i])
-    //         console.dir(this.operatingManualList)
-
-    //       }
-    //       let num = 0;
-    //       for(let _i in _res.data.data.rows){
-    //         if(_res.data.data.rows[_i].done){
-    //           ++num
-    //         }
-    //       }
-    //         // 
-    //           this.yesNum = num
-    //     }else{
-    //       this.$toast(res.data.codeMsg)
-    //     }
-    // 	})
-    // 	.catch((err)=>{
-    // 		
-    // 	})
-    //   await this.$axios.get('/hospital/operating-manual/operating-manual-sections-sum?'
-    //   +qs.stringify({operatingManualId:this.$route.query.operatingManualId})+'&'
-    //   +qs.stringify({"upperId":this.$route.query.operatingManualSectionId})
-    //   )
-    //   .then(res => {
-    //     console.dir(res)
-    //     if(!res.data.codeMsg){
-    //       this.num = res.data.data.rowCount
-    //       console.dir(res)
-    //     }else{
-    //       this.$toast(res.data.codeMsg)
-    //     }
-    //   })
-    //   .catch((err)=>{
-    //   	
-    //   })
-    // },
   },
 }
 </script>

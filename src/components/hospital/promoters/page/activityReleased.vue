@@ -5,95 +5,136 @@
 				<img src="../../../../assets/image/shape@3x.png" alt="">
 			</div>
 			<div class="centerTitle">
-				<h3>推广活动</h3>
+				<h3>发布精准活动</h3>
 			</div>
 			<div class="right"></div>
 		</div>
-		<div class="zhangwei":style="{'padding-top':$store.state.paddingTop}"></div>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
-        <van-cell :border="false" >
-          <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:item.itemId,}}">
-            <div class="activeList">
-              <img v-lazy="item.cover" alt="">
-              <div class="activeTitle">
-                <h4>{{item.title}}</h4>
-                <span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
-              </div>
-            </div>
-          </router-link>
-        </van-cell>
-        <template slot="right">
-          <button class="deleteStyle" @click="deleteActiviteFn(item)">
-            <img src="../../../../assets/image/activiteDelete.png" alt="">
-          </button>
-        </template>
-      </van-swipe-cell>
-    </van-list>
+		<div class="zhangwei"></div>
+		<div class="center" @scroll="handleScroll" ref="center">
+			<!-- <router-link :to="{name:'hospital_addActivity'}"> -->
+			<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
+				<span>+</span>
+				<span>新建活动</span>
+			</div>
+			<!-- </router-link> -->
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+				<!-- active -->
+				<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
+					<van-cell :border="false" >
+					<!-- <router-link :to="{path : '/hospital/hospital_activityDetails',query:{itemId:item.itemId,}}"> -->
+					<div class="activeList" @click="$router.push({path:'/hospital/hospital_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
+						<img v-lazy="item.cover" alt="">
+						<div class="activeTitle">
+							<h4>{{item.title}}</h4>
+							<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
+						</div>
+					</div>
+					<!-- </router-link> -->
+					</van-cell>
+					<template slot="right">
+						<button class="deleteStyle" @click="deleteActiviteFn(item)">
+							<img src="../../../../assets/image/activiteDelete.png" alt="">
+						</button>
+					</template>
+					</van-swipe-cell>
+				</van-list>
+			</van-pull-refresh>
+		</div>
+		<div class="returnTop" @click="$refs.center.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
+			<img src="../../../../assets/image/returnTop.png" alt />
+			<span>顶部</span>
+		</div>
 	</div>
 </template>
 
 <script>
 import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'case',
 	data () {
 		return {
 			active:[],
-      loading: false,
-      finished: false,
-      page: 1,
+			loading: false,
+			finished: false,
+			page: 0,
+			query:'',
+			pullingDown:false,
+			scrollTop:0,
+    		hospitalReturnTopPage:false,
 		}
 	},
 	computed:{
-	  ...mapGetters(['account','isLogin']),
 	},
 	components:{
-
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
- 	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.getdata()
-	},
-	activated(){
+	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getdata();
 		}
-    },
+		if(this.scrollTop != 0){
+			this.$refs.center.scrollTop = this.scrollTop;
+		}
+	},
+  mounted() {
+		if(window.plus){
+			//plus.navigator.setStatusBarBackground("#ffffff");
+			plus.navigator.setStatusBarStyle("dark")
+		}
+	},
 	methods: {
+		// 滑动一定距离出现返回顶部按钮
+		handleScroll() {
+			this.scrollTop = this.$refs.center.scrollTop || this.$refs.center.pageYOffset
+			// console.log(this.scrollTop)
+			if (this.scrollTop > 800) {
+				this.hospitalReturnTopPage = true;
+			} else {
+				this.hospitalReturnTopPage = false;
+			}
+		},
+		afterPullDown() {
+			//下拉刷新
+		  setTimeout(() => {
+			this.pullingDown = false;
+			 this.initData();
+		  }, 500);
+		},
+		initData() {
+			let thisVue = this
+			if(this.$route.meta.auth && !this.$store.state.hospital.login)
+			this.$toast({message:'请登录',onClose:function(){
+				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1,time: new Date().getTime()}});
+			}})
+
+		  Object.assign(this.$data, this.$options.data());
+		  this.onLoad();
+		},
 		//回退方法
 		goBackFn(){
 			// this.$router.push({name:'hospital_clinic'})
-			this.$router.back()
+			this.$router.back(-1)
 		},
 		deleteActiviteFn(_item){
-      for(let i=0;i<this.active.length;i++){
-        if(this.active[i].itemId ==_item.itemId){
-          this.active.splice(i,1)
-          i--;
-        }
-      }
+			for(let i=0;i<this.active.length;i++){
+				if(this.active[i].itemId ==_item.itemId){
+				this.active.splice(i,1)
+				i--;
+				}
+			}
 			this.$axios.post('/c2/activity/itemdel',qs.stringify({
 				itemId : _item.itemId,
 			}))
 			.then(res => {
-				// this.getdata();
+				this.getdata();
 			})
 			.catch((err)=>{
 				
@@ -136,7 +177,8 @@ export default {
 <style scoped>
 .active{
 	width: 100%;
-	/* height: 100%; */
+	height: 100%;
+	overflow: hidden;
 	background-color: #FFFFFF;
 }
 .topNav{
@@ -179,6 +221,28 @@ export default {
 	height: .47rem;
 	line-height: .47rem;
 	float:left;
+}
+
+.addActive{
+	width: 93.6%;
+	height: .49rem;
+	line-height: .49rem;
+	text-align: center;
+	font-size: .14rem;
+	margin: 0 auto;
+	/* margin-top: .59rem; */
+	background-color: #FFFFFF;
+}
+.addActive span:first-child{
+	color: #2B77EF;
+	width: .15rem;
+	height: .15rem;
+	line-height: .15rem;
+	border: 1px solid #2B77EF;
+	display: inline-block;
+}
+.addActive span:last-child{
+	color: #2B77EF;
 }
 .activeList{
 	width: 93.6%;
@@ -238,5 +302,12 @@ export default {
     position: relative;
     overflow: hidden;
     width: 93.6%;
+}
+.center{
+	height: calc(100% - .47rem);
+	touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
+	overflow: scroll;
+	overflow-x: hidden;
 }
 </style>

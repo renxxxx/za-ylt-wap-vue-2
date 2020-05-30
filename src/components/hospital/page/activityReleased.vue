@@ -1,46 +1,46 @@
 <template>
 	<div class="active">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
-			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
-				<div class="leftImg" @click="goBackFn"  id="navback">
-					<img src="../../../assets/image/shape@3x.png" alt="">
-				</div>
-				<div class="centerTitle">
-					<h3>发布精准活动</h3>
-				</div>
-				<div class="right"></div>
+		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
+			<div class="leftImg" @click="goBackFn"  id="navback">
+				<img src="../../../assets/image/shape@3x.png" alt="">
 			</div>
-			<div class="zhangwei"></div>
-			<div class="center" @scroll="handleScroll" ref="center">
-				<!-- <router-link :to="{name:'hospital_addActivity'}"> -->
-				<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
-					<span>+</span>
-					<span>新建活动</span>
-				</div>
-				<!-- </router-link> -->
-				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<!-- active -->
-					<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
-						<van-cell :border="false" >
-						<!-- <router-link :to="{path : '/hospital/hospital_activityDetails',query:{itemId:item.itemId,}}"> -->
-						<div class="activeList" @click="$router.push({path:'/hospital/hospital_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
-							<img v-lazy="item.cover" alt="">
-							<div class="activeTitle">
-								<h4>{{item.title}}</h4>
-								<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
-							</div>
+			<div class="centerTitle">
+				<h3>发布精准活动</h3>
+			</div>
+			<div class="right"></div>
+		</div>
+		<div class="zhangwei"></div>
+		<div class="center" @scroll="handleScroll" ref="center">
+			<!-- <router-link :to="{name:'hospital_addActivity'}"> -->
+			<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
+				<span>+</span>
+				<span>新建活动</span>
+			</div>
+			<!-- </router-link> -->
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+				<!-- active -->
+				<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
+					<van-cell :border="false" >
+					<!-- <router-link :to="{path : '/hospital/hospital_activityDetails',query:{itemId:item.itemId,}}"> -->
+					<div class="activeList" @click="$router.push({path:'/hospital/hospital_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
+						<img v-lazy="item.cover" alt="">
+						<div class="activeTitle">
+							<h4>{{item.title}}</h4>
+							<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
 						</div>
-						<!-- </router-link> -->
-						</van-cell>
-						<template slot="right">
+					</div>
+					<!-- </router-link> -->
+					</van-cell>
+					<template slot="right">
 						<button class="deleteStyle" @click="deleteActiviteFn(item)">
 							<img src="../../../assets/image/activiteDelete.png" alt="">
 						</button>
-						</template>
+					</template>
 					</van-swipe-cell>
 				</van-list>
-			</div>
-		</van-pull-refresh>
+			</van-pull-refresh>
+		</div>
 		<div class="returnTop" @click="$refs.center.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -312,8 +312,5 @@ export default {
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;
 	overflow-x: hidden;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

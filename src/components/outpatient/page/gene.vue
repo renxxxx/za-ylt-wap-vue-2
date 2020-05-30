@@ -83,8 +83,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import topSolt from "../function/topSolt.vue";
 export default {
@@ -107,17 +105,8 @@ export default {
 
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
 	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.initData()
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -136,6 +125,7 @@ export default {
 			this.$toast({message:'请登录',onClose:function(){
 				thisVue.$router.replace({ path : '/outpatientLogin',query:{time:1}});
 			}})
+			Object.assign(this.$data, this.$options.data());
 		},
 		// 基因状态菜单选择返回值
 		menuFn(_value){

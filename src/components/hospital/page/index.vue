@@ -7,9 +7,9 @@
               </div>
               <div class="slider">
                 <van-swipe>
-                  <van-swipe-item v-for="(image, index) in 99" :key="index" >
+                  <van-swipe-item v-for="(image, index) in images" :key="index" >
                     <!-- <router-link :to="{name : image.url}"> -->
-                      <img  v-lazy="image.cover" class="silder_img"  @click="$router.push({name:image.ur,query:{time: new Date().getTime()}})"/>
+                      <img  :src="image.cover" class="silder_img"  @click="$router.push({name:image.ur,query:{time: new Date().getTime()}})"/>
                     <!-- </router-link> -->
                   </van-swipe-item>
                 </van-swipe>
@@ -119,26 +119,14 @@ export default {
     };
   },
   components: {
-    
   },
   beforeCreate(){
-    
   },
   created() {
-    debugger
   },
-  
   beforeMount(){
-    debugger
-    
   },
   mounted(){
-    debugger
-  },
-  watch:{
-    $route(to,from){
-      debugger
-    }
   },
 	activated() {
     debugger
@@ -156,8 +144,7 @@ export default {
     }
 	},
   deactivated(){
-    debugger
-    },
+  },
   methods: {
     // 滑动一定距离出现返回顶部按钮
     handleScroll() {
@@ -189,14 +176,13 @@ export default {
 				thisVue.$router.replace({ name : 'promoters',query:{time: new Date().getTime()}});
 			}
 		}
-    
       //轮播图图片路径请求
       this.$axios
         .get("/hospital/hospital-ads")
         .then(res => {
           for (let i in res.data.data.rows) {
-            // 
             res.data.codeMsg ? this.$toast(res.data.codeMsg) : "";
+            console.log(res.data.data.rows[i].cover)
             switch (res.data.data.rows[i].type) {
               case 0:
                 this.images.push({
@@ -254,11 +240,8 @@ export default {
                 break;
             }
           }
-          // 
         })
-        .catch(err => {
-          // 
-        });
+        .catch(err => {});
       //文章请求
       this.getdata();
     },
@@ -288,9 +271,7 @@ export default {
             this.finished = true;
           }
         })
-        .catch(err => {
-          
-        });
+        .catch(err => {});
     },
     onLoad() {
       ++this.page;

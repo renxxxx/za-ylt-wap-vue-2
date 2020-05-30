@@ -8,7 +8,6 @@
 				<h3>新增商品</h3>
 			</div>
 			<div class="right">
-				<!-- <button v-show=" this.$route.query.item? true:false" @click="modifyFn">修改</button> -->
 				<button @click="nextFn">下一步</button>
 			</div>
 		</div>
@@ -73,7 +72,6 @@ export default {
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
@@ -90,7 +88,6 @@ export default {
 				show : true,
 			}
 			this.$router.back();
-			// this.$router.back({ path : '/hospital/hospital_exchangeManagement'});
 		},
 		nextFn(){
 			if(this.exchangeAdd.name != ''){

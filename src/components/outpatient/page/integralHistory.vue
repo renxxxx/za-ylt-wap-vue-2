@@ -15,19 +15,21 @@
 		<span>兑换历史记录</span>
 	</div>
 	<div class="integralHistoryList"  @scroll="handleScroll" ref="integralHistoryList">
-		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-			<ul>
-				<li v-for="(item,inx) in integralHistory" :key="inx">
-					<img :src="item.cover" alt="">
-					<div class="ulTitle">
-					<h4>{{item.name}}</h4>
-					<p>{{item.unitExchangePoint}} 积分/个</p>
-					<p>{{moment(item.orderTime).format('YYYY-MM-DD hh:mm')}}</p>
-					<span>数量 <strong>{{item.count}}</strong></span>
-					</div>
-				</li>
-			</ul>
-		</van-list>
+		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+				<ul>
+					<li v-for="(item,inx) in integralHistory" :key="inx">
+						<img :src="item.cover" alt="">
+						<div class="ulTitle">
+						<h4>{{item.name}}</h4>
+						<p>{{item.unitExchangePoint}} 积分/个</p>
+						<p>{{moment(item.orderTime).format('YYYY-MM-DD hh:mm')}}</p>
+						<span>数量 <strong>{{item.count}}</strong></span>
+						</div>
+					</li>
+				</ul>
+			</van-list>
+		</van-pull-refresh>
 	</div>
     <div class="returnTop" @click="$refs.integralHistoryList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 		<img src="../../../assets/image/returnTop.png" alt />
@@ -37,31 +39,29 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
-  name: 'integralHistory',
-  data () {
-    return {
-		integralHistory : [],
-		loading: false,
-		finished: false,
-		page: 0,
-		hospitalReturnTopPage:false,
-		scrollTop:0,
-    }
-  },
-  computed:{
-	...mapGetters(['account'])
-  },
-  created(){
-  },
-  mounted() {
-  },
-  activated(){
+	name: 'integralHistory',
+	data () {
+		return {
+			integralHistory : [],
+			loading: false,
+			finished: false,
+			page: 0,
+			hospitalReturnTopPage:false,
+			scrollTop:0,
+			pullingDown: false,
+		}
+	},
+	computed:{
+	},
+	created(){
+	},
+	mounted() {
+	},
+  	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -72,7 +72,18 @@ export default {
 			this.$refs.integralHistoryList.scrollTop = this.scrollTop;
 		}
   	},
-  methods: {
+  	methods: {
+	  	afterPullDown() {
+		  //下拉刷新
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
+		initData(){
+			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
+		},
 	// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.integralHistoryList.scrollTop || this.$refs.integralHistoryList.pageYOffset
@@ -82,41 +93,39 @@ export default {
 				this.hospitalReturnTopPage = false;
 			}
 		},
-    goBackFn(){
-      this.$router.back(-1);
-    },
-	onLoad(){
-	  ++this.page;
-	  // 
-	  this.getdata();
-	},
-	getdata(){
-		this.$axios.post('/clientend2/clinicend/pointexchange/orderdetails',qs.stringify({
-			clinicId : this.$store.state.outpatient.login.clinicId,
-			pn: this.page,
-			ps: 10
-		}))
-		.then(res => {
+		goBackFn(){
+		this.$router.back(-1);
+		},
+		onLoad(){
+		++this.page;
+		// 
+		this.getdata();
+		},
+		getdata(){
+			this.$axios.post('/clientend2/clinicend/pointexchange/orderdetails',qs.stringify({
+				clinicId : this.$store.state.outpatient.login.clinicId,
+				pn: this.page,
+				ps: 10
+			}))
+			.then(res => {
 
-			if(!res.data.codeMsg){
-        if(res.data.data.items.length != 0){
-          for(let i in res.data.data.items){
-            this.integralHistory.push(res.data.data.items[i]);
-          }
-          this.loading = false;
-        }else {
-            this.loading = false;
-            this.finished = true;
-          }
-			}else{
-				this.$toast(res.data.codeMsg)
+				if(!res.data.codeMsg){
+			if(res.data.data.items.length != 0){
+			for(let i in res.data.data.items){
+				this.integralHistory.push(res.data.data.items[i]);
 			}
-		})
-		.catch((err)=>{
-			//Dialog({ message: err});;
-		})
-	}
-  },
+			this.loading = false;
+			}else {
+				this.loading = false;
+				this.finished = true;
+			}
+				}else{
+					this.$toast(res.data.codeMsg)
+				}
+			})
+			.catch((err)=>{})
+		}
+  	},
 }
 </script>
 

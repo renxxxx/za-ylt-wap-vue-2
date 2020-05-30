@@ -27,7 +27,6 @@ export default {
     destroyed(){
     },
     mounted(){
-        // console.log(document.getElementById("topSlot").getBoundingClientRect().height)
     },
     activated(){
         window.addEventListener("scroll", this.handleScroll, true);

@@ -1,6 +1,5 @@
 <template>
 	<div class="promoters" ref='promotersRef'>
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@3x.png" alt="">
@@ -19,8 +18,10 @@
 			</div>
 			<div class="zhangwei"></div>
 			<div class="promoters_list" @scroll="handleScroll" ref="promoters_list">
+				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul :style="{'padding-top':$store.state.paddingTop}">
+						<!-- promotersList -->
 						<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId}}"> -->
 							<div class="list">
@@ -35,8 +36,8 @@
 						</li>
 					</ul>
 				</van-list>
+				</van-pull-refresh>
 			</div>
-		</van-pull-refresh>
 		<div class="returnTop" @click="$refs.promoters_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -55,19 +56,17 @@ export default {
 			finished: false,
 			page: 0,
 			query:'',
-	 		pullingDown:false,
+			pullingDown:false,
+			scrollTop:0,
+    		hospitalReturnTopPage:false,
 		}
 	},
 	computed:{
-
 	},
 	components:{
-		
 	},
 	created(){
-		
 	},
-  
 	mounted(){
 	},
 	activated() {
@@ -113,40 +112,38 @@ export default {
 		goBackFn(){
 			this.$router.back()
 		},
-    onLoad(){
-      ++this.page;
-      this.getData();
-    },
+		onLoad(){
+			++this.page;
+			this.getData();
+		},
 		getData(){
 			this.$axios.get('/hospital/def/hospital-operator-users?'+'&'+qs.stringify({
-        pn: this.page,
-        ps: 10
-      }))
+				pn: this.page,
+				ps: 10
+      		}))	
 			.then(res => {
 				if(!res.data.codeMsg){
-          if(res.data.data.rows.length != 0){
-            for(let i in res.data.data.rows){
-            	this.promotersList.push(res.data.data.rows[i])
-              console.dir(this.promotersList)
-            }
-            if(this.promotersList.length<10){
-            	let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-            	// 
-            	this.$refs.promotersRef.style.height = windowHeight+ 'px'
-            }
-            // 
-            this.loading = false;
-          }else {
-            this.loading = false;
-            this.finished = true;
-          }
+					if(res.data.data.rows.length != 0){
+						for(let i in res.data.data.rows){
+							this.promotersList.push(res.data.data.rows[i])
+						console.dir(this.promotersList)
+						}
+						if(this.promotersList.length<10){
+							let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+							// 
+							this.$refs.promotersRef.style.height = windowHeight+ 'px'
+						}
+						// 
+						this.loading = false;
+					}else {
+						this.loading = false;
+						this.finished = true;
+					}
 				}else{
-          this.$toast(res.data.codeMsg)
-        }
+          			this.$toast(res.data.codeMsg)
+       			}
 			})
-			.catch((err)=>{
-				
-			})
+			.catch((err)=>{})
 		}
 	},
 }
@@ -261,8 +258,5 @@ export default {
 	overflow: scroll;
 	overflow-x: hidden;
 	width: 100%;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

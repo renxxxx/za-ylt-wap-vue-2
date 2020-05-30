@@ -76,6 +76,7 @@
 		</van-popup>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
 		<div class="promotersDetails_list" @scroll="handleScroll" ref="promotersDetails_list">
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
 			<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
 				<ul>
 					<!-- promotersList -->
@@ -110,6 +111,7 @@
 				<van-picker show-toolbar :columns="option" @cancel="cancel" @confirm="onConfirm"/>
 			</div>
 			</van-list>
+			</van-pull-refresh>
 		</div>
 		<div class="returnTop" @click="$refs.promotersDetails_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -136,7 +138,7 @@ export default {
 			},
 			promotersImg:'',
 			promotersList:[],	//推广人列表
-			page:1,		//get请求页数
+			page:0,		//get请求页数
 			showModify : false,	//修改显示
 			showDeleteAlert: false, //显示删除弹窗值
 			clinicNum : 0,
@@ -156,7 +158,7 @@ export default {
 			query:'',
 			scrollTop:0,
     		hospitalReturnTopPage:false,
-
+			pullingDown: false,
 		}
 	},
 	computed:{
@@ -171,22 +173,35 @@ export default {
 	  },
 	},
 	components:{
-		
 	},
 	created(){
-		
 	},
-  
 	mounted(){
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+		}
+		if(this.scrollTop != 0){
+			this.$refs.promotersDetails_list.scrollTop = this.scrollTop;
+		}
+	},
+	methods: {
+		afterPullDown() {
+			debugger
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
+		initData(){
+			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
 			this.$axios.get('/hospital/def/hospital-operator-user/'+this.$route.query.hospitalUserId)
 			.then(res => {
 				if(res.data.codeMsg){
@@ -219,19 +234,10 @@ export default {
 							'value' : '00'+i,
 						})
 					}
-					
 				}
 			})
-			.catch((err)=>{
-				
-			})
-			// this.onLoad();
-		}
-		if(this.scrollTop != 0){
-			this.$refs.promotersDetails_list.scrollTop = this.scrollTop;
-		}
-	},
-	methods: {
+			.catch((err)=>{})
+		},
 		// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.promotersDetails_list.scrollTop || this.$refs.promotersDetails_list.pageYOffset
@@ -242,7 +248,6 @@ export default {
 			}
 		},
 		cancel(){
-			debugger
 			this.choicePromoterAllShow = false
 		},
 		//返回上一级
@@ -252,8 +257,7 @@ export default {
 		// 显示修改弹窗
 		modifyFn(){
 			this.showModify = true;
-      this.hospitalReturnHomePage = false;
-			
+      		this.hospitalReturnHomePage = false;
 		},
 		choicePromoterFn(){
 			this.choicePromoterAllShow = true;
@@ -276,9 +280,7 @@ export default {
 					this.$toast(res.data.codeMsg);
 				}
 			})
-			.catch((err)=>{
-				
-			})
+			.catch((err)=>{})
 		},
 		// 显示删除推广人弹窗
 		deleteAlertFn(){
@@ -296,12 +298,14 @@ export default {
 					this.$toast(res.data.codeMsg);
 				}
 			})
-			.catch((err)=>{
-				
-			})
+			.catch((err)=>{})
 		},
 		// 下拉加载被推广的医院
 		onLoad(){
+			this.page++;
+			this.getData()
+		},
+		getData(){
 			this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({hospitalUserId:this.$route.query.hospitalUserId})+'&'+qs.stringify({pn:this.page})+'&'+qs.stringify({ps:10}))
 			.then(res => {
 				if(res.data.data.rows.length != 0){
@@ -309,20 +313,12 @@ export default {
 						if(res.data.data.rows[i]){
 							this.promotersList.push(res.data.data.rows[i])
 						}
-						// 
 					}
-
-				this.page++;
 				// 加载状态结束
 				this.loading = false;
 				}else{
 					this.loading = false;
 					this.finished = true;
-				}
-				if(this.promotersList.length<7){
-					let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-					// 
-					this.$refs.promotersDetailsRef.style.height = windowHeight+ 'px'
 				}
 				// this.clinic.num = res.data.data.sum.totalCount;
 			})

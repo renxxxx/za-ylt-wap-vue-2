@@ -14,24 +14,26 @@
 		</div>
 		<div style="height:.47rem" :style="{'padding-top':$store.state.paddingTop}"> </div>
 		<div class="article" @scroll="handleScroll" ref="article">
-			<ul :model="article">
-				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
-					<li v-for="(items,inx) in article" :key="inx">
-						<router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 1,}}">
-							<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
-								<p>{{items.content}}</p>
-								<div class="article_leftTime">
-									<img src="../../../assets/image/time@2x.png" alt="">
-									<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+				<ul :model="article">
+					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
+						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/outpatient/outpatient_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
+								<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
+									<p>{{items.content}}</p>
+									<div class="article_leftTime">
+										<img src="../../../assets/image/time@2x.png" alt="">
+										<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
+									</div>
 								</div>
-							</div>
-							<div class="article_right">
-								<img :src=items.img alt="">
-							</div>
-						</router-link>
-					</li>
-				</van-list>
-			</ul>
+								<div class="article_right">
+									<img :src=items.img alt="">
+								</div>
+							<!-- </router-link> -->
+						</li>
+					</van-list>
+				</ul>
+			</van-pull-refresh>
 		</div>
 		<div class="returnTop" @click="$refs.article.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -43,56 +45,54 @@
 <script>
 import qs from 'qs';
 export default {
-  name: 'hospital',
-  data () {
-    return {
-		name: 'hospital',
-		article:[],
-		loading: false,
-		finished: false,
-		page:1,
-		kw: '',
-		hospitalReturnTopPage:false,
-		scrollTop:0
-    }
-  },
-  computed:{
-  },
-  components:{
-  },
-  created () {
-
-  },
-  mounted() {
-	// 	if(window.plus){
-	// 		//plus.navigator.setStatusBarBackground("#ffffff");
-	// 		plus.navigator.setStatusBarStyle("dark")
-	// 	}
-    // this.getdata({
-    // 	hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-    // 	pn : this.page,
-    // 	ps : 10
-    // })
-  },
+	name: 'hospital',
+	data () {
+		return {
+			name: 'hospital',
+			article:[],
+			loading: false,
+			finished: false,
+			page:1,
+			kw: '',
+			hospitalReturnTopPage:false,
+			scrollTop:0,
+			pullingDown: false,
+		}
+	},
+	computed:{
+	},
+	components:{
+	},
+	created () {
+	},
+	mounted() {
+	},
   	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getdata({
-				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-				pn : this.page,
-				ps : 10
-			})
 		}
 		if(this.scrollTop != 0){
 			this.$refs.article.scrollTop = this.scrollTop;
 		}
     },
-  methods: {
-	  // 滑动一定距离出现返回顶部按钮
+  	methods: {
+	  	afterPullDown() {
+			//下拉刷新
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
+		initData(){
+			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
+		},
+	 	 // 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.article.scrollTop || this.$refs.article.pageYOffset
 			if (this.scrollTop > 800) {
@@ -104,48 +104,48 @@ export default {
 		goBackFn(){
 		this.$router.back()
 		},
-	  getdata(_data){
-	  	this.$axios.post('/c2/article/items',qs.stringify(_data))
-	  	.then(res => {
-	  		if(res.data.data.items.length != 0){
-	  			for(let i in res.data.data.items){
-	  			// 
-	  			if(res.data.data.items[i]){
-	  				this.article.push({
-	  					content:res.data.data.items[i].title,
-	  					img: res.data.data.items[i].cover,
-	  					time:res.data.data.items[i].alterTime,
-	  					itemId: res.data.data.items[i].itemId,
-	  				})
-	  			}else{
-	  			}
-	  		}
-			  this.loading = false;
-			  this.finished = true;
-	  		}else{
-	  			this.loading = false;
-	  			this.finished = true;
-	  		}
-	  	})
-	  	.catch((err)=>{
-	  		
-	  	})
-	  },
-	  onLoad(){
-      this.page++;
-	  	this.getdata({
-	  		hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-	  		pn : this.page,
-	  		ps : 10
-	  	})
-	  },
-    searchFn(){
-      this.article = [];
-      this.getdata({
-        kw : this.kw,
-	  		hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-	  	})
-    }
+		getdata(_data){
+			this.$axios.post('/c2/article/items',qs.stringify(_data))
+			.then(res => {
+				if(res.data.data.items.length != 0){
+					for(let i in res.data.data.items){
+					// 
+					if(res.data.data.items[i]){
+						this.article.push({
+							content:res.data.data.items[i].title,
+							img: res.data.data.items[i].cover,
+							time:res.data.data.items[i].alterTime,
+							itemId: res.data.data.items[i].itemId,
+						})
+					}else{
+					}
+				}
+				this.loading = false;
+				this.finished = true;
+				}else{
+					this.loading = false;
+					this.finished = true;
+				}
+			})
+			.catch((err)=>{
+				
+			})
+		},
+		onLoad(){
+			this.getdata({
+				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
+				pn : this.page,
+				ps : 10
+			})
+			this.page++;
+		},
+		searchFn(){
+			this.article = [];
+			this.getdata({
+				kw : this.kw,
+				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
+			})
+		}
   },
 }
 </script>

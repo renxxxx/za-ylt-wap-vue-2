@@ -45,15 +45,11 @@
 				</div>
 			</div>
 		</div>
-		
-		
 	</div>
 </template>
 
 <script>
-import axios from 'axios'
 import qs from 'qs';
-import {mapActions,mapGetters} from 'vuex'
 export default {
 	name: 'search',
 	data () {
@@ -67,29 +63,22 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters(['account'])
 	},
 	components:{
 		
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
-
-  	 mounted() {
-		// 加载dom节点后,获取推广人列表请求
+  	mounted() {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			// this.initData();
 		}
     },
 	methods: {

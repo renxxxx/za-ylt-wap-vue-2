@@ -1,6 +1,6 @@
 <template>
 	<div class="_search" >
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		
 			<div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="search_return">
 					<a @click="goBackFn"  id="navback">
@@ -65,26 +65,28 @@
 			</div>
 			<div style="height:.5rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
 			<div class="_searchList" @scroll="handleScroll" ref="_searchList">
-				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
-					<ul class="clinicList" :style="{'padding-top':$store.state.paddingTop}">
-						<li v-for="(item,inx) in noItems" :key="inx">
-							<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
-								<div class="content_left">
-									<span>{{item.realname}}</span>
-								</div>
-								<div class="content_right">
-									<img :src='item.img'>
-									<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
-								</div>
-								<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
-							</router-link>
-						</li>
-					</ul>
-				</van-list>
+				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+					<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
+						<ul class="clinicList" :style="{'padding-top':$store.state.paddingTop}">
+							<li v-for="(item,inx) in noItems" :key="inx">
+								<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
+									<div class="content_left">
+										<span>{{item.realname}}</span>
+									</div>
+									<div class="content_right">
+										<img :src='item.img'>
+										<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
+									</div>
+									<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
+								</router-link>
+							</li>
+						</ul>
+					</van-list>
+				</van-pull-refresh>
 			</div>
 			
 		<!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
-		</van-pull-refresh>
+		
 		<div class="returnTop" @click="$refs._searchList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -131,7 +133,6 @@ export default {
   computed: {
     showTime: {
       get: function() {
-        // 
         return this.$store.state.showTime;
       },
       set: function(newValue) {
@@ -145,12 +146,6 @@ export default {
   },
  
   mounted() {
-    // if (window.plus) {
-    //   //plus.navigator.setStatusBarBackground("#ffffff");
-    //   plus.navigator.setStatusBarStyle("dark");
-    // }
-	// // 
-    // this.initData();
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -181,7 +176,6 @@ export default {
 		setTimeout(() => {
 			this.pullingDown = false;
 			this.initData();
-			this.nextPageFn()
 		}, 500);
     },
     initData() {
@@ -321,7 +315,6 @@ export default {
     },
     //取消选择的日期
     cancel(_value){
-    	
     },
 	// 获取下一页的方法
 	getData(page){

@@ -1,6 +1,6 @@
 <template>
 	<div class="exchange">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@3x.png" alt="">
@@ -25,6 +25,7 @@
 				<!-- </router-link> -->
 			</div>
 		<div class="exchangeLists_content" @scroll="handleScroll" ref="exchangeLists_content">
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 			<ul class="exchangeLists">
 				<van-swipe-cell v-for="(item,inx) in commodity" :key="inx"  :right-width= 65 >
@@ -51,9 +52,10 @@
 				</van-swipe-cell>
 			</ul>
 			</van-list>
+			</van-pull-refresh>
 		</div>
 		
-	</van-pull-refresh>
+	
 	<div class="returnTop" @click="$refs.exchangeLists_content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 		<img src="../../../assets/image/returnTop.png" alt />
 		<span>顶部</span>
@@ -147,12 +149,12 @@ export default {
 			this.$router.back()
 		},
 		deleteActiviteFn(_item){
-      for(let i=0;i<this.commodity.length;i++){
-        if(this.commodity[i].itemId ==_item.itemId){
-          this.commodity.splice(i,1)
-          i--;
-        }
-      }
+			for(let i=0;i<this.commodity.length;i++){
+				if(this.commodity[i].itemId ==_item.itemId){
+				this.commodity.splice(i,1)
+				i--;
+				}
+			}
 			this.$axios.post('/c2/commodity/itemdel',qs.stringify({
 				itemId : _item.itemId,
 			})).then(res =>{
@@ -161,38 +163,36 @@ export default {
 				
 			})
 		},
-    onLoad(){
-      ++this.page;
-      // 
-      this.getdata();
-    },
+		onLoad(){
+			++this.page;
+			this.getdata();
+		},
 		getdata(){
 			this.$axios.post('/c2/commodity/items',qs.stringify({
 				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-        pn: this.page,
-        ps: 10
+				pn: this.page,
+				ps: 10
 			})).then(res =>{
 				if(res.data.data.items.length != 0){
-          for(let i in res.data.data.items){
-            this.commodity.push({
-              addTime : res.data.data.items[i].addTime,
-              alterTime : res.data.data.items[i].alterTime,
-              cover : res.data.data.items[i].cover,
-              hospitalId : res.data.data.items[i].hospitalId,
-              hosptialName : res.data.data.items[i].hosptialName,
-              intro : res.data.data.items[i].intro,
-              name : res.data.data.items[i].name,
-              payExchangepoint : res.data.data.items[i].payExchangepoint,
-              stock : res.data.data.items[i].stock,
-              itemId : res.data.data.items[i].itemId,
-            })
-          }
-          this.loading = false;
-        }else {
-            this.loading = false;
-            this.finished = true;
-          }
-				// 
+					for(let i in res.data.data.items){
+						this.commodity.push({
+						addTime : res.data.data.items[i].addTime,
+						alterTime : res.data.data.items[i].alterTime,
+						cover : res.data.data.items[i].cover,
+						hospitalId : res.data.data.items[i].hospitalId,
+						hosptialName : res.data.data.items[i].hosptialName,
+						intro : res.data.data.items[i].intro,
+						name : res.data.data.items[i].name,
+						payExchangepoint : res.data.data.items[i].payExchangepoint,
+						stock : res.data.data.items[i].stock,
+						itemId : res.data.data.items[i].itemId,
+						})
+					}
+					this.loading = false;
+				}else {
+					this.loading = false;
+					this.finished = true;
+				}
 			}).catch(err =>{
 				
 			})
@@ -365,8 +365,5 @@ export default {
     overflow: hidden;
 	width: 91.46%;
 	margin: 0rem auto;
-}
->>>.van-pull-refresh{
-	height: 100%;
 }
 </style>

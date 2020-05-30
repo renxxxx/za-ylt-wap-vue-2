@@ -70,7 +70,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<div class="returnTop" @click="$refs.typeDetails_content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -128,10 +127,7 @@ export default {
 					
 				}
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 			this.$axios.post('/c2/doctor/items',qs.stringify({
 				officeId : id,
 				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
@@ -146,14 +142,9 @@ export default {
 						headimg : _d.data.data.items[i].headimg,
 					})
 				}
-			
 				this.$refs.scrollId.style.width = 50 * _d.data.data.items.length +'%'
-				// 
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 		}
 		if(this.scrollTop != 0){
 			this.$refs.typeDetails_content.scrollTop = this.scrollTop;
@@ -172,13 +163,11 @@ export default {
 		//回退方法
 		goBackFn(){
 			this.$router.back()
-			// this.$router.push({ path : '/hospital/hospitalImage',query :{components : "hospital_imageType",}});
 		},
 		//医生介绍
 		doctorAboutFn(_about){
 			this.show = true;
 			this.doctorAbout = _about;
-			// 
 		}
 	},
 }

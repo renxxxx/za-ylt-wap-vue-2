@@ -1,81 +1,82 @@
 <template>
-	<div class="index" >
-		<topSolt>
-		<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" >
-		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
-			<div class="topNav_search">
-				<img src="../../../assets/image/sousuo@2x.png" alt="">
-				<router-link :to="{path:'/operating/operating_hospiatlAllSearch'}">
-					<input type="search">
-					
-				</router-link>
-				<div class="shaixuan" @click="shaixuanFn">
-					<span>筛选</span>
-					<img src="../../../assets/image/shaixuan.svg" alt="">
+	<topSolt>
+		<div class="index"  slot="returnTopSolt">
+			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
+				<div class="topNav_search">
+					<img src="../../../assets/image/sousuo@2x.png" alt="">
+					<router-link :to="{path:'/operating/operating_hospiatlAllSearch'}">
+						<input type="search">
+						
+					</router-link>
+					<div class="shaixuan" @click="shaixuanFn">
+						<span>筛选</span>
+						<img src="../../../assets/image/shaixuan.svg" alt="">
+					</div>
+				</div>
+				<div class="topNav_Title">
+					<h4>合作医院<span>{{hospitalSum}}</span></h4>
+					<router-link :to="{path:'/operating/operating_addHospital'}">
+						<div class="addHospital">新增医院<img src="../../../assets/image/right@2x.png" alt=""></div>
+					</router-link>
 				</div>
 			</div>
-			<div class="topNav_Title">
-				<h4>合作医院<span>{{hospitalSum}}</span></h4>
-				<router-link :to="{path:'/operating/operating_addHospital'}">
-					<div class="addHospital">新增医院<img src="../../../assets/image/right@2x.png" alt=""></div>
-				</router-link>
+			<div style="width: 100%;height: 1rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
+			<van-popup v-model="show" @close="closeTimeFn" position="right" :style="{ height: '100%',width:'78.7%'}">
+				<div id="indexLabel">
+					<div class="labelLabel xiaxian" >
+						<strong>显示</strong>
+						<button @click="clickFn('0')" :class="listStyleData[0]? 'clickColor':''">全部医院</button>
+						<button @click="clickFn('1')" :class="listStyleData[1]? 'clickColor':''">我的医院</button>
+					</div>
+					<div style="margin-top: .1rem;">
+						<div class="labelLabel" >
+							<strong>排序</strong>	
+							<button @click="clickFn('2')" :class="listStyleData[2]? 'clickColor':''">
+								门诊数量最多
+							</button>
+							<button @click="clickFn('3')" :class="listStyleData[3]? 'clickColor':''">
+								病源数量最多
+							</button>
+						</div>
+						<div class="labelLabel">
+							<button @click="clickFn('4')" :class="listStyleData[4]? 'clickColor':''">
+								创建时间最近
+							</button>
+							<button @click="clickFn('5')" :class="listStyleData[5]? 'clickColor':''">
+								医院名称A-Z
+							</button>
+						</div>
+					</div>
+					<div class="LabelResult">
+						<button @click="screeningResult">重选</button>
+						<button @click="screeningSubmit">确定</button>
+					</div>
+				</div>
+			</van-popup>
+			<div class="hospitalContent">
+				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" ref="refersh" >
+					<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
+						<router-link :to="{path:'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId}}"  v-for="(item,inx) in hospitalList" :key="inx">
+							<div class="hospitalList">
+								<div class="hospitalContent_title">
+									<img :src="item.cover" alt="">
+									<h5>{{item.hospitalName}}</h5>
+									<img :src="item.img" alt="">
+								</div>
+								<div class="hospitalContent_message">
+									<p>创建时间：{{moment(item.time).format('YYYY-MM-DD HH-MM')}}</p>
+									<p>门诊数：{{item.clinicCount}}</p>
+									<p>病源数：{{item.patientCount}}</p>
+								</div>
+							</div>
+						</router-link>
+					</van-list>
+				</van-pull-refresh>
 			</div>
+			<div style="height: .55rem;"></div>
+			
 		</div>
-		<div style="width: 100%;height: 1rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<van-popup v-model="show" @close="closeTimeFn" position="right" :style="{ height: '100%',width:'78.7%'}">
-			<div id="indexLabel">
-				<div class="labelLabel xiaxian" >
-					<strong>显示</strong>
-					<button @click="clickFn('0')" :class="listStyleData[0]? 'clickColor':''">全部医院</button>
-					<button @click="clickFn('1')" :class="listStyleData[1]? 'clickColor':''">我的医院</button>
-				</div>
-				<div style="margin-top: .1rem;">
-					<div class="labelLabel" >
-						<strong>排序</strong>	
-						<button @click="clickFn('2')" :class="listStyleData[2]? 'clickColor':''">
-							门诊数量最多
-						</button>
-						<button @click="clickFn('3')" :class="listStyleData[3]? 'clickColor':''">
-							病源数量最多
-						</button>
-					</div>
-					<div class="labelLabel">
-						<button @click="clickFn('4')" :class="listStyleData[4]? 'clickColor':''">
-							创建时间最近
-						</button>
-						<button @click="clickFn('5')" :class="listStyleData[5]? 'clickColor':''">
-							医院名称A-Z
-						</button>
-					</div>
-				</div>
-				<div class="LabelResult">
-					<button @click="screeningResult">重选</button>
-					<button @click="screeningSubmit">确定</button>
-				</div>
-			</div>
-		</van-popup>
-		<div class="hospitalContent">
-		<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
-			<router-link :to="{path:'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId}}"  v-for="(item,inx) in hospitalList" :key="inx">
-				<div class="hospitalList">
-					<div class="hospitalContent_title">
-						<img :src="item.cover" alt="">
-						<h5>{{item.hospitalName}}</h5>
-						<img :src="item.img" alt="">
-					</div>
-					<div class="hospitalContent_message">
-						<p>创建时间：{{moment(item.time).format('YYYY-MM-DD HH-MM')}}</p>
-						<p>门诊数：{{item.clinicCount}}</p>
-						<p>病源数：{{item.patientCount}}</p>
-					</div>
-				</div>
-			</router-link>
-		</van-list>
-		</div>
-		<div style="height: .55rem;"></div>
-		</van-pull-refresh>
-		</topSolt>
-	</div>
+	</topSolt>
 </template>
 
 <script>

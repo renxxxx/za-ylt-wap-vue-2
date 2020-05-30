@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import qs from 'qs';
 export default {
 	name: 'caseDetails',
@@ -52,20 +51,16 @@ export default {
 
 	},
 	created(){
-  	  let myDate = new Date();
+  	  	let myDate = new Date();
     	this.caseInfo.alterTime = myDate.toLocaleDateString()
-		// 
 	},
  	mounted(){
-		
-		// 
 	},
 	activated() {
 		if(window.plus){
 			//plus.navigator.setStatusBarBackground("#ffffff");
 			plus.navigator.setStatusBarStyle("dark")
 		}
-		// 
 		if(this.query != JSON.stringify(this.$route.query)){
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query)
@@ -93,9 +88,7 @@ export default {
 			}
 		},
 		share(){
-		 let shareUrl= location.href.replace('/hospital/hospital_caseDetails',"/sharePage")
-		  
-		  // 
+		 	let shareUrl= location.href.replace('/hospital/hospital_caseDetails',"/sharePage")
 		 	let vue = this
 		 	this.$h5p.shareWeb(shareUrl,this.caseInfo.cover,this.caseInfo.name,'',function(){
 		 		vue.$axios.post('/c2/share')
@@ -106,8 +99,6 @@ export default {
 			this.$router.back()
 		},
 		getData(url){
-			// let query = JSON.stringify(this.$route.query)
-			// 
 			this.$axios.post(url,qs.stringify({
 				itemId : this.$route.query.itemId,
 			}))
@@ -120,18 +111,14 @@ export default {
 					name : _d.data.data.title?_d.data.data.title:_d.data.data.name,
 					contentBtId : _d.data.data.contentBtId
 				}
-				// 
 				this.$axios.get('/other/bigtxt/'+this.caseInfo.contentBtId+'/'+this.caseInfo.contentBtId)
 				.then(_d => {
-					// 
 					this.$set(this.caseInfo,'content',_d.data)
 				})
 				.catch((err)=>{
-					
 				})
 			})
 			.catch((err)=>{
-				
 			})
 		}
 	},

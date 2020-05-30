@@ -1,43 +1,45 @@
 <template>
 	<div class="hospital" :style="{'padding-top':$store.state.paddingTop}">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+		
 			<div class="navWarp">
 				<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
-					<div class="hospital_search">
-						<router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}">
+					<div class="hospital_search" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}"> -->
 							<input type="text" placeholder="搜索门诊">
 							<img src="../../../../assets/image/sousuo@2x.png" alt="">
-						</router-link>
+						<!-- </router-link> -->
 					</div>
 				</div>
 				<div class="statisticalTitle">
 					<h3>合作门诊 {{clinic.num}}</h3>
-					<div class="statisticalAdd">
-						<router-link :to="{path : '/promoters/promoters_addClinic',query:{}}">
+					<div class="statisticalAdd" @click="$router.push({path:'/promoters/promoters_addClinic',query:{time: new Date().getTime()}})">
+						<!-- <router-link :to="{path : '/promoters/promoters_addClinic',query:{}}"> -->
 							<span>新增</span>
 							<img src="../../../../assets/image/xinzeng@2x.png" alt="">
-						</router-link>
+						<!-- </router-link> -->
 					</div>
 				</div>
 			</div>
 			<div class="zhangwei" ></div>
 			<div class="content" ref="content" @scroll="handleScroll">
+				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content	 -->
-						<li v-for="(items,inx) in content" :key="inx">
-							<router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,}}">
+						<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,}}"> -->
 								<div class="contentLi">
 									<h4>{{items.name}}</h4>
 									<span>推广人: {{items.hospitalUserName}}</span>
 									<input type="text" v-model="items.patientCount" readonly="readonly">
 								</div>
-							</router-link>
+							<!-- </router-link> -->
 						</li>
 					</van-list>
 				</ul>
+				</van-pull-refresh>
 			</div>
-		</van-pull-refresh>
+		
 		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -48,7 +50,6 @@
 
 <script>
 import qs from 'qs';
-// import clinicContent from './functionPage/clinic_content.vue'
 export default {
 	name: 'clinic',
 	data () {
@@ -68,34 +69,24 @@ export default {
 	computed:{
 	},
 	components:{
-		
 	},
 	created(){
 	},
 
   	destroyed(){
-	  debugger
-	  
  	},
 	mounted() {
-	//   debugger
-	// 	if(window.plus){
-	// 		//plus.navigator.setStatusBarBackground("#ffffff");
-	// 		plus.navigator.setStatusBarStyle("dark")
-	// 	}
-
-		// this.getdata(0);
-		// this.initData()
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+			this.initData()
 			// 加载dom节点后,获取推广人列表请求
-			this.getdata();
 		}
 		if(this.scrollTop != 0){
 			this.$refs.content.scrollTop = this.scrollTop;
@@ -141,8 +132,8 @@ export default {
 		  this.getNextPage();
 		},
 		getNextPage(){
-			this.page++
 			this.getdata();
+			this.page++
 		},
 		getdata(){
 			debugger

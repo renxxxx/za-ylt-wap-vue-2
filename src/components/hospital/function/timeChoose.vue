@@ -44,10 +44,7 @@
 
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import moment from 'moment'
 import Vue from 'vue'
 export default {
@@ -71,7 +68,6 @@ export default {
 		}
 	},
 	computed:{
-	  ...mapGetters(['account','isLogin']),
     show: {
         get: function() {
         // 
@@ -92,13 +88,11 @@ export default {
     },
 	},
 	components:{
-
 	},
 	props:['list'],
 	created () {
-
 	},
-   mounted() {
+  	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -126,15 +120,10 @@ export default {
 			Vue.set(this.Time,'confirmOver',undefined);
 			Vue.set(this.Time,'pushStart',undefined);
 			Vue.set(this.Time,'pushOver',undefined);
-			
-			// this.list.clinicAll = [];
 			this.getData()
-			// 
 		},
 		//选择框样式
 		labelLabelFn(_vlaue,_this){
-			// 
-			// 
 			let buttonStyle = document.getElementById(this.labelDocument[_vlaue]);
 			switch(_vlaue){
 				case 0:
@@ -192,17 +181,13 @@ export default {
 		},
 		//关闭半遮罩
 		closeFn(){
-			// 
 			this.showTime = false;
 		},
 		// 确定选择的日期
 		confirm(_value){
 			this.time = '';
-			// this.time = _value
 			let time = moment(_value).format('YYYY-MM-DD HH:mm:ss')
 			this.time = new Date(time).getTime();
-			// 
-			// 
 			switch (this.dateStata){
 				case 2:
 				this.Time.confirmStart = '';
@@ -221,12 +206,9 @@ export default {
 				this.Time.pushOver = this.time;
 				break;
 			}
-			// 
-			// 
 		},
 		//取消选择的日期
 		cancel(_value){
-			
 		},
 		getData(){
 			debugger
@@ -278,10 +260,7 @@ export default {
 				
 				}
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			.catch((err)=>{})
 		}
 	},
 }

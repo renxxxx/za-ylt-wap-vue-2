@@ -50,19 +50,10 @@ export default {
 	computed:{
 	},
 	components:{
-		
 	},
 	created(){
-		// var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
   mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -91,41 +82,37 @@ export default {
 		goBackFn(){
 			this.$router.back()
 		},
-    onLoad(){
-      ++this.page;
-      // 
-      this.getData();
-    },
-    getData(){
-      this.$axios.post('/c2/project/items',qs.stringify({
-      	hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
-      	pn: this.page,
-      	ps: 10
-      }))
-      .then(res => {
-      	if(res.data.data.items.length != 0){
-      		for(let i in res.data.data.items){
-      			// 
-      			if(res.data.data.items[i]){
-      				this.article.push({
-      					content:res.data.data.items[i].name,
-      					img: res.data.data.items[i].cover,
-      					time:res.data.data.items[i].alterTime,
-      					itemId : res.data.data.items[i].itemId,
-      				})
-      			}
-      		}
-          this.loading = false;
-      	}else {
-            this.loading = false;
-            this.finished = true;
-          }
-      })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: '加载失败!'});
-      })
-    }
+		onLoad(){
+			++this.page;
+			this.getData();
+		},
+		getData(){
+			this.$axios.post('/c2/project/items',qs.stringify({
+				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
+				pn: this.page,
+				ps: 10
+			}))
+			.then(res => {
+				if(res.data.data.items.length != 0){
+					for(let i in res.data.data.items){
+						// 
+						if(res.data.data.items[i]){
+							this.article.push({
+								content:res.data.data.items[i].name,
+								img: res.data.data.items[i].cover,
+								time:res.data.data.items[i].alterTime,
+								itemId : res.data.data.items[i].itemId,
+							})
+						}
+					}
+				this.loading = false;
+				}else {
+					this.loading = false;
+					this.finished = true;
+				}
+			})
+			.catch((err)=>{})
+		}
 	},
 }
 </script>

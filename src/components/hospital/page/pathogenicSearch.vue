@@ -1,5 +1,4 @@
 <template>
- 
     <div>
       <div class="_search"  >
         <div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
@@ -97,14 +96,10 @@
         <span>顶部</span>
       </div>
     </div>
- 
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import moment from 'moment'
 import Vue from 'vue'
 export default {
@@ -140,7 +135,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["showTime"]),
     show: {
       get: function() {
         // 
@@ -168,26 +162,12 @@ export default {
         this.$store.state.hospitalReturnHomePage = newValue;
       }
     },
-    // hospitalReturnTopPage: {
-    //   get: function() {
-    //     // 
-    //     return this.$store.state.hospitalReturnTopPage;
-    //   },
-    //   set: function(newValue) {
-    //     this.$store.state.hospitalReturnTopPage = newValue;
-    //   }
-    // },
-
   },
   components: {
-    
   },
   created() {
-
   },
- 
   mounted() {
-
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -235,8 +215,7 @@ export default {
 					}
 				}
 			})
-			.catch((err)=>{
-			})
+			.catch((err)=>{})
 		},
     afterPullDown() {
       //下拉刷新
@@ -273,10 +252,9 @@ export default {
     },
     // 筛选确定
     screeningSubmit(){
-		debugger;
       this.show = false;
       this.items = [];
-	  this.page = 0;
+	    this.page = 0;
       // this.noItems = [];
       this.finished = false;
       this.nextPageFn();
@@ -287,8 +265,6 @@ export default {
     },
     //选择框样式
     labelLabelFn(_vlaue,_this){
-    	// 
-    	// 
     	let buttonStyle = document.getElementById(this.labelDocument[_vlaue]);
     	switch(_vlaue){
     		case 0:
@@ -300,8 +276,6 @@ export default {
     		this.Time.look = '未就诊';
     		this.Time.postState = 1;
 			this.dateStata=_vlaue;
-    		// 
-
     		break;
     		case 1:
     		document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
@@ -312,9 +286,7 @@ export default {
     		this.Time.noLook = '已就诊';
     		this.Time.postState = 4;
 			this.dateStata=_vlaue;
-    		// 
     		break;
-
     		case 2:
     		document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
     		document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
@@ -444,10 +416,7 @@ export default {
           }
 		  
         })
-        .catch((err)=>{
-          
-          //Dialog({ message: err});;
-        });
+        .catch((err)=>{});
     },
     // 全部病原列表的下一页
     nextPageFn(){
@@ -743,12 +712,5 @@ export default {
   width: 100%;
   height: calc(100% - 0rem);
   overflow: hidden;
-}
->>>.van-list__finished-text{
-  background-color: #f5f5f5
-
-}
->>>.van-pull-refresh__head{
-  background-color: #f5f5f5
 }
 </style>

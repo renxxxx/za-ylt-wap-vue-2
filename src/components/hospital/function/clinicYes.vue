@@ -1,6 +1,6 @@
 <template>
 	<div id="yes" class="all" @scroll="handleScroll" ref="yes">
-		<!-- <van-pull-refresh v-model="isLoading" @refresh="refresh"> -->
+		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
 				<li v-for="(item,inx) in  items" :key="inx">
@@ -22,18 +22,15 @@
 				</li>
 			</ul>
     	</van-list>
+		</van-pull-refresh>
 		<div class="returnTop" @click="$refs.yes.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
 		</div>
-		<!-- </van-pull-refresh> -->
 	</div>
 </template>
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'clinicAll',
 	data () {
@@ -52,26 +49,17 @@ export default {
 			query:'',
 			hospitalReturnTopPage:false,
 			scrollTop:0,
+			pullingDown: false,
 		}
 	},
 	computed:{
-	  ...mapGetters(['account','isLogin']),
 	},
-	 props:['list'],
+	props:['list'],
 	components:{
-
 	},
 	created () {
-		debugger
 	},
    mounted() {
-	  debugger
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		
-
 	},
 	watch:{
 		$route(to,from){
@@ -82,6 +70,13 @@ export default {
 		this.show()
 	},
 	methods:{
+		afterPullDown() {
+			debugger
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
 		show(){
 			if(this.query != JSON.stringify(this.$route.query)){
 				Object.assign(this.$data, this.$options.data());
@@ -170,17 +165,14 @@ export default {
 					this.loading = false;
 				}else{
 					this.loading = false;
-          this.test='没有更多了'
+        			this.test='没有更多了'
 					this.finished = true;
 				}
-        if(this.items.length == 0){
-          this.test='无数据'
-        }
+				if(this.items.length == 0){
+					this.test='无数据'
+				}
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: err});;
-			});
+			.catch((err)=>{});
 
 		},
 		getNextPage(){

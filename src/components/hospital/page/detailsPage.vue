@@ -65,14 +65,6 @@
             <img v-bind:src="item" alt="">
           <!-- </router-link> -->
           <img v-show="show" src="../../../assets/image/detele.png" alt="" @click="deteleFn(item)">
-		 <!-- <van-image-preview
-		    v-model="enlarge"
-		    :images="imgUrl"
-			:start-position='photoNum'
-		    @change="onChange"
-		  >
-		    <template v-slot:index>第{{ photoPage+1 }}页</template>
-		  </van-image-preview> -->
         </li>
          <li v-show="show">
             <div class="addImg">
@@ -90,8 +82,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import { Dialog } from 'vant'
 import moment from 'moment'
@@ -99,10 +89,9 @@ export default {
 	name: 'gene',
 	data () {
 		return {
-
 			//预浏览发票图img片地址
-		imgUrl:[],
-		show : true,
+			imgUrl:[],
+			show : true,
 			modify:{
 				value:'编辑',
 				img:require('../../../assets/image/editor.png'),
@@ -133,7 +122,6 @@ export default {
 		}
 	},
 	computed:{
-			...mapGetters(['account','isLogin']),
 	},
 	created(){
 		var heightRexg = /^[0-9]*/g
@@ -288,27 +276,22 @@ export default {
 				let formData = new FormData();
 				formData.append('file', file)
 				this.$axios.post('/other/fileupload?cover&duration',formData,{headers: {'Content-Type': 'multipart/form-data'
-				}}).then(res =>{
-			if(!res.data.codeMsg){
-			  // 
-			  this.imgUrl.push(res.data.data.url)
-			  // 
-			}
-
-				}).catch(err =>{
-					
+				}})
+				.then(res =>{
+					if(!res.data.codeMsg){
+						this.imgUrl.push(res.data.data.url)
+					}
 				})
+				.catch(err =>{})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片')
 				return false;
 			}
 		},
-	  deteleFn(_img){
-		// 
-		let deleteImg =  this.imgUrl.filter( n => n != _img);
-		this.imgUrl = deleteImg;
-		// 
-	  }
+		deteleFn(_img){
+			let deleteImg =  this.imgUrl.filter( n => n != _img);
+			this.imgUrl = deleteImg;
+		}
 	},
 }
 </script>

@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 import { ImagePreview } from 'vant';
 export default {
@@ -30,16 +28,13 @@ export default {
 		}
 	},
 	computed:{
-
 	},
 	components:{
-
 	},
 	created () {
 		this.imgUrl = this.$route.query.imgUrl;
 		this.inx = this.$route.query.inx;
 		this.enlarge = this.$route.query.data;
-		// 
 	},
 	activated(){
 		let _this = this

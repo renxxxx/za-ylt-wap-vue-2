@@ -1,6 +1,6 @@
 <template>
 	<div class="integralExchange">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+		
 			<div class="topNav" :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px'}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@2x.png" alt="">
@@ -34,7 +34,7 @@
 			</div>
 			<div :style="{'height':(parseInt($store.state.paddingTop.replace('px',''))+228)+'px'}"></div>
 			<integralExchangeList :style="{'padding-top':$store.state.paddingTop}"></integralExchangeList>
-		</van-pull-refresh>
+		
 	</div>
 </template>
 
@@ -52,7 +52,7 @@ export default {
 			num: 0,
 			// 消息的计时器
 			flowHeading : undefined,
-			pullingDown: false,
+			
 		}
 	},
 	computed:{
@@ -75,29 +75,20 @@ export default {
 				_this.num = 0
 			}
 		}, 2500)
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
 	destroyed() {
 		window.clearInterval(this.flowHeading)
 	},
 	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.getData();
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getData();
 		}
   	},
 	methods: {
@@ -139,21 +130,12 @@ export default {
 			Object.assign(this.$data, this.$options.data());
 			this.getData();
 		},
-		afterPullDown() {
-		  //下拉刷新
-			setTimeout(() => {
-				this.pullingDown = false;
-				this.initData();
-			}, 500);
-		},
+		
 	},
 }
 </script>
 
 <style scoped>
->>>.van-pull-refresh{
-	height: 100%;
-}
 .integralExchange{
 	width:100%;
 	height: 100%;
@@ -265,5 +247,8 @@ export default {
 }
 .rollScreen_list_unanim{
 	transition: none
+}
+.productsExchange{
+	height: calc(100% - 2.28rem);
 }
 </style>

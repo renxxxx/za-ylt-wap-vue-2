@@ -6,26 +6,26 @@
 		</div>
 		<div class="zhangwei"></div>
 		<div class="article" :style="{'padding-top':$store.state.paddingTop}" @scroll="handleScroll" ref="article">
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul>
-				<li v-for="(items,inx) in article" :key="inx">
-					<router-link
-					:to="{path : '/promoters/promoters_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"
-					>
-					<div class="article_left">
-						<p>{{items.content}}</p>
-						<div class="article_leftTime">
-						<img src="../../../../assets/image/time@2x.png" alt="">
-						<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
-						</div>
-					</div>
-					<div class="article_right">
-						<img :src=items.img alt="">
-					</div>
-					</router-link>
-				</li>
-				</ul>
-			</van-list>
+			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+					<ul>
+						<li v-for="(items,inx) in article" :key="inx">
+							<!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 4,}}"> -->
+							<div class="article_left" :style="{width:items.img?'60.1%':'100%'}" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+								<p>{{items.content}}</p>
+								<div class="article_leftTime">
+								<img src="../../../../assets/image/time@2x.png" alt="">
+								<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
+								</div>
+							</div>
+							<div v-if="items.img"  class="article_right">
+								<img :src=items.img alt="">
+							</div>
+							<!-- </router-link> -->
+						</li>
+					</ul>
+				</van-list>
+			</van-pull-refresh>
 		</div>
 		<div class="returnTop" @click="$refs.article.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />
@@ -44,34 +44,45 @@ export default {
 			loading: false,
 			finished: false,
 			page: 0,
+			query:'',
 			scrollTop:0,
-     		hospitalReturnTopPage:false,
+			hospitalReturnTopPage:false,
+			pullingDown: false,
 		}
 	},
 	computed:{
 	},
- 	mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-
-		// this.initData();
+	components:{
 	},
-	activated(){
+	created(){
+	},
+  	mounted() {
+	},
+	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.initData();
 		}
 		if(this.scrollTop != 0){
 			this.$refs.article.scrollTop = this.scrollTop;
 		}
-    },
+	},
 	methods: {
+		afterPullDown() {
+			//下拉刷新
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
+		initData(){
+			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
+		},
 		// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
 			this.scrollTop = this.$refs.article.scrollTop || this.$refs.article.pageYOffset
@@ -80,14 +91,6 @@ export default {
 			} else {
 				this.hospitalReturnTopPage = false;
 			}
-		},
-		initData(){
-			let thisVue=this;
-			if(this.$route.meta.auth && !this.$store.state.hospital.login)
-				this.$toast({message:'请登录',onClose:function(){
-					thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
-				}})
-
 		},
 		//回退方法
 		goBackFn(){
@@ -115,7 +118,6 @@ export default {
 								itemId : res.data.data.items[i].itemId,
 							})
 						}
-					console.dir(this.article)
 					}
 				this.loading = false;
 				}else {
@@ -123,11 +125,8 @@ export default {
 					this.finished = true;
 				}
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
-  		}
+			.catch((err)=>{})
+		}
 	},
 }
 </script>
@@ -165,16 +164,16 @@ export default {
 }
 .article{
 	width: 100%;
-	height: calc(100% - .48rem);
+	height: calc(100% - .47rem);
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
+	overflow: scroll;
+	overflow-x: hidden;
 }
 .article ul{
 	margin-top: .2rem;
-	width: 91.5%;
 	margin: 0rem auto;
+	width: 91.5%;
 }
 .article ul li {
 	width: 100%;

@@ -34,30 +34,22 @@ export default {
       nowPromoter : '',
       query:'',
       scrollTop:0,
-    	hospitalReturnTopPage:false,
+      hospitalReturnTopPage:false,
+      scrollTop:0,
+     	hospitalReturnTopPage:false,
     }
   },
   computed:{
-
   },
-  
   created () {
-    // this.getData()
   },
   mounted () {
-    if(window.plus){
-    	//plus.navigator.setStatusBarBackground("#ffffff");
-    	plus.navigator.setStatusBarStyle("dark")
-    }
-    this.name = this.$route.query.name;
-    this.nowPromoter = this.$route.query.nowValue
   },
   activated() {
   	if(this.query != JSON.stringify(this.$route.query)){
       Object.assign(this.$data, this.$options.data());
   		this.query = JSON.stringify(this.$route.query);
   		if(window.plus){
-  			//plus.navigator.setStatusBarBackground("#ffffff");
   			plus.navigator.setStatusBarStyle("dark")
   		}
   		this.name = this.$route.query.name;
@@ -87,10 +79,8 @@ export default {
       localStorage.setItem('list_promoterId',_promoter.hospitalUserId)
       localStorage.setItem('list_promoterValue',_promoter.name);
       this.$router.back();
-      // this.$router.replace({name:this.$route.query.path,query:{promoterValue:_promoter.name,item:this.$route.query.item,promoterId:_promoter.hospitalUserId}})
     },
     searchFn(_kw){
-      
       this.list = [];
       this.getData();
     },
@@ -114,9 +104,7 @@ export default {
       		// 
       	}
       })
-      .catch((err)=>{
-      	
-      })
+      .catch((err)=>{})
     },
   },
 }

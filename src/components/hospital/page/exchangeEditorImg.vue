@@ -39,13 +39,10 @@ export default {
 	computed:{
 	},
 	components:{
-
 	},
 	created(){
 	},
    mounted() {
-		// this.exchangeAdd = JSON.parse(this.$route.query.exchangeEditor)
-		
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -62,8 +59,6 @@ export default {
 		//回退方法
 		goBackFn(){
 			this.$router.back()
-			// this.$router.push({ path : '/hospital/hospital_exchangeManagementAdd',query : {item : this.commodity}});
-			// exchangeManagementAdd
 		},
 		//添加图片
 		addImg(_fileLIst){
@@ -74,15 +69,10 @@ export default {
 				formData.append('file', file)
 				this.$axios.post('/other/fileupload?cover&duration',formData,{headers: {'Content-Type': 'multipart/form-data'
 				}}).then(res =>{
-					// this.imageUpload.push({name:file.name,url:res.data.data.url})
-					// this.$set(this.exchangeAdd,'cover',res.data.data.url);
 					this.exchangeAdd.cover = res.data.data.url;
-					
-				}).catch(err =>{
-					
-				})
+				}).catch(err =>{})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast({ message: '请选择图片' });
 				return false;
 			}
 		},
@@ -104,9 +94,7 @@ export default {
 						this.$toast.success('操作成功');
 						this.$router.go(-2);
 					}
-          		}).catch(err =>{
-					
-				})
+          		}).catch(err =>{})
 			}else{
 				this.$toast('请先添加图片')
 			}

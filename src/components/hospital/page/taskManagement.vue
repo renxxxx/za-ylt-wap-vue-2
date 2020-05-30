@@ -1,6 +1,6 @@
 <template>
 	<div class="task">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@3x.png" alt="">
@@ -12,6 +12,7 @@
 			</div>
 			<div class="zhangwei"></div>
 			<div class="taskList" :style="{'padding-top':$store.state.paddingTop}">
+				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
 				<h3>首次收益</h3>
 				<ul>
 					<li v-for="(item,inx) in task.one" :key='inx'>
@@ -30,8 +31,9 @@
 						<!-- </router-link> -->
 					</li>
 				</ul>
+				</van-pull-refresh>
 			</div>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 	</div>
 </template>
 
@@ -49,17 +51,15 @@ export default {
 			},
 			query:'',
 			pullingDown:false,
+			pullingDown: false,
 		}
 	},
 	computed:{
 	},
 	components:{
-
 	},
 	created(){
-
 	},
-  
    	mounted() {
 	},
 	activated() {
@@ -71,8 +71,6 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			if(this.task.one.length == 0 || this.task.no.length == 0){
-				// this.task.no = [];
-				// this.task.one = []
 				this.getData();
 			}
 		}
@@ -91,7 +89,6 @@ export default {
 			this.$toast({message:'请登录',onClose:function(){
 				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
 			}})
-
 		  Object.assign(this.$data, this.$options.data());
 		  this.getData();
 		},
@@ -106,73 +103,65 @@ export default {
 				.then(res => {
 					for(let i in res.data.data.items){
 						if(res.data.data.items[i].oneTimeIs  == 1){
-			    if(res.data.data.items[i].issueIs){
-			      // 
-			      this.task.one.push({
-			      	name : res.data.data.items[i].name,
-			      	taskId : res.data.data.items[i].taskId,
-			      	oneTimeIs : res.data.data.items[i].oneTimeIs,
-			      	checked : true,
-			      	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-			      	exchangePoint : res.data.data.items[i].exchangePoint,
-			      	everyDayIs : res.data.data.items[i].everyDayIs,
-			      	intro : res.data.data.items[i].intro,
-			        taskId : res.data.data.items[i].taskId,
-			      })
-			    }else{
-			      this.task.one.push({
-			      	name : res.data.data.items[i].name,
-			      	taskId : res.data.data.items[i].taskId,
-			      	oneTimeIs : res.data.data.items[i].oneTimeIs,
-			      	checked : false,
-			      	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-			      	exchangePoint : res.data.data.items[i].exchangePoint,
-			      	everyDayIs : res.data.data.items[i].everyDayIs,
-			      	intro : res.data.data.items[i].intro,
-			        taskId : res.data.data.items[i].taskId,
-			      })
-			    }
+							if(res.data.data.items[i].issueIs){
+								this.task.one.push({
+									name : res.data.data.items[i].name,
+									taskId : res.data.data.items[i].taskId,
+									oneTimeIs : res.data.data.items[i].oneTimeIs,
+									checked : true,
+									exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
+									exchangePoint : res.data.data.items[i].exchangePoint,
+									everyDayIs : res.data.data.items[i].everyDayIs,
+									intro : res.data.data.items[i].intro,
+									taskId : res.data.data.items[i].taskId,
+								})
+							}else{
+								this.task.one.push({
+									name : res.data.data.items[i].name,
+									taskId : res.data.data.items[i].taskId,
+									oneTimeIs : res.data.data.items[i].oneTimeIs,
+									checked : false,
+									exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
+									exchangePoint : res.data.data.items[i].exchangePoint,
+									everyDayIs : res.data.data.items[i].everyDayIs,
+									intro : res.data.data.items[i].intro,
+									taskId : res.data.data.items[i].taskId,
+								})
+							}
 			
 						}else{
-			    if(res.data.data.items[i].issueIs){
-			      this.task.no.push({
-			      	name : res.data.data.items[i].name,
-			      	taskId : res.data.data.items[i].taskId,
-			      	oneTimeIs : res.data.data.items[i].oneTimeIs,
-			      	checked : true,
-			      	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-			      	exchangePoint : res.data.data.items[i].exchangePoint,
-			      	everyDayIs : res.data.data.items[i].everyDayIs,
-			      	intro : res.data.data.items[i].intro,
-			        taskId : res.data.data.items[i].taskId,
-			      })
-			    }else{
-			      this.task.no.push({
-			      	name : res.data.data.items[i].name,
-			      	taskId : res.data.data.items[i].taskId,
-			      	oneTimeIs : res.data.data.items[i].oneTimeIs,
-			      	checked : false,
-			      	exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
-			      	exchangePoint : res.data.data.items[i].exchangePoint,
-			      	everyDayIs : res.data.data.items[i].everyDayIs,
-			      	intro : res.data.data.items[i].intro,
-			        taskId : res.data.data.items[i].taskId,
-			      })
-			    }
+							if(res.data.data.items[i].issueIs){
+								this.task.no.push({
+									name : res.data.data.items[i].name,
+									taskId : res.data.data.items[i].taskId,
+									oneTimeIs : res.data.data.items[i].oneTimeIs,
+									checked : true,
+									exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
+									exchangePoint : res.data.data.items[i].exchangePoint,
+									everyDayIs : res.data.data.items[i].everyDayIs,
+									intro : res.data.data.items[i].intro,
+									taskId : res.data.data.items[i].taskId,
+								})
+							}else{
+								this.task.no.push({
+									name : res.data.data.items[i].name,
+									taskId : res.data.data.items[i].taskId,
+									oneTimeIs : res.data.data.items[i].oneTimeIs,
+									checked : false,
+									exchangePointUpperPerDay : res.data.data.items[i].exchangePointUpperPerDay,
+									exchangePoint : res.data.data.items[i].exchangePoint,
+									everyDayIs : res.data.data.items[i].everyDayIs,
+									intro : res.data.data.items[i].intro,
+									taskId : res.data.data.items[i].taskId,
+								})
+							}
 						}
 					}
 				})
-				.catch((err)=>{
-					
-					//Dialog({ message: '加载失败!'});
-				})
+				.catch((err)=>{})
 		},
 		change(_value,_item,inx){
-			debugger
-			
-			
 			if(_item.checked){
-				debugger
 				this.$axios.post('/c2/task/taskunissue',qs.stringify({
 					hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
 					taskId : _item.taskId
@@ -180,11 +169,7 @@ export default {
 				.then(res =>{
 					this.$toast.success('操作成功')
 				})
-				.catch((err)=>{
-					
-					//Dialog({ message: '加载失败!'});
-				})
-				
+				.catch((err)=>{})
 			}else{
 				debugger
 				this.$axios.post('/c2/task/taskissue',qs.stringify({
@@ -193,27 +178,7 @@ export default {
 				})).then(res =>{
 					res.data.codeMsg? this.$toast(res.data.codeMsg): this.$toast.success('操作成功')
 					
-				}).catch(err =>{
-					
-				})
-				// switch(_value.target.checked){
-				// 	case true:
-				// 	if(_item.oneTimeIs == 1){
-				// 		this.task.one[inx].checked = _value.target.checked
-				// 		this.$router.push({ path : '/hospital/hospital_taskManagementDetails',query : {item : JSON.stringify(_item),show : false,}});
-				// 	}else{
-				// 		this.task.no[inx].checked = _value.target.checked;
-				// 		this.$router.push({ path : '/hospital/hospital_taskManagementDetails',query : {item : JSON.stringify(_item),show : false,}});
-				// 	};
-				// 	break;
-				// 	case false:
-				// 	if(_item.oneTimeIs == 1){
-				// 		this.task.one[inx].checked = _value.target.checked
-				// 	}else{
-				// 		this.task.no[inx].checked = _value.target.checked
-				// 	};
-				// 	break;
-				// }
+				}).catch(err =>{})
 			}
 		},
 	},
@@ -298,13 +263,13 @@ export default {
 	top: .035rem;
 	left: -.09rem;
 }
-.taskList>ul{
+.taskList ul{
 	width: 100%;
 	/* margin: .15rem auto; */
 	background-color: #FFFFFF;
 	margin-bottom: .18rem;
 }
-.taskList>ul>li{
+.taskList ul>li{
 	width: 92%;
 	height: .49rem;
 	color: #000000;
@@ -313,12 +278,12 @@ export default {
 	margin: 0rem auto;
 	border-bottom: 1px solid #DDDDDD;
 }
-.taskList>ul>li>a>span{
+.taskList ul>li>a>span{
 	float: left;
 	width: 80%;
 }
 
-.taskList>ul>li input[type=checkbox] {
+.taskList ul>li input[type=checkbox] {
   width: .22rem;
   height: .22rem;
   background: url('../../../assets/image/Notselected@2x.png') center no-repeat;
@@ -334,7 +299,7 @@ export default {
   float: left;
 }
 
-.taskList>ul>li input[type=checkbox]:checked:before{
+.taskList ul>li input[type=checkbox]:checked:before{
   content: "";
   display:inline-block;
   width: .22rem;
@@ -346,7 +311,7 @@ export default {
   top: 0;
   left: 0rem;
 }
->>>.van-pull-refresh{
+/* >>>.van-pull-refresh{
 	height: 100%;
-}
+} */
 </style>

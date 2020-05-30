@@ -57,12 +57,10 @@ export default {
 	computed:{
 	},
 	components:{
-		
 	},
 	created(){
-
 	},
-   mounted() {
+   	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -81,7 +79,6 @@ export default {
 		goBackFn(){
 			this.$router.back()
 		},
-			
 		submitFn(){
 			this.$axios.post('/c2/task/taskissue',qs.stringify({
 				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,

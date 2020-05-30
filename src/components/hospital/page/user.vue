@@ -63,8 +63,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
 	name: 'user',
@@ -77,10 +75,8 @@ export default {
 		}
   },
 	computed:{
-		// ...mapGetters(['account'])
 		account: {
 		    get: function() {
-				// 
 		        return this.$store.state.account
 		    },
 		    set: function (newValue) {
@@ -92,7 +88,7 @@ export default {
 	},
 	created(){
 	},
-  mounted() {
+  	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -106,7 +102,6 @@ export default {
 				this.coverImg = this.$store.state.hospital.login.hospital.cover
 				this.images.push(this.$store.state.hospital.login.hospital.license)
 			}
-			// 
 		}
 	},
 	methods: {
@@ -123,7 +118,6 @@ export default {
 		},
 		showImgFn(){
 			this.show = true;
-			
 		},
 		//退出方法
 		exitFn(){
@@ -137,12 +131,6 @@ export default {
 					location.href=location.pathname
 				},1500)
 			})
-			// if(window.plus){
-			// 	plus.webview.currentWebview().clear()
-			// 	//plus.webview.currentWebview().loadURL(aa)
-			// }
-			// location.href=location.pathname
-			
 		},
 		noLinkFn(){
 			this.$toast.setDefaultOptions({ duration: 1000 });

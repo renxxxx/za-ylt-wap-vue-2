@@ -1,6 +1,5 @@
 <template>
 	<div class="exchangeList">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -13,6 +12,7 @@
 		<div class="zhangwei"></div>
 		<div class="exchangeList_content" @scroll="handleScroll" ref="exchangeList_content">
 			<ul :style="{'padding-top':$store.state.paddingTop}">
+				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
 					<li v-for="(item,inx) in exchangeList" :key='inx' class='List' @click="$router.push({path:'/hospital/hospital_exchangeDetails',query:{item : item,time: new Date().getTime()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_exchangeDetails' ,query : {item : item}}"> -->
@@ -32,9 +32,9 @@
 						<!-- </router-link> -->
 					</li>
 				</van-list>
+				</van-pull-refresh>
 			</ul>
 		</div>
-		</van-pull-refresh>
 		<div class="returnTop" @click="$refs.exchangeList_content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -64,18 +64,16 @@ export default {
 	computed:{
 	},
 	components:{
-		
 	},
 	created(){
 	},
-  mounted() {
+  	mounted() {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
-				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.onLoad();
@@ -102,14 +100,13 @@ export default {
 		  }, 500);
 		},
 		initData() {
+			 Object.assign(this.$data, this.$options.data());
 			let thisVue = this
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 			this.$toast({message:'请登录',onClose:function(){
 				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
 			}})
-
-		  Object.assign(this.$data, this.$options.data());
-		  this.onLoad();
+		  	this.onLoad();
 		},
 		goBackFn(){
 			this.$router.back()
@@ -118,7 +115,6 @@ export default {
 			for (let nums in _d.data.data.items) {
 				this.exchangeList.push( _d.data.data.items[nums] );
 			}
-			
 		},
 		getdata(){
 			this.$axios.post('/clientend2/hospitalend/exchangemanage/orders',qs.stringify({
@@ -146,10 +142,7 @@ export default {
 					this.loading = false;
 				}
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: err});;
-			})
+			.catch((err)=>{})
 		},
 		nextdata(){
 			this.$axios.post('/clientend2/hospitalend/exchangemanage/orders',qs.stringify({
@@ -166,19 +159,11 @@ export default {
 					// 加载状态结束
 					this.loading = false;
 				}else{
-					// this.$notify({
-					// 	message: '数据已全部加载',
-					// 	duration: 1000,
-					// 	background:'#79abf9',
-					// })
 					this.loading = false;
 					this.finished = true;
 				}
 			})
-			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
-			})
+			.catch((err)=>{})
 		},
 		onLoad(){
 			++this.page;

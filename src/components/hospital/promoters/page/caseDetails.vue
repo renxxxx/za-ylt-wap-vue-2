@@ -49,12 +49,10 @@ export default {
 	components:{
 	},
 	beforeCreate(){
-
 	},
 	created(){
 	},
  	mounted(){
-
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){

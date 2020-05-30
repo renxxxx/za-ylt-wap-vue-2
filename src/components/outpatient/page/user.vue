@@ -25,18 +25,18 @@
 		</van-image-preview>
 		<div class="user_center">
 			<ul>
-				<router-link :to="{name: 'outpatient_taskCenter',query:{}}">
-					<li>
-						<span>任务中心</span>
-						<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-					</li>
-				</router-link>
-				<router-link :to="{name: 'outpatient_integralExchange',query:{}}">
-					<li>
-						<span>积分兑换</span>
-						<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
-					</li>
-				</router-link>
+				<!-- <router-link :to="{name: 'outpatient_taskCenter',query:{}}"> -->
+				<li @click="$router.push({path:'/outpatient/outpatient_taskCenter',query:{time: new Date().getTime()}})">
+					<span>任务中心</span>
+					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
+				</li>
+				<!-- </router-link> -->
+				<!-- <router-link :to="{name: 'outpatient_integralExchange',query:{}}"> -->
+				<li @click="$router.push({path:'/outpatient/outpatient_integralExchange',query:{show:true,time: new Date().getTime()}})">
+					<span>积分兑换</span>
+					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
+				</li>
+				<!-- </router-link> -->
 					<li @click="exitFn">
 						<span>退出登录</span>
 						<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
@@ -48,8 +48,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
 export default {
   name: 'user',
@@ -63,7 +61,6 @@ export default {
     }
   },
   computed:{
-	...mapGetters(['account']),
 	isLogin: {
 	    get: function() {
 			// 
@@ -84,17 +81,10 @@ export default {
 	},
   },
   components:{
-
   },
   created () {
-
   },
   mounted() {
-	//   if(window.plus){
-	// 	//plus.navigator.setStatusBarBackground("#ffffff");
-	// 	plus.navigator.setStatusBarStyle("dark")
-	//   }
-	// this.initData()
   },
   activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -108,12 +98,12 @@ export default {
   	},
   methods: {
 	  initData(){
-		let thisVue = this
+			let thisVue = this
 			if(this.$route.meta.auth && !this.$store.state.outpatient.login)
 			this.$toast({message:'请登录',onClose:function(){
 				thisVue.$router.replace({ path : '/outpatientLogin',query:{time:1}});
 			}})
-
+			Object.assign(this.$data, this.$options.data());
 			this.userFn();
 			this.coverImg = this.$store.state.outpatient.login.clinic.cover;
 			this.images.push(this.$store.state.outpatient.login.clinic.license)
@@ -126,26 +116,14 @@ export default {
 		
 	},
 	userFn(){
-		// 
-		// 
 		//用户头像值
 		let cover = this.$store.state.outpatient.login.cover;
 		// 是否认证值
 		let license = this.$store.state.outpatient.login.license
 		if(cover == '' || cover == undefined || cover == null){
-			// 
 		}else{
 			this.coverImg = cover
 		}
-
-		if(license == '' || license == undefined || license == null){
-			// 
-		}else{
-
-		}
-
-		// 
-		// 
 	 },
 	//退出方法
 	exitFn(){

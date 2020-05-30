@@ -40,10 +40,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operatingManualList',
   data () {
@@ -57,16 +54,9 @@ export default {
   },
   computed:{
   },
- 
   created () {
   },
   mounted () {
-    // if(window.plus){
-    // 	//plus.navigator.setStatusBarBackground("#ffffff");
-    // 	plus.navigator.setStatusBarStyle("dark")
-    // }
-
-    // this.getData()
   },
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -104,7 +94,6 @@ export default {
           for(let i in res.data.data.rows){
             this.operatingManualList.push(res.data.data.rows[i])
           }
-        
         }else{
           this.$toast(res.data.codeMsg)
         }
