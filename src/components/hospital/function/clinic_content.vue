@@ -2,8 +2,8 @@
 	<div class="content" @scroll="handleScroll" ref="content">
 		<span v-if="show? true:false">已找到 {{clinicNum}} 条数据</span>
 		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
-			<ul>
 				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
+			<ul>
 					<!-- content -->
 					<li v-for="(items,inx) in content" :key="inx">
 						<router-link :to="{path : '/hospital/hospital_clinicDetails' ,query :  {clinicId : items.hospitalClinicId,}}">
@@ -14,8 +14,8 @@
 							</div>
 						</router-link>	
 					</li>
-				</van-list>
 			</ul>
+				</van-list>
 		</van-pull-refresh>
 			<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 				<img src="../../../assets/image/returnTop.png" alt />
@@ -97,7 +97,7 @@ export default {
 			})
 		},
 		getdata(){
-			this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({pn:this.page})+'&'+qs.stringify({ps:10}))
+			this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({pn:this.page})+'&'+qs.stringify({ps:20}))
 			.then(res => {
 				if(res.data.data.rows.length != 0){
 					for(let i in res.data.data.rows){
@@ -156,6 +156,8 @@ export default {
 	width: 94.6%;
 	margin: 0 auto;
 	/* text-align: center; */
+	/* margin-top: .1rem; */
+	margin: 2.7% auto;
 }
 .content ul li{
 	width: 48.6%;

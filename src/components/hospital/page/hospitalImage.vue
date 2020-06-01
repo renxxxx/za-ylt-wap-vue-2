@@ -52,6 +52,8 @@ export default {
 			this.query = JSON.stringify(this.$route.query);
 			this.$refs.about.classList.add('xiahuaxian');
 			this.$refs.type.classList.remove('xiahuaxian');
+			this.$refs.about.style.color='#2B77EF'
+			this.$refs.type.style.color='#666666'
 			this.getData()
 			if(window.plus){
 				plus.navigator.setStatusBarStyle("dark")

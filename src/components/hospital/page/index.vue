@@ -131,13 +131,13 @@ export default {
 	activated() {
     debugger
 		if(this.query != JSON.stringify(this.$route.query)){
-      Object.assign(this.$data, this.$options.data());
+     
+      this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
       }
-			this.initData();
     }
     if(this.scrollTop != 0){
       this.$refs.refersh.scrollTop = this.scrollTop;
@@ -164,7 +164,7 @@ export default {
       }, 500);
     },
     initData() {
-      debugger
+      Object.assign(this.$data, this.$options.data());
       let thisVue = this
       if(this.$route.meta.auth && !this.$store.state.hospital.login){
 			this.$toast({message:'请登录',onClose:function(){

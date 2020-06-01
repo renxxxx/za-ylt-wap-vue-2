@@ -72,19 +72,12 @@ export default {
 		}
 	},
 	methods: {
-		afterPullDown() {
-			//下拉刷新
-		  setTimeout(() => {
-			this.pullingDown = false;
-			 this.initData();
-		  }, 500);
-		},
 		initData() {
-			let thisVue = this
-			if(this.$route.meta.auth && !this.$store.state.hospital.login)
-			this.$toast({message:'请登录',onClose:function(){
-				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
-			}})
+			// let thisVue = this
+			// if(this.$route.meta.auth && !this.$store.state.hospital.login)
+			// this.$toast({message:'请登录',onClose:function(){
+			// 	thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
+			// }})
 		  Object.assign(this.$data, this.$options.data());
 		  this.getdata()
 		  this.$refs.content.initData();
@@ -131,6 +124,7 @@ export default {
 .search_clinic{
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 	/* touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
  	overflow: scroll;
@@ -232,7 +226,7 @@ export default {
     margin-top: 0rem;
 
 }
->>>.van-pull-refresh {
+/* >>>.van-pull-refresh {
     overflow: visible;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -240,12 +234,10 @@ export default {
     user-select: none;
 	height: 100%;
 	overflow: hidden;
-    /* margin-top: .98rem!important; */
-}
+} */
 .content{
     width: 100%;
-    height: calc(100% - .98rem);
-    /* margin-top: .98rem; */
+    height: calc(100% - .98rem)!important;
 }
 
 </style>

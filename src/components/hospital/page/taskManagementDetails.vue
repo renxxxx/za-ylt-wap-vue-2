@@ -87,7 +87,14 @@ export default {
 				exchangePointUpperPerDay : this.taskSubmitValue.exchangePointUpperPerDay,
 				intro : this.taskSubmitValue.intro,
 			})).then(res =>{
-				res.data.codeMsg? Dialog({message : res.data.codeMsg}): Dialog({message : '已添加'})
+				if(res.data.codeMsg){
+					this.$toast({message : res.data.codeMsg})
+				}
+				if(res.data.code == 0){
+					this.$toast('已添加')
+					this.$router.back()
+				}
+				// res.data.codeMsg? this.$toast({message : res.data.codeMsg}): 
 				
 			}).catch(err =>{
 				
