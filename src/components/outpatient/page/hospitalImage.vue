@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import qs from 'qs';
 import hospital_imageAbout from '../function/hospital_imageAbout.vue'
 import hospital_imageType from '../function/hospital_imageType.vue'
 export default {
@@ -31,6 +32,7 @@ export default {
 				name : '',
 				tel : '',
 			},
+			query:'',
 			componentName : 'hospital_imageAbout',
 		}
 	},
@@ -48,12 +50,18 @@ export default {
 		if(this.query != JSON.stringify(this.$route.query)){
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
+			this.$refs.about.classList.add('xiahuaxian');
+			this.$refs.type.classList.remove('xiahuaxian');
+			this.$refs.about.style.color='#2B77EF'
+			this.$refs.type.style.color='#666666'
+			this.getData()
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getData()
+			
 		}
+		
     },
   	methods: {
 		getData(){
@@ -90,7 +98,7 @@ export default {
 				this.$refs.type.style.color='#666666'
 				this.$refs.about.classList.add('xiahuaxian');
 				this.$refs.type.classList.remove('xiahuaxian');
-				
+				this.getData()
 			}else{
 				this.$refs.about.style.color='#666666'
 				this.$refs.type.style.color='#2B77EF'

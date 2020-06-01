@@ -32,10 +32,11 @@
 					<div class="navType_three" @click="xiaclickFn(2)">
 						<h5>已就诊{{yesItemsNum}}</h5>
 					</div>
-						<div ref="xiahuaxian" class="navType_line"></div>
-					</div>
+					<div ref="xiahuaxian" class="navType_line"></div>
 				</div>
-				<div style="height:calc(100vh - 1.3rem);margin-top:.8rem">
+			</div>
+			<!-- <div style="height: .8rem;" :style="{'padding-top':$store.state.paddingTop}"></div> -->
+				<div style="height:calc(100vh - 1.3rem);margin-top:.8rem" :style="{'padding-top':$store.state.paddingTop}">
 					<div class="lists" v-show="all">
 						<div class="newAdd">
 							<div class="newAddTitle">

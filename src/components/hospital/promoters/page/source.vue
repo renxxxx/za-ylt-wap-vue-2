@@ -1,6 +1,6 @@
 <template>
-	<div class="sourceManagement">
-		<div class="topNav">
+	<div class="sourceManagement" :style="{'padding-top':$store.state.paddingTop}">
+		<div class="topNav" >
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../../assets/image/shape@3x.png" alt="">
 			</div>
@@ -17,7 +17,7 @@
 				<span>{{moment(this.$route.query.clinicTime).format('YYYY-MM-DD HH:mm')}}</span>
 			</div>
 		</div>
-		<div style="height: .575rem;width: 100%;"></div>
+		<div style="height: .575rem;width: 100%;" ></div>
 		<!-- <router-link :to="{name:'promoters_addSource',query:{clinicId:this.$route.query.clinicId}}"> -->
 			<div class="addEtiology" @click="$router.push({path:'/promoters/promoters_addSource',query:{clinicId:$route.query.clinicId,time: new Date().getTime()}})">
 				<img src="../../../../assets/image/xinzeng@2x.png" alt="">
@@ -616,8 +616,8 @@ export default {
     background-color: #EEEEEE!important;
 }
 .tabTitle{
-	/* margin: .08rem 0rem; */
-	margin-top: -.1rem;
+	margin: .08rem 0rem;
+	/* margin-top: -.1rem; */
 }
 .tabTitle span{
 	display: block;

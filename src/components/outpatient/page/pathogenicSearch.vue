@@ -1,6 +1,5 @@
 <template>
 	<div class="_search" >
-		
 			<div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="search_return">
 					<a @click="goBackFn"  id="navback">
