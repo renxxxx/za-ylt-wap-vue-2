@@ -75,9 +75,9 @@
 						<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 							<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
 								<ul>
-									<li v-for="(item,inx) in yesItems" :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<li v-for="(item,inx) in yesItems" :key="inx" >
 										<!-- <router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}"> -->
-											<div class="style">
+											<div class="style" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
 												<div class="contentTitle">
 													<img :src="item.img" alt="">
 													<span>{{item.realname}}</span>
@@ -100,9 +100,9 @@
 						<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
 							<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
 								<ul>
-									<li v-for="(item,inx) in noItems " :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+									<li v-for="(item,inx) in noItems " :key="inx" >
 										<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
-											<div class="style">
+											<div class="style" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
 												<div class="contentTitle">
 													<img :src="item.img" alt="">
 													<span>{{item.realname}}</span>

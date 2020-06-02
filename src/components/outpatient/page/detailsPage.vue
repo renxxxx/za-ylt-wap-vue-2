@@ -9,7 +9,7 @@
 			<div class="nav_center">
 				<h3>病员信息</h3>
 			</div>
-			<div class="nav_right" @click="modifyFn" v-model='modify' v-if="isLogin == 200? false:true">
+			<div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
 				<span>{{modify.value}}</span>
 				<img :src=modify.img alt="">
 			</div>
@@ -44,7 +44,7 @@
 				</li>
 				<li>
 					<span>确认就诊时间</span>
-					<input type="text" v-model="detail.hospitalConfirmTime" :placeholder="modify.readonly? '':'请输入' " :readonly="true">
+					<input type="text" v-model="detail.hospitalConfirmTime" :placeholder="modify.readonly? '':'' " :readonly="true">
 				</li>
 				<li>
 					<span>病种</span>

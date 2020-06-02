@@ -95,11 +95,11 @@ export default {
 				.catch((err)=>{
 					
 				})
-			this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({kw:this.keywords}))
-				.then(_d => {
-					this.$refs.content.content = _d.data.data.rows
-				})
-				.catch((err)=>{})
+			// this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({kw:this.keywords}))
+			// 	.then(_d => {
+			// 		this.$refs.content.content = _d.data.data.rows
+			// 	})
+			// 	.catch((err)=>{})
 		},
 		//键盘输入值时触发
 		inputNow(_keywordsCode){

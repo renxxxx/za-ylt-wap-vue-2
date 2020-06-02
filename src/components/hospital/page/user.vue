@@ -100,7 +100,8 @@ export default {
 			}
 			if(this.$store.state.hospital.login){
 				this.coverImg = this.$store.state.hospital.login.hospital.cover
-				this.images.push(this.$store.state.hospital.login.hospital.license)
+				if(this.$store.state.hospital.login.hospital.license)
+					this.images.push(this.$store.state.hospital.login.hospital.license)
 			}
 		}
 	},
@@ -117,7 +118,12 @@ export default {
 		    this.index = index;
 		},
 		showImgFn(){
-			this.show = true;
+			if(this.images.length>=1){
+				this.show = true;
+			}else{
+				this.$toast("请上传营业执照")
+			}
+				
 		},
 		//退出方法
 		exitFn(){

@@ -11,7 +11,7 @@
 		<div class="content" @scroll="handleScroll" ref="content">
 			<h3>{{caseInfo.name}}</h3>
 			<div class="headPortrait">
-				<img src="../../../assets/image/logo@2x.png" alt="">
+				<img :src="caseInfo.hospitalCover? caseInfo.hospitalCover:'../../../assets/image/logo@2x.png'" alt="">
 				<span>{{caseInfo.hosptialName}}</span>
 				<span>{{moment(caseInfo.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
 			</div>
@@ -109,7 +109,8 @@ export default {
 					cover : _d.data.data.cover,
 					hosptialName : _d.data.data.hosptialName,
 					name : _d.data.data.title?_d.data.data.title:_d.data.data.name,
-					contentBtId : _d.data.data.contentBtId
+					contentBtId : _d.data.data.contentBtId,
+					hospitalCover:_d.data.data.hospitalCover
 				}
 				this.$axios.get('/other/bigtxt/'+this.caseInfo.contentBtId+'/'+this.caseInfo.contentBtId)
 				.then(_d => {
@@ -190,6 +191,7 @@ export default {
 	height: .33rem;
 	float: left;
 	margin-right: .1rem;
+	border-radius: 50%
 }
 .headPortrait span{
 	display: block;

@@ -17,9 +17,10 @@
             <div class="slider">
               <van-swipe>
                 <van-swipe-item v-for="(image, index) in images" :key="index">
-                  <router-link :to="{name : image.url}">
-                    <img  v-lazy="image.cover" class="silder_img" />
-                  </router-link>
+                  <!-- <router-link :to="{name : image.url}"> -->
+                    <img  :src="image.cover" class="silder_img"  @click="image.url? $router.push({path : image.url,query:{time: new Date().getTime()}}):''"/>
+                    <!-- <img  v-lazy="image.cover" class="silder_img" /> -->
+                  <!-- </router-link> -->
                 </van-swipe-item>
               </van-swipe>
             </div>
@@ -125,7 +126,8 @@ export default {
       loading: false,
       finished: false,
       page: 1,
-      pullingDown: false
+      pullingDown: false,
+      query:''
     };
   },
   components: {
@@ -155,6 +157,7 @@ export default {
     // this.initData();
   },
   activated(){
+    debugger
 		if(this.query != JSON.stringify(this.$route.query)){
       this.initData();
 			this.query = JSON.stringify(this.$route.query);
@@ -164,11 +167,6 @@ export default {
 			}
 		}
   },
-  activated(){
-  },
-  deactivated(){
-    debugger
-    },
   methods: {
     upgradeFn(){
       this.$toast.setDefaultOptions({ duration: 1000 });
@@ -211,37 +209,37 @@ export default {
               case 2:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "hospital_caseDetails"
+                  url: "/hospital/hospital_caseDetails"
                 });
                 break;
               case 3:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: ""
+                  url: "/hospital/hospital_expertsIntroduction"
                 });
                 break;
               case 4:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: ""
+                  url: "/hospital/hospital_caseDetails"
                 });
                 break;
               case 5:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: ""
+                  url: "/hospital/hospital_activityReleased"
                 });
                 break;
               case 6:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "hospital_hospitalImage"
+                  url: "/hospital/hospital_hospitalImage"
                 });
                 break;
               case 7:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "hospital_expertsIntroduction"
+                  url: "/hospital/hospital_expertsIntroduction"
                 });
                 break;
               case 8:

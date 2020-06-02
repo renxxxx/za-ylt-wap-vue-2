@@ -1,7 +1,7 @@
 <template>
 	<div class="content" @scroll="handleScroll" ref="content">
-		<span v-if="show? true:false">已找到 {{clinicNum}} 条数据</span>
 		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+			<span v-if="show? true:false">已找到 {{clinicNum}} 条数据</span>
 				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
 					<!-- content -->
@@ -57,7 +57,8 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-			this.initData();
+			Object.assign(this.$data, this.$options.data());
+			// this.getNextPage()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -68,7 +69,7 @@ export default {
 			this.$refs.content.scrollTop = this.scrollTop
 		}
 	},
-	methods: {
+	methods: { 
 		afterPullDown() {
 			debugger
 			setTimeout(() => {
@@ -145,7 +146,7 @@ export default {
  	overflow: scroll;
  	overflow-x: hidden;
 }
-.content>span{
+.content span{
 	width: 94.6%;
 	margin: 0 auto;
 	display: block;

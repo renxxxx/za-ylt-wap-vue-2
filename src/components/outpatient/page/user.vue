@@ -106,13 +106,19 @@ export default {
 			Object.assign(this.$data, this.$options.data());
 			this.userFn();
 			this.coverImg = this.$store.state.outpatient.login.clinic.cover;
-			this.images.push(this.$store.state.outpatient.login.clinic.license)
+			if(this.$store.state.outpatient.login.clinic.license)
+				this.images.push(this.$store.state.outpatient.login.clinic.license)
 	  },
 	onChange(index) {
 	    this.index = index;
 	},
 	showImgFn(){
-		this.show = true;
+
+		if(this.images.length>=1){
+			this.show = true;
+		}else{
+			this.$toast("请上传营业执照")
+		}
 		
 	},
 	userFn(){
