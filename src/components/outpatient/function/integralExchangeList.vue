@@ -81,6 +81,7 @@ export default {
 		initData(){
 			Object.assign(this.$data, this.$options.data());
 			this.onLoad()
+			// this.onLoad()
 		},
 		// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
@@ -93,7 +94,6 @@ export default {
 		},
 		onLoad(){
 			++this.page;
-			// 
 			this.getdata();
 		},
 		getdata(){
@@ -160,7 +160,8 @@ export default {
 }
 .productsExchangeList ul{
 	width: 90.4%;
-	margin: 0rem auto;
+	margin: .1rem auto;
+	/* margin-bottom: .1rem */
 }
 .productsExchangeList ul li{
 	width: 48%;

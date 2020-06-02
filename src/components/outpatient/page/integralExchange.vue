@@ -1,7 +1,7 @@
 <template>
-	<div class="integralExchange">
-		
-			<div class="topNav" :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px'}">
+	<div class="integralExchange" :style="{'padding-top':$store.state.paddingTop}">
+		<!-- :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px'}" -->
+			<div class="topNav" :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px','height':(parseInt($store.state.paddingTop.replace('px',''))+200)+'px','background-size':'100%'+' '+(parseInt($store.state.paddingTop.replace('px',''))+200)+'px'}">
 				<div class="leftImg" @click="goBackFn"  id="navback">
 					<img src="../../../assets/image/shape@2x.png" alt="">
 				</div>
@@ -20,7 +20,8 @@
 					</router-link>
 				</div>
 			</div>
-			<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
+			<!-- :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}" -->
+			<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
 				<ul class="rollScreen_list" :style = {transform:transform}  :class="{rollScreen_list_unanim:num===0}">
 					<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index'>
 						<img src="../../../assets/image/horn@2x.png" alt="">
@@ -33,7 +34,7 @@
 				</ul>
 			</div>
 			<div :style="{'height':(parseInt($store.state.paddingTop.replace('px',''))+228)+'px'}"></div>
-			<integralExchangeList :style="{'padding-top':$store.state.paddingTop}"></integralExchangeList>
+			<integralExchangeList></integralExchangeList>
 		
 	</div>
 </template>
@@ -146,7 +147,7 @@ export default {
 	width: 100%;
 	height: 2.1rem;
 	background: url('../../../assets/image/blue-BJ@2x.png')  top no-repeat,linear-gradient(#FDFDFD, #FBFBFB) ;
-	background-size: 100%;
+	background-size: 100% 2.1rem;
 	color: #FFFFFF;
 	text-align: center;
 	position: fixed;

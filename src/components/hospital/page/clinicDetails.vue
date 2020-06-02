@@ -115,7 +115,7 @@ export default {
 			this.clinicId=this.$route.query.clinicId
 			await this.ItemIdFn()
 			await this.getNum();
-			await this.$refs.clinicAll.initData()
+			// await this.$refs.clinicAll.initData()
 		}
 	},
   mounted() {

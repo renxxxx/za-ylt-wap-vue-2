@@ -112,6 +112,8 @@ export default {
 						_button.target.style.cssText="color:#333333; background-color:#EEEEEE;"
 						_button.target.innerHTML = '已就诊';
 					}
+				}else{
+					this.$toast('请稍后再试')
 				}
 			})
 			.catch((err)=>{

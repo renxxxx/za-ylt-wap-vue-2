@@ -9,7 +9,7 @@
                 <van-swipe>
                   <van-swipe-item v-for="(image, index) in images" :key="index" >
                     <!-- <router-link :to="{name : image.url}"> -->
-                      <img  :src="image.cover" class="silder_img"  @click="$router.push({name:image.ur,query:{time: new Date().getTime()}})"/>
+                      <img  :src="image.cover" class="silder_img"  @click="$router.push({path:image.url,query:{time: new Date().getTime()}})"/>
                     <!-- </router-link> -->
                   </van-swipe-item>
                 </van-swipe>
@@ -199,37 +199,37 @@ export default {
               case 2:
                 this.images.push({
                   cover: res.data.data.rows[i].cover,
-                  url: "hospital_caseDetails"
+                  url: "/hospital/hospital_caseDetails"
                 });
                 break;
               case 3:
                 this.images.push({
                   cover: res.data.data.rows[i].cover,
-                  url: ""
+                  url: "/hospital/hospital_expertsIntroduction"
                 });
                 break;
               case 4:
                 this.images.push({
                   cover: res.data.data.rows[i].cover,
-                  url: ""
+                  url: "/hospital/hospital_caseDetails"
                 });
                 break;
               case 5:
                 this.images.push({
                   cover: res.data.data.rows[i].cover,
-                  url: ""
+                  url: "/hospital/hospital_activityReleased"
                 });
                 break;
               case 6:
                 this.images.push({
                   cover: res.data.data.rows[i].cover,
-                  url: "hospital_hospitalImage"
+                  url: "/hospital/hospital_hospitalImage"
                 });
                 break;
               case 7:
                 this.images.push({
                   cover: res.data.data.rows[i].cover,
-                  url: "hospital_expertsIntroduction"
+                  url: "/hospital/hospital_expertsIntroduction"
                 });
                 break;
               case 8:

@@ -85,7 +85,14 @@ export default {
 				cover : this.addPromoters.cover,
 			}))
 			.then(res => {
-				res.data.codeMsg? this.$toast(res.data.codeMsg):this.$toast.success('操作成功')
+				if(res.data.codeMsg){
+					this.$toast(res.data.codeMsg)
+				}
+				if(res.data.code){
+					this.$toast('操作成功')
+					this.$router.back()
+				}
+				// res.data.codeMsg? this.$toast(res.data.codeMsg):this.$toast.success('操作成功')
 			})
 			.catch((err)=>{})
 		}
@@ -179,10 +186,10 @@ export default {
 	color: #FFFFFF;
 	line-height: .4rem;
 	position: absolute;
-	bottom: 19.5%;
-	left: 0;
-	right: 0;
-	margin: 0rem auto;
+	/* bottom: 19.5%; */
+	/* left: 0; */
+	/* right: 0; */
+	margin: 2rem 17.35% 0px 17.35%;
 	background-color: #2B77EF;
 	border: none;
 	border-radius: .2rem;

@@ -45,7 +45,8 @@
 					<span>活动说明</span>
 					<!-- <input type="text" v-model='active.content' readonly="readonly"> -->
 					<div class="tabelContent">
-						<p style="white-space:pre-line;">{{active.content}}</p>
+						<!-- <iframe :src="active.content"></iframe> -->
+						<p style="white-space:pre-line;" v-html="active.content"></p>
 					</div>
 				</li>
 			</ul>
