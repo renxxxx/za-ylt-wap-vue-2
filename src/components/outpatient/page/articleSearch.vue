@@ -14,7 +14,7 @@
 		</div>
 		<div style="height:.47rem" :style="{'padding-top':$store.state.paddingTop}"> </div>
 		<div class="article" @scroll="handleScroll" ref="article">
-			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 				<ul :model="article">
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
 						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/outpatient/outpatient_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
@@ -33,7 +33,7 @@
 						</li>
 					</van-list>
 				</ul>
-			</van-pull-refresh>
+			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.article.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />

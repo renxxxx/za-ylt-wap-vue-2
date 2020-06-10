@@ -1,6 +1,6 @@
 <template>
 	<div class="active">
-		<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" >
+		<!-- <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" > -->
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="leftImg" @click="goBackFn"  id="navback">
 				<img src="../../../assets/image/shape@3x.png" alt="">
@@ -39,7 +39,7 @@
       </van-swipe-cell>
 	</topSolt>
     </van-list>
-	</van-pull-refresh>
+	<!-- </van-pull-refresh> -->
 	</div>
 </template>
 

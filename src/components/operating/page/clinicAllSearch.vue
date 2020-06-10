@@ -1,7 +1,7 @@
 <template>
-	<div class="index">
 		<topSolt>
-		<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" >
+	<div class="index" slot="returnTopSolt">
+		<!-- <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" > -->
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="topNav_search">
 				<div class="topNav_searchBack" @click="backFn">
@@ -69,9 +69,9 @@
 				</div>
 			</div>
 		</van-popup>
-		</van-pull-refresh>
-		</topSolt>
+		<!-- </van-pull-refresh> -->
 	</div>
+		</topSolt>
 </template>
 
 <script>

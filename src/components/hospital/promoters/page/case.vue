@@ -6,7 +6,7 @@
 		</div>
 		<div class="zhangwei"></div>
 		<div class="article" :style="{'padding-top':$store.state.paddingTop}" @scroll="handleScroll" ref="article">
-			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul>
 						<li v-for="(items,inx) in article" :key="inx">
@@ -25,7 +25,7 @@
 						</li>
 					</ul>
 				</van-list>
-			</van-pull-refresh>
+			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.article.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />

@@ -167,6 +167,9 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.getAllNum();
+			this.nextPageFn();
+			this.yesNextPageFn();
+			this.noNextPageFn()
 		}
 		if(this.scrollTopAll != 0){
 			this.$refs.listAll.scrollTop = this.scrollTopAll;

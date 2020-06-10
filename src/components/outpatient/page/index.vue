@@ -72,7 +72,7 @@
 					</div>
 					<!-- :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}" -->
 					<div class="list" v-show="yes" @scroll="handleScroll" ref="listYes">
-						<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+						<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 							<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
 								<ul>
 									<li v-for="(item,inx) in yesItems" :key="inx" >
@@ -94,10 +94,10 @@
 									</li>
 								</ul>
 							</van-list>
-						</van-pull-refresh>
+						<!-- </van-pull-refresh> -->
 					</div>
 					<div class="list" v-show="no" @scroll="handleScroll" ref="listNo">
-						<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+						<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 							<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
 								<ul>
 									<li v-for="(item,inx) in noItems " :key="inx" >
@@ -119,7 +119,7 @@
 									</li>
 								</ul>
 							</van-list>
-						</van-pull-refresh>
+						<!-- </van-pull-refresh> -->
 					</div>
 			</div>
 		<!-- </van-pull-refresh> -->

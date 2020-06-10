@@ -11,7 +11,7 @@
 		</div>
 		<div class="zhangwei"></div>
 		<div class="promotersSearch_list" @scroll="handleScroll" ref="promotersSearch_list"> 
-			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul :style="{'padding-top':$store.state.paddingTop}">
 					<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
@@ -28,7 +28,7 @@
 					</li>
 				</ul>
 			</van-list>
-			</van-pull-refresh>
+			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.promotersSearch_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />

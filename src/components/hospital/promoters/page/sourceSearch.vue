@@ -1,6 +1,7 @@
 <template>
-	<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
-		<div class="_search"  >
+	<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
+		<div>
+			<div class="_search"  >
 			<div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="search_return">
 					<a @click="goBackFn"  id="navback">
@@ -92,7 +93,8 @@
 			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
 		</div>
-	</van-pull-refresh>
+		</div>
+	<!-- </van-pull-refresh> -->
 </template>
 
 <script>

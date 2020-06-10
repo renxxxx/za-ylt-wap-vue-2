@@ -64,7 +64,7 @@
       </van-popup>
         </div>
         <div class="scroll" ref="_search" @scroll="handleScroll">
-      <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+      <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
           <ul class="list" :style="{'padding-top':$store.state.paddingTop}" >
          <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
             <li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
@@ -86,7 +86,7 @@
             </li>
       </van-list>
           </ul>
-      </van-pull-refresh>
+      <!-- </van-pull-refresh> -->
         </div>
         
         <!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->

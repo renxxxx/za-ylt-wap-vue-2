@@ -18,7 +18,7 @@
 			</div>
 			<div style="width: 100%;height: 1rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
 			<div class="content">
-				<van-pull-refresh  v-model="pullingDown" @refresh="afterPullDown" ref="refersh">
+				<!-- <van-pull-refresh  v-model="pullingDown" @refresh="afterPullDown" ref="refersh"> -->
 					<van-list v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 						<ul >
 							<li v-for="(items,inx) in content" :key="inx">
@@ -32,7 +32,7 @@
 							</li>
 						</ul>
 					</van-list>
-				</van-pull-refresh>
+				<!-- </van-pull-refresh> -->
 				<!-- </topSolt> -->
 			</div>
 			<div style="height: .55rem;"></div>

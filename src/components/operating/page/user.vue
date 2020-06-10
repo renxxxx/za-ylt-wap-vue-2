@@ -21,7 +21,7 @@
 		</div>
 		<!-- <van-image-preview v-model="show" :images="images" @change="onChange" > -->
 		  <!-- <template v-slot:index>第{{ index }}页</template> -->
-		</van-image-preview>
+		<!-- </van-image-preview> -->
 		<div class="user_center"  :style="{'padding-top': (parseInt($store.state.paddingTop.replace('px',''))+140)+'px'}">
 			<ul>
 				<li @click="exitFn">

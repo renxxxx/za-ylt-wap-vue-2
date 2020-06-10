@@ -1,6 +1,6 @@
 <template>
 	<div class="all">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 				<ul class="clinicList">
 					<li v-for="(item,inx) in items" :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
@@ -17,7 +17,7 @@
 					</li>
 				</ul>
 			</van-list>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 	</div>
 </template>
 <script>

@@ -1,6 +1,6 @@
 <template>
 	<div class="content" @scroll="handleScroll" ref="content">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 			<span v-if="show? true:false">已找到 {{clinicNum}} 条数据</span>
 				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
@@ -16,7 +16,7 @@
 					</li>
 			</ul>
 				</van-list>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 			<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 				<img src="../../../assets/image/returnTop.png" alt />
 				<span>顶部</span>
@@ -57,7 +57,7 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
+			this.initData()
 			// this.getNextPage()
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){

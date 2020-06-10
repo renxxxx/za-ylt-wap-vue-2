@@ -1,6 +1,6 @@
 <template>
   	<div class="index">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="navWarp" :style="{'padding-top':$store.state.paddingTop}">
 				<!-- 搜索及其筛选 -->
 				<div class="topNav" ref="topNav">
@@ -111,7 +111,7 @@
 						</van-list>
 					</div>
 			</div>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 		<div class="returnTop" @click="returnTopFn" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
