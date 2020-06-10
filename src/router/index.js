@@ -51,6 +51,8 @@ const hospital_caseDetails = ()=>import( '@/components/hospital/page/caseDetails
 const hospital_hospitalImage = ()=>import( '@/components/hospital/page/hospitalImage.vue')
 const hospital_typeDetails = ()=>import( '@/components/hospital/page/typeDetails.vue')
 const hospital_expertsIntroduction = ()=>import( '@/components/hospital/page/expertsIntroduction.vue')
+const hospital_expertsIntroductionDeatlis = ()=>import( '@/components/hospital/page/expertsIntroductionDeatlis.vue')
+
 const hospital_clinicMessage = ()=>import( '@/components/hospital/page/clinicMessage.vue')
 const hospital_taskManagement = ()=>import( '@/components/hospital/page/taskManagement.vue')
 const hospital_taskManagementDetails = ()=>import( '@/components/hospital/page/taskManagementDetails.vue')
@@ -108,6 +110,8 @@ const outpatient_typeDetails = ()=>import( '@/components/outpatient/page/typeDet
 const outpatient_case = ()=>import( '@/components/outpatient/page/case.vue')
 const outpatient_caseDetails = ()=>import( '@/components/outpatient/page/caseDetails.vue')
 const outpatient_expertsIntroduction = ()=>import( '@/components/outpatient/page/expertsIntroduction.vue')
+const outpatient_expertsIntroductionDeatlis = ()=>import( '@/components/outpatient/page/expertsIntroductionDeatlis.vue')
+
 const outpatient_activityReleased = ()=>import( '@/components/outpatient/page/activityReleased.vue')
 const outpatient_addActivity = ()=>import( '@/components/outpatient/page/addActivity.vue')
 const outpatient_previewActivities = ()=>import( '@/components/outpatient/page/previewActivities.vue')
@@ -415,6 +419,12 @@ const router = new Router({
           meta: {auth:true},
         },
         {
+          path: 'hospital_expertsIntroductionDeatlis',
+          name: 'hospital_expertsIntroductionDeatlis',
+          component: hospital_expertsIntroductionDeatlis,
+          meta: {auth:true},
+        },
+        {
           path: 'hospital_clinicMessage',
           name: 'hospital_clinicMessage',
           component: hospital_clinicMessage,
@@ -700,6 +710,13 @@ const router = new Router({
           component: outpatient_expertsIntroduction,
           meta: {auth:true},
         },
+        {
+          path: 'outpatient_expertsIntroductionDeatlis',
+          name: 'outpatient_expertsIntroductionDeatlis',
+          component: outpatient_expertsIntroductionDeatlis,
+          meta: {auth:true},
+        },
+        
         {
           path: 'outpatient_activityReleased',
           name: 'outpatient_activityReleased',
