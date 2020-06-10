@@ -13,18 +13,21 @@
 		<div class="content" @scroll="handleScroll" ref="content" :style="{'padding-top':$store.state.paddingTop}">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
-					<li v-for="(item,inx) in doctor" :key='inx'>
-						<img :src="item.headimg" alt="">
+					<li v-for="(item,inx) in doctor" :key='inx' @click="showContent(item)">
+						<div class="contentImg">
+							<img :src="item.headimg" alt="">
+						</div>
+
 						<div class="contentLists">
-						<h4>{{item.name}}</h4>
-						<span>{{item.hosptialName}}</span>
-						<span class="xia">{{item.jobTitles}}</span>
-						<div class="duanluo" @click="showContent(inx)" >
-							<p ref='showP'>{{item.intro}}</p>
-							<img :src="downImg" alt="" ref='showimg'>
+							<h4>{{item.name}}</h4>
+							<!-- <span>{{item.hosptialName}}</span> -->
+							<span class="xia line-1">{{item.jobTitles}}</span>
+							<div class="duanluo"  >
+								<p ref='showP'>{{item.intro}}</p>
+								<!-- <img :src="downImg" alt="" ref='showimg'> -->
+							</div>
 						</div>
-						</div>
-						<hr>
+						<!-- <hr> -->
 					</li>
 				</ul>
 			</van-list>
@@ -48,21 +51,20 @@ export default {
 			loading: false,
 			finished: false,
 			page: 0,
-			hospitalReturnTopPage:false,
-			scrollTop:0
+			query:'',
+			scrollTop:0,
+    		hospitalReturnTopPage:false,
 		}
-	},
-	computed:{
 	},
 	components:{
 	},
+	computed:{
+	},
 	created(){
-
 	},
- 	mounted() {
-
+  	mounted() {
 	},
-	activated(){
+	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
@@ -70,11 +72,12 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
+			this.onLoad()
 		}
 		if(this.scrollTop != 0){
 			this.$refs.content.scrollTop = this.scrollTop;
 		}
-    },
+	},
 	methods: {
 		// 滑动一定距离出现返回顶部按钮
 		handleScroll() {
@@ -87,56 +90,52 @@ export default {
 		},
 		//回退方法
 		goBackFn(){
-			this.$router.back(-1)
+			this.$router.back()
 		},
 		//显示内容
-		showContent(inx){
-			// 
-			this.clickNum++;
-			if(this.clickNum % 2 == 0){
-				this.$refs.showP[inx].style.webkitLineClamp = '9999'
-				this.$refs.showimg[inx].src=require('../../../assets/image/up-1@2x.png')
-			}else{
-				this.$refs.showP[inx].style.webkitLineClamp = '2'
-				this.$refs.showimg[inx].src=require('../../../assets/image/down@2x.png')
-			}
+		showContent(item){
+			this.$router.push({path:'/outpatient/outpatient_expertsIntroductionDeatlis',query:{data:JSON.stringify(item),time: new Date().getTime()}})
+			// localStorage.setItem('hospital_expertsIntroductionDeatlisData',JSON.stringify(item))
+			// this.clickNum++;
+			// if(this.clickNum % 2 == 0){
+			// 	this.$refs.showP[inx].style.webkitLineClamp = '9999'
+			// 	this.$refs.showimg[inx].src=require('../../../assets/image/up-1@2x.png')
+			// }else{
+			// 	this.$refs.showP[inx].style.webkitLineClamp = '2'
+			// 	this.$refs.showimg[inx].src=require('../../../assets/image/down@2x.png')
+			// }
 		},
-    onLoad(){
-      ++this.page;
-      // 
-      this.getdata();
-    },
-    getdata(){
-      this.$axios.post('/c2/doctor/items',qs.stringify({
-      	hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-        pn: this.page,
-        ps: 10
-      }))
-      .then(_d => {
-        if(_d.data.data.items.length != 0){
-          for(let i in _d.data.data.items){
-            this.doctor.push({
-              name : _d.data.data.items[i].name,
-              hosptialName : _d.data.data.items[i].hosptialName,
-              intro : _d.data.data.items[i].intro,
-              jobTitles : _d.data.data.items[i].jobTitles,
-              headimg : _d.data.data.items[i].headimg,
-            })
-          }
-          this.loading = false;
-        }else {
-            this.loading = false;
-            this.finished = true;
-          }
-      	// 
-      	// this.$refs.scrollId.style.width = 50 * _d.data.data.items.length +'%'
-      	// 
-      })
-      .catch((err)=>{
-      	
-      	//Dialog({ message: err});;
-      })
-    }
+		onLoad(){
+			++this.page;
+			this.getData();
+		},
+		getData(){
+			this.$axios.post('/c2/doctor/items',qs.stringify({
+				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
+				pn: this.page,
+				ps: 10
+			}))
+			.then(_d => {
+				if(_d.data.data.items.length != 0){
+				for(let i in _d.data.data.items){
+					this.doctor.push({
+					name : _d.data.data.items[i].name,
+					hosptialName : _d.data.data.items[i].hosptialName,
+					intro : _d.data.data.items[i].intro,
+					jobTitles : _d.data.data.items[i].jobTitles,
+					headimg : _d.data.data.items[i].headimg,
+					addTime : _d.data.data.items[i].addTime,
+					alterTime : _d.data.data.items[i].alterTime,
+					})
+				}
+				this.loading = false;
+				}else {
+					this.loading = false;
+					this.finished = true;
+				}
+			})
+			.catch((err)=>{})
+		}
 	},
 }
 </script>
@@ -145,9 +144,8 @@ export default {
 .expertsIntroduction{
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
-	/* background-color: #F5F5F5; */
-	background-color: #FFFFFF;
+	background-color: #F5F5F5;
+	/* background-color: #FFFFFF; */
 }
 .topNav{
 	width: 100%;
@@ -195,48 +193,57 @@ export default {
 	height: calc(100% - .47rem);
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
-  	overflow: scroll;
-  	overflow-x: hidden;
+	overflow: scroll;
+	overflow-x: hidden;
 }
 .content ul {
 	width: 100%;
 }
 .content ul li {
 	width: 100%;
-	height: 100%;
+	height: auto;
 	/* margin: .12rem auto; */
 	background-color: #FFFFFF;
 	position: relative;
 	/* padding-bottom: .18rem; */
+	margin-top: 12px;
 }
-.content ul li>img{
+.contentImg{
+	width: .98rem;
+	height: 123px;
+	box-sizing: border-box;
+	display: inline-block;
+}
+.contentImg img{
 	width: .65rem;
 	height: .65rem;
-	margin : .22rem .17rem 0rem .16rem;
+	margin : 22px .15rem 36px .18rem;
 	float: left;
 	border-radius: 50%;
 	object-fit: cover;
 }
 .contentLists{
-	width: 60.8%;
+	width: calc(100% - .98rem);
 	height: 100%;
 	display: block;
-	padding-left: .98rem;
-	padding-top: .18rem;
-
+	padding-top: 18px;
+	box-sizing: border-box;
+	padding-right: .16rem;
+	float: right;
+	box-sizing: border-box;
 }
 .contentLists h4{
 	font-size: .15rem;
 	font-weight: bold;
 	color: #333333;
 }
-.contentLists>span{
-	padding-top:.08rem;
+.contentLists>span:nth-child(2){
+	padding:4px 0px;
 	margin-right: .1rem;
 	font-size: .12rem;
-}
+}     
 .xia{
-	margin-left: .1rem;
+	/* margin-left: .1rem; */
 	position: relative;
 }
 .xia:before{
@@ -272,11 +279,11 @@ export default {
 	right: -.33rem;
 	bottom: .11rem;
 }
-hr{
+/* hr{
 	width: 91%;
 	border-top:1px solid #D8D8D8;
 }
 .content ul li:last-child hr{
 	display: none;
-}
+} */
 </style>

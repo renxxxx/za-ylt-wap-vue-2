@@ -10,6 +10,7 @@
 		</div>
 		<div class="content" @scroll="handleScroll" ref="content">
 			<h3>{{caseInfo.name}}</h3>
+			<p style="padding-top:13px;color: #999999;">浏览量：{{caseInfo.viewCount}}&nbsp;&nbsp;&nbsp;分享数：{{caseInfo.shareCount}}</p>
 			<div class="headPortrait">
 				<!-- <img src="../../../assets/image/logo@2x.png" alt=""> -->
 				<img :src="caseInfo.hospitalCover? caseInfo.hospitalCover:'../../../assets/image/logo@2x.png'" alt="">
@@ -37,7 +38,9 @@ export default {
 				cover : '',
 				hosptialpath : '/hospital/',
 				path : '/hospital/',
-				content:''
+				content:'',
+				shareCount:"",
+				viewCount:""
 			},
 			query:'',
 			scrollTop:0,
@@ -111,7 +114,9 @@ export default {
 					hosptialName : _d.data.data.hosptialName,
 					name : _d.data.data.title?_d.data.data.title:_d.data.data.name,
 					contentBtId : _d.data.data.contentBtId,
-					hospitalCover:_d.data.data.hospitalCover
+					hospitalCover:_d.data.data.hospitalCover,
+					shareCount:_d.data.data.shareCount,
+					viewCount:_d.data.data.viewCount,
 				}
 				this.$axios.get('/other/bigtxt/'+this.caseInfo.contentBtId+'/'+this.caseInfo.contentBtId)
 				.then(_d => {
@@ -184,7 +189,7 @@ export default {
 	font-weight: bold;
 }
 .headPortrait{
-	margin-top: .12rem;
+	margin-top: .08rem;
 	margin-bottom: .15rem;
 }
 .headPortrait img{
