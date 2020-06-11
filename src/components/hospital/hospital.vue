@@ -16,7 +16,7 @@
     <span>顶部</span>
   </div> -->
   <van-tabbar v-model="active" route :style="{'padding-bottom':$store.state.paddingBottom}" v-if="bottomShow">
-  	<van-tabbar-item replace :to="{path : '/hospital/hospital_index',query:{transition:'def'}}">
+  	<van-tabbar-item replace :to="{path : '/hospital/hospital_index',query:{transition:'def',time: new Date().getTime()}}">
   	    <span>首页</span>
   	    <img
   			slot="icon"
@@ -24,7 +24,7 @@
   			:src="props.active ? index.inactive : index.active"
   	    />
   	</van-tabbar-item>
-  	<van-tabbar-item replace :to="{path:'/hospital/hospital_clinic',query:{transition:'def'}}">
+  	<van-tabbar-item replace :to="{path:'/hospital/hospital_clinic',query:{transition:'def',time: new Date().getTime()}}">
   	    <img
   			slot="icon"
   			slot-scope="props"
@@ -33,7 +33,7 @@
   	    <span>门诊</span>
   	</van-tabbar-item>
     <!-- /hospital/hospital_gene -->
-  	<van-tabbar-item replace :to="{path:'/hospital/hospital_source',query:{transition:'def'}}">
+  	<van-tabbar-item replace :to="{path:'/hospital/hospital_source',query:{transition:'def',time: new Date().getTime()}}">
   	    <span>病员</span>
   	    <img
   			slot="icon"
@@ -41,7 +41,7 @@
   			:src="props.active ? gene.inactive : gene.active"
   	    >
   	</van-tabbar-item>
-  	<van-tabbar-item replace :to="{path:'/hospital/hospital_user',query:{transition:'def'}}">
+  	<van-tabbar-item replace :to="{path:'/hospital/hospital_user',query:{transition:'def',time: new Date().getTime()}}">
   	    <span>我的</span>
   	    <img
   			slot="icon"

@@ -241,6 +241,7 @@ export default {
 	padding:4px 0px;
 	margin-right: .1rem;
 	font-size: .12rem;
+	height: 15px;
 }     
 .xia{
 	/* margin-left: .1rem; */
