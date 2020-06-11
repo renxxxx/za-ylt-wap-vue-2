@@ -94,7 +94,8 @@ export default {
 	  			content : [],
 	  			page:0,
 	  			clinicNum : 0,
-	  test:''
+	  test:'',
+	  query:''
     };
   },
   components: {
@@ -135,11 +136,6 @@ export default {
 			}
 		}
   	},
-  activated(){
-  },
-  deactivated(){
-    debugger
-    },
   methods: {
 	getdata(){
 		this.$axios.get('/c2/clinic/items?'+qs.stringify({
@@ -259,7 +255,7 @@ export default {
     },
     initData() {
       let thisVue = this;
-	  console.log(this.$store.state.operating.login)
+	  console.log('s')
       Object.assign(this.$data, this.$options.data());
       this.getNextPage();
       // this.$refs.clinic.initData();

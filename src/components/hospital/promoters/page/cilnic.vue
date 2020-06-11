@@ -9,6 +9,9 @@
 							<img src="../../../../assets/image/sousuo@2x.png" alt="">
 						<!-- </router-link> -->
 					</div>
+					<div class="clinic_buttton" @click="searchFn">
+						<button>搜索</button>
+					</div>
 				</div>
 				<div class="statisticalTitle">
 					<h3>合作门诊 {{clinic.num}}</h3>
@@ -131,6 +134,13 @@ export default {
 		  })
 		  this.getNextPage();
 		},
+		searchFn(){
+			this.page = 1;
+			this.content = [];
+			this.loading = false;
+			this.finished = false;
+			this.getNextPage()
+		},
 		getNextPage(){
 			this.getdata();
 			this.page++
@@ -188,10 +198,10 @@ export default {
 	height: .42rem;
 }
 .hospital_search{
-	/* float:left; */
-	width: 100%;
+	float:left;
+	width: 80%;
 	position: relative;
-	margin: 0rem auto;
+	/* margin: 0rem auto; */
 }
 .hospital_search input{
 	margin: .08rem 0rem 0rem .16rem;
@@ -209,7 +219,19 @@ export default {
 	top: .18rem;
 	left: 9.8%;
 }
-
+.clinic_buttton{
+	float: left;
+	margin-top: .14rem;
+	/* margin-left: -.05rem; */
+}
+.clinic_buttton button{
+	color: #FFFFFF;
+	background-color: #2B77EF;
+	border-radius: .15rem;
+	border: none;
+	height: .28rem;
+	width: .6rem;
+}
 .statisticalTitle{
 	margin-top: .25rem;
 	width: 100%;
