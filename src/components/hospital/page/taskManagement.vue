@@ -12,7 +12,7 @@
 			</div>
 			<div class="zhangwei"></div>
 			<div class="taskList" :style="{'padding-top':$store.state.paddingTop}">
-				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 				<h3>首次收益</h3>
 				<ul>
 					<li v-for="(item,inx) in task.one" :key='inx'>
@@ -31,7 +31,7 @@
 						<!-- </router-link> -->
 					</li>
 				</ul>
-				</van-pull-refresh>
+				<!-- </van-pull-refresh> -->
 			</div>
 		<!-- </van-pull-refresh> -->
 	</div>

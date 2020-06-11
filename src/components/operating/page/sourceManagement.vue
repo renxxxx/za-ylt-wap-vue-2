@@ -1,7 +1,7 @@
 <template>
 <topSolt>
-<van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" >
-  <div class="index">
+<!-- <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" > -->
+  <div class="index" slot="returnTopSolt">
 		<div class="navWarp">
 			<!-- 搜索及其筛选 -->
 			<div class="topNav" ref="topNav" :style="{'padding-top':$store.state.paddingTop}">
@@ -49,7 +49,7 @@
 		</div>
 		<!-- <router v-if="isLogin == 200? true:false"></router> -->
   </div>
-  </van-pull-refresh>
+  <!-- </van-pull-refresh> -->
   </topSolt>
 </template>
 <script>

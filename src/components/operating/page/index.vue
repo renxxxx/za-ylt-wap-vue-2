@@ -54,7 +54,7 @@
 				</div>
 			</van-popup>
 			<div class="hospitalContent">
-				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" ref="refersh" >
+				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" ref="refersh" > -->
 					<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 						<router-link :to="{path:'/operating/operating_indexDetails',query:{hospitalId:item.hospitalId}}"  v-for="(item,inx) in hospitalList" :key="inx">
 							<div class="hospitalList">
@@ -71,7 +71,7 @@
 							</div>
 						</router-link>
 					</van-list>
-				</van-pull-refresh>
+				<!-- </van-pull-refresh> -->
 			</div>
 			<div style="height: .55rem;"></div>
 			

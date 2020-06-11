@@ -17,7 +17,7 @@
 				<span>新建活动</span>
 			</div>
 			<!-- </router-link> -->
-			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<!-- active -->
 				<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
@@ -39,7 +39,7 @@
 					</template>
 					</van-swipe-cell>
 				</van-list>
-			</van-pull-refresh>
+			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.center.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />

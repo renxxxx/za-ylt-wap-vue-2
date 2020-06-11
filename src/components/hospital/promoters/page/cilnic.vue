@@ -22,7 +22,7 @@
 			</div>
 			<div class="zhangwei" ></div>
 			<div class="content" ref="content" @scroll="handleScroll">
-				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content	 -->
@@ -37,7 +37,7 @@
 						</li>
 					</van-list>
 				</ul>
-				</van-pull-refresh>
+				<!-- </van-pull-refresh> -->
 			</div>
 		
 		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">

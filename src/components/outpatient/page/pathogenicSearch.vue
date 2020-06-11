@@ -64,7 +64,7 @@
 			</div>
 			<div style="height:.5rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
 			<div class="_searchList" @scroll="handleScroll" ref="_searchList">
-				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 					<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
 						<ul class="clinicList" :style="{'padding-top':$store.state.paddingTop}">
 							<li v-for="(item,inx) in noItems" :key="inx">
@@ -81,7 +81,7 @@
 							</li>
 						</ul>
 					</van-list>
-				</van-pull-refresh>
+				<!-- </van-pull-refresh> -->
 			</div>
 			
 		<!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->

@@ -15,7 +15,7 @@
 		<span>兑换历史记录</span>
 	</div>
 	<div class="integralHistoryList"  @scroll="handleScroll" ref="integralHistoryList">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
 					<li v-for="(item,inx) in integralHistory" :key="inx">
@@ -29,7 +29,7 @@
 					</li>
 				</ul>
 			</van-list>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 	</div>
     <div class="returnTop" @click="$refs.integralHistoryList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 		<img src="../../../assets/image/returnTop.png" alt />

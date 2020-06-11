@@ -1,6 +1,6 @@
 <template>
   <div ref="refersh" id="hospitalIndex" @scroll="handleScroll" >
-      <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+      <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
             <div class="navWarp" :style="{'padding-top': $store.state.paddingTop}">
               <div class="navTitle">
                 <span>—&nbsp;&nbsp;医院端&nbsp;&nbsp;—</span>
@@ -93,7 +93,7 @@
                 </van-list>
               </ul>
             </div>            
-        </van-pull-refresh>
+        <!-- </van-pull-refresh> -->
       <div class="returnTop" @click="$refs.refersh.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
         <img src="../../../assets/image/returnTop.png" alt />
         <span>顶部</span>

@@ -15,7 +15,7 @@
       <span>积分使用明细</span>
     </div>
     <div class="integralDetailsList" @scroll="handleScroll" ref="integralDetailsList">
-      <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+      <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <ul>
             <li v-for="(item,inx) in integralDetails" :key="inx">
@@ -25,7 +25,7 @@
             </li>
           </ul>
         </van-list>
-      </van-pull-refresh>
+      <!-- </van-pull-refresh> -->
     </div>
     <div class="returnTop" @click="$refs.integralDetailsList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />

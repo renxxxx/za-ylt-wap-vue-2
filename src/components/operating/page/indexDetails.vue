@@ -1,7 +1,8 @@
 <template>
     <topSolt>
-      <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" >
-          <div class="navWarp" :style="{'padding-top': $store.state.paddingTop}">
+      <!-- <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" ref="refersh" > -->
+      <div slot="returnTopSolt">
+        <div class="navWarp" :style="{'padding-top': $store.state.paddingTop}">
             <div class="navTitle">
               <!-- <span>—&nbsp;&nbsp;医院端&nbsp;&nbsp;—</span> -->
 			  <div class="navTitle_backImg" @click="backFn">
@@ -106,7 +107,8 @@
             </ul>
           </div>
           <div style="height: .55rem;"></div>
-      </van-pull-refresh>
+      </div>
+      <!-- </van-pull-refresh> -->
     </topSolt>
       <!-- <bottomNav></bottomNav> -->
 </template>

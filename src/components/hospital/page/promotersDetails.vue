@@ -76,7 +76,7 @@
 		</van-popup>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
 		<div class="promotersDetails_list" @scroll="handleScroll" ref="promotersDetails_list">
-			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 			<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
 				<ul>
 					<!-- promotersList -->
@@ -111,7 +111,7 @@
 				<van-picker show-toolbar :columns="option" @cancel="cancel" @confirm="onConfirm"/>
 			</div>
 			</van-list>
-			</van-pull-refresh>
+			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.promotersDetails_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />

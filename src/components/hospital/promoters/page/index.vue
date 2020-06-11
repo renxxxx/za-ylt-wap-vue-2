@@ -5,7 +5,7 @@
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
 		<div class="indexList" @scroll="handleScroll" ref="indexList"> 
-			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown">
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<div class="typeNav">
 					<!-- <router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}"> -->
 					<img src="../../../../assets/image/qudaomenzhen@2.png" alt="" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime()}})">
@@ -80,7 +80,7 @@
 					</ul>
 				</div>
 				<!-- <div style="height: .5rem;"></div> -->
-			</van-pull-refresh>
+			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.indexList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />

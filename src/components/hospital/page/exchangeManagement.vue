@@ -1,3 +1,4 @@
+
 <template>
 	<div class="exchange">
 		
@@ -25,7 +26,7 @@
 				<!-- </router-link> -->
 			</div>
 		<div class="exchangeLists_content" @scroll="handleScroll" ref="exchangeLists_content">
-			<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 			<ul class="exchangeLists">
 				<van-swipe-cell v-for="(item,inx) in commodity" :key="inx"  :right-width= 65 >
@@ -52,7 +53,7 @@
 				</van-swipe-cell>
 			</ul>
 			</van-list>
-			</van-pull-refresh>
+			<!-- </van-pull-refresh> -->
 		</div>
 		
 	

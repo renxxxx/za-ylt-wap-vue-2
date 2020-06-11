@@ -1,6 +1,6 @@
 <template>
 	<div id="all" class="all" @scroll="handleScroll" ref="all">
-		<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden">
+		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
 				<li v-for="(item,inx) in  items" :key="inx">
@@ -22,7 +22,7 @@
 				</li>
 			</ul>
       </van-list>
-		</van-pull-refresh>
+		<!-- </van-pull-refresh> -->
 		<div class="returnTop" @click="$refs.all.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>

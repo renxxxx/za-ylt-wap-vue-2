@@ -12,7 +12,7 @@
 		<div class="zhangwei"></div>
 		<div class="exchangeList_content" @scroll="handleScroll" ref="exchangeList_content">
 			<ul :style="{'padding-top':$store.state.paddingTop}">
-				<van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" >
+				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
 					<li v-for="(item,inx) in exchangeList" :key='inx' class='List' @click="$router.push({path:'/hospital/hospital_exchangeDetails',query:{item : item,time: new Date().getTime()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_exchangeDetails' ,query : {item : item}}"> -->
@@ -32,7 +32,7 @@
 						<!-- </router-link> -->
 					</li>
 				</van-list>
-				</van-pull-refresh>
+				<!-- </van-pull-refresh> -->
 			</ul>
 		</div>
 		<div class="returnTop" @click="$refs.exchangeList_content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
