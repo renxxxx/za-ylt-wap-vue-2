@@ -129,7 +129,7 @@ export default {
 		share(){
 
 			let vue = this
-			this.$h5p.shareWeb(location.href,this.active.cover,this.active.title,this.active.brief||'',function(){
+			this.$h5p.shareWeb(location.href+'/',this.active.cover,this.active.title,this.active.brief||'',function(){
 
 				vue.$axios.post('/c2/share')
 			});

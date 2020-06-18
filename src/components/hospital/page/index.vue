@@ -9,7 +9,7 @@
                 <van-swipe>
                   <van-swipe-item v-for="(image, index) in images" :key="index" >
                     <!-- <router-link :to="{name : image.url}"> -->
-                      <img  :src="image.cover" class="silder_img"  @click="$router.push({path:image.url,query:{time: new Date().getTime()}})"/>
+                      <img  :src="image.cover" class="silder_img"  @click="sss(image)"/>
                     <!-- </router-link> -->
                   </van-swipe-item>
                 </van-swipe>
@@ -146,6 +146,32 @@ export default {
   deactivated(){
   },
   methods: {
+    sss(image){
+      switch(image.type){
+        case 0 :break;
+        case 1:
+          window.open('https://'+image.url+'/type2ArticleId:'+image.id,'_top');
+        break;
+        case 2:
+          this.$router.push({path:image.url,query:{itemId:image.id,data:1,time: new Date().getTime()}});
+        break;
+        case 4:
+          this.$router.push({path:image.url,query:{itemId:image.id,data:4,time: new Date().getTime()}});
+        break;
+        default:
+          this.$router.push({path:image.url,query:{itemId:image.id,time: new Date().getTime()}});
+      }
+      // if(image.type == 0){
+
+      // }else if(image.type == 1){
+      //   console.log(image.type)
+      //   // window.location.href = image.url+'/type2ArticleId:'+image.id
+      //   // window.open(_data.link1Url, '_top');
+      //   window.open('https://'+image.url+'/type2ArticleId:'+image.id,'_top');
+      // }else{
+      //   this.$router.push({path:image.url,query:{itemId:image.id,time: new Date().getTime()}});
+      // }
+    },
     // 滑动一定距离出现返回顶部按钮
     handleScroll() {
       debugger
@@ -186,54 +212,71 @@ export default {
             switch (res.data.data.rows[i].type) {
               case 0:
                 this.images.push({
+                  type : res.data.data.rows[i].type,
+                  id : res.data.data.rows[i].type2ArticleId,
                   cover: res.data.data.rows[i].cover,
                   url: ""
                 });
                 break;
               case 1:
                 this.images.push({
+                  type : res.data.data.rows[i].type,
+                  id : res.data.data.rows[i].type2ArticleId,
                   cover: res.data.data.rows[i].cover,
                   url: res.data.data.rows[i].type1Url
                 });
                 break;
               case 2:
                 this.images.push({
+                  type : res.data.data.rows[i].type,
+                  id : res.data.data.rows[i].type2ArticleId,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_caseDetails"
                 });
                 break;
               case 3:
                 this.images.push({
+                  type : res.data.data.rows[i].type,
+                  id : res.data.data.rows[i].type2ArticleId,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_expertsIntroduction"
                 });
                 break;
               case 4:
                 this.images.push({
+                  id : res.data.data.rows[i].type2ArticleId,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_caseDetails"
                 });
                 break;
               case 5:
                 this.images.push({
+                  id : res.data.data.rows[i].type2ArticleId,
+                  type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_activityReleased"
                 });
                 break;
               case 6:
                 this.images.push({
+                  id : res.data.data.rows[i].type2ArticleId,
+                  type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_hospitalImage"
                 });
                 break;
               case 7:
                 this.images.push({
+                  id : res.data.data.rows[i].type2ArticleId,
+                  type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_expertsIntroduction"
                 });
                 break;
               case 8:
                 this.images.push({
+                  id : res.data.data.rows[i].type2ArticleId,
+                  type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
                   url: ""
                 });

@@ -93,7 +93,7 @@ export default {
 		share(){
 		 	let shareUrl= location.href.replace('/hospital/hospital_caseDetails',"/sharePage")
 		 	let vue = this
-		 	this.$h5p.shareWeb(shareUrl,this.caseInfo.cover,this.caseInfo.name,'',function(){
+		 	this.$h5p.shareWeb(shareUrl+'/',this.caseInfo.cover,this.caseInfo.name,'',function(){
 		 		vue.$axios.post('/c2/share')
 		 	});
 		},

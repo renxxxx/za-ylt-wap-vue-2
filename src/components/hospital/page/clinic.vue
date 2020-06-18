@@ -116,7 +116,7 @@ export default {
 			this.$toast({message:'请登录',onClose:function(){
 				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1,time: new Date().getTime()}});
 			}})
-		  this.$refs.clinic.initData();
+		//   this.$refs.clinic.initData();
 		}
 	},
 }
