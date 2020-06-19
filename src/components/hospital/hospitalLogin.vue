@@ -248,6 +248,8 @@ export default {
         		
         		this.$toast(err);
         	})
+        }else{
+          this.$toast('请勾选《应用服务条款》')
         }
     },
     changeFn(_value){

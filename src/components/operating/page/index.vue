@@ -219,6 +219,9 @@ export default {
 		this.orders = '';
 		this.page = 0;
 		this.show = false;
+		this.loading = false,
+		this.finished = false,
+		this.hospitalList = []
 		this.getNextPage()
 	},
 	closeTimeFn(){

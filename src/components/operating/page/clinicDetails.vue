@@ -1,6 +1,6 @@
 <template>
 	<div class="clinicDetails">
-		<div class="nav">
+		<div class="nav" :style="{'margin-top':$store.state.paddingTop}">
 			<div class="navLeft" @click="backFn">
 				<img src="../../../assets/image/shape@3x.png" alt="">
 			</div>
@@ -9,7 +9,7 @@
 			</div>
 			<div class="navRight"></div>
 		</div>
-		<div class="type" :class="[!typeData? 'beijingColor':'']">
+		<div class="type" :class="[!typeData? 'beijingColor':'']" :style="{'margin-top':$store.state.paddingTop}">
 			<div class="typeData">
 				<div class="tuisong" @click="typeClickFn(1)" :class="[typeData? 'typeDataColor':'']">
 					推送病源
