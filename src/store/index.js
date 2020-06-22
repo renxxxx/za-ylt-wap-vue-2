@@ -41,7 +41,8 @@ const state={
   operatingReturnHomePage : true,
   //运营端返回顶部按钮显示
   operatingReturnTopPage:false,
-  
+  //加载中线条显示控制
+  loading_line:false,
 }
 const getters={
   //账号登录

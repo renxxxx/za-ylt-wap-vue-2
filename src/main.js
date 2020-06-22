@@ -160,6 +160,47 @@ if (window.plus) {
 } else {
 	document.addEventListener('plusready', plusReady, false);
 }
+let loading_lineNum = 0;
+axios.interceptors.request.use(
+	config => {
+		store.state.loading_line = true;
+		loading_lineNum++;
+		console.log('创建：'+loading_lineNum)
+		return config
+	},
+  	error => {
+		setTimeout(() => {
+			if(!loading_lineNum){
+				loading_lineNum--
+				console.log('未关闭：'+loading_lineNum)
+				store.state.loading_line = false;
+			}
+		},3000)
+		return Promise.reject(error)
+	}
+)
+axios.interceptors.response.use(
+	data => {
+		// 响应成功关闭loading
+		loading_lineNum--
+		console.log('未关闭：'+loading_lineNum)
+		if(!loading_lineNum){
+			store.state.loading_line = false;
+		}
+
+		return data
+	}, 
+	error => {
+		setTimeout(() => {
+			if(!loading_lineNum){
+				loading_lineNum--
+				console.log('未关闭：'+loading_lineNum)
+				store.state.loading_line = false;
+			}
+		},1000)
+		return Promise.reject(error)
+	}
+)
 Vue.directive('focus', {
 	// 当被绑定的元素插入到 DOM 中时……
 	inserted: function(el, attr) {

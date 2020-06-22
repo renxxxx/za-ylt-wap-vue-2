@@ -1,6 +1,6 @@
 <template>
 	<div class="clinicDetails">
-		<div class="nav" :style="{'margin-top':$store.state.paddingTop}">
+		<div class="nav" :style="{'height': (parseInt($store.state.paddingTop.replace('px',''))+46)+'px','padding-top':$store.state.paddingTop}">
 			<div class="navLeft" @click="backFn">
 				<img src="../../../assets/image/shape@3x.png" alt="">
 			</div>
@@ -133,12 +133,14 @@ export default {
 	},
   	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.getMessages()
+			this.getNextPage()
 		}
   	},
 

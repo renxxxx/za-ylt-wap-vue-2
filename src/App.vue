@@ -1,6 +1,6 @@
 <template>
   <div id="app" ref='appRef'>
-
+    <div class="xiantiao" v-if="$store.state.loading_line" :style="{'top':$store.state.paddingTop}"></div>
    <keep-alive>
       <router-view ></router-view>
   </keep-alive>
@@ -89,5 +89,46 @@ img[lazy="error"]{
   position: relative;
 	/* background-color: #F5F5F5; */
 }
-
+.xiantiao{
+	width: 20%;
+	height:1px;
+	background:#2187e7;
+	z-index: 9999;
+	box-shadow:0px 0px 10px 1px rgba(0,198,255,0.7);
+	-moz-animation:xiantiao1 1.5s ease-in-out infinite;
+	-webkit-animation:xiantiao1 1.5s ease-in-out infinite;
+	animation:xiantiao1 1.5s ease-in-out infinite;
+  position: fixed;
+  top: 0;
+}
+@-moz-keyframes xiantiao1{
+	0%{
+		-moz-transform: translateX(-100%);
+		/* -moz-transition-duration: 4s; */
+	}
+	100%{ 
+		-moz-transform: translateX(500%);
+		/* -moz-transition-duration: 4s;	 */
+	}
+}
+@-webkit-keyframes xiantiao1{
+	0%{
+		-webkit-transform: translateX(-100%);
+		/* -webkit-transition-duration: 4s; */
+	}
+  100%{ 
+		-webkit-transform: translateX(500%);
+		/* -webkit-transition-duration: 4s */
+	}
+}
+@keyframes xiantiao1{
+	0%{
+		transform: translateX(-100%);
+		/* transition-duration: 4s; */
+	}
+	100%{ 
+		transform: translateX(500%);
+		/* transition-duration: 4s;	 */
+	}
+}
 </style>
