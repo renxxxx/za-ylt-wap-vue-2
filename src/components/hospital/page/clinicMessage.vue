@@ -15,7 +15,7 @@
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul>
-					<li v-for="(item,inx) in clinicMessage" :key='inx' @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+					<li v-for="(item,inx) in clinicMessage" :key='inx' @click="$router.push({path:'/hospital/hospital_clinicMessageDetails',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 						<div class="triangle_border_up">
 							<span></span>
@@ -23,7 +23,7 @@
 						<div class="contentTitle">
 							<span>{{item.realname}}</span>
 							<span>所属：{{item.clinicName}}</span>
-							<span>时间 : {{moment(item.pushTime).format('YYYY-MM-DD HH:MM')}}</span>
+							<span>时间 : {{item.pushTime? moment(item.pushTime).format('YYYY-MM-DD HH:MM'):''}}</span>
 						</div>
 						<div class="contentTel">
 							<span>去联系</span>

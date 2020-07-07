@@ -3,16 +3,17 @@
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<div class="nav_left">
 				<a @click="goBackFn"  id="navback">
-					<img src="../../../../assets/image/back-white@2x.png" alt="">
+					<img src="../../../assets/image/back-white@2x.png" alt="">
 				</a>
 			</div>
 			<div class="nav_center">
 				<h3>病员信息</h3>
 			</div>
-			<div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
+			<div class="nav_right"></div>
+			<!-- <div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
 				<span>{{modify.value}}</span>
 				<img :src=modify.img alt="">
-			</div>
+			</div> -->
 		</div>
 		<div class="zhangwei"></div>
 		<div class="_message" :style="{'padding-top':$store.state.paddingTop}">
@@ -61,18 +62,10 @@
 			<h3>发票照片</h3>
       <ul>
         <li v-for="(item,inx) in imgUrl" :key="inx" @click="enlargeFn(inx,imgUrl)">
-          <!-- <router-link :to="{name:'promoters_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true,}}"> -->
+          <!-- <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:inx,imgUrl:imgUrl,data:true}}"> -->
             <img v-bind:src="item" alt="">
           <!-- </router-link> -->
-          <img v-show="show" src="../../../../assets/image/detele.png" alt="" @click="deteleFn(item)">
-		 <!-- <van-image-preview
-		    v-model="enlarge"
-		    :images="imgUrl"
-			:start-position='photoNum'
-		    @change="onChange"
-		  >
-		    <template v-slot:index>第{{ photoPage+1 }}页</template>
-		  </van-image-preview> -->
+          <img v-show="show" src="../../../assets/image/detele.png" alt="" @click="deteleFn(item)">
         </li>
          <li v-show="show">
             <div class="addImg">
@@ -97,11 +90,11 @@ export default {
 	data () {
 		return {
 			//预浏览发票图img片地址
-		imgUrl:[],
-		show : true,
+			imgUrl:[],
+			show : true,
 			modify:{
 				value:'编辑',
-				img:require('../../../../assets/image/editor.png'),
+				img:require('../../../assets/image/editor.png'),
 				data:false,					//保存状态
 				readonly : 'true',		//读取状态
 				num: 0,						//点击次数
@@ -125,84 +118,96 @@ export default {
 				tel : undefined,			//电话号码
 				sickness : undefined		//病例
 			},
+			query:''
 		}
 	},
 	computed:{
 	},
 	created(){
+		var heightRexg = /^[0-9]*/g
+		//var topHeight = this.topHeight.match(heightRexg)
+		//this.height = parseInt(topHeight.join()) 
+		//
 	},
-	destroyed(){
-	},
-	activated(){
-		if(this.query != JSON.stringify(this.$route.query)){
-			Object.assign(this.$data, this.$options.data());
-			this.query = JSON.stringify(this.$route.query);
-			if(window.plus){
+ destroyed(){
+	  debugger
+	  
+  },
+  activated() {
+  	if(this.query != JSON.stringify(this.$route.query)){
+		Object.assign(this.$data, this.$options.data());
+  		this.query = JSON.stringify(this.$route.query);
+  		if(window.plus){
+  			//plus.navigator.setStatusBarBackground("#ffffff");
+  			plus.navigator.setStatusBarStyle("dark")
+  		}
+  		if(this.detail.patientId != this.$route.query.patientId){
+  					this.detail.patientId=this.$route.query.patientId
+  					this.$axios.post('/c2/patient/item',qs.stringify({
+  					patientId : this.$route.query.patientId,
+  				})).then(res =>{
+  					this.detail = {
+  						realname : res.data.data.realname,			//病人姓名
+  						clinicId : res.data.data.clinicId,		//门诊id
+  						clinicName : res.data.data.clinicName,		//门诊名称
+  						// hospitalConfirmTime : res.data.data.hospitalConfirmTime,//医院确诊时间
+  						hospitalId	: res.data.data.hospitalId,	//医院id
+  						hospitalName : res.data.data.hospitalName,	//医院名称
+  						idcardNo : res.data.data.idcardNo,		//身份证号
+  						invoices : res.data.data.invoices,		//发票
+  						patientId :res.data.data.patientId,		//患者id
+  						// pushTime : res.data.data.pushTime,		//推送时间
+  						remark : res.data.data.remark,			//备注
+  						tel : res.data.data.tel,			//电话号码
+  						sickness: res.data.data.sickness	//病例
+  					};
+  					// 如果信息中有发票图片,就显示
+  					// 
+  					if(res.data.data.invoices){
+  						res.data.data.invoices = res.data.data.invoices.split(",");
+  						for (let i in res.data.data.invoices){
+  							this.imgUrl.push( res.data.data.invoices[i]);
+  						}
+  						this.modify.data = true;
+  						this.modify.value = '编辑';
+  						this.modify.img = require('../../../assets/image/editor.png');
+  				  this.show = false;
+  					}else{
+  						this.modify.data = false;
+  						this.imgUrl = [];
+  				  this.show = false;
+  					}
+  					//判断时间是否为空
+  					// 
+  					if(res.data.data.hospitalConfirmTime){
+  						// 
+  						this.detail.hospitalConfirmTime = moment(res.data.data.hospitalConfirmTime).format('YYYY-MM-DD HH:mm');
+  					}
+  					if(res.data.data.pushTime){
+  				  // 
+  						this.detail.pushTime = moment(res.data.data.pushTime).format('YYYY-MM-DD HH:mm');
+  					}
+  				}).catch(err =>{
+  					
+  				})
+  		}
+  	}
+  },
+   mounted() {
+		if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getData();
-		}
-	},
-	mounted() {
+
+		
 	},
 	methods: {
-		getData(){
-			this.$axios.post('/c2/patient/item',qs.stringify({
-				patientId : this.$route.query.patientId,
-			})).then(res =>{
-				this.detail = {
-					realname : res.data.data.realname,			//病人姓名
-					clinicId : res.data.data.clinicId,		//门诊id
-					clinicName : res.data.data.clinicName,		//门诊名称
-					// hospitalConfirmTime : res.data.data.hospitalConfirmTime,//医院确诊时间
-					hospitalId	: res.data.data.hospitalId,	//医院id
-					hospitalName : res.data.data.hospitalName,	//医院名称
-					idcardNo : res.data.data.idcardNo,		//身份证号
-					invoices : res.data.data.invoices,		//发票
-					patientId :res.data.data.patientId,		//患者id
-					// pushTime : res.data.data.pushTime,		//推送时间
-					remark : res.data.data.remark,			//备注
-					tel : res.data.data.tel,			//电话号码
-					sickness: res.data.data.sickness	//病例
-				};
-				// 如果信息中有发票图片,就显示
-				// 
-				if(res.data.data.invoices){
-					res.data.data.invoices = res.data.data.invoices.split(",");
-					for (let i in res.data.data.invoices){
-						this.imgUrl.push( res.data.data.invoices[i]);
-					}
-					this.modify.data = true;
-					this.modify.value = '编辑';
-					this.modify.img = require('../../../../assets/image/editor.png');
-			this.show = false;
-				}else{
-					this.modify.data = false;
-					this.imgUrl = [];
-			this.show = false;
-				}
-				//判断时间是否为空
-				// 
-				if(res.data.data.hospitalConfirmTime){
-					// 
-					this.detail.hospitalConfirmTime = moment(res.data.data.hospitalConfirmTime).format('YYYY-MM-DD HH:mm');
-				}
-				if(res.data.data.pushTime){
-			// 
-					this.detail.pushTime = moment(res.data.data.pushTime).format('YYYY-MM-DD HH:mm');
-				}
-			}).catch(err =>{
-				
-			})
-		},
-		initData(){
-			Object.assign(this.$data, this.$options.data());
-		},
+
 		enlargeFn(_value,imgUrl){
 			this.photoNum = _value;
-			this.$router.push({path:'/promoters/promoters_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime().toString()}})
+			
 			this.enlarge = true;
+			this.$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime().toString()}})
 		},
 		onChange(_value){
 			this.photoPage = _value;
@@ -218,7 +223,7 @@ export default {
 			if(this.modify.num % 2 != 0){
 				// 
 				this.modify.value = '保存';
-				this.modify.img = require('../../../../assets/image/save@2x.png');
+				this.modify.img = require('../../../assets/image/save@2x.png');
 		  // 
 				this.modify.data = true;
 				for(let i =1; i<6; i++){
@@ -228,7 +233,7 @@ export default {
 		  this.show = true;
 			}else{
 		  this.modify.value = '编辑';
-		  this.modify.img = require('../../../../assets/image/editor.png');
+		  this.modify.img = require('../../../assets/image/editor.png');
 		  // 
 				let _imgAddress = [];
 		  if(this.imgUrl.length == 1){
@@ -271,27 +276,22 @@ export default {
 				let formData = new FormData();
 				formData.append('file', file)
 				this.$axios.post('/other/fileupload?cover&duration',formData,{headers: {'Content-Type': 'multipart/form-data'
-				}}).then(res =>{
-			if(!res.data.codeMsg){
-			  // 
-			  this.imgUrl.push(res.data.data.url)
-			  // 
-			}
-
-				}).catch(err =>{
-					
+				}})
+				.then(res =>{
+					if(!res.data.codeMsg){
+						this.imgUrl.push(res.data.data.url)
+					}
 				})
+				.catch(err =>{})
 			 }else{
-				this.$toast('请选择图片');
+				this.$toast('请选择图片')
 				return false;
 			}
 		},
-	  deteleFn(_img){
-		// 
-		let deleteImg =  this.imgUrl.filter( n => n != _img);
-		this.imgUrl = deleteImg;
-		// 
-	  }
+		deteleFn(_img){
+			let deleteImg =  this.imgUrl.filter( n => n != _img);
+			this.imgUrl = deleteImg;
+		}
 	},
 }
 </script>

@@ -67,7 +67,7 @@
       <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
           <ul class="list" :style="{'padding-top':$store.state.paddingTop}" >
          <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
-            <li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+            <li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
               <!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
                 <div class="style">
                   <div class="contentTitle">

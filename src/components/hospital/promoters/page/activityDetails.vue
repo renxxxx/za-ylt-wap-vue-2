@@ -17,7 +17,7 @@
 				<img v-lazy="active.cover" alt="">
 				<div class="activeTitle">
 					<h4>{{active.title}}</h4>
-					<span>{{moment(active.startTime).format('YYYY-MM-DD HH:mm')}} - {{moment(active.endTime).format('YYYY-MM-DD HH:mm')}}</span>
+					<span v-if="active.startTime&&active.endTime? true:false">{{moment(active.startTime).format('YYYY-MM-DD HH:mm')}} - {{moment(active.endTime).format('YYYY-MM-DD HH:mm')}}</span>
 				</div>
 			</div>
 			<div class="tabel">
@@ -120,13 +120,11 @@ export default {
 					// 
 				})
 				.catch((err)=>{
-					
-					//Dialog({ message: err});;
+					this.$toast(err)
 				})
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		},
 		share(){

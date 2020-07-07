@@ -52,7 +52,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'collect',
   data () {
@@ -107,8 +106,7 @@ export default {
 			}
 		})
 		.catch((err)=>{
-			
-			//Dialog({ message: '加载失败!'});
+			this.$toast('加载失败!')
 		})
 	}
   },

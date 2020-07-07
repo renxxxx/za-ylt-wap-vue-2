@@ -7,7 +7,7 @@
 			<div class="centerTitle">
 				<h3>{{this.$route.query.clinicName}}</h3>
 			</div>
-			<div class="rightImg" @click="$router.push({path:'/promoters/promoters_clinicInfo',query:{clinicId:$route.query.clinicId,time: new Date().getTime()}})">
+			<div class="rightImg" @click="$router.push({path:'/promoters/promoters_clinicInfo',query:{clinicId:$route.query.clinicId,time: new Date().getTime().toString()}})">
 				<!-- <router-link :to="{name:'promoters_clinicInfo',query:{clinicId:this.$route.query.clinicId}}"> -->
 					<img src="../../../../assets/image/promotersEditor.png" alt="">
 				<!-- </router-link> -->
@@ -19,7 +19,7 @@
 		</div>
 		<div style="height: .575rem;width: 100%;" ></div>
 		<!-- <router-link :to="{name:'promoters_addSource',query:{clinicId:this.$route.query.clinicId}}"> -->
-			<div class="addEtiology" @click="$router.push({path:'/promoters/promoters_addSource',query:{clinicId:$route.query.clinicId,time: new Date().getTime()}})">
+			<div class="addEtiology" @click="$router.push({path:'/promoters/promoters_addSource',query:{clinicId:$route.query.clinicId,time: new Date().getTime().toString()}})">
 				<img src="../../../../assets/image/xinzeng@2x.png" alt="">
 				<span>新增病原</span>
 			</div>
@@ -35,7 +35,7 @@
 						<van-list  v-model="loading" :finished="finishedAll" finished-text="没有更多了"  @load="nextPageFn">
 							<ul>
 								<!-- items -->
-								<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+								<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
@@ -64,7 +64,7 @@
 					<div class="list" @scroll="handleScroll" ref="listYes">
 						<van-list  v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in  yesItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+								<li v-for="(item,inx) in  yesItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
@@ -93,7 +93,7 @@
 					<div class="list" @scroll="handleScroll" ref="listNo">
 						<van-list  v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in  noItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+								<li v-for="(item,inx) in  noItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
@@ -276,7 +276,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 		},
 		// 获取下一页的方法
@@ -343,8 +343,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 		},
 		// 获取数量的方法
@@ -361,8 +360,7 @@ export default {
 					num = res.data.data.sum.totalCount;
 				})
 				.catch((err)=>{
-					
-					//Dialog({ message: err});;
+					this.$toast(err)
 				});
 			
 			return num;

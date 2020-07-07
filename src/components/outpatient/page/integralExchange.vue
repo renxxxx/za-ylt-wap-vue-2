@@ -12,10 +12,10 @@
 					<h2>{{integral}}</h2>
 				</div>
 				<div class="integralExchangeButton">
-					<router-link :to="{path : '/outpatient/outpatient_integralDetails',query:{time:new Date().getTime()}}">
+					<router-link :to="{path : '/outpatient/outpatient_integralDetails',query:{time:new Date().getTime().toString()}}">
 					<button>积分明细</button>
 					</router-link>
-					<router-link :to="{path : '/outpatient/outpatient_integralHistory',query:{time:new Date().getTime()}}">
+					<router-link :to="{path : '/outpatient/outpatient_integralHistory',query:{time:new Date().getTime().toString()}}">
 					<button>兑换记录</button>
 					</router-link>
 				</div>
@@ -113,7 +113,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 			this.$axios.post('/clientend2/clinicend/pointexchange/main',qs.stringify({
 				clinicId : this.$store.state.outpatient.login.clinicId,
@@ -124,7 +124,7 @@ export default {
 				this.integral = res.data.data.exchangePoint
 			})
 			.catch((err)=>{
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		},
 		initData() {

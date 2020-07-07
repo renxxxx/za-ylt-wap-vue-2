@@ -105,7 +105,7 @@ export default {
                     if(res.code == 0){
                       thisVue.$store.state.hospital.login=res.data
                       thisVue.$toast({"message":'已登录',onClose(){
-                              thisVue.$router.replace({ name : 'hospital_index',query:{time: new Date().getTime()}});
+                              thisVue.$router.replace({ name : 'hospital_index',query:{time: new Date().getTime().toString()}});
                         }})
                     }
                   }
@@ -160,7 +160,7 @@ export default {
     chooseEntrance(){
       localStorage.removeItem('entrance');
 	  debugger
-      this.$router.push({path:'/',query:{time: new Date().getTime()}})
+      this.$router.push({path:'/',query:{time: new Date().getTime().toString()}})
     },
     emptyAccountFn(value){
       if(value == 'name'){
@@ -208,11 +208,11 @@ export default {
                     if(res.code == 0){
                        thisVue.$store.state.hospital.login=res.data
                        thisVue.$toast({"message":'登录成功',onClose(){
-                            // thisVue.$router.replace({ name : 'hospital_index',query:{time:new Date().getTime()}});
+                            // thisVue.$router.replace({ name : 'hospital_index',query:{time:new Date().getTime().toString()}});
                         if(thisVue.$route.query.redirect)
                                  thisVue.$router.replace(thisVue.$route.query.redirect)
                         else
-                          thisVue.$router.replace({ name : 'hospital_index',query:{time:new Date().getTime()}});
+                          thisVue.$router.replace({ name : 'hospital_index',query:{time:new Date().getTime().toString()}});
                         }})
                     }
                   }

@@ -5,10 +5,10 @@
 				<img src="../../../assets/image/shape@3x.png" alt="">
 			</div>
 			<div class="centerTitle">
-				<!-- <h3>任务管理</h3> -->
+				<h3>任务中心</h3>
 			</div>
 			<!-- <router-link :to="{name: 'outpatient_integralExchange',query:{}}"> -->
-			<div class="right" @click="$router.push({path:'/outpatient/outpatient_integralExchange',query:{time: new Date().getTime()}})">
+			<div class="right" @click="$router.push({path:'/outpatient/outpatient_integralExchange',query:{time: new Date().getTime().toString()}})">
 				<span>我要兑换</span>
 			</div>
 			<!-- </router-link> -->
@@ -39,7 +39,7 @@
 					<li v-for="(item,inx) in task.once" :key='inx'>
 						<h4>{{item.name}}<span>+{{item.exchangePointUpperPerDay}}</span></h4>
 						<p>{{item.intro}}</p>
-						<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'">{{item.doneIs? '已完成':'去完成'}}</button>
+						<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'" @click="toCompleteFn(item.taskId,item.doneIs)">{{item.doneIs? '已完成':'去完成'}}</button>
 					</li>
 				</ul>
 			</div>
@@ -50,7 +50,7 @@
 						<h4>{{item.name}}<span>+{{item.exchangePoint}}</span><span>/</span></h4>
 						<van-progress :percentage="item.gotExchangePointToday? item.gotExchangePointToday/item.exchangePointUpperPerDay*100:0" :show-pivot='false' :color="'#FF1A2E'" :rack-color="'#E5E5E5'" stroke-width='0.05rem'/>
 						<p>已获{{item.gotExchangePointToday? item.gotExchangePointToday:0}}分/上限{{item.exchangePointUpperPerDay}}分</p>
-						<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'">{{item.doneIs? '已完成':'去完成'}}</button>
+						<button :class="item.doneIs? 'buttonColorYes':'buttonColorNo'" @click="toCompleteFn(item.taskId,item.doneIs)">{{item.doneIs? '已完成':'去完成'}}</button>
 					</li>
 				</ul>
 			</div>
@@ -92,6 +92,21 @@ export default {
 		}
   	},
 	methods: {
+		toCompleteFn(_value,_valueData){
+			if(!_valueData){
+				switch(parseInt(_value)){
+					case 6: case 9: case 11: case 12:
+						this.$router.push({path:'/outpatient/outpatient_index',query:{time: new Date().getTime().toString()}})
+						break;
+					case 3: case 4: case 7: case 8: case 10:
+						this.$router.push({path:'/outpatient/outpatient_hospital',query:{time: new Date().getTime().toString()}})
+						break;
+					case 5: case 1:
+						this.$router.push({path:'/outpatient/outpatientLogin',query:{time: new Date().getTime().toString()}})
+						break;
+				}
+			}
+		},
 		goBackFn(){
 			this.$router.back(-1)
 		},
@@ -117,7 +132,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		}
 	},

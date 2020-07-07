@@ -29,7 +29,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'clinicAll',
 	data () {
@@ -137,8 +136,7 @@ export default {
         }
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 
 		},

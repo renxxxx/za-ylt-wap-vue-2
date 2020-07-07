@@ -5,7 +5,7 @@
     </keep-alive>
     <van-tabbar v-model="active" route :style="{'padding-bottom':$store.state.paddingBottom}" v-if="childBottomShow">
       <!-- <router-link :to="{path : '/promoters/hospital_sourceManagement'}"> -->
-      <van-tabbar-item replace :to="{path : '/promoters_index',query:{transition:'def',time: new Date().getTime()}}">
+      <van-tabbar-item replace :to="{path : '/promoters_index',query:{transition:'def',time: new Date().getTime().toString()}}">
           <span>首页</span>
           <img
           slot="icon"
@@ -13,7 +13,7 @@
           :src="props.active ? index.inactive : index.active "
           />
       </van-tabbar-item>
-      <van-tabbar-item replace :to="{path : '/promoters/promoters_cilnic',query:{transition:'def',time: new Date().getTime()}}">
+      <van-tabbar-item replace :to="{path : '/promoters/promoters_cilnic',query:{transition:'def',time: new Date().getTime().toString()}}">
           <img
           slot="icon"
           slot-scope="props"
@@ -21,7 +21,7 @@
           >
           <span>门诊</span>
       </van-tabbar-item>
-      <van-tabbar-item replace :to="{path : '/promoters/promoters_user',query:{transition:'def',time: new Date().getTime()}}">
+      <van-tabbar-item replace :to="{path : '/promoters/promoters_user',query:{transition:'def',time: new Date().getTime().toString()}}">
           <span>我的</span>
           <img
           slot="icon"

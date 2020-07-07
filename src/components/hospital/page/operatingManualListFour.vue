@@ -60,9 +60,9 @@ export default {
       console.dir(item.lowerCount)
       if(item.lowerCount){
         // console.dir(item.operatingManualSectionId)
-        this.$router.push({name:'hospital_operatingManualListFive',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,time: new Date().getTime()}})
+        this.$router.push({name:'hospital_operatingManualListFive',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,time: new Date().getTime().toString()}})
       }else{
-        this.$router.push({name:'hospital_operatingManualListDetails',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,time: new Date().getTime()}})
+        this.$router.push({name:'hospital_operatingManualListDetails',query:{name:item.name,operatingManualId:this.$route.query.operatingManualId,operatingManualSectionId : item.operatingManualSectionId,time: new Date().getTime().toString()}})
       }
     },
     getData(){

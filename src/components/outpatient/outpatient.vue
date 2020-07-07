@@ -13,7 +13,7 @@
     </div> -->
     <van-tabbar v-model="active" route :style="{'padding-bottom':$store.state.paddingBottom}" v-if="bottomShow">
       <!-- <router-link :to="{path : '/outpatient/hospital_sourceManagement'}"> -->
-    	<van-tabbar-item replace :to="{path : '/outpatient/outpatient_index',query:{transition:'def',time: new Date().getTime()}}">
+    	<van-tabbar-item replace :to="{path : '/outpatient/outpatient_index',query:{transition:'def',time: new Date().getTime().toString()}}">
     	    <span>首页</span>
     	    <img
     			slot="icon"
@@ -21,7 +21,7 @@
     			:src="props.active ? index.inactive : index.active "  
     	    />
     	</van-tabbar-item>
-    	<van-tabbar-item replace :to="{path : '/outpatient/outpatient_hospital',query:{transition:'def',time: new Date().getTime()}}">
+    	<van-tabbar-item replace :to="{path : '/outpatient/outpatient_hospital',query:{transition:'def',time: new Date().getTime().toString()}}">
     	    <img
     			slot="icon"
     			slot-scope="props"
@@ -30,7 +30,7 @@
     	    <span>医院</span>
     	</van-tabbar-item>
       <!-- /outpatient/outpatient_gene -->
-    	<van-tabbar-item replace @click="upgradeFn" :to="{path : '',query:{transition:'def',time: new Date().getTime()}}">
+    	<van-tabbar-item replace @click="upgradeFn">
     	    <span>基因</span>
     	    <img
     			slot="icon"
@@ -38,7 +38,7 @@
     			:src="props.active ? gene.inactive : gene.active"
     	    >
     	</van-tabbar-item>
-    	<van-tabbar-item replace :to="{path : '/outpatient/outpatient_user',query:{transition:'def',time: new Date().getTime()}}">
+    	<van-tabbar-item replace :to="{path : '/outpatient/outpatient_user',query:{transition:'def',time: new Date().getTime().toString()}}">
     	    <span>我的</span>
     	    <img
     			slot="icon"
@@ -135,7 +135,7 @@ export default {
 		touchEndFn(_value){
 			this.overLength = _value.changedTouches[0].screenX;
 			this.overLengthY = _value.changedTouches[0].screenY
-			if((this.overLength-this.startLength)>100 && (this.startLengthY - this.overLengthY) < 150){
+			if((this.overLength-this.startLength)>150 && (this.startLengthY - this.overLengthY) < 150){
 				this.$router.back()
 			}
 		},

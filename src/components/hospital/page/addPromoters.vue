@@ -86,9 +86,13 @@ export default {
 			}))
 			.then(res => {
 				if(res.data.codeMsg){
-					this.$toast(res.data.codeMsg)
+					if(res.data.errParam == 'name'){
+						this.$toast('姓名不能为空')
+					}else{
+						this.$toast(res.data.codeMsg)
+					}
 				}
-				if(res.data.code){
+				if(res.data.code == 0){
 					this.$toast('操作成功')
 					this.$router.back()
 				}

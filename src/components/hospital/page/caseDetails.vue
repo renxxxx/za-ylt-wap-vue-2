@@ -14,7 +14,7 @@
 			<div class="headPortrait">
 				<img :src="caseInfo.hospitalCover? caseInfo.hospitalCover:'../../../assets/image/logo@2x.png'" alt="">
 				<span>{{caseInfo.hosptialName}}</span>
-				<span>{{moment(caseInfo.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
+				<span>{{caseInfo.alterTime? moment(caseInfo.alterTime).format('YYYY-MM-DD HH:mm'):''}}</span>
 			</div>
 			<p v-html="caseInfo.content"></p>
 		</div>

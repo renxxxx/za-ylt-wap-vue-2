@@ -42,7 +42,7 @@ const state={
   //运营端返回顶部按钮显示
   operatingReturnTopPage:false,
   //加载中线条显示控制
-  loading_line:false,
+  loading_lineNum:0,
 }
 const getters={
   //账号登录

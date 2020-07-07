@@ -14,7 +14,7 @@
 			<ul :style="{'padding-top':$store.state.paddingTop}">
 				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
-					<li v-for="(item,inx) in exchangeList" :key='inx' class='List' @click="$router.push({path:'/hospital/hospital_exchangeDetails',query:{item : item,time: new Date().getTime()}})">
+					<li v-for="(item,inx) in exchangeList" :key='inx' class='List' @click="$router.push({path:'/hospital/hospital_exchangeDetails',query:{item : item,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_exchangeDetails' ,query : {item : item}}"> -->
 							<ul>
 								<li>
@@ -22,7 +22,7 @@
 								</li>
 								<li>
 									<h4>{{item.clinicName}}</h4>
-									<p>兑换时间：<span>{{moment(item.addTime).format('YYYY-MM-DD hh:mm')}}</span></p>
+									<p>兑换时间：<span>{{item.addTime? moment(item.addTime).format('YYYY-MM-DD hh:mm'):''}}</span></p>
 									<p>兑换数量：<span>{{item.totalCount}}</span></p>
 								</li>
 								<li>

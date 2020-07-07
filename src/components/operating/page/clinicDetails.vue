@@ -72,15 +72,17 @@
 						</li>
 						<li class="popup">
 							<span>营业执照</span>
-							<div class="yingyezhizhao">
+							<div class="yingyezhizhao" @click="showImgFn()">
 								<img  id="backimg" :src='message.license'  alt="" >
 								<img class="rightImg" src="../../../assets/image/right@2x.png" alt="">
 							</div>
-							
 						</li>
 					</ul>
 				</div>
 			</div>
+			<van-image-preview v-model="show" :images="images" @change="onChange" >
+				<!-- <template v-slot:index>第{{ index }}页</template> -->
+			</van-image-preview>
 		</div>
 	</div>
 </template>
@@ -89,23 +91,24 @@
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import clinicContent from '../function/clinic_content.vue'
 import topSolt from "../function/topSolt.vue";
 export default {
 	name: "gene",
 	data() {
 		return {
-		page: 0,
-		show:false,
-		sorts:'',
-		orders:'',
-		loading: false,
-		finished: false,
-		content : [],
-		test:'',
-		message:'',
-		typeData:true,
+			page: 0,
+			show:false,
+			sorts:'',
+			orders:'',
+			loading: false,
+			finished: false,
+			content : [],
+			test:'',
+			message:'',
+			typeData:true,
+			images: [],
+			index: 0,
 		};
 	},
 	components: {
@@ -147,6 +150,17 @@ export default {
   	deactivated(){
     },
 	methods: {
+		showImgFn(){
+			if(this.message.license){
+				this.images = []
+				this.images.push(this.message.license)
+				this.show = true;
+			}
+				
+		},
+		onChange(index) {
+		    this.index = index;
+		},
 		backFn(){
 			this.$router.back()
 		},

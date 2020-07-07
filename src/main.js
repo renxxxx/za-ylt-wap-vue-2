@@ -95,7 +95,7 @@ Vue.prototype.cookieOn=function() {
 	  result = true;
 	  cookies.set('tc', '', { expires: -1 });
 	return result;
-  }
+}
   
 if(navigator.userAgent.toLowerCase().indexOf('html5plus') > -1)
 	store.state.paddingTop = "24px"
@@ -111,7 +111,6 @@ const paddingBottom = () => {
 	return paddingBottom;
 };
 
-store.state.paddingBottom = paddingBottom()
 
 
 function plusReady() {
@@ -150,7 +149,14 @@ function plusReady() {
 	currentWebview.drag({direction:'right',moveMode:'silent'}, null,function(e){
 		history.back()
 	});
-
+	store.state.paddingBottom = paddingBottom()
+	debugger
+	// console.dir(plus.ixos.importClass)
+	var UIDevice = plus.ios.importClass("UIDevice");  
+	alert("开始了"+UIDevice);  
+	// var currentDevice = UIDevice.currentDevice();  
+	// alert("名字为: "+currentDevice.name());  
+	// plus.ios.deleteObject(currentDevice);
 	launchVue();
 }
 // var NjsHello = plus.navigator.setStatusBarStyle("dark")
@@ -160,44 +166,25 @@ if (window.plus) {
 } else {
 	document.addEventListener('plusready', plusReady, false);
 }
-let loading_lineNum = 0;
+// let loading_lineNum = 0;
 axios.interceptors.request.use(
 	config => {
-		store.state.loading_line = true;
-		loading_lineNum++;
-		console.log('创建：'+loading_lineNum)
+		store.state.loading_lineNum++;
 		return config
 	},
   	error => {
-		setTimeout(() => {
-			if(!loading_lineNum){
-				loading_lineNum--
-				console.log('未关闭：'+loading_lineNum)
-				store.state.loading_line = false;
-			}
-		},3000)
+		store.state.loading_lineNum--
 		return Promise.reject(error)
 	}
 )
 axios.interceptors.response.use(
 	data => {
 		// 响应成功关闭loading
-		loading_lineNum--
-		console.log('未关闭：'+loading_lineNum)
-		if(!loading_lineNum){
-			store.state.loading_line = false;
-		}
-
+		store.state.loading_lineNum--
 		return data
 	}, 
 	error => {
-		setTimeout(() => {
-			if(!loading_lineNum){
-				loading_lineNum--
-				console.log('未关闭：'+loading_lineNum)
-				store.state.loading_line = false;
-			}
-		},1000)
+		store.state.loading_lineNum--
 		return Promise.reject(error)
 	}
 )

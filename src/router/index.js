@@ -54,6 +54,9 @@ const hospital_expertsIntroduction = ()=>import( '@/components/hospital/page/exp
 const hospital_expertsIntroductionDeatlis = ()=>import( '@/components/hospital/page/expertsIntroductionDeatlis.vue')
 
 const hospital_clinicMessage = ()=>import( '@/components/hospital/page/clinicMessage.vue')
+const hospital_clinicMessageDetails = ()=>import( '@/components/hospital/page/clinicMessageDetails.vue')
+
+
 const hospital_taskManagement = ()=>import( '@/components/hospital/page/taskManagement.vue')
 const hospital_taskManagementDetails = ()=>import( '@/components/hospital/page/taskManagementDetails.vue')
 const hospital_exchangeManagement = ()=>import( '@/components/hospital/page/exchangeManagement.vue')
@@ -430,6 +433,13 @@ const router = new Router({
           component: hospital_clinicMessage,
           meta: {auth:true},
         },
+        {
+          path: 'hospital_clinicMessageDetails',
+          name: 'hospital_clinicMessageDetails',
+          component: hospital_clinicMessageDetails,
+          meta: {auth:true},
+        },
+        
         {
           path: 'hospital_taskManagement',
           name: 'hospital_taskManagement',

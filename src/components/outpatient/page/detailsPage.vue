@@ -9,10 +9,11 @@
 			<div class="nav_center">
 				<h3>病员信息</h3>
 			</div>
-			<div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
+			<div class="nav_right"></div>
+			<!-- <div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
 				<span>{{modify.value}}</span>
 				<img :src=modify.img alt="">
-			</div>
+			</div> -->
 		</div>
 		<div class="zhangwei"></div>
 		<div class="_message" :style="{'padding-top':$store.state.paddingTop}">
@@ -32,7 +33,7 @@
 				</li>
 				<li>
 					<span>所属门诊</span>
-					<input type="text" v-model="detail.clinicName" :placeholder="modify.readonly? '':'请输入' " :readonly="true">
+					<input type="text" v-model="detail.clinicName" :readonly="true">
 				</li>
 			</ul>
 			<div style="margin-top:.2rem"></div>
@@ -40,11 +41,11 @@
 			<ul>
 				<li>
 					<span>门诊推送时间</span>
-					<input type="text" :value="detail.pushTime" :placeholder="modify.readonly? '':'请输入' " :readonly="true">
+					<input type="text" :value="detail.pushTime" :readonly="true">
 				</li>
 				<li>
 					<span>确认就诊时间</span>
-					<input type="text" v-model="detail.hospitalConfirmTime" :placeholder="modify.readonly? '':'' " :readonly="true">
+					<input type="text" v-model="detail.hospitalConfirmTime" :readonly="true">
 				</li>
 				<li>
 					<span>病种</span>
@@ -93,7 +94,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import moment from 'moment'
 export default {
 	name: 'gene',
@@ -131,13 +131,8 @@ export default {
 		}
 	},
 	computed:{
-			...mapGetters(['account','isLogin']),
 	},
 	created(){
-		var heightRexg = /^[0-9]*/g
-		//var topHeight = this.topHeight.match(heightRexg)
-		//this.height = parseInt(topHeight.join())
-		//
 	},
 	destroyed(){
 	  
@@ -213,7 +208,7 @@ export default {
 		enlargeFn(_value,imgUrl){
 			this.photoNum = _value;
 			this.enlarge = true;
-			this.$router.push({path:'/outpatient/outpatient_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime()}})
+			this.$router.push({path:'/outpatient/outpatient_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime().toString()}})
 		},
 		onChange(_value){
 			this.photoPage = _value;
@@ -293,7 +288,7 @@ export default {
 					
 				})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片')
 				return false;
 			}
 		},

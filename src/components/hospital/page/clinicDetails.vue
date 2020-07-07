@@ -8,7 +8,7 @@
 				<h3>{{this.clinicDetails.name}}</h3>
 			</div>
 			<!-- <router-link :to="{path : '/hospital/hospital_clinicInfo' ,query : {item : clinicDetails.clinicId,}}"> -->
-			<div class="right" @click="$router.push({path:'/hospital/hospital_clinicInfo',query:{item : clinicDetails.clinicId,time: new Date().getTime()}})">
+			<div class="right" @click="$router.push({path:'/hospital/hospital_clinicInfo',query:{item : clinicDetails.clinicId,time: new Date().getTime().toString()}})">
 				<img src="../../../assets/image/Preview@2x.png" alt="">
 			</div>
 			<!-- </router-link> -->
@@ -16,7 +16,7 @@
 
 		<div class="zhangwei"></div>
 		<div class="detailsTime" :style="{'top': (parseInt($store.state.paddingTop.replace('px',''))+47)+'px'}">
-			<span>{{moment(clinicDetails.alterTime).format('YYYY-MM-DD hh:mm')}}</span>
+			<span>{{clinicDetails.alterTime? moment(clinicDetails.alterTime).format('YYYY-MM-DD hh:mm'):''}}</span>
 		</div>
 		<div class="statistics" :style="{'padding-top':$store.state.paddingTop}">
 			<van-circle v-model="num" :rate="num" :speed="100" :stroke-width="120" layer-color="#FF951B" color = '#2B77EF'
@@ -168,8 +168,7 @@ export default {
 				
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		},
 		getNum(){
@@ -187,8 +186,7 @@ export default {
 				// 
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 			this.$axios.post('/c2/patient/items',qs.stringify({
 				kw : this.list.keywords,
@@ -203,11 +201,9 @@ export default {
 				// 
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 			this.list.allNum = this.list.noNum + this.list.yesNum;
-			// 
 		},
 	},
 }

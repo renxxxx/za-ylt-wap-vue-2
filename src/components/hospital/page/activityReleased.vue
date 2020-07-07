@@ -12,7 +12,7 @@
 		<div class="zhangwei"></div>
 		<div class="center" @scroll="handleScroll" ref="center">
 			<!-- <router-link :to="{name:'hospital_addActivity'}"> -->
-			<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
+			<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime().toString()}})" :style="{'padding-top':$store.state.paddingTop}">
 				<span>+</span>
 				<span>新建活动</span>
 			</div>
@@ -23,11 +23,11 @@
 				<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
 					<van-cell :border="false" >
 					<!-- <router-link :to="{path : '/hospital/hospital_activityDetails',query:{itemId:item.itemId,}}"> -->
-					<div class="activeList" @click="$router.push({path:'/hospital/hospital_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
+					<div class="activeList" @click="$router.push({path:'/hospital/hospital_activityDetails',query:{itemId:item.itemId,time: new Date().getTime().toString()}})">
 						<img v-lazy="item.cover" alt="">
 						<div class="activeTitle">
 							<h4>{{item.title}}</h4>
-							<span>{{moment(item.alterTime).format('YYYY-MM-DD HH:mm')}}</span>
+							<span>{{item.alterTime? moment(item.alterTime).format('YYYY-MM-DD HH:mm'):''}}</span>
 						</div>
 					</div>
 					<!-- </router-link> -->
@@ -115,7 +115,7 @@ export default {
 			let thisVue = this
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 			this.$toast({message:'请登录',onClose:function(){
-				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1,time: new Date().getTime()}});
+				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1,time: new Date().getTime().toString()}});
 			}})
 
 		  Object.assign(this.$data, this.$options.data());
@@ -140,8 +140,7 @@ export default {
 				this.getdata();
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast(err)
 			})
 		},
     onLoad(){
@@ -169,8 +168,7 @@ export default {
           }
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast(err)
 			})
 		}
 	},

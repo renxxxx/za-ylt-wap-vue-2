@@ -14,7 +14,7 @@
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul :style="{'padding-top':$store.state.paddingTop}">
-					<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
+					<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime().toString()}})">
 					<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,}}"> -->
 						<div class="list">
 						<img src="../../../assets/image/ren@2x.png" alt="">

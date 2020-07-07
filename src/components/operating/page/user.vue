@@ -110,15 +110,21 @@ export default {
 		//退出方法
 		exitFn(){
 			let thisVue=this
-			this.$axios.post('/manager/logout').then(function(){
-				localStorage.removeItem('entrance')
-				// localStorage.clear()
-				thisVue.$toast("操作成功")
-				setTimeout(()=>{
-					// thisVue.$router.push({path:"/operating/operatingLogin",query:{}})
-					location.href=location.pathname
-				},1500)
+			this.$dialog.confirm({
+				message: '是否确定退出运营端',
 			})
+			.then( ()=>{
+				this.$axios.post('/manager/logout').then(function(){
+					localStorage.removeItem('entrance')
+					localStorage.clear()
+					thisVue.$toast("操作成功")
+					setTimeout(()=>{
+						// thisVue.$router.push({path:"/operating/operatingLogin",query:{}})
+						location.href=location.pathname
+					},1500)
+				})
+			})
+			
 			// if(window.plus){
 			// 	plus.webview.currentWebview().clear()
 			// 	//plus.webview.currentWebview().loadURL(aa)

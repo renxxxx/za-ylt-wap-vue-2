@@ -16,7 +16,7 @@
 			<img v-lazy="active.cover" alt="">
 			<div class="activeTitle">
 				<h4>{{active.title}}</h4>
-				<span>{{moment(active.startTime).format('YYYY-MM-DD HH:mm')}} - {{moment(active.endTime).format('YYYY-MM-DD HH:mm')}}</span>
+				<span v-if="active.startTime&&active.endTime? true:false">{{moment(active.startTime).format('YYYY-MM-DD HH:mm')}} - {{moment(active.endTime).format('YYYY-MM-DD HH:mm')}}</span>
 			</div>
 		</div>
 		<div class="tabel">
@@ -104,22 +104,18 @@ export default {
 				if(_d.data.data.startTime != '' && _d.data.data.endTime){
 					var moment = require('moment');
 					this.active.time = moment(_d.data.data.startTime).format('YYYY-MM-DD HH:mm') + ' - ' +moment(_d.data.data.endTime).format('YYYY-MM-DD HH:mm')
-					// 
 				}
 				this.$axios.get('/other/bigtxt/'+_d.data.data.contentBtId+'/'+_d.data.data.contentBtId)
 				.then(_d => {
 			_d.data = _d.data.replace(/(\r\n|\n|\r)/gm, "\n");
 					this.$set(this.active,'content',_d.data)
-					// 
 				})
 				.catch((err)=>{
-					
-					//Dialog({ message: err});;
+					this.$toast(err)
 				})
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		}
 	},

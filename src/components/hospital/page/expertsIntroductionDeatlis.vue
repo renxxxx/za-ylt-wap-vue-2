@@ -18,7 +18,7 @@
                 <div class="content_title_message">
                     <h4>{{data.name}}</h4>
                     <h5>{{data.hosptialName}}</h5>
-                    <p>{{moment(data.addTime).format('YYYY-MM-DD hh:mm')}}</p>
+                    <p>{{data.addTime? moment(data.addTime).format('YYYY-MM-DD hh:mm'):''}}</p>
                 </div>
             </div>
             <div class="content_position"> 

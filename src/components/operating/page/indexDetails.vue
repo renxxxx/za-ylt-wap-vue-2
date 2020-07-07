@@ -19,7 +19,7 @@
               <van-swipe>
                 <van-swipe-item v-for="(image, index) in images" :key="index">
                   <!-- <router-link :to="{name : image.url}"> -->
-                    <img  :src="image.cover" class="silder_img"  @click="image.url? $router.push({path : image.url,query:{time: new Date().getTime()}}):''"/>
+                    <img  :src="image.cover" class="silder_img"  @click="image.url? $router.push({path : image.url,query:{time: new Date().getTime().toString()}}):''"/>
                     <!-- <img  v-lazy="image.cover" class="silder_img" /> -->
                   <!-- </router-link> -->
                 </van-swipe-item>
@@ -117,7 +117,6 @@
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import topSolt from "../function/topSolt.vue";
 export default {
   name: "gene",
@@ -255,8 +254,7 @@ export default {
           console.log(this.images)
         })
         .catch(err => {
-          // 
-          // Dialog({ message: '加载失败!' });
+          this.$toast('加载失败!')
         });
       //文章请求
       this.getdata();

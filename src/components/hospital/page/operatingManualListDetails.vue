@@ -5,12 +5,12 @@
       <h3>{{this.$route.query.name}}</h3>
     </div>
     <div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-    <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage" >
     <ul @scroll="handleScroll" ref="operatingManualListDetails">
+    <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage" >
       <!-- operatingManualListDetails -->
       <li v-for="(item,inx) in operatingManualListDetails" :key="inx">
         <div class="operatingCenter">
-          <div v-for="(_item,_inx) in item.image" @click="$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,time: new Date().getTime()}})" :key="_inx" style="display: inline;">
+          <div v-for="(_item,_inx) in item.image" @click="$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,time: new Date().getTime().toString()}})" :key="_inx" style="display: inline;">
             <!-- <router-link :to="{name:'hospital_pictureEnlargement',query:{inx:_inx,imgUrl:item.image,data:true,}}"> -->
             	<!-- <img v-bind:src="item" alt=""> -->
             <img  v-if="_item" :src="_item" alt="" >
@@ -41,8 +41,8 @@
           <span>{{item.managerUserName}}</span>
         </div>
       </li>
-    </ul>
     </van-list>
+    </ul>
     <div class="addMessage">
       <div class="text">
         <!-- <input type="search" v-model="text"> -->
@@ -317,12 +317,12 @@ export default {
 	top:0;
 	z-index: 999;
 	background-color: #FFFFFF;
-  margin-bottom: .225rem;
+  /* margin-bottom: .225rem; */
 }
 .zhangwei{
 	width: 100%;
 	height: .47rem;
-  margin-bottom: .225rem;
+  /* margin-bottom: .225rem; */
 }
 .topNav img{
 	width: .09rem;
@@ -337,20 +337,21 @@ export default {
   transform: ;
 }
 .operatingManualListDetails ul{
+  /* margin-top: .225rem; */
   width: 100%;
-  height: 100%;
+  height: calc(100% - 1.535rem);
   touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   overflow: scroll;
   overflow-x: hidden;
 }
-.operatingManualListDetails ul>li{
+.operatingManualListDetails ul li{
   width: 100%;
   background-color: #FFFFFF;
-  margin-bottom: .225rem;
+  margin-top: .225rem;
 }
-.operatingManualListDetails ul>li:last-child{
-  margin-bottom: 0rem;
+.operatingManualListDetails ul>div>li:first-child{
+  margin-top: .225rem;
 }
 .operatingCenter{
   width: 93.6%;

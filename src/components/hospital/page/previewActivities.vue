@@ -15,7 +15,7 @@
 			<img :src="activity.cover" alt="">
 			<div class="activeTitle">
 				<h4>{{activity.title}}</h4>
-				<span>{{moment(activity.startTime).format('YYYY-MM-DD HH:mm') + ' - ' + moment(activity.endTime).format('YYYY-MM-DD HH:mm')}}</span>
+				<span v-if="(activity.startTime || activity.endTime)? true:false">{{activity.startTime? moment(activity.startTime).format('YYYY-MM-DD HH:mm'):''}} - {{activity.endTime? moment(activity.endTime).format('YYYY-MM-DD HH:mm'):''}}</span>
 			</div>
 		</div>
 	</div>

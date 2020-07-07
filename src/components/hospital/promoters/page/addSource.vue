@@ -107,8 +107,7 @@ export default {
 				}
 		 	})
 		 	.catch((err)=>{
-		 		
-		 		//Dialog({ message: '加载失败!'});
+		 		this.$toast('加载失败')
 		 	})
 		},
 		// 返回键

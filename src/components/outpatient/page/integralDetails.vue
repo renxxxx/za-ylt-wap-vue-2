@@ -121,7 +121,7 @@ export default {
       	}
       })
       .catch((err)=>{
-      	//Dialog({ message: err});;
+        this.$toast(err)
       })
     }
   },

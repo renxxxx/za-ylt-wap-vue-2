@@ -10,7 +10,7 @@
 					<h3>兑换管理</h3>
 				</div>
 				<!-- <router-link :to="{path : '/hospital/hospital_exchangeManagementList',query : {}}"> -->
-				<div class="right" @click="$router.push({path:'/hospital/hospital_exchangeManagementList',query:{time: new Date().getTime()}})">
+				<div class="right" @click="$router.push({path:'/hospital/hospital_exchangeManagementList',query:{time: new Date().getTime().toString()}})">
 					<img src="../../../assets/image/liebiao@3x.png" alt="">
 				</div>
 				<!-- </router-link> -->
@@ -19,7 +19,7 @@
 			<div class="exchangeTitle" :style="{'padding-top':$store.state.paddingTop}">
 				<h3>已有商品</h3>
 				<!-- <router-link :to="{path : '/hospital/hospital_exchangeManagementAdd'}"> -->
-				<div class="add" @click="$router.push({path:'/hospital/hospital_exchangeManagementAdd',query:{time: new Date().getTime()}})">
+				<div class="add" @click="$router.push({path:'/hospital/hospital_exchangeManagementAdd',query:{time: new Date().getTime().toString()}})">
 					<span>新增</span>
 					<img src="../../../assets/image/xinzeng@2x.png" alt="">
 				</div>
@@ -27,12 +27,12 @@
 			</div>
 		<div class="exchangeLists_content" @scroll="handleScroll" ref="exchangeLists_content">
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
-			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 			<ul class="exchangeLists">
+			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<van-swipe-cell v-for="(item,inx) in commodity" :key="inx"  :right-width= 65 >
 				<li>
 					<!-- <router-link :to="{path : '/hospital/hospital_exchangeEditor' ,query : {itemId : item.itemId,}}"> -->
-					<div class="list" @click="$router.push({path:'/hospital/hospital_exchangeEditor',query:{itemId : item.itemId,time: new Date().getTime()}})">
+					<div class="list" @click="$router.push({path:'/hospital/hospital_exchangeEditor',query:{itemId : item.itemId,time: new Date().getTime().toString()}})">
 						<div class="listsImg">
 						<img v-if="item.cover"  v-lazy="item.cover" alt="">
 						</div>
@@ -51,8 +51,8 @@
 					</button>
 				</template>
 				</van-swipe-cell>
-			</ul>
 			</van-list>
+			</ul>
 			<!-- </van-pull-refresh> -->
 		</div>
 		
@@ -113,7 +113,9 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 		}
+		debugger
 		if(this.scrollTop != 0){
+			console.log(this.scrollTop)
 			this.$refs.exchangeLists_content.scrollTop = this.scrollTop;
 		}
 	},
@@ -283,7 +285,7 @@ export default {
 	width: 100%;
 }
 .exchangeLists_content{
-	height: calc(100% - .73rem);
+	height: calc(100% - 1rem);
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;

@@ -17,7 +17,7 @@
 					<div class="titleleft">
 						<h3>合作门诊 {{clinic.num}}</h3>
 					</div>
-					<div class="titleRight" @click="$router.push({path:'/hospital/hospital_addCLinic',query:{time: new Date().getTime()}})">
+					<div class="titleRight" @click="$router.push({path:'/hospital/hospital_addCLinic',query:{time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_addCLinic',query:{}}"> -->
 							<span>新增</span>
 							<img src="../../../assets/image/xinzeng@2x.png" alt="">

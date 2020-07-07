@@ -7,7 +7,7 @@
 		<span>修改密码</span>
     <p>修改后的新密码将替换原密码</p>
 	</div>
-	<div class="center" v-model="retrieve">
+	<div class="center">
 		<ul>
 			<li>
 				<img class="iphone" src="../../assets/image/iphone@2x.png" alt="">
@@ -39,7 +39,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'retrievePassword',
   data () {
@@ -102,8 +101,7 @@ export default {
 			}
 		})
 		.catch((err)=>{
-			
-			//Dialog({ message: '加载失败!'});
+			this.$toast(err)
 		})
 	},
 	//获取验证码
@@ -126,18 +124,15 @@ export default {
           this.$refs.countDown.start();
           this.retrieve.data = false;
         }
-				// 
 			})
 			.catch((err)=>{
-				
-				// 
-				//Dialog({ message: '加载失败!'});
+				this.$toast(err)
 			})
 
 		}else if(this.retrieve.data == false){
-			Dialog({ message: '请不要重复点击' });
+			this.$toast('请不要重复点击')
 		}else{
-			Dialog({message: '请输入手机号'})
+			this.$toast('请输入手机号')
 		}
 	},
 	// 提交重设信息

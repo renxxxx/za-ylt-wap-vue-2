@@ -3,7 +3,7 @@
 		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 				<ul class="clinicList">
-					<li v-for="(item,inx) in items" :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+					<li v-for="(item,inx) in items" :key="inx" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 							<div class="content_left">
 								<span>{{item.realname}}</span>
@@ -137,8 +137,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast('加载失败!')
 			});
 
 		},
@@ -158,6 +157,7 @@ export default {
 <style scoped>
 .all{
 	width: 100%;
+	margin-top: .1rem;
 	/* height:100%; */
 }
 .all li{

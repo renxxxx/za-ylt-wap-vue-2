@@ -78,7 +78,6 @@
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import topSolt from "../function/topSolt.vue";
 // import moment from 'moment'
 export default {

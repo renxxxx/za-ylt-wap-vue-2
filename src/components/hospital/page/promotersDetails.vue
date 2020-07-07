@@ -82,7 +82,7 @@
 					<!-- promotersList -->
 					<li v-for="(item,inx) in promotersList" :key='inx'>
 						<!-- <router-link :to="{path : '/hospital/hospital_clinicDetails' ,query :  {clinicId : item.hospitalClinicId}}"> -->
-							<div class="promotersList" @click="$router.push({path:'/hospital/hospital_clinicDetails',query:{clinicId : item.hospitalClinicId,time: new Date().getTime()}})">
+							<div class="promotersList" @click="$router.push({path:'/hospital/hospital_clinicDetails',query:{clinicId : item.hospitalClinicId,time: new Date().getTime().toString()}})">
 								<h4>{{item.name}}</h4>
 								<img src="../../../assets/image/zhuanyi@2x.png" alt="" @click.prevent="transferPromotersShowFn(item)">
 							</div>

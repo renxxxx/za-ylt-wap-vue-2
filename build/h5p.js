@@ -88,9 +88,22 @@ function shareWeb(url,cover,title,content,callback){
 			plus.nativeUI.alert('获取分享服务列表失败：'+e.message);
 		});
 	}
-
+function call(_phone){  
+    // 导入Activity、Intent类  
+    var Intent = plus.android.importClass("android.content.Intent");  
+    var Uri = plus.android.importClass("android.net.Uri");  
+    // 获取主Activity对象的实例  
+    var main = plus.android.runtimeMainActivity();  
+    // 创建Intent  
+    var uri = Uri.parse("tel:" + _phone); // 这里可修改电话号码  
+    var call = new Intent("android.intent.action.CALL",uri);  
+    // 调用startActivity方法拨打电话  
+    main.startActivity( call );  
+    // ...  
+}
 		
 
 export default {
-	shareWeb
+	shareWeb,
+	call
 };

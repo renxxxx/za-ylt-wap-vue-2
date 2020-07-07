@@ -94,7 +94,7 @@ export default {
 				if(this.exchangeAdd.payExchangepoint != ''){
 					if(this.exchangeAdd.stock != ''){
 						if(this.exchangeAdd.intro != ''){
-							this.$router.push({ path : '/hospital/hospital_exchangeManagementImg',query : {exchangeAdd : JSON.stringify(this.exchangeAdd),time: new Date().getTime()}});
+							this.$router.push({ path : '/hospital/hospital_exchangeManagementImg',query : {exchangeAdd : JSON.stringify(this.exchangeAdd),time: new Date().getTime().toString()}});
 						}else{
 							this.$toast.fail('请填写简介');
 						}

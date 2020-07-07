@@ -21,10 +21,10 @@
 					<span>手机:</span>
 					<input type="number" v-model="address.tel">
 				</li>
-				<li>
-					<span>省市区:</span>
-					<textarea rows="2" v-model="address.city"></textarea>
-				</li>
+				<!-- <li> -->
+					<!-- <span>省市区:</span> -->
+					<!-- <textarea rows="2" v-model="address.city"></textarea> -->
+				<!-- </li> -->
 				<li>
 					<span>详细地址:</span>
 					<textarea v-model="address.detailedAddress"></textarea>
@@ -78,22 +78,27 @@ export default {
 			this.$router.back(-1);
 		},
 		submitFn(){
-			
-			this.$axios.post('/clientend2/clinicend/pointexchange/receiveradd',qs.stringify({
-				clinicId : this.$store.state.outpatient.login.clinicId,
-				receiverId : this.address.receiverId,
-				name : this.address.name,
-				tel : this.address.tel,
-				address : this.address.city + this.address.detailedAddress,
+			let thisValue = this;
+			thisValue.$axios.post('/clientend2/clinicend/pointexchange/receiveradd',qs.stringify({
+				clinicId : thisValue.$store.state.outpatient.login.clinicId,
+				receiverId : thisValue.address.receiverId,
+				name : thisValue.address.name,
+				tel : thisValue.address.tel,
+				address : thisValue.address.detailedAddress,
 			}))
 			.then(res => {
 				if(res.data.codeMsg){
-					this.$toast(res.data.codeMsg)
+					thisValue.$toast(res.data.codeMsg)
 				}
 				console.log(res.data.code)
 				if(res.data.code == 0){
-					this.$toast('操作成功')
-					this.$router.back()
+					thisValue.$toast.success({
+						duration: 1000, 
+						message: '操作成功',
+						onClose:function(){
+							thisValue.$router.back()
+						}
+					});
 				}
 				
 			})

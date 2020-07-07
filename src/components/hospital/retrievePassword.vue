@@ -39,7 +39,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'retrievePassword',
   data () {
@@ -102,8 +101,7 @@ export default {
 			}
 		})
 		.catch((err)=>{
-			
-			//Dialog({ message: '加载失败!'});
+			this.$toast('加载失败')
 		})
 	},
 	//获取验证码
@@ -129,15 +127,12 @@ export default {
 				// 
 			})
 			.catch((err)=>{
-				
-				// 
-				//Dialog({ message: '加载失败!'});
+				this.$toast('加载失败')
 			})
 
 		}else if(this.retrieve.data == false){
-			Dialog({ message: '请不要重复点击' });
-		}else{
-			Dialog({message: '请输入手机号'})
+			this.$toast('请不要重复点击')
+		}else{			
 		}
 	},
 	// 提交重设信息

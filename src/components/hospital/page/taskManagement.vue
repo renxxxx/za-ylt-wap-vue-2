@@ -18,7 +18,7 @@
 					<li v-for="(item,inx) in task.one" :key='inx'>
 						<input type="checkbox" class="input_check" :checked="item.checked" @change="change($event,item,inx)"/>
 						<!-- <router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : false,}}"> -->
-						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : false,time: new Date().getTime()}})">{{item.name}}</span>
+						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : false,time: new Date().getTime().toString()}})">{{item.name}}</span>
 						<!-- </router-link> -->
 					</li>
 				</ul>
@@ -27,7 +27,7 @@
 					<li v-for="(item,inx) in task.no" :key='inx'>
 						<input type="checkbox" class="input_check" :checked="item.checked" @change="change($event,item,inx)"/>
 						<!-- <router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : true,}}"> -->
-						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : true,time: new Date().getTime()}})">{{item.name}}</span>
+						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : true,time: new Date().getTime().toString()}})">{{item.name}}</span>
 						<!-- </router-link> -->
 					</li>
 				</ul>
@@ -198,7 +198,7 @@ export default {
 	height: 1.76rem;
 	background: url('../../../assets/image/tu1.png')  center no-repeat,linear-gradient(#FDFDFD, #FBFBFB) ;
 	background-size: 1.84rem 1.29rem;
-	margin-bottom: .15rem;
+	/* margin-bottom: .15rem; */
 	position: fixed;
 	top: 0;
 	z-index: 999;
@@ -229,6 +229,7 @@ export default {
 .centerTitle h3{
 	font-size: .16rem;
 	font-weight: bolder;
+	padding-top: .15rem
 }
 .right{
 	width: 10%;
@@ -268,6 +269,9 @@ export default {
 	/* margin: .15rem auto; */
 	background-color: #FFFFFF;
 	margin-bottom: .18rem;
+}
+.taskList ul:last-child li:last-child{
+	margin-bottom: .35rem;
 }
 .taskList ul>li{
 	width: 92%;

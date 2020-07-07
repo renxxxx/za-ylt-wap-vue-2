@@ -5,25 +5,24 @@
               <div class="navTitle">
                 <span>—&nbsp;&nbsp;医院端&nbsp;&nbsp;—</span>
               </div>
+              <div style="height:.25rem"></div>
               <div class="slider">
-                <van-swipe>
-                  <van-swipe-item v-for="(image, index) in images" :key="index" >
-                    <!-- <router-link :to="{name : image.url}"> -->
-                      <img  :src="image.cover" class="silder_img"  @click="sss(image)"/>
-                    <!-- </router-link> -->
+                <van-swipe :loop ="true" :autoplay="3000">
+                  <van-swipe-item v-for="(image, inx) in images" :key="inx" >
+                      <img  v-lazy="image.cover" class="silder_img"  @click="swipeUrlFn(image)" />
                   </van-swipe-item>
                 </van-swipe>
               </div>
             </div>
             <div class="typeList">
               <ul>
-                <li @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime()}})"> 
+                <li @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime().toString()}})"> 
                   <!-- <router-link :to="{path : '/hospital/hospital_clinicSearch',query:{}}"> -->
                     <img src="../../../assets/image/qudaomenzhen@2x.png" alt />
                     <span>渠道门诊</span>
                   <!-- </router-link> -->
                 </li>
-                <li @click="$router.push({path:'/hospital/hospital_sourceManagement',query:{time: new Date().getTime()}})">
+                <li @click="$router.push({path:'/hospital/hospital_sourceManagement',query:{time: new Date().getTime().toString()}})">
                   <!-- <router-link :to="{path : '/hospital/hospital_sourceManagement',query:{}}" > -->
                     <img src="../../../assets/image/bingyuanguanli@2x.png" alt />
                     <span>病员管理</span>
@@ -36,7 +35,7 @@
                     <span>器械集采</span>
                   <!-- </router-link> -->
                 </li>
-                <li @click="$router.push({path:'/hospital/hospital_operating',query:{time: new Date().getTime()}})">
+                <li @click="$router.push({path:'/hospital/hospital_operating',query:{time: new Date().getTime().toString()}})">
                   <!-- <router-link :to="{path : '/hospital/hospital_operating',query:{}}"> -->
                     <img src="../../../assets/image/yunyingzhongxin@2x.png" alt />
                     <span>运营中心</span>
@@ -54,7 +53,7 @@
                     <span>医疗资源</span>
                   <!-- </router-link> -->
                 </li>
-                <li @click="$router.push({path:'/hospital/hospital_activityReleased',query:{time: new Date().getTime()}})">
+                <li @click="$router.push({path:'/hospital/hospital_activityReleased',query:{time: new Date().getTime().toString()}})">
                   <!-- <router-link :to="{path : '/hospital/hospital_activityReleased',query:{}}"> -->
                     <img src="../../../assets/image/yiyuanhuodong@2x.png" alt />
                     <span>医院活动</span>
@@ -76,13 +75,13 @@
               </div>
               <ul :model="article">
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-                  <li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+                  <li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime().toString()}})">
                     <!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
                       <div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
                         <p>{{items.content}}</p>
                         <div class="article_leftTime">
                           <img src="../../../assets/image/time@2x.png" alt />
-                          <span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
+                          <span>{{items.time? moment(items.time).format('YYYY-MM-DD HH:mm'):''}}</span>
                         </div>
                       </div>
                       <div v-if="items.img" class="article_right">
@@ -146,20 +145,20 @@ export default {
   deactivated(){
   },
   methods: {
-    sss(image){
+    swipeUrlFn(image){
       switch(image.type){
         case 0 :break;
         case 1:
           window.open('https://'+image.url+'/type2ArticleId:'+image.id,'_top');
         break;
         case 2:
-          this.$router.push({path:image.url,query:{itemId:image.id,data:1,time: new Date().getTime()}});
+          this.$router.push({path:image.url,query:{itemId:image.id,data:1,time: new Date().getTime().toString()}});
         break;
         case 4:
-          this.$router.push({path:image.url,query:{itemId:image.id,data:4,time: new Date().getTime()}});
+          this.$router.push({path:image.url,query:{itemId:image.id,data:4,time: new Date().getTime().toString()}});
         break;
         default:
-          this.$router.push({path:image.url,query:{itemId:image.id,time: new Date().getTime()}});
+          this.$router.push({path:image.url,query:{itemId:image.id,time: new Date().getTime().toString()}});
       }
       // if(image.type == 0){
 
@@ -169,7 +168,7 @@ export default {
       //   // window.open(_data.link1Url, '_top');
       //   window.open('https://'+image.url+'/type2ArticleId:'+image.id,'_top');
       // }else{
-      //   this.$router.push({path:image.url,query:{itemId:image.id,time: new Date().getTime()}});
+      //   this.$router.push({path:image.url,query:{itemId:image.id,time: new Date().getTime().toString()}});
       // }
     },
     // 滑动一定距离出现返回顶部按钮
@@ -199,7 +198,7 @@ export default {
 		}
 		if(thisVue.$store.state.hospital.login){
 			if(thisVue.$store.state.hospital.login.type == 1){
-				thisVue.$router.replace({ name : 'promoters',query:{time: new Date().getTime()}});
+				thisVue.$router.replace({ name : 'promoters',query:{time: new Date().getTime().toString()}});
 			}
 		}
       //轮播图图片路径请求
@@ -354,12 +353,19 @@ export default {
 .navTitle {
   /* width: .88rem; */
   height: 0.25rem;
+  width: 100%;
   line-height: 0.25rem;
   color: #686666;
   font-size: 0.14rem;
   /* font-weight: bolder; */
-  text-align: center;
   margin: 0 auto;
+  position: fixed;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  background: url("../../../assets/image/88-1.png") no-repeat;
+  background-size: 100% 1.8rem;
+  z-index: 999;
 }
 .slider {
   width: 95.7%;

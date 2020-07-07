@@ -94,7 +94,7 @@ export default {
 		},
 		//显示内容
 		showContent(item){
-			this.$router.push({path:'/outpatient/outpatient_expertsIntroductionDeatlis',query:{data:JSON.stringify(item),time: new Date().getTime()}})
+			this.$router.push({path:'/outpatient/outpatient_expertsIntroductionDeatlis',query:{data:JSON.stringify(item),time: new Date().getTime().toString()}})
 			// localStorage.setItem('hospital_expertsIntroductionDeatlisData',JSON.stringify(item))
 			// this.clickNum++;
 			// if(this.clickNum % 2 == 0){

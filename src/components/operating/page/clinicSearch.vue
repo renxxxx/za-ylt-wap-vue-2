@@ -91,8 +91,7 @@ export default {
 				this.$refs.content.content = _d.data.data.items
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast('加载失败!')
 			})
 		},
 		//键盘输入值时触发

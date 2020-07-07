@@ -124,8 +124,7 @@ export default {
 				this.getdata();
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast('加载失败!')
 			})
 		},
 		onLoad(){
@@ -153,8 +152,7 @@ export default {
           }
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast('加载失败!')
 			})
 		}
 	},

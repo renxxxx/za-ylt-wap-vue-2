@@ -19,7 +19,7 @@
       </li>
       <!-- </router-link> -->
       <!-- <router-link :to="{name:'hospital_operatingManual',query:{}}"> -->
-      <li @click="$router.push({path:'/hospital/hospital_operatingManual',query:{time: new Date().getTime()}})">
+      <li @click="$router.push({path:'/hospital/hospital_operatingManual',query:{time: new Date().getTime().toString()}})">
         <h4>运营手册</h4>
         <img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
       </li>
@@ -32,7 +32,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'operating',
   data () {

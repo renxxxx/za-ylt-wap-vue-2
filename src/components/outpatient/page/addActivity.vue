@@ -8,8 +8,8 @@
 				<h3>编辑活动</h3>
 			</div>
 			<!-- <router-link :to="{path : '/outpatient/outpatient_previewActivities',query:{activity:JSON.stringify(activity),}}"> -->
-			<div class="right" @click="$router.push({path:'/outpatient/outpatient_previewActivities',query:{activity:JSON.stringify(activity),time: new Date().getTime()}})">
-				<button>预览</button>
+			<div class="right" @click="previewLookFn">
+				<button :class="[previewColor? 'previewColor':'']">预览</button>
 			</div>
 			<!-- </router-link> -->
 
@@ -30,13 +30,13 @@
 			  />
 		</div>
 		<div class="addcontent">
-			<input type="text" v-model='activity.title' placeholder="标题">
-			<input type="text" v-model='activity.brief' placeholder="副标题">
-			<input type="text" v-model='activity.tel' placeholder="联系电话">
+			<input type="text" @keyup="previewColorFn" v-model='activity.title' placeholder="标题">
+			<input type="text" @keyup="previewColorFn" v-model='activity.brief' placeholder="副标题">
+			<input type="text" @keyup="previewColorFn" v-model='activity.tel' placeholder="联系电话">
 			<input type="text" placeholder="活动起始时间" v-model='activity.startTime' readonly="readonly" @click="showTimeFn('start')">
 			<input type="text" placeholder="活动终止时间" v-model='activity.endTime' readonly="readonly" @click="showTimeFn('end')">
-			<input type="text" v-model='activity.address' placeholder="活动地址">
-			<textarea placeholder="活动说明" v-model='activity.content'></textarea>
+			<input type="text" @keyup="previewColorFn" v-model='activity.address' placeholder="活动地址">
+			<textarea @keyup="previewColorFn" placeholder="活动说明" v-model='activity.content'></textarea>
 		</div>
 		<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
 			<van-datetime-picker
@@ -55,7 +55,7 @@ export default {
 	data () {
 		return {
 			data : '',
-			  activity : {
+			activity : {
 				title : '',
 				brief : '',
 				address : '',
@@ -64,7 +64,9 @@ export default {
 				endTime : undefined,
 				content : '',
 				cover : require('../../../assets/image/Group@2x.png')
-			  },
+			},
+			query:'',
+			previewColor : false,
 		}
 	},
 	computed:{
@@ -95,6 +97,26 @@ export default {
 		}
     },
 	methods: {
+		previewLookFn(){
+			if(this.activity.title != '' && this.activity.brief != '' && this.activity.address != '' && this.activity.tel != ''
+			&& this.activity.startTime != undefined && this.activity.endTime != undefined && this.activity.content != ''){
+				this.$router.push({path:'/outpatient/outpatient_previewActivities',query:{activity:JSON.stringify(this.activity),time: new Date().getTime().toString()}})
+			}else{
+				this.$toast('请填写完整信息')
+			}
+		},
+		previewColorFn(){
+			// console.dir(this.activity)
+			if(this.activity.title != '' || this.activity.brief != '' || this.activity.address != '' || this.activity.tel != ''
+			|| this.activity.startTime != undefined || this.activity.endTime != undefined || this.activity.content != ''){
+				this.previewColor = true
+			}
+			if(this.activity.title == '' && this.activity.brief == '' && this.activity.address == '' && this.activity.tel == ''
+			&& this.activity.startTime == undefined && this.activity.endTime == undefined && this.activity.content == ''){
+				console.log('关闭')
+				this.previewColor = false
+			}
+		},
 		//回退方法
 		goBackFn(){
 			this.$router.back(-1)
@@ -116,7 +138,7 @@ export default {
 					
 				})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片')
 				return false;
 			}
 		},
@@ -131,6 +153,14 @@ export default {
 				this.$set(this.activity,'startTime',time)
 			}else{
 				this.$set(this.activity,'endTime',time)
+			}
+			if(this.activity.startTime || this.activity.endTime){
+				this.previewColor = true
+			}
+			if(this.activity.title == '' && this.activity.brief == '' && this.activity.address == '' && this.activity.tel == ''
+			&& this.activity.startTime == undefined && this.activity.endTime == undefined && this.activity.content == ''){
+				// console.log('关闭')
+				this.previewColor = false
 			}
 		},
 		//关闭半遮罩
@@ -147,6 +177,10 @@ export default {
 </script>
 
 <style scoped>
+.previewColor{
+	color: #FFFFFF!important;
+	background-color: #2B77EF!important;
+}
 .addAcivity{
 	width: 100%;
   overflow: hidden;

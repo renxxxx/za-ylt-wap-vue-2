@@ -21,10 +21,10 @@
 					<span>手机:</span>
 					<input type="number" v-model="address.tel">
 				</li>
-				<li>
-					<span>省市区:</span>
-					<textarea rows="2" v-model="address.city"></textarea>
-				</li>
+				<!-- <li> -->
+					<!-- <span>省市区:</span> -->
+					<!-- <textarea rows="2" v-model="address.city"></textarea> -->
+				<!-- </li> -->
 				<li>
 					<span>详细地址:</span>
 					<textarea v-model="address.detailedAddress"></textarea>
@@ -36,7 +36,6 @@
 
 <script>
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
 	name: 'shopAddress',
 	data () {
@@ -82,22 +81,26 @@ export default {
 			this.$router.back(-1);
 		},
 		submitFn(){
-			
-			this.$axios.post('/clientend2/clinicend/pointexchange/receiveralter',qs.stringify({
-				clinicId : this.$store.state.outpatient.login.clinicId,
-				receiverId : this.address.receiverId,
-				name : this.address.name,
-				tel : this.address.tel,
-				address : this.address.city + this.address.detailedAddress,
+			let thisValue = this;
+			thisValue.$axios.post('/clientend2/clinicend/pointexchange/receiveralter',qs.stringify({
+				clinicId : thisValue.$store.state.outpatient.login.clinicId,
+				receiverId : thisValue.address.receiverId,
+				name : thisValue.address.name,
+				tel : thisValue.address.tel,
+				address : thisValue.address.detailedAddress,
 			}))
 			.then(res => {
-				this.$toast.success({
+				thisValue.$toast.success({
 					duration: 1000, 
 					message: '操作成功',
+					onClose:function(){
+						thisValue.$router.back()
+					}
 				});
+				
 			})
 			.catch((err)=>{
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		},
 	},
@@ -172,12 +175,12 @@ export default {
 	display:-moz-inline-box;
 	display:inline-block;
 	color: #BBBBBB;
-	width: .65rem;
+	width: .75rem;
 }
 .content ul li input{
 	height: .38rem;
 	font-size: .13rem;
-	width: 80%;
+	width: calc(100% - .75rem);
 	float: right;
 	border:none;
 	
@@ -185,7 +188,7 @@ export default {
 .content ul li textarea{
 	height: .26rem;
 	font-size: .13rem;
-	width: 80%;
+	width: calc(100% - .85rem);
 	/* line-height: .14rem; */
 	display: inline-block;
 	float: right;

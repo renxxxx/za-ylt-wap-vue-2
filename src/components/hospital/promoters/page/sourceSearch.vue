@@ -68,7 +68,7 @@
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="nextPageFn">
 					<ul class="list" :style="{'padding-top':$store.state.paddingTop}">
 						<!--  -->
-						<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+						<li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 								<div class="style">
 									<div class="contentTitle">
@@ -362,8 +362,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 	},
 	// 全部病原列表的下一页

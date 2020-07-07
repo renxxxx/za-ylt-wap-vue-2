@@ -1,6 +1,6 @@
 <template>
   <div id="app" ref='appRef'>
-    <div class="xiantiao" v-if="$store.state.loading_line" :style="{'top':$store.state.paddingTop}"></div>
+    <div class="xiantiao" v-if="$store.state.loading_lineNum" :style="{'top':$store.state.paddingTop}"></div>
    <keep-alive>
       <router-view ></router-view>
   </keep-alive>

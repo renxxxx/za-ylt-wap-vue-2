@@ -128,13 +128,11 @@ export default {
 					this.$set(this.caseInfo,'content',_d.data)
 				})
 				.catch((err)=>{
-					
-					//Dialog({ message: err});;
+					this.$toast(err)
 				})
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		}
 	},

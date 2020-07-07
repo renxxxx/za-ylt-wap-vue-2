@@ -143,17 +143,25 @@ export default {
 			// 		plus.webview.currentWebview().clear()
 			// 		plus.webview.currentWebview().loadURL(location.href.substr(0,location.href.indexOf('#'))+'#/account')
 			// }
-			localStorage.clear();
+			
 			let thisVue=this
-			this.$axios.post('/hospital/logout').then(function(){
-				localStorage.removeItem('entrance')
-				// localStorage.clear()
-				thisVue.$toast("操作成功")
-				setTimeout(()=>{
-					// thisVue.$router.push({path:"/hospital/hospitalLogin",query:{}})
-					location.href=location.pathname
-				},1500)
+			this.$dialog.confirm({
+				message: '是否确定退出推广人端',
 			})
+			.then( ()=>{
+				this.$axios.post('/hospital/logout').then(function(){
+					localStorage.removeItem('entrance')
+					// localStorage.clear()
+					thisVue.$toast("操作成功")
+					localStorage.clear();
+					setTimeout(()=>{
+						// thisVue.$router.push({path:"/hospital/hospitalLogin",query:{}})
+						location.href=location.pathname
+					},1500)
+				})
+
+			})
+			
 			// location.href=location.pathname
 			// location.reload()
 		}

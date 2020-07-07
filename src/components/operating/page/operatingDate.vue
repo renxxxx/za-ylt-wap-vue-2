@@ -49,7 +49,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import moment from 'moment'
 export default {
   name: 'operatingDate',

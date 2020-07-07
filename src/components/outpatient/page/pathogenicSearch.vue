@@ -391,8 +391,7 @@ export default {
         }
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 	},
 	// 全部病原列表的下一页
@@ -631,7 +630,7 @@ export default {
 }
 .clinicList li {
 	height:1.01rem;
-  width: 100%;
+  	width: 100%;
 	margin-top:.12rem;
 	background-color:#FFFFFF;
 	position:relative;

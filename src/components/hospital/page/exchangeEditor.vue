@@ -104,7 +104,7 @@ export default {
 					if(this.exchangeEditor.stock != ''){
 						if(this.exchangeEditor.intro != ''){
 							
-							this.$router.push({ path : '/hospital/hospital_exchangeEditorImg',query : {exchangeEditor : JSON.stringify(this.exchangeEditor),time: new Date().getTime()}});
+							this.$router.push({ path : '/hospital/hospital_exchangeEditorImg',query : {exchangeEditor : JSON.stringify(this.exchangeEditor),time: new Date().getTime().toString()}});
 						}else{
 							this.$toast.fail('请填写简介');
 						}

@@ -4,19 +4,19 @@
 			<div class="navWarp" :style="{'padding-top':$store.state.paddingTop}">
 				<!-- 搜索及其筛选 -->
 				<div class="topNav" ref="topNav">
-					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{time:new Date().getTime()}}"> -->
-					<div class="indexSearch" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{time: new Date().getTime()}})">
+					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{time:new Date().getTime().toString()}}"> -->
+					<div class="indexSearch" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{time: new Date().getTime().toString()}})">
 						<input type="text" placeholder="搜索病员" readonly="readonly">
 						<img src="../../../assets/image/sousuo@2x.png" alt="">
 					</div>
 						<!-- </router-link> -->
 					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{}}"> -->
-					<div class="clinic_buttton" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{time: new Date().getTime()}})">
+					<div class="clinic_buttton" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{time: new Date().getTime().toString()}})">
 						<button>搜索</button>
 					</div>
 					<!-- </router-link> -->
 					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{show:1}}"> -->
-					<div class="indexScreening" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{show:1,time: new Date().getTime()}})">
+					<div class="indexScreening" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{show:1,time: new Date().getTime().toString()}})">
 						<span>筛选 </span>
 						<img src="../../../assets/image/screen@2x.png" alt="加载中" >
 					</div>
@@ -35,93 +35,83 @@
 					<div ref="xiahuaxian" class="navType_line"></div>
 				</div>
 			</div>
-			<!-- <div style="height: .8rem;" :style="{'padding-top':$store.state.paddingTop}"></div> -->
-				<div style="height:calc(100vh - 1.3rem);margin-top:.8rem" :style="{'padding-top':$store.state.paddingTop}">
-					<div class="lists" v-show="all">
-						<div class="newAdd">
-							<div class="newAddTitle">
-								<img src="../../../assets/image/bitian@2x.png" alt="">
-								<h3>必填项</h3>
-								<ul class="Fill">
-									<li>
-										<span>病患姓名</span>
-										<input type="text" v-model="account.realname"  placeholder="请填写" >
-									</li>
-									<li>
-										<span>联系电话</span>
-										<input type="text" v-model="account.tel" maxlength="11"  oninput="value=value.replace(/[^\d]/g,'')" placeholder="请填写">
-									</li>
-									<li>
-										<span>身份证号</span>
-										<input type="text" v-model="account.idcardNo" maxlength="18"  oninput="value=value.replace(/[^\d|xX]/g,'')" placeholder="请填写">
-									</li>
-								</ul>
-							</div>
-							<div class="newAddTitle bottom">
-								<img src="../../../assets/image/bitian@2x.png" alt="">
-								<h3>选填项</h3>
-								<ul class="Fill" style="height:auto">
-									<li>
-										<span>备注</span>
-										<input type="text" v-model="account.remark"  placeholder="请填写" >
-									</li>
-								</ul>
-							</div>
-							<button class="submitClass" @click="hospitalSubmit">提交</button>
+			<div style="height: .8rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
+			<div style="height:calc(100vh - 1.3rem);">
+				<div class="lists" v-show="all">
+					<div class="newAdd">
+						<div class="newAddTitle">
+							<img src="../../../assets/image/bitian@2x.png" alt="">
+							<h3>必填项</h3>
+							<ul class="Fill">
+								<li>
+									<span>病患姓名</span>
+									<input type="text" v-model="account.realname" @focus='focusFn' @blur='blurFn' placeholder="请填写" >
+								</li>
+								<li>
+									<span>联系电话</span>
+									<input type="text" v-model="account.tel" maxlength="11" @focus='focusFn' @blur='blurFn' oninput="value=value.replace(/[^\d]/g,'')" placeholder="请填写">
+								</li>
+								<li>
+									<span>身份证号</span>
+									<input type="text" v-model="account.idcardNo" maxlength="18" @focus='focusFn' @blur='blurFn' oninput="value=value.replace(/[^\d|xX]/g,'')" placeholder="请填写">
+								</li>
+							</ul>
 						</div>
+						<div class="newAddTitle bottom">
+							<img src="../../../assets/image/bitian@2x.png" alt="">
+							<h3>选填项</h3>
+							<ul class="Fill" style="height:auto">
+								<li>
+									<span>备注</span>
+									<input type="text" v-model="account.remark"  placeholder="请填写" >
+								</li>
+							</ul>
+						</div>
+						<button class="submitClass" @click="hospitalSubmit">提交</button>
 					</div>
-					<!-- :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}" -->
-					<div class="list" v-show="yes" @scroll="handleScroll" ref="listYes">
-						<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
-							<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
-								<ul>
-									<li v-for="(item,inx) in yesItems" :key="inx" >
-										<!-- <router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}"> -->
-											<div class="style" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
-												<div class="contentTitle">
-													<img :src="item.img" alt="">
-													<span>{{item.realname}}</span>
-												</div>
-												<div class="contnet_left">
-													<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
-													<span>状态：{{item.span}}</span>
-												</div>
-											</div>
-										<!-- </router-link> -->
-										<div class="content_right">
-											<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
-										</div>
-									</li>
-								</ul>
-							</van-list>
-						<!-- </van-pull-refresh> -->
-					</div>
-					<div class="list" v-show="no" @scroll="handleScroll" ref="listNo">
-						<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
-							<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
-								<ul>
-									<li v-for="(item,inx) in noItems " :key="inx" >
-										<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
-											<div class="style" @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
-												<div class="contentTitle">
-													<img :src="item.img" alt="">
-													<span>{{item.realname}}</span>
-												</div>
-												<div class="contnet_left">
-													<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
-													<span>状态：{{item.span}}</span>
-												</div>
-											</div>
-										<!-- </router-link> -->
-										<div class="content_right">
-											<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
-										</div>
-									</li>
-								</ul>
-							</van-list>
-						<!-- </van-pull-refresh> -->
-					</div>
-			</div>
+				</div>
+				<!-- :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}" -->
+				<div class="list" v-show="yes" @scroll="handleScroll" ref="listYes">
+					<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
+					<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
+						<ul>
+							<li v-for="(item,inx) in yesItems" :key="inx">
+								<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
+									<div class="content_left">
+										<span>{{item.realname}}</span>
+									</div>
+									<div class="content_right">
+										<img :src='item.img'>
+										<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
+									</div>
+									<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
+								</router-link>
+							</li>
+						</ul>
+					</van-list>
+					<!-- </van-pull-refresh> -->
+				</div>
+				<div class="list" v-show="no" @scroll="handleScroll" ref="listNo">
+					<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
+					<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
+						<ul>
+							<li v-for="(item,inx) in noItems" :key="inx">
+								<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
+									<div class="content_left">
+										<span>{{item.realname}}</span>
+									</div>
+									<div class="content_right">
+										<img :src='item.img'>
+										<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
+									</div>
+									<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
+								</router-link>
+							</li>
+						</ul>
+					</van-list>
+					<!-- </van-pull-refresh> -->
+				</div>
+		</div>
 		<!-- </van-pull-refresh> -->
 		<div class="returnTop" @click="returnTopFn" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -132,48 +122,62 @@
 <script>
 import qs from 'qs';
 export default {
-  name: 'index',
-  data () {
-    return {
-		name: 'index',
-		//导航栏切换标题
-		// pullingDown: false,
-		yesItems:[],
-		noItems:[],
-		itemsNum:'',
-		yesItemsNum:'',
-		noItemsNum:'',
-		loading: false,
-		// 加载状态结束
-		finishedYes: false,
-		finishedNo:false,
-		yesPage:0,
-		noPage:0,
-		all:true,
-		yes:false,
-		no:false,
-		noData:true,
-		yesData:true,
-		scrollTopYes:0,
-		scrollTopNo:0,
-		hospitalReturnTopPage:false,
-		clickData:0,
-		account:{
-			realname:'',
-			tel:'',
-			idcardNo:'',
-			remark:''
-		},
-    }
-  },
-  created(){
-	
-  },
+	name: 'index',
+	data () {
+		return {
+			name: 'index',
+			//导航栏切换标题
+			// pullingDown: false,
+			yesItems:[],
+			noItems:[],
+			itemsNum:'',
+			yesItemsNum:'',
+			noItemsNum:'',
+			loading: false,
+			// 加载状态结束
+			finishedYes: false,
+			finishedNo:false,
+			yesPage:0,
+			noPage:0,
+			all:true,
+			yes:false,
+			no:false,
+			noData:true,
+			yesData:true,
+			scrollTopYes:0,
+			scrollTopNo:0,
+			hospitalReturnTopPage:false,
+			clickData:0,
+			account:{
+				realname:'',
+				tel:'',
+				idcardNo:'',
+				remark:''
+			},
+			docmHeight: window.innerHeight,  //默认屏幕高度
+			showHeight: window.innerHeight,   //实时屏幕高度
+			hideshow:true,  //显示或者隐藏footer
 
-  mounted(){
-	
-  },
-  activated(){
+		}
+	},
+	created(){
+		
+	},
+
+	mounted(){
+		
+	},
+
+	watch:{
+	showHeight: function(newValue) {
+		if(this.docmHeight > newValue){
+		this.$store.state.bottomShow = false
+		}else{
+		this.$store.state.bottomShow = true
+		}
+	}
+	},
+  	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
 			this.initData()
 			this.query = JSON.stringify(this.$route.query);
@@ -193,273 +197,284 @@ export default {
 		if(this.scrollTopNo != 0){
 			this.$refs.listNo.scrollTop = this.scrollTopNo;
 		}
+		window.onresize = ()=>{
+			return(()=>{
+			this.showHeight = window.innerHeight;
+			})()
+		}
+
     },
-  computed:{
-  },
-  //注册组件
-  components:{
-  },
-  methods:{
-	hospitalSubmit(){
-   	 	this.$axios.post('/c2/patient/itemadd',qs.stringify({
-			clinicId : this.$store.state.outpatient.login.clinic.clinicId,
-			hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-    		password : this.account.password,
-    		realname : this.account.realname,
-    		tel	:   this.account.tel,
-    		remark :  this.account.remark,
-    		idcardNo :  this.account.idcardNo
-    	}))
-    	.then( res =>{
-    		if(res.data.codeMsg){
-    			this.$toast({ message: res.data.codeMsg });
-			}
-			if(res.data.code == 0){
-    			//成功
-				this.$toast({ message: '提交成功' });
-				this.account = {
-					realname:'',
-					tel:'',
-					idcardNo:'',
-					remark:''
+	computed:{
+	},
+	//注册组件
+	components:{
+	},
+	methods:{
+		focusFn(){	
+			// console.log('focusFn')
+			// this.$store.state.bottomShow = false;
+		},
+		blurFn(){
+			// console.log('blurFn')
+			// this.$store.state.bottomShow = true;
+		},
+		hospitalSubmit(){
+			this.$axios.post('/c2/patient/itemadd',qs.stringify({
+				clinicId : this.$store.state.outpatient.login.clinic.clinicId,
+				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
+				password : this.account.password,
+				realname : this.account.realname,
+				tel	:   this.account.tel,
+				remark :  this.account.remark,
+				idcardNo :  this.account.idcardNo
+			}))
+			.then( res =>{
+				if(res.data.codeMsg){
+					this.$toast({ message: res.data.codeMsg });
 				}
-    		}else{
-    			//失败
-    		}
-    	})
-    	.catch((err)=>{
-    		
-    		//Dialog({ message: '加载失败!'});
-    	})
- 	},
-	// 滑动一定距离出现返回顶部按钮
-	handleScroll() {
-		switch(this.clickData){
-			case 1:
-			this.scrollTopNo = this.$refs.listNo.scrollTop || this.$refs.listNo.pageYOffset
-			if (this.scrollTopNo > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
+				if(res.data.code == 0){
+					//成功
+					this.$toast({ message: '提交成功' });
+					this.account = {
+						realname:'',
+						tel:'',
+						idcardNo:'',
+						remark:''
+					}
+				}else{
+					//失败
+				}
+			})
+			.catch((err)=>{
+				this.$toast('加载失败!')
+			})
+		},
+		// 滑动一定距离出现返回顶部按钮
+		handleScroll() {
+			switch(this.clickData){
+				case 1:
+				this.scrollTopNo = this.$refs.listNo.scrollTop || this.$refs.listNo.pageYOffset
+				if (this.scrollTopNo > 800) {
+					this.hospitalReturnTopPage = true;
+				} else {
+					this.hospitalReturnTopPage = false;
+				}
+				break;
+				case 2:
+				this.scrollTopYes = this.$refs.listYes.scrollTop || this.$refs.listYes.pageYOffset
+				if (this.scrollTopYes > 800) {
+					this.hospitalReturnTopPage = true;
+				} else {
+					this.hospitalReturnTopPage = false;
+				}
+				break;
 			}
-			break;
-			case 2:
-			this.scrollTopYes = this.$refs.listYes.scrollTop || this.$refs.listYes.pageYOffset
-			if (this.scrollTopYes > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
+		},
+		returnTopFn(){
+			switch(this.clickData){
+				case 1:
+				this.$refs.listYes.scrollTop = 0;
+				break;
+				case 2:
+				this.$refs.listNo.scrollTop = 0;
+				break;
 			}
-			break;
-		}
-	},
-	returnTopFn(){
-		switch(this.clickData){
-			case 1:
-			this.$refs.listYes.scrollTop = 0;
-			break;
-			case 2:
-			this.$refs.listNo.scrollTop = 0;
-			break;
-		}
-		// this.$refs.indexList.scrollTop=0;
-		this.hospitalReturnTopPage = false;
-	},
-	xiaclickFn(_data){
-		let width = document.getElementById('navType').getBoundingClientRect().width/6;
-		this.clickData = _data;
-		switch(_data){
-			case 0:
-			this.all = true;
-			this.yes = false;
-			this.no = false;
+			// this.$refs.indexList.scrollTop=0;
+			this.hospitalReturnTopPage = false;
+		},
+		xiaclickFn(_data){
+			let width = document.getElementById('navType').getBoundingClientRect().width/6;
+			this.clickData = _data;
+			switch(_data){
+				case 0:
+				this.all = true;
+				this.yes = false;
+				this.no = false;
+				this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
+				break;
+				case 1:
+				this.all = false;
+				this.yes = false;
+				this.no = true;
+				this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width*3)+"px) translateX(-50%)"
+				if (this.scrollTopNo > 800) {
+					this.hospitalReturnTopPage = true;
+				} else {
+					this.hospitalReturnTopPage = false;
+				}
+				this.$nextTick(()=>{
+					this.$refs.listNo.scrollTop = this.scrollTopNo
+				})
+				break;
+				case 2:
+				this.all = false;
+				this.yes = true;
+				this.no = false;
+				this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width*5)+"px) translateX(-50%)"
+				if (this.scrollTopYes > 800) {
+					this.hospitalReturnTopPage = true;
+				} else {
+					this.hospitalReturnTopPage = false;
+				}
+				this.$nextTick(()=>{
+					this.$refs.listYes.scrollTop = this.scrollTopYes
+				})
+				break;
+			}
+		},
+		afterPullDown() {
+		//下拉刷新
+			setTimeout(() => {
+				this.pullingDown = false;
+				this.initData();
+			}, 500);
+		},
+		initData() {
+			Object.assign(this.$data, this.$options.data());
+			let thisVue = this
+				if(this.$route.meta.auth && !this.$store.state.outpatient.login)
+					this.$toast({message:'请登录',onClose:function(){
+						thisVue.$router.replace({ path : '/outpatientLogin',query:{time:1}});
+					}})
+			let width = document.getElementById('navType').getBoundingClientRect().width/6
 			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
-			break;
-			case 1:
-			this.all = false;
-			this.yes = false;
-			this.no = true;
-			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width*3)+"px) translateX(-50%)"
-			if (this.scrollTopNo > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			this.$nextTick(()=>{
-				this.$refs.listNo.scrollTop = this.scrollTopNo
+			this.getAllNum();
+			this.yesNextPageFn();
+			this.noNextPageFn();
+		},
+		getAllNum() {
+			this.getNum(4).then((v)=>{
+				this.yesItemsNum = v
 			})
-			break;
-			case 2:
-			this.all = false;
-			this.yes = true;
-			this.no = false;
-			this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width*5)+"px) translateX(-50%)"
-			if (this.scrollTopYes > 800) {
-				this.hospitalReturnTopPage = true;
-			} else {
-				this.hospitalReturnTopPage = false;
-			}
-			this.$nextTick(()=>{
-				this.$refs.listYes.scrollTop = this.scrollTopYes
+			this.getNum(1).then((v)=>{
+				this.noItemsNum = v
 			})
-			break;
-		}
-	},
-	afterPullDown() {
-	  //下拉刷新
-		setTimeout(() => {
-			this.pullingDown = false;
-			this.initData();
-		}, 500);
-	},
-	initData() {
-		Object.assign(this.$data, this.$options.data());
-		let thisVue = this
-			if(this.$route.meta.auth && !this.$store.state.outpatient.login)
-				this.$toast({message:'请登录',onClose:function(){
-					thisVue.$router.replace({ path : '/outpatientLogin',query:{time:1}});
-				}})
-		let width = document.getElementById('navType').getBoundingClientRect().width/6
-		this.$refs.xiahuaxian.style.webkitTransform = "translateX("+(width)+"px) translateX(-50%)"
-		this.getAllNum();
-		this.yesNextPageFn();
-		this.noNextPageFn();
-	},
-	getAllNum() {
-		this.getNum(4).then((v)=>{
-			this.yesItemsNum = v
-		})
-		this.getNum(1).then((v)=>{
-			this.noItemsNum = v
-		})
-		
-		
-	},
-	// 获取下一页的方法
-	getDataNo(){
-		this.$axios.post('/c2/patient/items',qs.stringify({
-			hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-			clinicId : this.$store.state.outpatient.login.clinic.clinicId,
-			status: 1,
-			pn : this.noPage,
-			ps : 10,
-		}))
-		.then(res => {
-			if(res.data.data.items.length != 0){
-				for (let nums in res.data.data.items) {
-					this.noItems.push({
-						clinicName : res.data.data.items[nums].clinicName,
-						itemId : res.data.data.items[nums].itemId,
-						pushTime : res.data.data.items[nums].pushTime,
-						realname : res.data.data.items[nums].realname,
-						status : res.data.data.items[nums].status,
-						img : require("../../../assets/image/orange@2x.png"),
-						button : "确认就诊",
-						span : "未就诊"
-					});
-				}
-				// 加载状态结束
-				this.loading = false;
-			}else{
-				this.loading = false;
-				this.finishedNo = true;
-			}
-		})
-		.catch((err)=>{
-					
-		});
-	},
-	// 获取下一页的方法
-	getDataYse(){
-		this.$axios.post('/c2/patient/items',qs.stringify({
-			hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
-			clinicId : this.$store.state.outpatient.login.clinic.clinicId,
-			status: 4,
-			pn : this.yesPage,
-			ps : 10,
-		}))
-		.then(res => {
-			if(res.data.data.items.length != 0){
-				for (let nums in res.data.data.items) {
-					this.yesItems.push({
-						clinicName : res.data.data.items[nums].clinicName,
-						itemId : res.data.data.items[nums].itemId,
-						pushTime : res.data.data.items[nums].pushTime,
-						realname : res.data.data.items[nums].realname,
-						status : res.data.data.items[nums].status,
-						img :require( "../../../assets/image/blue@2x.png"),
-						button : "已就诊",
-						buttonColor : "buttonColor",
-						span : "已就诊"
-					});
-				}
-				// 加载状态结束
-				this.loading = false;
-			}else{
-				this.loading = false;
-				this.finishedYes = true;
-			}
-		})
-		.catch((err)=>{
 			
-			//Dialog({ message: err});;
-		});
-	},
-	
-	// 获取下一页的方法
-	async getNum(data){
-		debugger;
-		var num ='';
-		await this.$axios.post('/c2/patient/items',qs.stringify({
+			
+		},
+		// 获取下一页的方法
+		getDataNo(){
+			this.$axios.post('/c2/patient/items',qs.stringify({
 				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
 				clinicId : this.$store.state.outpatient.login.clinic.clinicId,
-				status: data,
-				pn : 1,
+				status: 1,
+				pn : this.noPage,
 				ps : 10,
 			}))
 			.then(res => {
-				num = res.data.data.sum.totalCount;
+				if(res.data.data.items.length != 0){
+					for (let nums in res.data.data.items) {
+						this.noItems.push({
+							clinicName : res.data.data.items[nums].clinicName,
+							itemId : res.data.data.items[nums].itemId,
+							pushTime : res.data.data.items[nums].pushTime,
+							realname : res.data.data.items[nums].realname,
+							status : res.data.data.items[nums].status,
+							img : require("../../../assets/image/weijiuzhen@2x.png"),
+							button : "确认就诊",
+							span : "未就诊"
+						});
+					}
+					// 加载状态结束
+					this.loading = false;
+				}else{
+					this.loading = false;
+					this.finishedNo = true;
+				}
+			})
+			.catch((err)=>{
+						
+			});
+		},
+		// 获取下一页的方法
+		getDataYse(){
+			this.$axios.post('/c2/patient/items',qs.stringify({
+				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
+				clinicId : this.$store.state.outpatient.login.clinic.clinicId,
+				status: 4,
+				pn : this.yesPage,
+				ps : 10,
+			}))
+			.then(res => {
+				if(res.data.data.items.length != 0){
+					for (let nums in res.data.data.items) {
+						this.yesItems.push({
+							clinicName : res.data.data.items[nums].clinicName,
+							itemId : res.data.data.items[nums].itemId,
+							pushTime : res.data.data.items[nums].pushTime,
+							realname : res.data.data.items[nums].realname,
+							status : res.data.data.items[nums].status,
+							img :require( "../../../assets/image/yijiuzhen@2x.png"),
+							button : "已就诊",
+							buttonColor : "buttonColor",
+							span : "已就诊"
+						});
+					}
+					// 加载状态结束
+					this.loading = false;
+				}else{
+					this.loading = false;
+					this.finishedYes = true;
+				}
+			})
+			.catch((err)=>{
+				this.$toast(err)
+			});
+		},
+		
+		// 获取下一页的方法
+		async getNum(data){
+			debugger;
+			var num ='';
+			await this.$axios.post('/c2/patient/items',qs.stringify({
+					hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
+					clinicId : this.$store.state.outpatient.login.clinic.clinicId,
+					status: data,
+					pn : 1,
+					ps : 10,
+				}))
+				.then(res => {
+					num = res.data.data.sum.totalCount;
+				})
+				.catch((err)=>{
+					this.$toast(err)
+				});
+			
+			return num;
+		},
+		// 已就诊病原列表的下一页
+		yesNextPageFn(){
+			this.yesPage++;
+			this.getDataYse();
+		},
+		// 未就诊病原列表的下一页
+		noNextPageFn(){
+			this.noPage++;
+			this.getDataNo();
+		},
+		submitFn(_item,_button){
+			this.$axios.post('/c2/patient/confirmjiuzhen',qs.stringify({
+				patientId : _item.itemId
+			}))
+			.then(res =>{
+				if(res.data.codeMsg){
+					this.$toast({duration: 1000,message: res.data.codeMsg})
+				}
+				if(res.data.code == 0 ){
+					this.$toast.success({duration: 1000,message: '操作成功'})
+					if(_item.status == 1){
+						
+						_button.target.style.cssText="color:#333333; background-color:#EEEEEE;"
+						_button.target.innerHTML = '已就诊';
+					}
+				}
 			})
 			.catch((err)=>{
 				
-				//Dialog({ message: err});;
-			});
+			})
+		}
 		
-		return num;
 	},
-	// 已就诊病原列表的下一页
-	yesNextPageFn(){
-		this.yesPage++;
-		this.getDataYse();
-	},
-	// 未就诊病原列表的下一页
-	noNextPageFn(){
-		this.noPage++;
-		this.getDataNo();
-	},
-	submitFn(_item,_button){
-		this.$axios.post('/c2/patient/confirmjiuzhen',qs.stringify({
-			patientId : _item.itemId
-		}))
-		.then(res =>{
-			if(res.data.codeMsg){
-				this.$toast({duration: 1000,message: res.data.codeMsg})
-			}
-			if(res.data.code == 0 ){
-				this.$toast.success({duration: 1000,message: '操作成功'})
-				if(_item.status == 1){
-					
-					_button.target.style.cssText="color:#333333; background-color:#EEEEEE;"
-					_button.target.innerHTML = '已就诊';
-				}
-			}
-		})
-		.catch((err)=>{
-			
-		})
-	}
-	
-  },
 }
 </script>
 <style scoped>
@@ -618,20 +633,55 @@ export default {
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;
   	overflow-x: hidden;
+	padding-top:10px
 }
 .list ul{	
 	width: 91.46%;
 	margin: 0rem auto;
 	height: auto;
 }
-.list li{
-	width: 100%;
-	height: .845rem;
-	box-shadow: 0px 0px 26px 3px hsla(0, 0%, 0%, 10%);
-	margin-bottom: .1rem;
-	position: relative;
-	border-radius: .1rem;
+.list ul li{
+	height:1.01rem;
+  	width: 100%;
+	margin-top:.12rem;
+	background-color:#FFFFFF;
+	position:relative;
+	box-shadow: 0rem 0rem .1rem #d9d5d5;
 	/* background-color: #FFFFFF */
+}
+.list ul li p{
+	position:absolute;
+	bottom:0;
+	height:.5rem;
+	width:93%;
+	line-height:.5rem;
+	margin-left:.14rem;
+	border-top:1px solid #E5E5E5;
+}
+.content_left{
+	float:left;
+	height:.5rem;
+	width: 100%;
+	margin-left:.15rem;
+	margin-top:.14rem;
+}
+.list ul li>a>.content_right{
+	position: absolute;
+	height:.5rem;
+	line-height: .5rem;
+	right:.14rem;
+	bottom:0rem;
+}
+.list ul li>a>.content_right img{
+	width:.11rem;
+	height:.11rem;
+	margin-right:.04rem;
+}
+.yes{
+	color: #4DD865;
+}
+.no{
+	color: #2B77EF;
 }
 .style{
 	height: 100%;

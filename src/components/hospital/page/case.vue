@@ -10,11 +10,11 @@
 				<ul>
 				<li v-for="(items,inx) in article" :key="inx">
 					<!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 4,}}"> -->
-					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 4,time: new Date().getTime()}})">
+					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 4,time: new Date().getTime().toString()}})">
 						<p>{{items.content}}</p>
 						<div class="article_leftTime">
 						<img src="../../../assets/image/time@2x.png" alt="">
-						<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
+						<span>{{items.time? moment(items.time).format('YYYY-MM-DD HH:mm'):''}}</span>
 						</div>
 					</div>
 					<div v-if="items.img"  class="article_right">

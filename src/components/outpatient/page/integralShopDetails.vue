@@ -25,7 +25,7 @@
 				<div class="addressContent">
 					<h4>{{address.name}}</h4>
 					<span>{{address.tel}}</span>
-					<p class="color">{{address.address}}</p>
+					<p class="color line-1">{{address.address}}</p>
 				</div>
 				<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
 			</div>
@@ -37,7 +37,7 @@
 				<p><span>{{shopDetails.payExchangepoint}}</span> 积分</p>
 			</div>
 			<div class="productsNum">
-				<van-stepper :value="value"  :disable-input="false" :max="shopDetails.stock+1" async-change @change="tipsFn"/>
+				<van-stepper :value="value"  :disable-input="false" :max="shopDetails.stock+1" min="0" async-change @change="tipsFn"/>
 			</div>
 		</div>
 		<button @click="submitFn">提交</button>
@@ -64,14 +64,15 @@ export default {
  	mounted() {
 	},
 	activated(){
+		Object.assign(this.$data, this.$options.data());
 		if(this.query != JSON.stringify(this.$route.query)){
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getdata();
 		}
+			this.getdata();
   	},
 	methods: {
 		goBackFn(){
@@ -242,6 +243,7 @@ export default {
 	font-size: .14rem;
 }
 .color{
+	width: 80%;
 	color: #333333!important;
 }
 .shopProducts{

@@ -14,7 +14,7 @@
 		<div class="content" @scroll="handleScroll" ref="content">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
-				<li v-for="(item,inx) in clinicMessage" :key='inx' @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+				<li v-for="(item,inx) in clinicMessage" :key='inx' @click="$router.push({path:'/outpatient/outpatient_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 					<!-- <router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 					<div class="triangle_border_up">
 						<span></span>
@@ -65,6 +65,7 @@ export default {
 		if(this.query != JSON.stringify(this.$route.query)){
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
+			this.onLoad();
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
@@ -111,8 +112,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
   		}
 	},

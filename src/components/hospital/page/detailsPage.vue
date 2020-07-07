@@ -9,7 +9,7 @@
 			<div class="nav_center">
 				<h3>病员信息</h3>
 			</div>
-			<div class="nav_right" @click="modifyFn" v-model='modify' v-if="isLogin == 200? false:true">
+			<div class="nav_right" @click="modifyFn">
 				<span>{{modify.value}}</span>
 				<img :src=modify.img alt="">
 			</div>
@@ -32,7 +32,7 @@
 				</li>
 				<li>
 					<span>所属门诊</span>
-					<input type="text" v-model="detail.clinicName" :placeholder="modify.readonly? '':'请输入' " :readonly="true">
+					<input type="text" v-model="detail.clinicName" :readonly="true">
 				</li>
 			</ul>
 			<div style="margin-top:.2rem"></div>
@@ -40,11 +40,11 @@
 			<ul>
 				<li>
 					<span>门诊推送时间</span>
-					<input type="text" :value="detail.pushTime" :placeholder="modify.readonly? '':'请输入' " :readonly="true">
+					<input type="text" :value="detail.pushTime" :readonly="true">
 				</li>
 				<li>
 					<span>确认就诊时间</span>
-					<input type="text" v-model="detail.hospitalConfirmTime" :placeholder="modify.readonly? '':'请输入' " :readonly="true">
+					<input type="text" v-model="detail.hospitalConfirmTime" :readonly="true">
 				</li>
 				<li>
 					<span>病种</span>
@@ -83,7 +83,6 @@
 
 <script>
 import qs from 'qs';
-import { Dialog } from 'vant'
 import moment from 'moment'
 export default {
 	name: 'gene',
@@ -207,7 +206,7 @@ export default {
 			this.photoNum = _value;
 			
 			this.enlarge = true;
-			this.$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime()}})
+			this.$router.push({path:'/hospital/hospital_pictureEnlargement',query:{inx:_value,imgUrl:imgUrl,data:true,time: new Date().getTime().toString()}})
 		},
 		onChange(_value){
 			this.photoPage = _value;
@@ -255,9 +254,13 @@ export default {
 					idcardNo : this.detail.idcardNo,
 					tel : this.detail.tel
 				})).then(res =>{
-			if(!res.data.codeMsg){
-			  this.show = false
-			}
+					if(res.data.codeMsg){
+						this.$toast(res.data.codeMsg)
+					}
+					if(res.data.code == 0){
+						this.show = false;
+						this.$toast('操作成功')
+					}
 				}).catch(err =>{
 					
 				})

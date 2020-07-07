@@ -31,7 +31,7 @@
 								query:{name:'选择推广人',nowValue:addClinic.promoter,
 										path:$router.apps[0]._route.name,
 										item:$route.query.item,
-										time: new Date().getTime()}})">
+										time: new Date().getTime().toString()}})">
 								{{addClinic.promoter}}</span>              
 			<!-- </router-link> -->
 							<!-- <van-dropdown-menu>
@@ -183,7 +183,7 @@ export default {
 				}).catch(err =>{
 				})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片')
 				return false;
 			}
 		},
@@ -205,8 +205,13 @@ export default {
 			}))
 			.then(res => {
 				if(res.data.codeMsg){
-					this.$toast(res.data.codeMsg)
+					if(res.data.errParam == 'clinicUserPhone'){
+						this.$toast('账号有误')
+					}else{
+						this.$toast(res.data.codeMsg)
+					}
 				}
+				// this.$toast(res.data.codeMsg)
 				if(res.data.code == 0){
 					Object.assign(this.$data, this.$options.data());
 					// localStorage.removeItem('list_promoterValue')

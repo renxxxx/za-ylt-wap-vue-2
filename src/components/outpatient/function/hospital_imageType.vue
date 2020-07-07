@@ -1,7 +1,7 @@
 <template>
 	<div class="imageType">
 		<ul>
-			<li v-for="(item,inx) in type" :key='inx' @click="$router.push({path:'/outpatient/outpatient_typeDetails',query:{item : item.itemId,time: new Date().getTime()}})">
+			<li v-for="(item,inx) in type" :key='inx' @click="$router.push({path:'/outpatient/outpatient_typeDetails',query:{item : item.itemId,time: new Date().getTime().toString()}})">
 				<!-- <router-link :to="{path : '/outpatient/outpatient_typeDetails' ,query : {item : item.itemId,}}"> -->
 					<img :src="item.url" alt="">
 					<span>{{item.name}}</span>
@@ -15,7 +15,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 export default {
   name: 'hospital_About',
   data () {
@@ -67,8 +66,7 @@ export default {
 			}
 		})
 		.catch((err)=>{
-			
-			//Dialog({ message: err});;
+			this.$toast('err')
 		})	
 	}
   },

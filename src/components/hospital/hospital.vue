@@ -16,7 +16,7 @@
     <span>顶部</span>
   </div> -->
   <van-tabbar v-model="active" route :style="{'padding-bottom':$store.state.paddingBottom}" v-if="bottomShow">
-  	<van-tabbar-item replace :to="{path : '/hospital/hospital_index',query:{transition:'def',time: new Date().getTime()}}">
+  	<van-tabbar-item replace :to="{path : '/hospital/hospital_index',query:{transition:'def',time: new Date().getTime().toString()}}">
   	    <span>首页</span>
   	    <img
   			slot="icon"
@@ -24,7 +24,7 @@
   			:src="props.active ? index.inactive : index.active"
   	    />
   	</van-tabbar-item>
-  	<van-tabbar-item replace :to="{path:'/hospital/hospital_clinic',query:{transition:'def',time: new Date().getTime()}}">
+  	<van-tabbar-item replace :to="{path:'/hospital/hospital_clinic',query:{transition:'def',time: new Date().getTime().toString()}}">
   	    <img
   			slot="icon"
   			slot-scope="props"
@@ -33,7 +33,7 @@
   	    <span>门诊</span>
   	</van-tabbar-item>
     <!-- /hospital/hospital_gene -->
-  	<van-tabbar-item replace :to="{path:'/hospital/hospital_source',query:{transition:'def',time: new Date().getTime()}}">
+  	<van-tabbar-item replace :to="{path:'/hospital/hospital_source',query:{transition:'def',time: new Date().getTime().toString()}}">
   	    <span>病员</span>
   	    <img
   			slot="icon"
@@ -41,7 +41,7 @@
   			:src="props.active ? gene.inactive : gene.active"
   	    >
   	</van-tabbar-item>
-  	<van-tabbar-item replace :to="{path:'/hospital/hospital_user',query:{transition:'def',time: new Date().getTime()}}">
+  	<van-tabbar-item replace :to="{path:'/hospital/hospital_user',query:{transition:'def',time: new Date().getTime().toString()}}">
   	    <span>我的</span>
   	    <img
   			slot="icon"
@@ -138,7 +138,7 @@ export default {
 	touchEndFn(_value){
 		this.overLength = _value.changedTouches[0].screenX;
 		this.overLengthY = _value.changedTouches[0].screenY
-		if((this.overLength-this.startLength)>100 && (this.startLengthY - this.overLengthY) < 150){
+		if((this.overLength-this.startLength)>150 && (this.startLengthY - this.overLengthY) < 150){
 			this.$router.back()
 		}
 	},
@@ -196,9 +196,9 @@ export default {
     returnHomePageFn(){
       
       if(this.$store.state.hospital.login.type == 1){
-        this.$router.replace({path:'/promoters_index',query:{transition:'def',time: new Date().getTime()}});
+        this.$router.replace({path:'/promoters_index',query:{transition:'def',time: new Date().getTime().toString()}});
       }else{
-        this.$router.replace({path:'/hospital/hospital_index',query:{transition:'def',time: new Date().getTime()}});
+        this.$router.replace({path:'/hospital/hospital_index',query:{transition:'def',time: new Date().getTime().toString()}});
       }
     },
   },

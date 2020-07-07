@@ -8,17 +8,17 @@
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<div class="typeNav">
 					<!-- <router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}"> -->
-					<img src="../../../../assets/image/qudaomenzhen@2.png" alt="" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime()}})">
+					<img src="../../../../assets/image/qudaomenzhen@2.png" alt="" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime().toString()}})">
 					<!-- </router-link> -->
 					<!-- <router-link :to="{path : '/promoters/promoters_sourceManagement',query:{}}"> -->
-						<img src="../../../../assets/image/bingyuanguanli@2.png" alt="" @click="$router.push({path:'/promoters/promoters_sourceManagement',query:{time: new Date().getTime()}})">
+						<img src="../../../../assets/image/bingyuanguanli@2.png" alt="" @click="$router.push({path:'/promoters/promoters_sourceManagement',query:{time: new Date().getTime().toString()}})">
 					<!-- </router-link> -->
 				</div>
 				<div class="article" v-if="article.length">
 					<div class="articleTitle">
 						<img src="../../../../assets/image/Combined Shape@2x.png" alt />
 						<h3>运营文章</h3>
-						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_case',query:{time: new Date().getTime()}})">
+						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_case',query:{time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_case'}">							 -->
 								<span>查看更多</span>
 								<img src="../../../../assets/image/Chevron Copy 2@2x.png" alt="">
@@ -26,7 +26,7 @@
 						</div>
 					</div>
 					<ul>
-						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_caseDetails' ,query : {itemId : items.itemId,data: 1}}"> -->
 								<div class="article_left">
 									<p>{{items.content}}</p>
@@ -46,14 +46,14 @@
 					<div class="articleTitle">
 						<img src="../../../../assets/image/huodong@2x.png" alt />
 						<h3>推广活动</h3>
-						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_activityReleased',query:{time: new Date().getTime()}})">
+						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_activityReleased',query:{time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_activityReleased'}"> -->
 							<span>查看更多</span>
 							<img src="../../../../assets/image/Chevron Copy 2@2x.png" alt="">
 							<!-- </router-link> -->
 						</div>
 					</div>
-					<div class="activeList"  @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:qualityCase[0].itemId,time: new Date().getTime()}})">
+					<div class="activeList"  @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:qualityCase[0].itemId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:qualityCase[0].itemId,}}"> -->
 						<img :src="qualityCase[0].img" alt="">
 						<div class="activeTitle">
@@ -63,7 +63,7 @@
 						<!-- </router-link> -->
 					</div>
 					<ul style="">
-						<li v-for="(items,num) in qualityCase" :key="num" @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:items.itemId,time: new Date().getTime()}})">
+						<li v-for="(items,num) in qualityCase" :key="num" @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:items.itemId,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:items.itemId,}}"> -->
 							<div class="article_left">
 								<p>{{items.content}}</p>

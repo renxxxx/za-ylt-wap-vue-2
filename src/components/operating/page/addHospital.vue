@@ -92,7 +92,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import { Toast } from 'vant'
 import Vue from 'vue'
 export default {
@@ -185,7 +184,7 @@ export default {
 					
 				})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				 this.$toast('请选择图片')
 				return false;
 			}
 
@@ -217,8 +216,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast('加载失败!')
 			})
 		},
 	}

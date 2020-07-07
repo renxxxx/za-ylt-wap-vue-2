@@ -26,13 +26,13 @@
 		<div class="user_center">
 			<ul>
 				<!-- <router-link :to="{name: 'outpatient_taskCenter',query:{}}"> -->
-				<li @click="$router.push({path:'/outpatient/outpatient_taskCenter',query:{time: new Date().getTime()}})">
+				<li @click="$router.push({path:'/outpatient/outpatient_taskCenter',query:{time: new Date().getTime().toString()}})">
 					<span>任务中心</span>
 					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
 				</li>
 				<!-- </router-link> -->
 				<!-- <router-link :to="{name: 'outpatient_integralExchange',query:{}}"> -->
-				<li @click="$router.push({path:'/outpatient/outpatient_integralExchange',query:{show:true,time: new Date().getTime()}})">
+				<li @click="$router.push({path:'/outpatient/outpatient_integralExchange',query:{show:true,time: new Date().getTime().toString()}})">
 					<span>积分兑换</span>
 					<img src="../../../assets/image/Chevron Copy 2@2x.png" alt="">
 				</li>
@@ -134,15 +134,21 @@ export default {
 	//退出方法
 	exitFn(){
 		let thisVue=this
-		this.$axios.post('/clinic/logout').then(function(){
-			localStorage.removeItem('entrance')
-			// localStorage.clear()
-			thisVue.$toast("操作成功")
-			setTimeout(()=>{
-				// thisVue.$router.push({path:"/outpatientLogin",query:{}})
-				location.href=location.pathname
-			},1500)
+		this.$dialog.confirm({
+			message: '是否确定退出推门诊端',
 		})
+		.then( ()=>{
+			this.$axios.post('/clinic/logout').then(function(){
+				localStorage.removeItem('entrance')
+				// localStorage.clear()
+				thisVue.$toast("操作成功")
+				setTimeout(()=>{
+					// thisVue.$router.push({path:"/outpatientLogin",query:{}})
+					location.href=location.pathname
+				},1500)
+			})
+		})
+		
 	}
   },
 }
@@ -193,11 +199,14 @@ export default {
 	position: absolute;
 	left: .61rem;
 	top: 1.15rem;
-	font-size: .03rem;
+	font-size: .12rem;
 	color: #FFFFFF;
 	background:url('../../../assets/image/Gradualchange@2x.png');
 	background-size:100% 100%;
 	padding: .02rem .1rem;
+	width: .56rem;
+    height: 22px;
+    box-sizing: border-box;
 }
 .top_center{
 	position: relative;

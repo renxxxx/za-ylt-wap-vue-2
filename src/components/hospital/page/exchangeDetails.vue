@@ -29,7 +29,7 @@
 					<img src="../../../assets/image/Group@2x.png" alt="">
 					<h5>{{exchangeDetails.details[0].name}}</h5>
 					<p>{{exchangeDetails.details[0].intro}}</p>
-					<p>{{moment(exchangeDetails.addTime).format('YYYY-MM-DD HH:mm')}}</p>
+					<p>{{exchangeDetails.addTime? moment(exchangeDetails.addTime).format('YYYY-MM-DD HH:mm'):''}}</p>
 					<p>数量<span>{{exchangeDetails.details[0].count}}</span></p>
 				</li>
 			</ul>

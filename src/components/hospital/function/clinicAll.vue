@@ -11,7 +11,7 @@
 								<span>{{item.realname}}</span>
 							</div>
 							<div class="contnet_left">
-								<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
+								<span>推送：{{item.pushTime? moment(item.pushTime).format('YYYY-MM-DD'):''}}</span>
 								<span>状态：{{item.span}}</span>
 							</div>
 						</div>
@@ -195,8 +195,7 @@ export default {
         }
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 
 		},

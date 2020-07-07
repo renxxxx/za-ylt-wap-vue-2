@@ -3,14 +3,14 @@
 		<div class="title" v-if="$route.query.show">
 			<span>热门兑换</span>
 			<!-- <router-link :to="{path : '/outpatient/outpatient_ExchangeList',query:{}}"> -->
-			<span @click="$router.push({path:'/outpatient/outpatient_ExchangeList',query:{time: new Date().getTime()}})">更多</span>
+			<span @click="$router.push({path:'/outpatient/outpatient_ExchangeList',query:{time: new Date().getTime().toString()}})">更多</span>
 			<!-- </router-link> -->
 		</div>
 		<div class="productsExchangeList" @scroll="handleScroll" ref="productsExchangeList">
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul>
-						<li v-for="(item,inx) in list" :key='inx' @click="$router.push({path:'/outpatient/outpatient_integralShop',query:{commodityId : item.commodityId,time: new Date().getTime()}})">
+						<li v-for="(item,inx) in list" :key='inx' @click="$router.push({path:'/outpatient/outpatient_integralShop',query:{commodityId : item.commodityId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/outpatient/outpatient_integralShop',query : {commodityId : item.commodityId,}}"> -->
 							<div class="productsImg">
 							<img :src="item.cover" alt="">
@@ -118,7 +118,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				//Dialog({ message: err});
+				this.$toast(err)
 			})
 		}	
 	},

@@ -156,8 +156,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 			this.$axios.post('/c2/doctor/items',qs.stringify({
 				officeId : id,
@@ -178,8 +177,7 @@ export default {
 				// 
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		}
 	},

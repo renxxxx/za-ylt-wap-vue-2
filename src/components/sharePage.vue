@@ -24,7 +24,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import Dialog from 'vant';
 export default {
 	name: 'caseDetails',
 	data () {
@@ -105,13 +104,11 @@ export default {
 					this.$set(this.caseInfo,'content',_d.data)
 				})
 				.catch((err)=>{
-					
-					//Dialog({ message: err});;
+					this.$toast(err)
 				})
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			})
 		}
 	},

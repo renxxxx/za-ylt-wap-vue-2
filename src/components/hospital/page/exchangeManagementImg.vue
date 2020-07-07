@@ -75,7 +75,7 @@ export default {
 					this.exchangeAdd.show = false;
 				}).catch(err =>{})
 			 }else{
-				Dialog({ message: '请选择图片' });
+				this.$toast('请选择图片')
 				return false;
 			}
 		},

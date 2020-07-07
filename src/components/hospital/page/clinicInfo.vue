@@ -29,8 +29,8 @@
 								<van-dropdown-item v-model="value" :options="option" active-color='#2B77EF' @change="changeFn"/>
 							</van-dropdown-menu> -->
               <!-- <router-link :to="{name:'hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:this.$router.apps[0]._route.name,item:this.$route.query.item,}}"> -->
-                <span class="xiugaiSpan" style="width:auto"
-				 @click="$router.push({path:'/hospital/hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:$router.apps[0]._route.name,item:$route.query.item,time: new Date().getTime()}})">{{addClinic.promoter}}</span>
+                <span class="xiugaiSpan" style="width:1.92rem"
+				 @click="$router.push({path:'/hospital/hospital_list',query:{name:'选择推广人',nowValue:addClinic.promoter,path:$router.apps[0]._route.name,item:$route.query.item,time: new Date().getTime().toString()}})">{{addClinic.promoter}}</span>
               <!-- </router-link> -->
 						</li>
 						<li>
@@ -96,7 +96,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import Vue from 'vue'
 export default {
 	name: 'search',

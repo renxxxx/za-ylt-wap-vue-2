@@ -4,14 +4,14 @@
 			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
 				<li v-for="(item,inx) in  items" :key="inx">
-					<router-link :to="{path : '/hospital/hospital_detailsPage',query : {patientId : item.itemId,}}">
+					<router-link :to="{path : '/hospital/hospital_clinicMessageDetails',query : {patientId : item.itemId,}}">
 						<div class="style">
 							<div class="contentTitle">
 								<img :src="item.img" alt="">
 								<span>{{item.realname}}</span>
 							</div>
 							<div class="contnet_left">
-								<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
+								<span>推送：{{item.pushTime? moment(item.pushTime).format('YYYY-MM-DD'):''}}</span>
 								<span>状态：{{item.span}}</span>
 							</div>
 						</div>

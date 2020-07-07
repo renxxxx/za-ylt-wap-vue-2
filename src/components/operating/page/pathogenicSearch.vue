@@ -95,7 +95,6 @@
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
-import { Dialog } from "vant";
 import moment from 'moment'
 import Vue from 'vue';
 import topSolt from "../function/topSolt.vue";
@@ -403,8 +402,7 @@ export default {
 		  
         })
         .catch((err)=>{
-          
-          //Dialog({ message: err});;
+          this.$toast(err)
         });
     },
     // 全部病原列表的下一页

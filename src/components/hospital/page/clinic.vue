@@ -3,14 +3,14 @@
 		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="navWarp">
 				<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
-					<div class="hospital_search" @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime()}})">
+					<div class="hospital_search" @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_clinicSearch',query:{}}"> -->
 							<input type="text" placeholder="搜索门诊">
 							<img src="../../../assets/image/sousuo@2x.png" alt="">
 						<!-- </router-link> -->
 					</div>
 					<!-- <router-link :to="{path : '/hospital/hospital_clinicMessage',query:{}}"> -->
-					<div class="hospital_information" @click="$router.push({path:'/hospital/hospital_clinicMessage',query:{time: new Date().getTime()}})">
+					<div class="hospital_information" @click="$router.push({path:'/hospital/hospital_clinicMessage',query:{time: new Date().getTime().toString()}})">
 						<img src="../../../assets/image/xiaoxi@2x.png" alt="">
 						<div class="num" v-if=" this.$store.state.hospital.login.unlookedMessageCount == 0? false:true">
 							<span>{{this.$store.state.hospital.login.unlookedMessageCount}}</span> 
@@ -21,25 +21,25 @@
 				<div class="shared">
 					<ul>
 						<!-- <router-link :to="{path : '/hospital/hospital_hospitalImage',query:{}}"> -->
-						<li @click="$router.push({path:'/hospital/hospital_hospitalImage',query:{time: new Date().getTime()}})">
+						<li @click="$router.push({path:'/hospital/hospital_hospitalImage',query:{time: new Date().getTime().toString()}})">
 							<img src="../../../assets/image/yiyuanxingxiang@2x.png" alt=""/>
 							<span>医院形象</span>
 						</li>
 						<!-- </router-link> -->
 						<!-- <router-link  :to="{path : '/hospital/hospital_case',query:{}}"> -->
-						<li @click="$router.push({path:'/hospital/hospital_case',query:{time: new Date().getTime()}})">
+						<li @click="$router.push({path:'/hospital/hospital_case',query:{time: new Date().getTime().toString()}})">
 							<img src="../../../assets/image/youzhianli@2x.png" alt=""/>
 							<span>优质案例</span>
 						</li>
 						<!-- </router-link> -->
 						<!-- <router-link :to="{path : '/hospital/hospital_expertsIntroduction',query:{}}"> -->
-						<li @click="$router.push({path:'/hospital/hospital_expertsIntroduction',query:{time: new Date().getTime()}})">
+						<li @click="$router.push({path:'/hospital/hospital_expertsIntroduction',query:{time: new Date().getTime().toString()}})">
 							<img src="../../../assets/image/zhuanjia@2x.png" alt=""/>
 							<span>专家介绍</span>
 						</li>
 						<!-- </router-link> -->
 						<!-- <router-link :to="{path : '/hospital/hospital_activityReleased',query:{}}"> -->
-						<li @click="$router.push({path:'/hospital/hospital_activityReleased',query:{time: new Date().getTime()}})">
+						<li @click="$router.push({path:'/hospital/hospital_activityReleased',query:{time: new Date().getTime().toString()}})">
 							<img src="../../../assets/image/huodongfabu@2x.png" alt=""/>
 							<span>最新活动</span>
 						</li>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="statisticalTitle">
 					<h3>合作门诊</h3>
-					<div class="statisticalAdd" @click="$router.push({path:'/hospital/hospital_addCLinic',query:{time: new Date().getTime()}})">
+					<div class="statisticalAdd" @click="$router.push({path:'/hospital/hospital_addCLinic',query:{time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_addCLinic',query:{}}"> -->
 							<span>新增</span>
 							<img src="../../../assets/image/xinzeng@2x.png" alt="">
@@ -114,7 +114,7 @@ export default {
 			let thisVue = this
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 			this.$toast({message:'请登录',onClose:function(){
-				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1,time: new Date().getTime()}});
+				thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1,time: new Date().getTime().toString()}});
 			}})
 		//   this.$refs.clinic.initData();
 		}

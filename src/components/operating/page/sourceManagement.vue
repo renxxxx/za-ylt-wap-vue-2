@@ -56,7 +56,6 @@
 import axios from 'axios'
 import {mapActions,mapGetters,mapState} from 'vuex'
 import qs from 'qs';
-import { Dialog } from 'vant'
 import clinicAll from '../function/clinicAll.vue'
 import clinicYes from '../function/clinicYes.vue'
 import clinicNo from '../function/clinicNo.vue'
@@ -190,8 +189,7 @@ export default {
 			// 
 		})
 		.catch((err)=>{
-			
-			// //Dialog({ message: err});;
+			this.$toast(err)
 		})
 		this.$axios.post('/c2/patient/items',qs.stringify({
 			kw : this.list.keywords,
@@ -202,11 +200,9 @@ export default {
 		}))
 		.then(_d => {
 			this.list.yesNum = _d.data.data.sum.totalCount;
-			// 
 		})
 		.catch((err)=>{
-			
-			// //Dialog({ message: err});;
+			this.$toast(err)
 		});
 
 		// 

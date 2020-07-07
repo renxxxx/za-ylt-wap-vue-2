@@ -3,16 +3,16 @@
     <keep-alive>
     <router-view  class="appView"></router-view>
   </keep-alive>
-  <div class="returnHomePage" @click="returnHomePageFn" id="returnHomePageId" ref="returnHomePageRef" v-show="operatingReturnHomePage">
+  <!-- <div class="returnHomePage" @click="returnHomePageFn" id="returnHomePageId" ref="returnHomePageRef" v-show="operatingReturnHomePage">
     <img src="../../assets/image/returnHome.png" alt />
     <span>首页</span>
-  </div>
+  </div> -->
   <!-- <div class="returnTop" @click="returnTopFn" ref="returnTopRef" v-show="operatingReturnTopPage">
     <img src="../../assets/image/returnTop.png" alt />
     <span>顶部</span>
   </div> -->
   <van-tabbar v-model="active" route :style="{'padding-bottom':$store.state.paddingBottom}" v-if="bottomShow">
-  	<van-tabbar-item replace :to="{path : '/operating/operating_index',query:{transition:'def',time: new Date().getTime()}}">
+  	<van-tabbar-item replace :to="{path : '/operating/operating_index',query:{transition:'def',time: new Date().getTime().toString()}}">
   	    <span>医院</span>
   	    <img
   			slot="icon"
@@ -20,7 +20,7 @@
   			:src="props.active ? index.inactive : index.active"
   	    />
   	</van-tabbar-item>
-  	<van-tabbar-item replace :to="{path:'/operating/operating_clinic',query:{transition:'def',time: new Date().getTime()}}">
+  	<van-tabbar-item replace :to="{path:'/operating/operating_clinic',query:{transition:'def',time: new Date().getTime().toString()}}">
   	    <img
   			slot="icon"
   			slot-scope="props"
@@ -28,7 +28,7 @@
   	    >
   	    <span>门诊</span>
   	</van-tabbar-item>
-  	<van-tabbar-item replace :to="{path:'/operating/operating_user',query:{transition:'def',time: new Date().getTime()}}">
+  	<van-tabbar-item replace :to="{path:'/operating/operating_user',query:{transition:'def',time: new Date().getTime().toString()}}">
   	    <span>我的</span>
   	    <img
   			slot="icon"
@@ -112,7 +112,7 @@ export default {
 		touchEndFn(_value){
 			this.overLength = _value.changedTouches[0].screenX;
 			this.overLengthY = _value.changedTouches[0].screenY
-			if((this.overLength-this.startLength)>100 && (this.startLengthY - this.overLengthY) < 150){
+			if((this.overLength-this.startLength)>150 && (this.startLengthY - this.overLengthY) < 150){
 				this.$router.back()
 			}
 		},

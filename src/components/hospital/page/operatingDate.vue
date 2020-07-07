@@ -21,10 +21,10 @@
     <div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
     <div class="center" @scroll="handleScroll" ref="center">
       <div class="title" v-for="(data,index) in dataValue" :key="index">
-        <span>{{moment(data.time[0]).format('YYYY-MM-DD')}}</span>
+        <span>{{data.time[0]? moment(data.time[0]).format('YYYY-MM-DD'):''}}</span>
         <van-steps direction="vertical" :active="-9999">
           <van-step v-for="(riqi,num) in data.value" :key="num">
-            <span class="addTime">{{moment(riqi.addTime).format('hh:mm')}}</span>
+            <span class="addTime">{{riqi.addTime? moment(riqi.addTime).format('hh:mm'):''}}</span>
             <p class="riqiP">{{riqi.hospitalUserName}} 上传了 <span>{{riqi.operatingManualSectionName}}</span> </p>
           </van-step>
         </van-steps>

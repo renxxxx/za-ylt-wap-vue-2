@@ -8,13 +8,13 @@
 					<img src="../../../assets/image/back-white@2x.png" alt="">
 				</div> -->
 			<!-- <router-link :to="{name:'hospital_pathogenicSearch',query:{focus : true,}}"> -->
-			<div class="indexSearch" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{focus : true,time: new Date().getTime()}})">
+			<div class="indexSearch" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{focus : true,time: new Date().getTime().toString()}})">
 				<input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
 				<img src="../../../assets/image/sousuo@2x.png" alt="">
 			</div>
 			<!-- </router-link> -->
         <!-- <router-link :to="{name:'hospital_pathogenicSearch',query:{}}"> -->
-          <div class="clinic_buttton" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{time: new Date().getTime()}})">
+          <div class="clinic_buttton" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{time: new Date().getTime().toString()}})">
             <button>搜索</button>
           </div>
         <!-- </router-link> -->
@@ -163,7 +163,7 @@ export default {
 	//显示筛选弹窗
 	showPopup() {
 	  	this.show = true;
-   		this.$router.push({name:'hospital_pathogenicSearch',query:{show:false,time: new Date().getTime()}})
+   		this.$router.push({name:'hospital_pathogenicSearch',query:{show:false,time: new Date().getTime().toString()}})
 
 	},
 	getNum(){
@@ -184,8 +184,7 @@ export default {
 			// 
 		})
 		.catch((err)=>{
-			
-			// //Dialog({ message: err});;
+			this.$toast(err)
 		})
 		this.$axios.post('/c2/patient/items',qs.stringify({
 			kw : this.list.keywords,
@@ -200,11 +199,8 @@ export default {
 			// 
 		})
 		.catch((err)=>{
-			
-			// //Dialog({ message: err});;
+			this.$toast(err)
 		});
-
-		// 
 	},
   },
 }

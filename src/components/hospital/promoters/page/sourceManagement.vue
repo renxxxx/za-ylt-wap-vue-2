@@ -8,18 +8,18 @@
 						<img src="../../../../assets/image/back-white@2x.png" alt="">
 					</div>
 					<!-- <router-link :to="{name:'promoters_sourceSearch',query:{focus : 1}}"> -->
-					<div class="indexSearch" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{focus : 1,time: new Date().getTime()}})">
+					<div class="indexSearch" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{focus : 1,time: new Date().getTime().toString()}})">
 						<input type="text" placeholder="搜索病员" readonly="readonly">
 						<img src="../../../../assets/image/sousuo@2x.png" alt="">
 					</div>
 						<!-- </router-link> -->
 					<!-- <router-link :to="{name:'promoters_sourceSearch',query:{}}"> -->
-					<div class="clinic_buttton" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{time: new Date().getTime()}})">
+					<div class="clinic_buttton" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{time: new Date().getTime().toString()}})">
 						<button>搜索</button>
 					</div>
 					<!-- </router-link> -->
 					<!-- <router-link :to="{name:'promoters_sourceSearch',query:{show:1}}"> -->
-					<div class="indexScreening" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{time: new Date().getTime()}})">
+					<div class="indexScreening" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{time: new Date().getTime().toString()}})">
 						<span>筛选 </span>
 						<img src="../../../../assets/image/screen@2x.png" alt="加载中" >
 					</div>
@@ -43,7 +43,7 @@
 						<van-list  v-model="loading" :finished="finishedAll" finished-text="没有更多了"  @load="nextPageFn">
 							<ul :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}">
 								<!-- items -->
-								<li v-for="(item,inx) in items " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+								<li v-for="(item,inx) in items " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
@@ -67,7 +67,7 @@
 					<div class="list" v-show="yes" @scroll="handleScroll" ref="listYes">
 						<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in yesItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+								<li v-for="(item,inx) in yesItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
@@ -90,7 +90,7 @@
 					<div class="list" v-show="no" @scroll="handleScroll" ref="listNo">
 						<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
 							<ul>
-								<li v-for="(item,inx) in noItems " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime()}})">
+								<li v-for="(item,inx) in noItems " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 										<div class="style">
 											<div class="contentTitle">
@@ -345,7 +345,7 @@ export default {
 			}
 		})
 		.catch((err)=>{
-			//Dialog({ message: err});;
+			this.$toast(err)
 		});
 	},
 	// 获取下一页的方法
@@ -414,8 +414,7 @@ export default {
 			}
 		})
 		.catch((err)=>{
-			
-			//Dialog({ message: err});;
+			this.$toast(err)
 		});
 	},
 	
@@ -434,8 +433,7 @@ export default {
 				num = res.data.data.sum.totalCount;
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: err});;
+				this.$toast(err)
 			});
 		
 		return num;

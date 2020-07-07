@@ -9,10 +9,10 @@
 				</div>
 				<div class="right">
 					<!-- <router-link :to="{name:'hospital_promotersSearch',query:{}}"> -->
-						<img src="../../../assets/image/sousuo@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_promotersSearch',query:{time: new Date().getTime()}})">
+						<img src="../../../assets/image/sousuo@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_promotersSearch',query:{time: new Date().getTime().toString()}})">
 					<!-- </router-link> -->
 					<!-- <router-link :to="{name:'hospital_addPromoters',query:{}}"> -->
-						<img src="../../../assets/image/tianjia@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_addPromoters',query:{time: new Date().getTime()}})">
+						<img src="../../../assets/image/tianjia@2x.png" alt="" @click="$router.push({path:'/hospital/hospital_addPromoters',query:{time: new Date().getTime().toString()}})">
 					<!-- </router-link> -->
 				</div>
 			</div>
@@ -22,7 +22,7 @@
 				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul :style="{'padding-top':$store.state.paddingTop}">
 						<!-- promotersList -->
-						<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime()}})">
+						<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId}}"> -->
 							<div class="list">
 							<img src="../../../assets/image/ren@2x.png" alt="">

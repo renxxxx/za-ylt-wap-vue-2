@@ -11,7 +11,7 @@
 		</div>
 		<div class="zhangwei"></div>
 		<!-- <router-link :to="{name:'outpatient_addActivity'}"> -->
-		<div class="addActive" @click="$router.push({path:'/outpatient/outpatient_addActivity',query:{time: new Date().getTime()}})" :style="{'padding-top':$store.state.paddingTop}">
+		<div class="addActive" @click="$router.push({path:'/outpatient/outpatient_addActivity',query:{time: new Date().getTime().toString()}})" :style="{'padding-top':$store.state.paddingTop}">
 			<span>+</span>
 			<span>新建活动</span>
 		</div>
@@ -19,7 +19,7 @@
 		<div class="_activeList" @scroll="handleScroll" ref="_activeList">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<van-swipe-cell v-for="(item,inx) in active" :key="inx"  :right-width= 65 >
-					<van-cell :border="false" @click="$router.push({path:'/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,time: new Date().getTime()}})">
+					<van-cell :border="false" @click="$router.push({path:'/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/outpatient/outpatient_activityDetails',query:{itemId:item.itemId,}}"> -->
 						<div class="activeList">
 							<img v-lazy="item.cover" alt="">
@@ -113,8 +113,7 @@ export default {
 				this.getdata();
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast('加载失败!')
 			})
 		},
 		onLoad(){
@@ -141,8 +140,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast('加载失败!')
 			})
 		}
 	},

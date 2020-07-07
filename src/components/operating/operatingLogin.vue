@@ -199,7 +199,7 @@ export default {
                     if(res.code == 0){
                       thisVue.$store.state.operating.login=res.data
                        thisVue.$toast({"message":'登录成功',onClose(){
-                           thisVue.$router.replace({ path : '/operating/operating_index',query:{time:new Date().getTime()}});
+                           thisVue.$router.replace({ path : '/operating/operating_index',query:{time:new Date().getTime().toString()}});
                         }})
                     }
                   }

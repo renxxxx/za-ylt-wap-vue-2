@@ -2,7 +2,7 @@
 	<div class="hospital">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
       <!-- <router-link :to="{path : '/outpatient/outpatient_articleSearch'}"> -->
-        <div class="hospital_search" @click="$router.push({path:'/outpatient/outpatient_articleSearch',query:{time: new Date().getTime()}})">
+        <div class="hospital_search" @click="$router.push({path:'/outpatient/outpatient_articleSearch',query:{time: new Date().getTime().toString()}})">
         	<input type="text" placeholder="搜索文章">
         	<img src="../../../assets/image/sousuo@2x.png" alt="">
         </div>
@@ -12,7 +12,7 @@
 				<button>搜索</button>
 			</div>
 			<!-- <router-link :to="{path : '/outpatient/outpatient_clinicMessage',query:{}}"> -->
-			<div class="hospital_information" @click="$router.push({path:'/outpatient/outpatient_clinicMessage',query:{time: new Date().getTime()}})">
+			<div class="hospital_information" @click="$router.push({path:'/outpatient/outpatient_clinicMessage',query:{time: new Date().getTime().toString()}})">
 				<img src="../../../assets/image/xiaoxi@2x.png" alt="">
 				<div class="num" v-if="this.$store.state.outpatient.login.newMessageCount == 0? true:false">
 					<span>{{this.$store.state.outpatient.login.newMessageCount}}</span>
@@ -25,25 +25,25 @@
 			<!-- <h3>共享医连体</h3> -->
 			<ul>
 				<!-- <router-link :to="{path : '/outpatient/outpatient_hospitalImage',query:{}}"> -->
-				<li @click="$router.push({path:'/outpatient/outpatient_hospitalImage',query:{time: new Date().getTime()}})">
+				<li @click="$router.push({path:'/outpatient/outpatient_hospitalImage',query:{time: new Date().getTime().toString()}})">
 					<img src="../../../assets/image/yiyuanxingxiang@2x.png" alt="">
 					<span>医院形象</span>
 				</li>
 				<!-- </router-link> -->
 				<!-- <router-link :to="{path : '/outpatient/outpatient_case',query:{}}"> -->
-				<li @click="$router.push({path:'/outpatient/outpatient_case',query:{time: new Date().getTime()}})">
+				<li @click="$router.push({path:'/outpatient/outpatient_case',query:{time: new Date().getTime().toString()}})">
 					<img src="../../../assets/image/youzhianli@2x.png" alt="">
 					<span>优质案例</span>
 				</li>
 				<!-- </router-link> -->
 				<!-- <router-link :to="{path : '/outpatient/outpatient_expertsIntroduction',query:{}}"> -->
-				<li @click="$router.push({path:'/outpatient/outpatient_expertsIntroduction',query:{time: new Date().getTime()}})">
+				<li @click="$router.push({path:'/outpatient/outpatient_expertsIntroduction',query:{time: new Date().getTime().toString()}})">
 					<img src="../../../assets/image/zhuanjia@2x.png" alt="">
 					<span>专家介绍</span>
 				</li>
 				<!-- </router-link> -->
 				<!-- <router-link :to="{path : '/outpatient/outpatient_activityReleased',query:{}}"> -->
-				<li @click="$router.push({path:'/outpatient/outpatient_activityReleased',query:{time: new Date().getTime()}})">
+				<li @click="$router.push({path:'/outpatient/outpatient_activityReleased',query:{time: new Date().getTime().toString()}})">
 					<img src="../../../assets/image/huodongfabu@2x.png" alt="">
 					<span>最新活动</span>
 				</li>
@@ -58,7 +58,7 @@
 			<div class="articleList" @scroll="handleScroll" ref="articleList">
 				<ul :model="article">
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
-						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/outpatient/outpatient_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime()}})">
+						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/outpatient/outpatient_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
 							<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
 								<p>{{items.content}}</p>
@@ -176,8 +176,7 @@ export default {
 				}
 			})
 			.catch((err)=>{
-				
-				//Dialog({ message: '加载失败!'});
+				this.$toast(err)
 			})
 		},
 		onLoad(){
