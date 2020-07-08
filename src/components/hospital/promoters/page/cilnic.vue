@@ -1,6 +1,5 @@
 <template>
 	<div class="hospital" :style="{'padding-top':$store.state.paddingTop}">
-		
 			<div class="navWarp">
 				<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
 					<div class="hospital_search" @click="$router.push({path:'/promoters/promoters_clinicSearch',query:{time: new Date().getTime().toString()}})">
@@ -23,13 +22,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="zhangwei" ></div>
-			<div class="content" ref="content" @scroll="handleScroll">
+			<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+			<div class="content" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+153+'px)')}" ref="content" @scroll="handleScroll">
 				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content	 -->
-						<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime().toString()}})">
+						<li v-for="(items,inx) in 99" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,}}"> -->
 								<div class="contentLi">
 									<h4>{{items.name}}</h4>
@@ -190,7 +189,7 @@ export default {
 	z-index: 3;
 }
 .zhangwei{
-	height: 1rem;
+	height: 1.03rem;
 	width: 100%;
 }
 .topNav{

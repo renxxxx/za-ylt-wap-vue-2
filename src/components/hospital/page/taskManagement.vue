@@ -72,10 +72,12 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			if(this.task.one.length == 0 || this.task.no.length == 0){
-				this.getData();
-			}
+			// if(this.task.one.length == 0 || this.task.no.length == 0){
+			// 	this.getData();
+			// }
 		}
+		Object.assign(this.$data, this.$options.data());
+		this.getData()
 	},
 	methods: {
 		afterPullDown() {

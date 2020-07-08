@@ -150,33 +150,28 @@ function plusReady() {
 		history.back()
 	});
 	store.state.paddingBottom = paddingBottom()
-	debugger
-	alert(plus.os.name)
-	switch ( plus.os.name ) {  
-        case "Android":  
-		// Android平台: plus.android.*  
-		var mainActivity = plus.android.runtimeMainActivity();  
-		var Settings= plus.android.importClass("android.provider.Settings");  
-		alert('设备名称'+plus.device.model)
-		alert(Settings.Secure.getString(mainActivity.getContentResolver(),Settings.Secure.ANDROID_ID));
-		// store.state.marginBottom = '50px'
-        break;  
-        case "iOS":  
-		// iOS平台: plus.ios.*  
-		var UIDevice = plus.ios.importClass("UIDevice");  
-		var currentDevice = UIDevice.currentDevice();  
-		alert("名字为: "+currentDevice.name());  
-		plus.ios.deleteObject(currentDevice); 
-        break;  
-        default:  
-        // 其它平台  
-        break;  
-    }  
-	// console.dir(plus.ixos.importClass)
-	// var UIDevice = plus.ixos.importClass("UIDevice");  
-	// var currentDevice = UIDevice.currentDevice();  
-	// alert("名字为: "+currentDevice.name());  
-	// plus.ios.deleteObject(currentDevice);
+	// debugger
+	// alert(plus.os.name)
+	// switch ( plus.os.name ) {  
+    //     case "Android":  
+	// 	// Android平台: plus.android.*  
+	// 	var mainActivity = plus.android.runtimeMainActivity();  
+	// 	var Settings= plus.android.importClass("android.provider.Settings");  
+	// 	alert('设备名称'+plus.device.model)
+	// 	alert(Settings.Secure.getString(mainActivity.getContentResolver(),Settings.Secure.ANDROID_ID));
+	// 	// store.state.marginBottom = '50px'
+    //     break;  
+    //     case "iOS":  
+	// 	// iOS平台: plus.ios.*  
+	// 	var UIDevice = plus.ios.importClass("UIDevice");  
+	// 	var currentDevice = UIDevice.currentDevice();  
+	// 	alert("名字为: "+currentDevice.name());  
+	// 	plus.ios.deleteObject(currentDevice); 
+    //     break;  
+    //     default:  
+    //     // 其它平台  
+    //     break;  
+    // }  
 	launchVue();
 }
 // var NjsHello = plus.navigator.setStatusBarStyle("dark")

@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<keep-alive>
-			<component v-bind:is="componentName"  ref='clinicAll' v-bind:list = 'list'></component>
+			<component :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+213+'px)')}" v-bind:is="componentName"  ref='clinicAll' v-bind:list = 'list'></component>
 		</keep-alive>
 		<div class="returnTop" @click="$refs.clinicDetails.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
         	<img src="../../../assets/image/returnTop.png" alt />
@@ -210,9 +210,9 @@ export default {
 </script>
 
 <style scoped>
-.all{
+/* .all{
 	height: calc(100vh - 2.13rem);
-}
+} */
 .clinicDetails{
 	width: 100%;
 	height: 100%;
@@ -385,5 +385,8 @@ export default {
 >>>.van-dropdown-menu__bar {
 	background: transparent;
 	box-shadow: none;
+}
+>>>.van-dropdown-menu__bar {
+	height: 30px;
 }
 </style>

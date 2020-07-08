@@ -4,7 +4,7 @@
 			<h3>—&nbsp;&nbsp;推广人端&nbsp;&nbsp;—</h3>
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="indexList" @scroll="handleScroll" ref="indexList"> 
+		<div class="indexList" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+97+'px)')}" @scroll="handleScroll" ref="indexList"> 
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<div class="typeNav">
 					<!-- <router-link :to="{path : '/promoters/promoters_clinicSearch',query:{}}"> -->
@@ -378,7 +378,7 @@ export default {
 }
 .indexList{
 	width: 100%;
-	height: calc(100% - .98rem);
+	/* height: calc(100% - .98rem); */
   	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;
