@@ -99,9 +99,11 @@ export default {
 					this.finished = true;
 				}
         
-        if(this.content.length == 0){
-          this.test='无数据'
-        }
+				if(this.content.length == 0){
+					this.test='无数据'
+				}else{
+					this.test='没有更多了'
+				}
 				// this.clinic.num = res.data.data.sum.totalCount;
 			})
 			.catch((err)=>{

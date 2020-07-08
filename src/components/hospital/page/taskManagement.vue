@@ -10,9 +10,10 @@
 				</div>
 				<div class="right"></div>
 			</div>
-			<div class="zhangwei"></div>
-			<div class="taskList" :style="{'padding-top':$store.state.paddingTop}">
-				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
+			<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+			<div class="taskList" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+176+'px)')}">
+				<div>
+					<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 				<h3>首次收益</h3>
 				<ul>
 					<li v-for="(item,inx) in task.one" :key='inx'>
@@ -23,8 +24,8 @@
 					</li>
 				</ul>
 				<h3>每日收益</h3>
-				<ul>
-					<li v-for="(item,inx) in task.no" :key='inx'>
+				<ul :style="{'margin-bottom':$store.state.paddingTop}">
+					<li v-for="(item,inx) in task.no" :key='inx' >
 						<input type="checkbox" class="input_check" :checked="item.checked" @change="change($event,item,inx)"/>
 						<!-- <router-link :to="{path : '/hospital/hospital_taskManagementDetails' ,query : {item : JSON.stringify(item),show : true,}}"> -->
 						<span @click="$router.push({path:'/hospital/hospital_taskManagementDetails',query:{item : JSON.stringify(item),show : true,time: new Date().getTime().toString()}})">{{item.name}}</span>
@@ -32,6 +33,7 @@
 					</li>
 				</ul>
 				<!-- </van-pull-refresh> -->
+				</div>
 			</div>
 		<!-- </van-pull-refresh> -->
 	</div>
@@ -271,7 +273,8 @@ export default {
 	margin-bottom: .18rem;
 }
 .taskList ul:last-child li:last-child{
-	margin-bottom: .35rem;
+	border: none;
+	/* margin-bottom: .35rem; */
 }
 .taskList ul>li{
 	width: 92%;

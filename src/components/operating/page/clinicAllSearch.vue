@@ -175,17 +175,19 @@ export default {
 					this.clinicNum = res.data.data.sum.totalCount
 					// 
 				}
-			// 加载状态结束
-			this.loading = false;
+				// 加载状态结束
+				this.loading = false;
 			}else{
 				this.loading = false;
-	  this.test='没有更多了'
+	  			this.test='没有更多了'
 				this.finished = true;
 			}
 	
-	if(this.content.length == 0){
-	  this.test='无数据'
-	}
+			if(this.content.length == 0){
+				this.test='无数据'
+			}else{
+				this.test='没有更多了'
+			}
 			// this.clinic.num = res.data.data.sum.totalCount;
 		})
 		.catch((err)=>{

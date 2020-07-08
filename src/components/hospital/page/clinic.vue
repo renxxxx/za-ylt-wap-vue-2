@@ -1,8 +1,8 @@
 <template>
 	<div class="hospitalClinic" :style="{'padding-top':$store.state.paddingTop}">
 		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
-			<div class="navWarp">
-				<div class="topNav"  :style="{'padding-top':$store.state.paddingTop}">
+			<div class="navWarp" :style="{'padding-top':$store.state.paddingTop}">
+				<div class="topNav"  >
 					<div class="hospital_search" @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_clinicSearch',query:{}}"> -->
 							<input type="text" placeholder="搜索门诊">
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div style="height:2rem"></div>
-			<clinicContent  ref="clinic" :show = 'show'></clinicContent>
+			<clinicContent  ref="clinic" :show = 'show' :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+250+'px)')}"></clinicContent>
 		<!-- </van-pull-refresh> -->
 	</div>
 </template>
@@ -248,6 +248,6 @@ export default {
 	margin-top: -.03rem;
 }
 .content{
-	height: calc(100% - 2rem)!important;
+	/* height: calc(100% - 2rem)!important; */
 }
 </style>

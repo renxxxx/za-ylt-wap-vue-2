@@ -25,8 +25,8 @@
 					</div>
 				</div>
 			</div>
-			<div style="height:1.1rem"></div>
-			<clinicContent ref='content' :clinic = 'false' :style="{'padding-top':$store.state.paddingTop}"></clinicContent>
+			<div style="height:.98rem" :style="{'padding-top':$store.state.paddingTop}"></div>
+			<clinicContent ref='content' :clinic = 'false' :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+98+'px)')}"></clinicContent>
 	</div>
 </template>
 

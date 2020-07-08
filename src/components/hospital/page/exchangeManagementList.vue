@@ -9,9 +9,9 @@
 			</div>
 			<div class="right"></div>
 		</div>
-		<div class="zhangwei"></div>
-		<div class="exchangeList_content" @scroll="handleScroll" ref="exchangeList_content">
-			<ul :style="{'padding-top':$store.state.paddingTop}">
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="exchangeList_content" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="exchangeList_content">
+			<ul>
 				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
 					<li v-for="(item,inx) in exchangeList" :key='inx' class='List' @click="$router.push({path:'/hospital/hospital_exchangeDetails',query:{item : item,time: new Date().getTime().toString()}})">
@@ -198,7 +198,7 @@ export default {
 	height: 100%;
 }
 .exchangeList_content{
-	height: calc(100% - .47rem);
+	/* height: calc(100% - .47rem); */
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;

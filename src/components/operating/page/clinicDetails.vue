@@ -224,12 +224,14 @@ export default {
 				this.loading = false;
 				}else{
 					this.loading = false;
-				this.test='没有更多了'
+					this.test='没有更多了'
 					this.finished = true;
 				}
 		
 				if(this.content.length == 0){
-				this.test='无数据'
+					this.test='无数据'
+				}else{
+					this.test='没有更多了'
 				}
 				// this.clinic.num = res.data.data.sum.totalCount;
 			})

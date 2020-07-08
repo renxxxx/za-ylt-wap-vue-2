@@ -11,10 +11,10 @@
 			</div>
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="content" @scroll="handleScroll" ref="content">
+		<div class="content" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="content">
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
-				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul>
+				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<li v-for="(item,inx) in clinicMessage" :key='inx' @click="$router.push({path:'/hospital/hospital_clinicMessageDetails',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
 						<div class="triangle_border_up">
@@ -30,8 +30,8 @@
 						</div>
 						<!-- </router-link> -->
 					</li>
-					</ul>
 				</van-list>
+					</ul>
 			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
@@ -181,7 +181,7 @@ export default {
 	-webkit-overflow-scrolling: touch;
  	overflow: scroll;
  	overflow-x: hidden;
-	height: calc(100% - .47rem);
+	
 }
 .content ul{
 	width: 91.46%;

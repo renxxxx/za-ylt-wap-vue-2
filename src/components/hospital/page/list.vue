@@ -5,7 +5,7 @@
 			<h3>{{name}}</h3>
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-    <div class="_list" ref="_list" @scroll="handleScroll">
+    <div class="_list" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" ref="_list" @scroll="handleScroll">
       <van-search v-model="keywords" placeholder="请输入搜索关键词" @search="searchFn"/>
       <span>当前: {{nowPromoter}}</span>
       <ul>
@@ -161,7 +161,9 @@ export default {
 	line-height: .49rem;
 	font-size: .15rem;
 	margin: 0rem auto;
-	border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
+  padding:0px .12rem;
+  box-sizing: border-box
 }
 ._list>ul li:last-child{
   border: none;

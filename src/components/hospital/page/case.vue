@@ -4,8 +4,8 @@
 			<img src="../../../assets/image/shape@3x.png" alt=""  @click="goBackFn"  id="navback" :style="{'padding-top':$store.state.paddingTop}">
 			<h3>优质案例</h3>
 		</div>
-		<div class="zhangwei"></div>
-		<div class="article" :style="{'padding-top':$store.state.paddingTop}" @scroll="handleScroll" ref="article">
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="article" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="article">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
 				<li v-for="(items,inx) in article" :key="inx">
@@ -150,7 +150,7 @@ export default {
 }
 .article{
 	width: 100%;
-	height: calc(100% - .47rem);
+	/* height: calc(100% - .47rem); */
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;

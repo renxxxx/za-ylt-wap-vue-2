@@ -43,6 +43,8 @@ const state={
   operatingReturnTopPage:false,
   //加载中线条显示控制
   loading_lineNum:0,
+  // 底部按钮高度
+  marginBottom:0
 }
 const getters={
   //账号登录

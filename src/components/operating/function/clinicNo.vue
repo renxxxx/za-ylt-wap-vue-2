@@ -129,11 +129,13 @@ export default {
 				}else{
 					this.loading = false;
 					this.finished = true;
-          this.test='没有更多了'
+          			this.test='没有更多了'
 				}
-        if(this.items.length == 0){
-          this.test='无数据'
-        }
+				if(this.items.length == 0){
+					this.test='无数据'
+				}else{
+					this.test='没有更多了'
+				}
 			})
 			.catch((err)=>{
 				this.$toast(err)

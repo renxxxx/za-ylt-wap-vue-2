@@ -29,17 +29,17 @@
 					<van-tabs @change="tabsFn" background='none' line-width=.6rem title-inactive-color='#FFFFFF' title-active-color='#FFFFFF' v-model='list.titleData'>
 						<van-tab :title='list.noNum!=0||list.yesNum!=0? list.allTitle+(list.noNum+list.yesNum):list.allTitle'>
 							<keep-alive>
-								<clinicAll ref='all' :list = 'list'></clinicAll>
+								<clinicAll :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+85+'px)')}" ref='all' :list = 'list'></clinicAll>
 							</keep-alive>
 						</van-tab>
 						<van-tab :title='list.noNum==0? list.noTitle:list.noTitle+list.noNum'>
 							<keep-alive>
-								<clinicNo ref='no' :list = 'list'></clinicNo>
+								<clinicNo :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+85+'px)')}" ref='no' :list = 'list'></clinicNo>
 							</keep-alive>
 						</van-tab>
 						<van-tab :title='list.yesNum==0? list.yesTitle:list.yesTitle+list.yesNum'>
 							<keep-alive>
-								<clinicYes ref='yes' :list = 'list'></clinicYes>
+								<clinicYes :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+85+'px)')}" ref='yes' :list = 'list'></clinicYes>
 							</keep-alive>
 						</van-tab>
 					</van-tabs>
@@ -193,9 +193,9 @@ export default {
 }
 </script>
 <style scoped>
-.all{
+/* .all{
 	height: calc(100vh - .85rem);
-}
+} */
 .refresh{
 	overflow: hidden;
 }

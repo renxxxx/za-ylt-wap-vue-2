@@ -1,9 +1,10 @@
 <template>
 	<div class="content" @scroll="handleScroll" ref="content">
 		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
+			<div>
 			<span v-if="show? true:false">已找到 {{clinicNum}} 条数据</span>
-				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
+				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 					<!-- content -->
 					<li v-for="(items,inx) in content" :key="inx">
 						<router-link :to="{path : '/hospital/hospital_clinicDetails' ,query :  {clinicId : items.hospitalClinicId,}}">
@@ -14,8 +15,10 @@
 							</div>
 						</router-link>	
 					</li>
-			</ul>
 				</van-list>
+			</ul>
+			</div>
+			
 		<!-- </van-pull-refresh> -->
 			<div class="returnTop" @click="$refs.content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 				<img src="../../../assets/image/returnTop.png" alt />
@@ -116,7 +119,10 @@ export default {
 				}
         
 				if(this.content.length == 0){
-				this.test='无数据'
+					debugger
+					this.test='无数据'
+				}else{
+					this.test='没有更多了'
 				}
 				// this.clinic.num = res.data.data.sum.totalCount;
 			})
@@ -188,7 +194,7 @@ export default {
 	/* margin-top: .2rem; */
 }
 .content ul li:last-child{
-	margin-bottom: .49rem;
+	/* margin-bottom: .49rem; */
 }
 .contentLi{
 	height: .82rem;

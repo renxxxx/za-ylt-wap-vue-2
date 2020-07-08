@@ -75,16 +75,16 @@
 			</div>
 		</van-popup>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="promotersDetails_list" @scroll="handleScroll" ref="promotersDetails_list">
+		<div class="promotersDetails_list" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+246+'px)')}" @scroll="handleScroll" ref="promotersDetails_list">
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
-			<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
-				<ul>
+				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
+			<ul>
 					<!-- promotersList -->
 					<li v-for="(item,inx) in promotersList" :key='inx'>
 						<!-- <router-link :to="{path : '/hospital/hospital_clinicDetails' ,query :  {clinicId : item.hospitalClinicId}}"> -->
 							<div class="promotersList" @click="$router.push({path:'/hospital/hospital_clinicDetails',query:{clinicId : item.hospitalClinicId,time: new Date().getTime().toString()}})">
 								<h4>{{item.name}}</h4>
-								<img src="../../../assets/image/zhuanyi@2x.png" alt="" @click.prevent="transferPromotersShowFn(item)">
+								<img src="../../../assets/image/zhuanyi@2x.png" alt="" @click.stop="transferPromotersShowFn(item)">
 							</div>
 						<!-- </router-link> -->
 						<van-popup v-model="modifyPromotersShow" overlay-class='modifyPromotersClass' @close="ReturnHomePageClose">
@@ -106,11 +106,11 @@
 							<span>用户{{promoters.name}}下的{{item.name}}将转移至{{modify.name}}</span>
 						</van-dialog>
 					</li>
-				</ul>
+			</ul>
+				</van-list>
 			<div class="popup"  v-if="choicePromoterAllShow">
 				<van-picker show-toolbar :columns="option" @cancel="cancel" @confirm="onConfirm"/>
 			</div>
-			</van-list>
 			<!-- </van-pull-refresh> -->
 		</div>
 		<div class="returnTop" @click="$refs.promotersDetails_list.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
@@ -164,7 +164,6 @@ export default {
 	computed:{
 	  hospitalReturnHomePage: {
 	  	get: function() {
-	  	// 
 	  		return this.$store.state.hospitalReturnHomePage
 	  	},
 	  	set: function (newValue) {
@@ -207,9 +206,9 @@ export default {
 				if(res.data.codeMsg){
 					this.$toast(res.data.codeMsg)
 				}else{
-					this.promoters = {name: res.data.data.name,phone: res.data.data.phone,cover: res.data.data.cover},
-					this.modify.name = res.data.data.name;
-					this.modify.id = res.data.data.hospitalUserId;
+					this.promoters = {name: res.data.data.name,phone: res.data.data.phone,cover: res.data.data.cover}
+					// this.modify.name = res.data.data.name;
+					// this.modify.id = res.data.data.hospitalUserId;
 				}
 			})
 			.catch((err)=>{
@@ -226,13 +225,16 @@ export default {
 			this.$axios.get('/hospital/def/hospital-operator-users?')
 			.then(res => {
 				if(!res.data.codeMsg){
-					// 
 					for(let i in res.data.data.rows){
-						this.option.push({
-							'clinicPromoterId' : res.data.data.rows[i].hospitalUserId,
-							'text' : res.data.data.rows[i].name,
-							'value' : '00'+i,
-						})
+						if(res.data.data.rows[i].hospitalUserId != this.$route.query.hospitalUserId){
+							this.option.push({
+								'clinicPromoterId' : res.data.data.rows[i].hospitalUserId,
+								'text' : res.data.data.rows[i].name,
+								'value' : '00'+i,
+							})
+						}
+
+							
 					}
 				}
 			})
@@ -359,30 +361,34 @@ export default {
 		//修改确定方法的最后确认弹窗显示
 		modifySubmitAllFn(){
 			this.modify.showAll = true;
-			this.$dialog.confirm({
-			  title: '全部门诊转移',
-			  message: '用户'+this.promoters.name+'名下的'+this.clinicNum+'个门诊将转移至'+this.modify.name
-			}).then(() => {
-			  // on confirm
-				this.$axios.post('/hospital/super-admin/hospital-clinics-alter',qs.stringify({
-					hospitalUserId : this.$route.query.hospitalUserId,
-					hospitalUserIdNew : this.modify.id,
-					expectedRowCount : this.clinicNum,
-				}))
-				.then(res=>{
-					if(!res.data.codeMsg){
-						this.$toast.success('操作成功');
-						this.$router.back()
-					}else{
-						this.$toast(res.data.codeMsg);
-					}
-				})
-				.catch((err)=>{
-					
-				})
-			}).catch(() => {
-			  // on cancel
-			});
+			if(this.modify.name && this.modify.id){
+				this.$dialog.confirm({
+					title: '全部门诊转移',
+					message: '用户'+this.promoters.name+'名下的'+this.clinicNum+'个门诊将转移至'+this.modify.name
+				}).then(() => {
+					this.$axios.post('/hospital/super-admin/hospital-clinics-alter',qs.stringify({
+						hospitalUserId : this.$route.query.hospitalUserId,
+						hospitalUserIdNew : this.modify.id,
+						expectedRowCount : this.clinicNum,
+					}))
+					.then(res=>{
+						if(!res.data.codeMsg){
+							this.$toast.success('操作成功');
+							this.$router.back()
+						}else{
+							this.$toast(res.data.codeMsg);
+						}
+					})
+					.catch((err)=>{
+						
+					})
+				}).catch(() => {
+				// on cancel
+				});
+			}else{
+				this.$toast('请选择移交人')
+			}
+			
 			
 		},
 		//转移推广人
@@ -418,7 +424,7 @@ export default {
       this.hospitalReturnHomePage = false;
 		},
 		modifySubmitFn(){
-			this.modify.show = true
+				this.modify.show = true			
 		},
 		modifyPromoterFn(item){
 			this.$axios.post('/hospital/super-admin/hospital-clinics-alter',qs.stringify({
@@ -566,11 +572,15 @@ export default {
 	width: 100%;
 	background-color: #FFFFFF;
 }
-.promotersDetails ul>li{
+.promotersDetails ul li{
 	width: 100%;
 	height: .53rem;
 	line-height: .53rem;
 	position: relative;
+}
+.promotersDetails ul li:hover{
+	background-color: #EAF2FF;
+	color: #2B77EF
 }
 .promotersDetails ul li h4{
 	padding-left: .18rem;
@@ -611,6 +621,7 @@ export default {
 	width: 81.67%;
 	margin: 0rem auto .12rem;
 	line-height: normal;
+
 }
 .promotersList{
 	width: 100%;
@@ -800,7 +811,7 @@ export default {
 	width: 100%;
 }
 .promotersDetails_list{
-	height: calc(100% - 2.46rem);
+	/* height: calc(100% - 2.46rem); */
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;

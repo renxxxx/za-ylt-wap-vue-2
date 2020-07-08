@@ -383,12 +383,14 @@ export default {
 					this.loading = false;
 				}else{
 					this.loading = false;
-          this.test='没有更多了'
+          			this.test='没有更多了'
 					this.finished = true;
 				}
-        if(this.items.length == 0 && this.noItems.length == 0){
-          this.test='无数据'
-        }
+				if(this.items.length == 0 && this.noItems.length == 0){
+					this.test='无数据'
+				}else{
+					this.test='没有更多了'
+				}
 			})
 			.catch((err)=>{
 				this.$toast(err)

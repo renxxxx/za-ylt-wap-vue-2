@@ -9,8 +9,8 @@
 			</div>
 			<div class="right"></div>
 		</div>
-		<div class="zhangwei"></div>
-		<div class="content" @scroll="handleScroll" ref="content" :style="{'padding-top':$store.state.paddingTop}">
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="content" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="content">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 				<ul>
 					<li v-for="(item,inx) in doctor" :key='inx' @click="showContent(item)">

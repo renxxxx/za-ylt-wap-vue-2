@@ -396,8 +396,9 @@ export default {
           }
 		  
           if(this.items.length == 0){
-			  
             this.test='无数据'
+          }else{
+            this.test='没有更多了'
           }
 		  
         })

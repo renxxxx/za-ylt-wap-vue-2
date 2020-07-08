@@ -9,11 +9,11 @@
 				<span @click="searchFn">搜索</span>
 			</div>
 		</div>
-		<div class="zhangwei"></div>
-		<div class="promotersSearch_list" @scroll="handleScroll" ref="promotersSearch_list"> 
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="promotersSearch_list" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="promotersSearch_list"> 
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-				<ul :style="{'padding-top':$store.state.paddingTop}">
+				<ul>
 					<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime().toString()}})">
 					<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,}}"> -->
 						<div class="list">
@@ -162,6 +162,8 @@ s	},
 	width: 93.6%;
 	height: .33rem;
 	line-height: .33rem;
+	background-color: #F5F5F5;
+	padding-bottom: .12rem;
 }
 .nav>img{
 	width: .09rem;
@@ -225,6 +227,9 @@ s	},
 	overflow: hidden;
 	background-color: #FFFFFF;
 }
+.promotersSearch ul li:first-child{
+	margin-top: 0px;
+}
 .list{
 	height: 100%;
 	width: 100%;
@@ -255,11 +260,12 @@ s	},
 	height: .15rem;
 }
 .promotersSearch_list{
-	height: calc(100% - .47rem);
+	/* height: calc(100% - .47rem); */
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;
 	overflow-x: hidden;
 	width: 100%;
 }
+
 </style>

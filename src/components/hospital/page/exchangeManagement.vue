@@ -25,7 +25,7 @@
 				</div>
 				<!-- </router-link> -->
 			</div>
-		<div class="exchangeLists_content" @scroll="handleScroll" ref="exchangeLists_content">
+		<div class="exchangeLists_content" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+100+'px)')}" @scroll="handleScroll" ref="exchangeLists_content">
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<ul class="exchangeLists">
 			<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -285,7 +285,7 @@ export default {
 	width: 100%;
 }
 .exchangeLists_content{
-	height: calc(100% - 1rem);
+	/* height: calc(100% - 1rem); */
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;

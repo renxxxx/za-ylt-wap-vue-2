@@ -9,10 +9,10 @@
 			</div>
 			<div class="right"></div>
 		</div>
-		<div class="zhangwei"></div>
-		<div class="center" @scroll="handleScroll" ref="center">
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="center" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="center">
 			<!-- <router-link :to="{name:'hospital_addActivity'}"> -->
-			<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime().toString()}})" :style="{'padding-top':$store.state.paddingTop}">
+			<div class="addActive" @click="$router.push({path:'/hospital/hospital_addActivity',query:{time: new Date().getTime().toString()}})">
 				<span>+</span>
 				<span>新建活动</span>
 			</div>
@@ -180,7 +180,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	background-color: #FFFFFF;
+	background-color: #f5f5f5;
 }
 .topNav{
 	width: 100%;
@@ -231,7 +231,7 @@ export default {
 	text-align: center;
 	font-size: .14rem;
 	margin: 0 auto;
-	/* margin-top: .59rem; */
+	margin-top: .12rem;
 	background-color: #FFFFFF;
 }
 .addActive span:first-child{
@@ -246,7 +246,7 @@ export default {
 	color: #2B77EF;
 }
 .activeList{
-	width: 93.6%;
+	/* width: 93.6%; */
 	height: 1.8rem;
 	margin: .12rem auto;
 	margin-right: 0rem;
@@ -302,10 +302,11 @@ export default {
 >>>.van-swipe-cell {
     position: relative;
     overflow: hidden;
-    width: 93.6%;
+	width: 93.6%;
+	margin: .12rem auto;
 }
 .center{
-	height: calc(100% - .47rem);
+	/* height: calc(100% - .47rem); */
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;

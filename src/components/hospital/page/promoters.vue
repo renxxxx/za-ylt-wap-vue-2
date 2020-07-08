@@ -16,11 +16,11 @@
 					<!-- </router-link> -->
 				</div>
 			</div>
-			<div class="zhangwei"></div>
-			<div class="promoters_list" @scroll="handleScroll" ref="promoters_list">
+			<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+			<div class="promoters_list" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="promoters_list">
 				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<ul :style="{'padding-top':$store.state.paddingTop}">
+					<ul>
 						<!-- promotersList -->
 						<li v-for="(item,inx) in promotersList" :key="inx" @click="$router.push({path:'/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/hospital/hospital_promotersDetails',query:{hospitalUserId: item.hospitalUserId}}"> -->

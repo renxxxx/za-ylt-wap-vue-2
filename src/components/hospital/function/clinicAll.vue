@@ -1,8 +1,8 @@
 <template>
 	<div id="all" class="all" @scroll="handleScroll" ref="all">
 		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
-			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 			<ul>
+			<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="getNextPage">
 				<li v-for="(item,inx) in  items" :key="inx">
 					<router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}">
 						<div class="style">
@@ -20,8 +20,8 @@
 							<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
 						</div>
 				</li>
-			</ul>
       </van-list>
+			</ul>
 		<!-- </van-pull-refresh> -->
 		<div class="returnTop" @click="$refs.all.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -188,11 +188,13 @@ export default {
 				}else{
 					this.loading = false;
 					this.finished = true;
-          this.test='没有更多了'
+          			this.test='没有更多了'
 				}
-        if(this.items.length == 0){
-          this.test='无数据'
-        }
+				if(!this.items.length){
+					this.test='无数据'
+				}else{
+					this.test='没有更多了'
+				}
 			})
 			.catch((err)=>{
 				this.$toast(err)

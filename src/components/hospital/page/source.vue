@@ -1,6 +1,6 @@
 <template>
 	<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
-  	<div class="index">
+  	<div class="index" >
 		<div class="navWarp">
 			<!-- 搜索及其筛选 -->
 			<div class="topNav" ref="topNav" :style="{'padding-top':$store.state.paddingTop}">
@@ -30,17 +30,17 @@
 					<van-tabs background='none' line-width=.6rem title-inactive-color='#FFFFFF' title-active-color='#FFFFFF' v-model='list.titleData'>
 						<van-tab :title='list.noNum!=0||list.yesNum!=0? list.allTitle+(list.noNum+list.yesNum):list.allTitle'>
 							<keep-alive>
-								<clinicAll ref='all' :list = 'list'></clinicAll>
+								<clinicAll ref='all' :list = 'list' :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+135+'px)')}"></clinicAll>
 							</keep-alive>
 						</van-tab>
 						<van-tab :title='list.noNum==0? list.noTitle:list.noTitle+list.noNum'>
 							<keep-alive>
-								<clinicNo ref='no' :list = 'list'></clinicNo>
+								<clinicNo ref='no' :list = 'list' :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+135+'px)')}"></clinicNo>
 							</keep-alive>
 						</van-tab>
 						<van-tab :title='list.yesNum==0? list.yesTitle:list.yesTitle+list.yesNum'>
 							<keep-alive>
-								<clinicYes ref='yes' :list = 'list'></clinicYes>
+								<clinicYes ref='yes' :list = 'list' :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+135+'px)')}"></clinicYes>
 							</keep-alive>
 						</van-tab>
 					</van-tabs>
@@ -208,7 +208,7 @@ export default {
 
 <style scoped>
 .all{
-	height: calc(100vh - .85rem);
+	/* height: calc(100vh - .85rem); */
 }
 .refresh{
 	overflow: hidden;

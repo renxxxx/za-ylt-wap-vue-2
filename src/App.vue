@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref='appRef'>
+  <div id="app" ref='appRef' :style="{'padding-bottom':$store.state.marginBottom,'border-size':'border-box'}">
     <div class="xiantiao" v-if="$store.state.loading_lineNum" :style="{'top':$store.state.paddingTop}"></div>
    <keep-alive>
       <router-view ></router-view>
