@@ -9,7 +9,7 @@
 			</div>
 			<div class="right"></div>
 		</div>
-		<div class="zhangwei"></div>
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
         <div class="content"> 
             <div class="content_title">
                 <div class="content_title_img">
