@@ -52,6 +52,7 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.activity = JSON.parse(this.$route.query.activity)
+		console.log(this.activity.cover)
 		}
 	},
 	methods: {
@@ -103,6 +104,7 @@ export default {
 <style scoped>
 .preview{
 	width: 100%;
+	position: relative;
 }
 .topNav{
 	width: 100%;
@@ -110,6 +112,8 @@ export default {
 	line-height: .47rem;
 	background-color: #FFFFFF;
 	border-bottom: 1px solid #E5E5E5;
+	position: fixed;
+	top:0;
 }
 .left{
 	width: 20%;
@@ -155,8 +159,12 @@ export default {
 .activeList{
 	width: 93.6%;
 	height: 1.8rem;
-	margin: 40% auto;
-	position: relative;
+	/* margin: 40% auto; */
+	position: fixed;
+	top: 40%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
 	overflow: hidden;
 }
 .activeList>img{

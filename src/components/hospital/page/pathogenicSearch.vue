@@ -67,6 +67,7 @@
       <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
           <ul class="list" :style="{'padding-top':$store.state.paddingTop}" >
          <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
+           <!-- items -->
             <li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
               <!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
                 <div class="style">
@@ -75,7 +76,7 @@
                     <span>{{item.realname}}</span>
                   </div>
                   <div class="contnet_left">
-                    <span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
+                    <span>推送：{{item.pushTime? moment(item.pushTime).format('YYYY-MM-DD'):''}}</span>
                     <span>状态：{{item.span}}</span>
                   </div>
                 </div>
@@ -428,7 +429,11 @@ export default {
     },
     closeTimeFn(){
       this.hospitalReturnHomePage = true;
-      this.hospitalReturnTopPage = true;
+      if (this.scrollTop > 800) {
+        this.hospitalReturnTopPage = true;
+      } else {
+        this.hospitalReturnTopPage = false;
+      }
     }
   }
 };

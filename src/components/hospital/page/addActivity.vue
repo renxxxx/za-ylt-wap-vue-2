@@ -121,7 +121,13 @@ export default {
 		//回退方法
 		goBackFn(){
 			Object.assign(this.$data, this.$options.data());
-			this.$router.back(-1)
+			let a = setTimeout(()=>{
+				console.log('s')
+				if(!this.previewColor){
+					this.$router.back(-1)
+					clearTimeout('a')
+				}
+			},1)
 		},
 		// 添加上传的图片
 		addImg(_fileLIst){

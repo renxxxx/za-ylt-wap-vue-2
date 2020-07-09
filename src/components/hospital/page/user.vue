@@ -184,10 +184,10 @@ export default {
 }
 
 .top_left{
-	width: 24%;
+	width: 22%;
 	float:left;
 	height: .8rem;
-	margin:.23rem 7.7% .15rem 7.4%;
+	margin:.23rem 7% .15rem 7%;
 }
 .top_left img{
 	width: .75rem;
@@ -214,7 +214,7 @@ export default {
 	width: 33%;
 	float: left;
 	height: .49rem;
-	margin: .37rem .16rem .28rem 0rem;
+	margin: .37rem .15rem .28rem 0rem;
 }
 .top_center h3{
 	height: .29rem;
@@ -234,7 +234,8 @@ export default {
 	font-size: .13rem;
 }
 .top_right{
-	/* width: 19%; */
+	width: 19%;
+	min-width: .95rem;
 	float:left;
 	margin: .53rem 0rem .44rem 0rem;
 	color: #999999;
