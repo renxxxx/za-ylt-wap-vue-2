@@ -57,7 +57,7 @@
 			</div>
 			<div class="articleList" @scroll="handleScroll" ref="articleList">
 				<ul :model="article">
-					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
+					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
 						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/outpatient/outpatient_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
 							<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
@@ -91,9 +91,9 @@ export default {
 		return {
 			name: 'hospital',
 			article:[],
-			loading: false,
+			loading: true,
 			finished: false,
-			page:1,
+			page:0,
 			hospitalReturnTopPage:false,
 			scrollTop:0
 		}
@@ -138,6 +138,10 @@ export default {
 				thisVue.$router.replace({ path : '/outpatientLogin',query:{time:1}});
 			}})
 			Object.assign(this.$data, this.$options.data());
+			this.onLoad()
+			
+		},
+		getdata(){
 			this.$axios.post('/c2/article/items',qs.stringify({
 				hospitalId : this.$store.state.outpatient.login.hospital.hospitalId,
 				clinicId : this.$store.state.outpatient.login.clinic.clinicId,
@@ -145,32 +149,24 @@ export default {
 				ps : 10
 			}))
 			.then(res => {
+				if(res.data.codeMsg){
+					this.$toast(res.data.codeMsg)
+				}
 				if(res.data.data.items.length != 0){
 					for(let i in res.data.data.items){
-					// 
-					if(res.data.data.items[i]){
-						this.article.push({
-							content:res.data.data.items[i].title,
-							img: res.data.data.items[i].cover,
-							time:res.data.data.items[i].alterTime,
-							itemId: res.data.data.items[i].itemId,
-						})
-					}else{
-						// this.$notify({
-						// 	message: '数据已全部加载',
-						// 	duration: 1000,
-						// 	background:'#79abf9',
-						// })
+						if(res.data.data.items[i]){
+							this.article.push({
+								content:res.data.data.items[i].title,
+								img: res.data.data.items[i].cover,
+								time:res.data.data.items[i].alterTime,
+								itemId: res.data.data.items[i].itemId,
+							})
+						}
 					}
-				}
-				this.loading = false;
-				this.finished = true;
+					debugger
+					// 加载状态结束
+					this.loading = false;
 				}else{
-					// this.$notify({
-					// 	message: '数据已全部加载',
-					// 	duration: 1000,
-					// 	background:'#79abf9',
-					// })
 					this.loading = false;
 					this.finished = true;
 				}
@@ -180,6 +176,7 @@ export default {
 			})
 		},
 		onLoad(){
+			this.page++;
 			this.getdata()
 		},
   	},

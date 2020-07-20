@@ -28,7 +28,7 @@
 				<ul>
 					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="getNextPage">
 						<!-- content	 -->
-						<li v-for="(items,inx) in 99" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime().toString()}})">
+						<li v-for="(items,inx) in content" :key="inx" @click="$router.push({path:'/promoters/promoters_source',query:{clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_source' ,query :  {clinicId : items.hospitalClinicId,clinicName:items.name,clinicTime:items.alterTime,}}"> -->
 								<div class="contentLi">
 									<h4>{{items.name}}</h4>
@@ -60,7 +60,7 @@ export default {
 				num : null
 			},
 			pullingDown:false,
-			loading: false,
+			loading: true,
 			finished: false,
 			content : [],
 			page:1,
@@ -112,26 +112,21 @@ export default {
 		  }, 500);
 		},
 		initData() {
-
-			debugger
-
 			let thisVue=this;
 			if(this.$route.meta.auth && !this.$store.state.hospital.login)
 				this.$toast({message:'请登录',onClose:function(){
 					thisVue.$router.replace({ path : '/hospital/hospitalLogin',query:{time:1}});
 				}})
-
-
-		  Object.assign(this.$data, this.$options.data());
-		  // this.$refs.clinic.initData();
-		  this.$axios.get('/hospital/operator/hospital-clinics-sum?')
-		  .then(res => {
-		  	this.clinic.num = res.data.data.rowCount;
-		  })
-		  .catch((err)=>{
-		  	
-		  })
-		  this.getNextPage();
+			Object.assign(this.$data, this.$options.data());
+			// this.$refs.clinic.initData();
+			this.$axios.get('/hospital/operator/hospital-clinics-sum?')
+			.then(res => {
+				this.clinic.num = res.data.data.rowCount;
+			})
+			.catch((err)=>{
+				
+			})
+			this.getNextPage();
 		},
 		searchFn(){
 			this.page = 1;
@@ -155,8 +150,8 @@ export default {
 						}
 						// 
 					}
-				// 加载状态结束
-				this.loading = false;
+					// 加载状态结束
+					this.loading = false;
 				}else{
 					this.loading = false;
 					this.finished = true;

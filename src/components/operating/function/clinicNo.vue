@@ -47,7 +47,6 @@ export default {
 		}
 	},
 	computed:{
-	  ...mapGetters(['account','isLogin']),
 	},
 	 props:['hospitalId','list'],
 	components:{

@@ -128,13 +128,13 @@ export default {
 			// console.log(_value)
 			switch(_value){
 				case 0 :
-					this.$refs.all.show()
+					this.$refs.all.initData()
 				break;
 				case 1 :
-					this.$refs.no.show()
+					this.$refs.no.initData()
 				break;
 				case 2 :
-					this.$refs.yes.show()
+					this.$refs.yes.initData()
 				break;
 			}
 		//   console.log(this.$refs.all.lineHeightAll);

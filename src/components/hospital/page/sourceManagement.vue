@@ -26,7 +26,7 @@
 				<!-- 就诊情况 -->
 				
 				<div class="typeNav" :style="{'padding-top': (parseInt($store.state.paddingTop.replace('px',''))+39)+'px'}">
-					<van-tabs @change="tabsFn" background='none' line-width=.6rem title-inactive-color='#FFFFFF' title-active-color='#FFFFFF' v-model='list.titleData'>
+					<van-tabs background='none' line-width=.6rem title-inactive-color='#FFFFFF' title-active-color='#FFFFFF' v-model='list.titleData'>
 						<van-tab :title='list.noNum!=0||list.yesNum!=0? list.allTitle+(list.noNum+list.yesNum):list.allTitle'>
 							<keep-alive>
 								<clinicAll :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+85+'px)')}" ref='all' :list = 'list'></clinicAll>
@@ -125,13 +125,13 @@ export default {
 			debugger
 			switch(_value){
 				case 0 :
-					this.$refs.all.show()
+					this.$refs.all.initData()
 				break;
 				case 1 :
-					this.$refs.no.show()
+					this.$refs.no.initData()
 				break;
 				case 2 :
-					this.$refs.yes.show()
+					this.$refs.yes.initData()
 				break;
 			}
 	  },

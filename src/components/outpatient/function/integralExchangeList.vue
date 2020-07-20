@@ -40,7 +40,7 @@ export default {
 	data () {
 		return {
 			list : [],
-			loading: false,
+			loading: true,
 			finished: false,
 			page: 0,
 			hospitalReturnTopPage:false,

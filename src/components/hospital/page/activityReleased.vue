@@ -56,7 +56,7 @@ export default {
 	data () {
 		return {
 			active:[],
-			loading: false,
+			loading: true,
 			finished: false,
 			page: 0,
 			query:'',

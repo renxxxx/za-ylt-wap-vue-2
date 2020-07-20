@@ -133,7 +133,7 @@ export default {
 			itemsNum:'',
 			yesItemsNum:'',
 			noItemsNum:'',
-			loading: false,
+			loading: true,
 			// 加载状态结束
 			finishedYes: false,
 			finishedNo:false,
@@ -187,9 +187,6 @@ export default {
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.getAllNum();
-			this.yesNextPageFn();
-			this.noNextPageFn();
 		}
 		if(this.scrollTopYes != 0){
 			this.$refs.listYes.scrollTop = this.scrollTopYes;

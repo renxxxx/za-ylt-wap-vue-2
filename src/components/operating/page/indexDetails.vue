@@ -124,7 +124,7 @@ export default {
     return {
       images: [],
       article: [],
-      loading: false,
+      loading: true,
       finished: false,
       page: 1,
       pullingDown: false,

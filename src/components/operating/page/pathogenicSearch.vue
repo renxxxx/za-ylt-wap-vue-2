@@ -119,7 +119,7 @@ export default {
 	  	postState : undefined,
 	  },
 	  dateStata : '',
-	  loading: false,
+	  loading: true,
 	  // 加载状态结束
 	  finished: false,
 	  page:0,
@@ -388,7 +388,7 @@ export default {
             }
             // 加载状态结束
             this.loading = false;
-			console.dir(this.items)
+			      console.dir(this.items)
           }else{
             this.loading = false;
             this.test='没有更多了'

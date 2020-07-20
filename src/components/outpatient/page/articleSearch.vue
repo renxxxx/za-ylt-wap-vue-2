@@ -16,7 +16,7 @@
 		<div class="article" @scroll="handleScroll" ref="article">
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 				<ul :model="article">
-					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @check="onLoad">
+					<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="onLoad">
 						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/outpatient/outpatient_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime().toString()}})">
 							<!-- <router-link :to="{path : '/outpatient/outpatient_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
 								<div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
@@ -50,7 +50,7 @@ export default {
 		return {
 			name: 'hospital',
 			article:[],
-			loading: false,
+			loading: true,
 			finished: false,
 			page:1,
 			kw: '',
@@ -109,19 +109,17 @@ export default {
 			.then(res => {
 				if(res.data.data.items.length != 0){
 					for(let i in res.data.data.items){
-					// 
-					if(res.data.data.items[i]){
-						this.article.push({
-							content:res.data.data.items[i].title,
-							img: res.data.data.items[i].cover,
-							time:res.data.data.items[i].alterTime,
-							itemId: res.data.data.items[i].itemId,
-						})
-					}else{
+						// 
+						if(res.data.data.items[i]){
+							this.article.push({
+								content:res.data.data.items[i].title,
+								img: res.data.data.items[i].cover,
+								time:res.data.data.items[i].alterTime,
+								itemId: res.data.data.items[i].itemId,
+							})
+						}
 					}
-				}
-				this.loading = false;
-				this.finished = true;
+					this.loading = false;
 				}else{
 					this.loading = false;
 					this.finished = true;

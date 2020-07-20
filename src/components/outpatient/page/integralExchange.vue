@@ -23,10 +23,10 @@
 			<!-- :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}" -->
 			<div class="flowHeading" id ="flowHeading" :style="{'top':(parseInt($store.state.paddingTop.replace('px',''))+parseInt($store.state.paddingTop.replace('px',''))+176)+'px'}">
 				<ul class="rollScreen_list" :style = {transform:transform}  :class="{rollScreen_list_unanim:num===0}">
-					<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index'>
+					<!-- <li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index'>
 						<img src="../../../assets/image/horn@2x.png" alt="">
 						<span>{{item}}</span>
-					</li>
+					</li> -->
 					<li class="rollScreen_once" v-for="(item,index) in contentArr" :key='index+contentArr.length' >
 						<img src="../../../assets/image/horn@2x.png" alt="">
 						<span>{{item}}</span>
@@ -106,7 +106,9 @@ export default {
 			.then(res => {
 				if(res.data.codeMsg == '' || res.data.codeMsg == null || res.data.codeMsg == undefined){
 					for(let i in res.data.data.items){
-						this.contentArr.push(res.data.data.items[i].title);
+						if(res.data.data.items[i].title){
+							this.contentArr.push(res.data.data.items[i].title);
+						}
 					}
 				}else{
 					this.$toast(res.data.codeMsg)

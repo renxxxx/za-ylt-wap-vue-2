@@ -133,7 +133,7 @@ export default {
 		itemsNum:'',
 		yesItemsNum:'',
 		noItemsNum:'',
-		loading: false,
+		loading: true,
 		// 加载状态结束
 		finishedAll: false,
 		finishedYes: false,
@@ -308,8 +308,6 @@ export default {
 		this.getNum(1).then((v)=>{
 			this.noItemsNum = v
 		})
-		
-		
 	},
 	// 返回上上一级目录
 	goBackFn(){

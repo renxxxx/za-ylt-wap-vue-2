@@ -45,7 +45,7 @@ export default {
 	data () {
 		return {
 			integralHistory : [],
-			loading: false,
+			loading: true,
 			finished: false,
 			page: 0,
 			hospitalReturnTopPage:false,
@@ -108,17 +108,16 @@ export default {
 				ps: 10
 			}))
 			.then(res => {
-
 				if(!res.data.codeMsg){
-			if(res.data.data.items.length != 0){
-			for(let i in res.data.data.items){
-				this.integralHistory.push(res.data.data.items[i]);
-			}
-			this.loading = false;
-			}else {
-				this.loading = false;
-				this.finished = true;
-			}
+					if(res.data.data.items.length != 0){
+						for(let i in res.data.data.items){
+							this.integralHistory.push(res.data.data.items[i]);
+						}
+						this.loading = false;
+					}else {
+						this.loading = false;
+						this.finished = true;
+					}
 				}else{
 					this.$toast(res.data.codeMsg)
 				}

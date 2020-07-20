@@ -35,7 +35,7 @@ export default {
 	data () {
 		return {
 			// clinicDetails :[],
-			loading: false,
+			loading: true,
 			// 加载状态结束
 			finished: false,
 			// 请求页数
@@ -66,18 +66,13 @@ export default {
 		this.show(this.$route.query);
 	},
 	methods:{
-		afterPullDown() {
-			debugger
-			setTimeout(() => {
-				this.pullingDown = false;
-				this.initData();
-			}, 500);
-		},
 		show(query){
 			if(this.query != JSON.stringify(query)){
 				Object.assign(this.$data, this.$options.data());
 				this.query = JSON.stringify(query);
-				this.getNextPage()
+				// this.loading = false;
+				// this.finished =false;
+				this.getNextPage();
 				if(window.plus){
 					plus.navigator.setStatusBarStyle("dark")
 				}
@@ -182,13 +177,10 @@ export default {
 					}
 					// 加载状态结束
 					this.loading = false;
-					this.test='没有更多了'
-					this.finished = true;
-
 				}else{
 					this.loading = false;
 					this.finished = true;
-          			this.test='没有更多了'
+          			// this.test='没有更多了'
 				}
 				if(!this.items.length){
 					this.test='无数据'

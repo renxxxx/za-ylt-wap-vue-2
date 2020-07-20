@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       integralDetails : [],
-      loading: false,
+      loading: true,
       finished: false,
       page: 0,
       hospitalReturnTopPage:false,

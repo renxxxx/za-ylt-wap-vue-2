@@ -36,7 +36,7 @@ export default {
 	data () {
 		return {
 			// clinicDetails :[],
-			loading: false,
+			loading: true,
 			// 加载状态结束
 			finished: false,
 			// 请求页数
@@ -73,15 +73,15 @@ export default {
 		afterPullDown() {
 			debugger
 			setTimeout(() => {
-				this.pullingDown = false;
-				this.initData();
+				Object.assign(this.$data, this.$options.data());
 			}, 500);
 		},
 		show(){
 			if(this.query != JSON.stringify(this.$route.query)){
 				Object.assign(this.$data, this.$options.data());
-				this.getNextPage()
+				// this.getNextPage()
 				this.query = JSON.stringify(this.$route.query);
+				this.loading = false;
 				if(window.plus){
 					//plus.navigator.setStatusBarBackground("#ffffff");
 					plus.navigator.setStatusBarStyle("dark")

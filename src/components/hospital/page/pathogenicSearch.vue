@@ -124,7 +124,7 @@ export default {
         postState : undefined,
       },
       dateStata : '',
-      loading: false,
+      loading: true,
       // 加载状态结束
       finished: false,
       page:0,

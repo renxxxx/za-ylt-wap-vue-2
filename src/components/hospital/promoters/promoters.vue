@@ -62,9 +62,6 @@ export default {
   },
   props:['name'],
   created(){
-  	var heightRexg = /^[0-9]*/g
-  	var bottomHeight = this.$store.state.paddingBottom.match(heightRexg)
-  	this.height = parseInt(bottomHeight.join())
   },
   computed:{
     ...mapGetters(['childBottomShow'])

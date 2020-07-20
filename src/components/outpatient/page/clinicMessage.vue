@@ -46,7 +46,7 @@ export default {
 	data () {
 		return {
 			clinicMessage : [],
-			loading: false,
+			loading: true,
 			finished: false,
 			page: 0,
 			hospitalReturnTopPage:false,

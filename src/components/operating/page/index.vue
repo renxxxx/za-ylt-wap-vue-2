@@ -92,7 +92,7 @@ export default {
       page: 0,
       pullingDown: false,
 	  hospitalList:[],
-	  loading: false,
+	  loading: true,
 	  // 加载状态结束
 	  finished: false,
 	  test:'',

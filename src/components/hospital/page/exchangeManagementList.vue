@@ -50,7 +50,7 @@ export default {
 		return {
 			exchangeList:[],
 			page : 0,
-			loading: false,
+			loading: true,
 			// 加载状态结束
 			finished: false,
 			//显示下拉加载

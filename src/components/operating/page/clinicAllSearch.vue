@@ -81,56 +81,29 @@ import qs from "qs";
 import topSolt from "../function/topSolt.vue";
 // import moment from 'moment'
 export default {
-  name: "gene",
-  data() {
-    return {
-      page: 1,
-      pullingDown: false,
-	  show:false,
-	  listStyleData:[false,false,false,false,false,false,false],
-	  sorts:'',
-	  orders:'',
-	  loading: false,
-	  			finished: false,
-	  			content : [],
-	  			page:0,
-	  			clinicNum : 0,
-	  test:'',
-	  kw:'',
-    };
-  },
-  components: {
-    topSolt
-  },
-  computed: {
-    // ...mapGetters(["account", "isLogin"])
-  },
-
-  beforeCreate(){
-    
-  },
-  created() {
-
-  },
-  beforeMount(){
-    debugger
-	this.getNextPage()
-  },
-	mounted() {
-		// debugger
-		// let thisVue = this;
-		// if (window.plus) {
-		// //plus.navigator.setStatusBarBackground("#ffffff");
-		// plus.navigator.setStatusBarStyle("dark");
-		// }
-		
-		// let lastRoute = localStorage.getItem('lastRoute')
-		// 	if(lastRoute){
-		// 	this.$router.push(JSON.parse(lastRoute));
-		// 	return
-		// 	}
-		// this.initData();
-
+	name: "gene",
+	data() {
+		return {
+			page: 1,
+			pullingDown: false,
+			show:false,
+			listStyleData:[false,false,false,false,false,false,false],
+			sorts:'',
+			orders:'',
+			loading: true,
+			finished: false,
+			content : [],
+			page:0,
+			clinicNum : 0,
+			test:'',
+			kw:'',
+		};
+  	},
+	components: {
+		topSolt
+	},
+	computed: {
+		// ...mapGetters(["account", "isLogin"])
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -142,154 +115,145 @@ export default {
 			}
 		}
   	},
-	activated(){
-	},
-	deactivated(){
-		debugger
-    },
-  methods: {
-	backFn(){
-		this.$router.back()
-	},
-	searchFn(){
-		this.page = 0;
-		this.content = [];
-		this.clinicNum = 0;
-		this.finished = false;
-		this.getNextPage()
-	},
-	getdata(){
-		this.$axios.get('/c2/clinic/items?'+qs.stringify({
-			pn:this.page,
-			kw:this.kw,
-			ps:10,
-			sorts:this.sorts,
-			orders:this.orders,
-		}))
-		.then(res => {
-			if(res.data.data.items.length != 0){
-				for(let i in res.data.data.items){
-					if(res.data.data.items[i]){
-						this.content.push(res.data.data.items[i])
+  	methods: {
+		backFn(){
+			this.$router.back()
+		},
+		searchFn(){
+			this.page = 0;
+			this.content = [];
+			this.clinicNum = 0;
+			this.finished = false;
+			this.getNextPage()
+		},
+		getdata(){
+			this.$axios.get('/c2/clinic/items?'+qs.stringify({
+				pn:this.page,
+				kw:this.kw,
+				ps:10,
+				sorts:this.sorts,
+				orders:this.orders,
+			}))
+			.then(res => {
+				if(res.data.data.items.length != 0){
+					for(let i in res.data.data.items){
+						if(res.data.data.items[i]){
+							this.content.push(res.data.data.items[i])
+						}
+						this.clinicNum = res.data.data.sum.totalCount
+						// 
 					}
-					this.clinicNum = res.data.data.sum.totalCount
-					// 
+					// 加载状态结束
+					this.loading = false;
+				}else{
+					this.loading = false;
+					this.test='没有更多了'
+					this.finished = true;
 				}
-				// 加载状态结束
-				this.loading = false;
-			}else{
-				this.loading = false;
-	  			this.test='没有更多了'
-				this.finished = true;
+		
+				if(this.content.length == 0){
+					this.test='无数据'
+				}else{
+					this.test='没有更多了'
+				}
+				// this.clinic.num = res.data.data.sum.totalCount;
+			})
+			.catch((err)=>{
+				
+			})
+		
+		},
+		getNextPage(){
+			this.page++
+			this.getdata()
+		
+		},
+		shaixuanFn(){
+			this.show = true
+		},
+		closeTimeFn(){
+		this.hospitalReturnHomePage = true;
+		this.hospitalReturnTopPage = true;
+		},
+		screeningResult(){
+			this.listStyleData = [false,false,false,false,false,false,false];
+			this.sorts = '';
+			this.orders = '';
+			this.page = 0;
+			this.show = false;
+			this.content = [];
+			this.getNextPage()
+		},
+		screeningSubmit(){
+			if(this.listStyleData[0]){
+				this.loading = false,
+				this.finished = false,
+				this.axiosData = 0
 			}
-	
-			if(this.content.length == 0){
-				this.test='无数据'
-			}else{
-				this.test='没有更多了'
+			if(this.listStyleData[1]){
+				this.loading = false,
+				this.finished = false,
+				this.axiosData = 1
 			}
-			// this.clinic.num = res.data.data.sum.totalCount;
-		})
-		.catch((err)=>{
-			
-		})
-	
-	},
-	getNextPage(){
-		this.page++
-		this.getdata()
-	
-	},
-	shaixuanFn(){
-		this.show = true
-	},
-	closeTimeFn(){
-	  this.hospitalReturnHomePage = true;
-	  this.hospitalReturnTopPage = true;
-	},
-	screeningResult(){
-		this.listStyleData = [false,false,false,false,false,false,false];
-		this.sorts = '';
-		this.orders = '';
-		this.page = 0;
-		this.show = false;
-		this.content = [];
-		this.getNextPage()
-	},
-	screeningSubmit(){
-		if(this.listStyleData[0]){
-			this.loading = false,
-			this.finished = false,
-			this.axiosData = 0
-		}
-		if(this.listStyleData[1]){
-			this.loading = false,
-			this.finished = false,
-			this.axiosData = 1
-		}
-		if(this.listStyleData[2]){
-			this.sorts = 'clinicCount';
-			this.orders = 'desc';
-		}
-		if(this.listStyleData[3]){
-			this.sorts = 'patientCount';
-			this.orders = 'desc';
-		}
-		if(this.listStyleData[4]){
-			this.sorts = 'addTime';
-			this.orders = 'desc';
-		}
-		if(this.listStyleData[5]){
-			this.sorts = 'hospitalName';
-			this.orders = 'asc';
-		}
-		this.content = []
-		this.page = 0
-		this.getNextPage();
-		this.show = false;
-	},
-	clickFn(_num){
-		if(this.listStyleData[_num]){
-			this.listStyleData.splice(_num, 1, false);
-		}else{
-			if(_num == 0 || _num == 1){
-				this.listStyleData[0] = false;
-				this.listStyleData[1] = false;
+			if(this.listStyleData[2]){
+				this.sorts = 'clinicCount';
+				this.orders = 'desc';
+			}
+			if(this.listStyleData[3]){
+				this.sorts = 'patientCount';
+				this.orders = 'desc';
+			}
+			if(this.listStyleData[4]){
+				this.sorts = 'addTime';
+				this.orders = 'desc';
+			}
+			if(this.listStyleData[5]){
+				this.sorts = 'hospitalName';
+				this.orders = 'asc';
+			}
+			this.content = []
+			this.page = 0
+			this.getNextPage();
+			this.show = false;
+		},
+		clickFn(_num){
+			if(this.listStyleData[_num]){
+				this.listStyleData.splice(_num, 1, false);
+			}else{
+				if(_num == 0 || _num == 1){
+					this.listStyleData[0] = false;
+					this.listStyleData[1] = false;
+					this.listStyleData.splice(_num, 1, true);
+				}
+				if(_num == 2 || _num == 3 || _num == 4 || _num == 5){
+					this.listStyleData[2] = false;
+					this.listStyleData[3] = false;
+					this.listStyleData[4] = false;
+					this.listStyleData[5] = false;
+				}
 				this.listStyleData.splice(_num, 1, true);
 			}
-			if(_num == 2 || _num == 3 || _num == 4 || _num == 5){
-				this.listStyleData[2] = false;
-				this.listStyleData[3] = false;
-				this.listStyleData[4] = false;
-				this.listStyleData[5] = false;
-			}
-			this.listStyleData.splice(_num, 1, true);
-		}
-		console.log(_num)
-		console.log(this.listStyleData)
-		console.log(this.listStyleData[_num])
-		
-	},
-    afterPullDown() {
-      //下拉刷新
-      setTimeout(() => {
-        this.pullingDown = false;
-        this.initData();
-      }, 500);
-    },
-    initData() {
-      let thisVue = this;
-	  console.log(this.$store.state.operating.login)
-      if(!this.$store.state.operating.login)
-      this.$toast({message:'请登录',onClose:function(){
-        thisVue.$router.replace({ path : '/operating/operatingLogin',query:{time:1}});
-      }})
-
-      Object.assign(this.$data, this.$options.data());
-      // this.getdata();
-      // this.$refs.clinic.initData();
-    },
-  }
+			console.log(_num)
+			console.log(this.listStyleData)
+			console.log(this.listStyleData[_num])
+			
+		},
+		afterPullDown() {
+		//下拉刷新
+		setTimeout(() => {
+			this.pullingDown = false;
+			this.initData();
+		}, 500);
+		},
+		initData() {
+			let thisVue = this;
+			console.log(this.$store.state.operating.login)
+			Object.assign(this.$data, this.$options.data());
+			this.getNextPage()
+			// this.getdata();
+			// this.$refs.clinic.initData();
+		},
+  	}
 };
 </script>
 

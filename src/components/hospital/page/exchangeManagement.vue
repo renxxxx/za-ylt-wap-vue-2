@@ -71,7 +71,7 @@ export default {
 	data () {
 		return {
 			commodity : [],
-			loading: false,
+			loading: true,
 			finished: false,
 			page: 1,
 			query:'',
@@ -81,15 +81,15 @@ export default {
 		}
 	},
 	computed:{
-    exchangeAdd: {
-        get: function() {
-    		// 
-            return this.$store.state.exchangeAdd
-        },
-        set: function (newValue) {
-    		this.$store.state.exchangeAdd = newValue;
-        },
-    },
+		exchangeAdd: {
+			get: function() {
+				// 
+				return this.$store.state.exchangeAdd
+			},
+			set: function (newValue) {
+				this.$store.state.exchangeAdd = newValue;
+			},
+		},
 	},
 	components:{
 		
@@ -106,8 +106,9 @@ export default {
 	},
 	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
-			this.initData();
+			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
+			this.onLoad();
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")

@@ -53,7 +53,7 @@ export default {
 	data () {
 		return {
 			active:[],
-			loading: false,
+			loading: true,
 			finished: false,
 			page: 0,
 			pullingDown: false,
@@ -67,13 +67,6 @@ export default {
 	},
 	created(){
 
-	},
- mounted() {
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		// this.getdata()
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
@@ -145,11 +138,11 @@ export default {
 						this.active.push(res.data.data.items[i])
 						// 
 					}
-          this.loading = false;
+         			this.loading = false;
 				}else {
-            this.loading = false;
-            this.finished = true;
-          }
+					this.loading = false;
+					this.finished = true;
+				}
 			})
 			.catch((err)=>{
 				this.$toast('加载失败!')

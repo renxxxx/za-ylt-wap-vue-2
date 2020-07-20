@@ -34,7 +34,7 @@ export default {
 	name: 'content',
 	data () {
 		return {
-			loading: false,
+			loading: true,
 			finished: false,
 			content : [],
 			page:0,
@@ -92,13 +92,16 @@ export default {
 		initData() {
 			Object.assign(this.$data, this.$options.data());
 			this.getNextPage();
-    		this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
-			.then(res => {
-				this.clinicNum = res.data.data.rowCount;
-			})
-			.catch((err)=>{
-				
-			})
+			if(this.show){
+				this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
+				.then(res => {
+					this.clinicNum = res.data.data.rowCount;
+				})
+				.catch((err)=>{
+					
+				})
+			}
+    		
 		},
 		getdata(){
 			this.$axios.get('/hospital/super-admin/hospital-clinics?'+qs.stringify({pn:this.page})+'&'+qs.stringify({ps:20}))

@@ -64,7 +64,7 @@ export default {
 			clinic : {
 				num : 0
 			},
-			loading: false,
+			loading: true,
 			finished: false,
 			page:0,
 			pullingDown: false,

@@ -26,7 +26,7 @@ export default {
 	name: 'content',
 	data () {
 		return {
-			loading: false,
+			loading: true,
 			finished: false,
 			content : [],
 			page:0,
@@ -45,6 +45,7 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
@@ -60,21 +61,6 @@ export default {
 			// this.getNextPage()
 		}
   	},
- 	mounted() {
-
-	  
-		// if(window.plus){
-		// 	//plus.navigator.setStatusBarBackground("#ffffff");
-		// 	plus.navigator.setStatusBarStyle("dark")
-		// }
-		//  this.$axios.get('/hospital/super-admin/hospital-clinics-sum?')
-		//   .then(res => {
-		//   	this.clinicNum = res.data.data.rowCount;
-		//   })
-		//   .catch((err)=>{
-		  	
-		//   })
-	},
 	methods: {
 		initData() {
 		  Object.assign(this.$data, this.$options.data());

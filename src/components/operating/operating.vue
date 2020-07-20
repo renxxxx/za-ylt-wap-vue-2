@@ -87,7 +87,7 @@ export default {
 			  async:false,
 			  success:function(res){
 			    if(res.code == 0){
-					  thisVue.$store.state.hospital.login=res.data
+					  thisVue.$store.state.operating.login=res.data
 			    }
 			  }
       })

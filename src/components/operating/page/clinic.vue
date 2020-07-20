@@ -80,19 +80,19 @@ export default {
   name: "gene",
   data() {
     return {
-      page: 1,
-      pullingDown: false,
-	  show:false,
-	  listStyleData:[false,false,false,false,false,false,false],
-	  sorts:'',
-	  orders:'',
-	  loading: false,
-	  			finished: false,
-	  			content : [],
-	  			page:0,
-	  			clinicNum : 0,
-	  test:'',
-	  query:''
+		page: 1,
+		pullingDown: false,
+		show:false,
+		listStyleData:[false,false,false,false,false,false,false],
+		sorts:'',
+		orders:'',
+		loading: true,
+		finished: false,
+		content : [],
+		page:0,
+		clinicNum : 0,
+		test:'',
+		query:''
     };
   },
   components: {

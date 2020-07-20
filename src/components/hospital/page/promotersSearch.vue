@@ -47,7 +47,7 @@ export default {
 		return {
 			promotersList:[],
 			searchInputValue : '',
-			loading: false,
+			loading: true,
 			finished: false,
 			page: 0,
 			query:'',
@@ -72,7 +72,6 @@ s	},
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-			this.onLoad()
 		}
 		if(this.scrollTop != 0){
 			this.$refs.promotersSearch_list.scrollTop = this.scrollTop;
@@ -114,11 +113,13 @@ s	},
 		getData(_data){
 			this.$axios.get('/hospital/admin/hospital-users?'+'&'+qs.stringify(_data))
 			.then(res => {
-				if(!res.data.codeMsg){
+				if(res.data.codeMsg){
+					this.$toast(res.data.codeMsg)
+				}
 				if(res.data.data.rows.length != 0){
 					for(let i in res.data.data.rows){
 						this.promotersList.push(res.data.data.rows[i])
-					console.dir(this.promotersList)
+						// console.dir(this.promotersList)
 					}
 					if(this.promotersList.length<10){
 						let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
@@ -131,9 +132,7 @@ s	},
 					this.loading = false;
 					this.finished = true;
 				}
-				}else{
-				this.$toast(res.data.codeMsg)
-				}
+				
 			})
 			.catch((err)=>{})
 		},
