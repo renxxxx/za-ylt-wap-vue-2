@@ -5,6 +5,18 @@
 			<h3>{{this.about.name}}</h3>
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<van-popup v-model="show">
+					<div class="popup">
+						<img src="../../../assets/image/Bookmark@2x.png" alt="">
+						<div class="popupTitle">
+							<img :src="doctorAbout.headimg" alt="">
+							<h5 class="line-1">{{doctorAbout.name}}<span>{{doctorAbout.jobTitles}}</span></h5>
+							<p class="line-1">{{doctorAbout.hosptialName}}</p>
+							<p style="max-height: 190px;overflow: scroll;">{{doctorAbout.intro}}</p>
+						</div>
+						<img src="../../../assets/image/close2@2x.png" alt="" @click='show = false'>
+					</div>
+				</van-popup>
 		<div class="typeDetails_content" @scroll="handleScroll" ref="typeDetails_content"> 
 			<div class="typeTItle" v-show="!this.doctor||this.doctor.length==0? false:true">
 				<h4 class="xia">科室医生</h4>
@@ -15,18 +27,7 @@
 						<p>{{item.hosptialName}}</p>
 					</li>
 				</ul>
-				<van-popup v-model="show">
-					<div class="popup">
-						<img src="../../../assets/image/Bookmark@2x.png" alt="">
-						<div class="popupTitle">
-							<img :src="doctorAbout.headimg" alt="">
-							<h5>{{doctorAbout.name}}<span>{{doctorAbout.jobTitles}}</span></h5>
-							<p>{{doctorAbout.hosptialName}}</p>
-							<p>{{doctorAbout.intro}}</p>
-						</div>
-						<img src="../../../assets/image/close2@2x.png" alt="" @click='show = false'>
-					</div>
-				</van-popup>
+				
 			</div>
 			<div class="typeContent" v-show="this.about.content? true:false">
 				<h4 class="xia">科室简介</h4>
@@ -35,6 +36,7 @@
 					<img :src="img" v-for='(img,inx) in about.image' :key='inx' alt="">
 				</div>
 			</div>
+
 			<div class="typeContent" v-show="this.about.shiYingZheng? true:false">
 				<h4 class="xia">适应症状</h4>
 				<ul>
@@ -69,6 +71,7 @@
 					<p>{{this.about.youShi}}</p>
 				</div>
 			</div>
+			
 		</div>
 		<div class="returnTop" @click="$refs.typeDetails_content.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -194,7 +197,7 @@ export default {
 	background-color: #FFFFFF;
 	position: fixed;
 	top: 0;
-	z-index: 999;
+	z-index: 99;
 }
 .topNav img{
 	width: .09rem;
@@ -304,9 +307,6 @@ export default {
 	height: 3.9rem;
 	border-radius: .06rem;
 }
->>>.van-popup {
-    overflow-y: visible;
-}
 .popup{
 	width: 100%;
 	height: 3.9rem;
@@ -364,5 +364,12 @@ export default {
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;
 	overflow-x: hidden;
+}
+>>>.van-overlay{
+	z-index: 9999!important;	
+}
+>>>.van-popup{
+	z-index: 9999!important;	
+	overflow-y: visible;
 }
 </style>
