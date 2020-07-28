@@ -16,7 +16,7 @@
             </div>
             <div class="typeList">
               <ul>
-                <li @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime().toString()}})"> 
+                <li @click="$router.push({path:'/hospital/hospital_clinicSearch',query:{time: new Date().getTime().toString()}})">
                   <!-- <router-link :to="{path : '/hospital/hospital_clinicSearch',query:{}}"> -->
                     <img src="../../../assets/image/qudaomenzhen@2x.png" alt />
                     <span>渠道门诊</span>
@@ -91,7 +91,7 @@
                   </li>
                 </van-list>
               </ul>
-            </div>            
+            </div>
         <!-- </van-pull-refresh> -->
       <div class="returnTop" @click="$refs.refersh.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
         <img src="../../../assets/image/returnTop.png" alt />
@@ -130,7 +130,7 @@ export default {
 	activated() {
     debugger
 		if(this.query != JSON.stringify(this.$route.query)){
-     
+
       this.initData();
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
@@ -220,7 +220,7 @@ export default {
               case 1:
                 this.images.push({
                   type : res.data.data.rows[i].type,
-                  id : res.data.data.rows[i].type2ArticleId,
+                  id : res.data.data.rows[i].type1Url,
                   cover: res.data.data.rows[i].cover,
                   url: res.data.data.rows[i].type1Url
                 });
@@ -236,29 +236,29 @@ export default {
               case 3:
                 this.images.push({
                   type : res.data.data.rows[i].type,
-                  id : res.data.data.rows[i].type2ArticleId,
+                  id : res.data.data.rows[i].type3DoctorId,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_expertsIntroduction"
                 });
                 break;
               case 4:
                 this.images.push({
-                  id : res.data.data.rows[i].type2ArticleId,
+                  id : res.data.data.rows[i].type4ProjectId,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_caseDetails"
                 });
                 break;
               case 5:
                 this.images.push({
-                  id : res.data.data.rows[i].type2ArticleId,
+                  id : res.data.data.rows[i].type5ActivityId,
                   type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_activityReleased"
+                  url: "/hospital/hospital_activityDetails"
                 });
                 break;
               case 6:
                 this.images.push({
-                  id : res.data.data.rows[i].type2ArticleId,
+                  id : res.data.data.rows[i].hospitalAdId,
                   type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_hospitalImage"
@@ -266,7 +266,7 @@ export default {
                 break;
               case 7:
                 this.images.push({
-                  id : res.data.data.rows[i].type2ArticleId,
+                  id : res.data.data.rows[i].hospitalAdId,
                   type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
                   url: "/hospital/hospital_expertsIntroduction"
@@ -274,7 +274,7 @@ export default {
                 break;
               case 8:
                 this.images.push({
-                  id : res.data.data.rows[i].type2ArticleId,
+                  id : res.data.data.rows[i].hospitalAdId,
                   type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
                   url: ""
