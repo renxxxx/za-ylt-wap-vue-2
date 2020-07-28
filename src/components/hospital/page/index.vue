@@ -149,7 +149,7 @@ export default {
       switch(image.type){
         case 0 :break;
         case 1:
-          window.open('https://'+image.url+'/type2ArticleId:'+image.id,'_top');
+          window.open(image.id,'_top')//'https://'+image.url+'/type2ArticleId:'+image.id,'_top');
         break;
         case 2:
           this.$router.push({path:image.url,query:{itemId:image.id,data:1,time: new Date().getTime().toString()}});
@@ -277,7 +277,7 @@ export default {
                   id : res.data.data.rows[i].hospitalAdId,
                   type : res.data.data.rows[i].type,
                   cover: res.data.data.rows[i].cover,
-                  url: ""
+                  url: "/hospital/hospital_hospitalImage"
                 });
                 break;
             }
