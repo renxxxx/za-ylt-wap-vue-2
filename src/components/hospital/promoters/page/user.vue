@@ -7,7 +7,7 @@
 			<div class="user_message">
 				<div class="top_left">
 					<img :src="coverImg? coverImg:require('../../../../assets/image/logo@2x.png')" alt="">
-					<span>已认证</span>
+					<span :class="[dataColor? 'yesData':'noData']">{{dataColor? "已认证":"未认证"}}</span>
 				</div>
 				<div class="top_center">
 					<h3>{{this.$store.state.hospital.login.name}}</h3>
@@ -49,29 +49,11 @@ export default {
 			coverImg: '',
 			show: false,
 			index: 0,
-			images: []
+			images: [],
+			dataColor:0
 		}
 	},
 	computed:{
-		...mapGetters(['account']),
-		isLogin: {
-			get: function() {
-				// 
-				return this.$store.state.isLogin
-			},
-			set: function (newValue) {
-				this.$store.state.isLogin = newValue;
-			},
-		},
-		account: {
-			get: function() {
-				// 
-				return this.$store.state.account
-			},
-			set: function (newValue) {
-				this.$store.state.account = newValue;
-			},
-		},
 	},
 	components:{
 
@@ -87,6 +69,9 @@ export default {
 				plus.navigator.setStatusBarStyle("dark")
 			}
 			this.initData();
+			if(this.$store.state.hospital.login){
+				this.dataColor = this.$store.state.hospital.login.hospital.authStatus
+			}
 		}
     },
 	mounted() {
@@ -215,8 +200,6 @@ export default {
 	left: .61rem;
 	top: 1.15rem;
 	font-size: .03rem;
-	color: #FFFFFF;
-	background:url('../../../../assets/image/Gradualchange@2x.png');
 	background-size:100% 100%;
 	padding: .02rem .1rem;
 }
@@ -283,5 +266,14 @@ export default {
 	left: 0rem;
 	right: 0rem;
 	margin: 0rem auto;
+}
+.yesData{
+	color: #FFFFFF;
+	background:url('../../../../assets/image/Gradualchange@2x.png');
+}
+.noData{
+	color: rgb(255,255,255);
+	background: rgb(220,220,220);
+	border-radius: 25px;
 }
 </style>

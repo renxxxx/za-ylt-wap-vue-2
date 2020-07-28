@@ -87,8 +87,15 @@ export default {
 			.then(res => {
 				if(res.data.codeMsg){
 					if(res.data.errParam == 'name'){
-						this.$toast('姓名不能为空')
-					}else{
+						this.$toast('"姓名"不能为空')
+					}
+					if(res.data.errParam == 'account'){
+						this.$toast('"号码"不能为空')
+					}
+					if(res.data.errParam == 'phone'){
+						this.$toast('"号码"有误')
+					}
+					if(res.data.errParam != 'name' && res.data.errParam != 'account' && res.data.errParam != 'phone'){
 						this.$toast(res.data.codeMsg)
 					}
 				}

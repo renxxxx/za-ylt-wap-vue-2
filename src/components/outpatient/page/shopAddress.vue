@@ -82,26 +82,32 @@ export default {
 		},
 		submitFn(){
 			let thisValue = this;
-			thisValue.$axios.post('/clientend2/clinicend/pointexchange/receiveralter',qs.stringify({
-				clinicId : thisValue.$store.state.outpatient.login.clinicId,
-				receiverId : thisValue.address.receiverId,
-				name : thisValue.address.name,
-				tel : thisValue.address.tel,
-				address : thisValue.address.detailedAddress,
-			}))
-			.then(res => {
-				thisValue.$toast.success({
-					duration: 1000, 
-					message: '操作成功',
-					onClose:function(){
-						thisValue.$router.back()
-					}
-				});
-				
-			})
-			.catch((err)=>{
-				this.$toast(err)
-			})
+			if(this.address.name == "" || this.address.tel == "" || this.address.detailedAddress == ""){
+				thisValue.$toast("请填写完整信息")
+			}else{
+				thisValue.$axios.post('/clientend2/clinicend/pointexchange/receiveralter',qs.stringify({
+					clinicId : thisValue.$store.state.outpatient.login.clinicId,
+					receiverId : thisValue.address.receiverId,
+					name : thisValue.address.name,
+					tel : thisValue.address.tel,
+					address : thisValue.address.detailedAddress,
+				}))
+				.then(res => {
+					thisValue.$toast.success({
+						duration: 1000, 
+						message: '操作成功',
+						onClose:function(){
+							thisValue.$router.back()
+						}
+					});
+					
+				})
+				.catch((err)=>{
+					this.$toast(err)
+				})
+			}
+			
+			
 		},
 	},
 }

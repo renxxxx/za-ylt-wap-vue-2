@@ -1,88 +1,88 @@
 <template>
 	<div class="_search" >
-			<div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
-				<div class="search_return">
-					<a @click="goBackFn"  id="navback">
-						<img src="../../../assets/image/shape@3x.png" alt />
-					</a>
+		<div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
+			<div class="search_return">
+				<a @click="goBackFn"  id="navback">
+					<img src="../../../assets/image/shape@3x.png" alt />
+				</a>
+			</div>
+			<div class="search_input">
+				<img src="../../../assets/image/sousuo@2x.png" alt />
+				<input
+					type="search"
+					placeholder="搜索病员"
+					v-model="keywords"
+					v-focus="true"
+					@keyup.enter="inputNow"
+				/>
+			</div>
+			<div class="clinic_buttton" @click="inputNow">
+				<button>搜索</button>
+			</div>
+			<div class="screening" @click="showPopup">
+				<span>筛选</span>
+				<img src="../../../assets/image/screening.png" alt />
+			</div>
+			<van-popup v-model="show" position="right" :style="{ height: '100%',width:'75.7%'}">
+				<div id="indexLabel" :style="{'padding-top':$store.state.paddingTop,'margin-top':'32.5px'}">
+				<div class="labelLabel" >
+					<strong>状态</strong>
+					<button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
+					<button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
 				</div>
-				<div class="search_input">
-					<img src="../../../assets/image/sousuo@2x.png" alt />
-					<input
-						type="search"
-						placeholder="搜索病员"
-						v-model="keywords"
-						v-focus="true"
-						@keyup.enter="inputNow"
-					/>
-				</div>
-				<div class="clinic_buttton" @click="inputNow">
-					<button>搜索</button>
-				</div>
-				<div class="screening" @click="showPopup">
-					<span>筛选</span>
-					<img src="../../../assets/image/screening.png" alt />
-				</div>
-				<van-popup v-model="show" position="right" :style="{ height: '100%',width:'78.7%'}">
-					<div id="indexLabel">
 					<div class="labelLabel" >
-						<strong>状态</strong>
-						<button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
-						<button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
+						<strong>就诊时间</strong>
+						<button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
+							{{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
+						</button>
+						<button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
+							{{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
+						</button>
 					</div>
-						<div class="labelLabel" >
-							<strong>就诊时间</strong>
-							<button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
-								{{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
-							</button>
-							<button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
-								{{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
-							</button>
-						</div>
-						<div class="labelLabel">
-							<strong>推送时间</strong>
-							<button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
-								{{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
-							</button>
-							<button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
-								{{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
-							</button>
-						</div>
-						<div class="LabelResult">
-							<button @click="screeningResult">重选</button>
-							<button @click="screeningSubmit">确定</button>
-						</div>
+					<div class="labelLabel">
+						<strong>推送时间</strong>
+						<button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
+							{{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
+						</button>
+						<button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
+							{{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
+						</button>
 					</div>
-				</van-popup>
-				<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
-					<van-datetime-picker
-					type="date"
-					@confirm="confirm"
-					@cancel="cancel"
-					/>
-				</van-popup>
-			</div>
-			<div style="height:.5rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
-			<div class="_searchList" @scroll="handleScroll" ref="_searchList">
-				<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
-					<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
-						<ul class="clinicList" :style="{'padding-top':$store.state.paddingTop}">
-							<li v-for="(item,inx) in noItems" :key="inx">
-								<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
-									<div class="content_left">
-										<span>{{item.realname}}</span>
-									</div>
-									<div class="content_right">
-										<img :src='item.img'>
-										<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
-									</div>
-									<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
-								</router-link>
-							</li>
-						</ul>
-					</van-list>
-				<!-- </van-pull-refresh> -->
-			</div>
+					<div class="LabelResult">
+						<button @click="screeningResult">重选</button>
+						<button @click="screeningSubmit">确定</button>
+					</div>
+				</div>
+			</van-popup>
+			<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
+				<van-datetime-picker
+				type="date"
+				@confirm="confirm"
+				@cancel="cancel"
+				/>
+			</van-popup>
+		</div>
+		<div style="height:.5rem;" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="_searchList" @scroll="handleScroll" ref="_searchList">
+			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
+				<van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
+					<ul class="clinicList" :style="{'padding-top':$store.state.paddingTop}">
+						<li v-for="(item,inx) in noItems" :key="inx">
+							<router-link :to="{path : '/outpatient/outpatient_detailsPage' ,query : {patientId : item.itemId,}}">
+								<div class="content_left">
+									<span>{{item.realname}}</span>
+								</div>
+								<div class="content_right">
+									<img :src='item.img'>
+									<span :class="item.span=='未就诊'? 'no':'yes'">{{item.span}}</span>
+								</div>
+								<p>{{moment(item.pushTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
+							</router-link>
+						</li>
+					</ul>
+				</van-list>
+			<!-- </van-pull-refresh> -->
+		</div>
 			
 		<!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
 		

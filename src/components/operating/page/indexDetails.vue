@@ -19,7 +19,7 @@
               <van-swipe>
                 <van-swipe-item v-for="(image, index) in images" :key="index">
                   <!-- <router-link :to="{name : image.url}"> -->
-                    <img  :src="image.cover" class="silder_img"  @click="image.url? $router.push({path : image.url,query:{time: new Date().getTime().toString()}}):''"/>
+                    <img  :src="image.cover" class="silder_img" @click="swipeUrlFn(image)"/>
                     <!-- <img  v-lazy="image.cover" class="silder_img" /> -->
                   <!-- </router-link> -->
                 </van-swipe-item>
@@ -169,6 +169,22 @@ export default {
 		}
   },
   methods: {
+    swipeUrlFn(image){
+      switch(image.type){
+        case 0 :break;
+        case 1:
+          window.open('https://'+image.url+'/type2ArticleId:'+image.id,'_top');
+        break;
+        case 2:
+          this.$router.push({path:image.url,query:{hospitalId:this.$route.query.hospitalId,itemId:image.id,data:1,time: new Date().getTime().toString()}});
+        break;
+        case 4:
+          this.$router.push({path:image.url,query:{hospitalId:this.$route.query.hospitalId,itemId:image.id,data:4,time: new Date().getTime().toString()}});
+        break;
+        default:
+          this.$router.push({path:image.url,query:{hospitalId:this.$route.query.hospitalId,itemId:image.id,time: new Date().getTime().toString()}});
+      }
+    },
     upgradeFn(){
       this.$toast.setDefaultOptions({ duration: 1000 });
       this.$toast("升级中");
@@ -210,37 +226,37 @@ export default {
               case 2:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "/hospital/hospital_caseDetails"
+                  url: "/operating/operating_caseDetails"
                 });
                 break;
               case 3:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "/hospital/hospital_expertsIntroduction"
+                  url: ""
                 });
                 break;
               case 4:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "/hospital/hospital_caseDetails"
+                  url: "/operating/operating_caseDetails"
                 });
                 break;
               case 5:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "/hospital/hospital_activityReleased"
+                  url: "/operating/operating_activityReleased"
                 });
                 break;
               case 6:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "/hospital/hospital_hospitalImage"
+                  url: ""
                 });
                 break;
               case 7:
                 this.images.push({
                   cover: res.data.data.items[i].cover,
-                  url: "/hospital/hospital_expertsIntroduction"
+                  url: ""
                 });
                 break;
               case 8:
@@ -258,6 +274,7 @@ export default {
         });
       //文章请求
       this.getdata();
+      console.dir(this.images)
     },
     getdata(_data) {
       this.$axios.post("/c2/article/items",qs.stringify({

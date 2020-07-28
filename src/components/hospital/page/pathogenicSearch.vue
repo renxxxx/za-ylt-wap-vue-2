@@ -24,8 +24,8 @@
             <span>筛选</span>
             <img src="../../../assets/image/screening.png" alt />
           </div>
-      <van-popup v-model="show" @close="closeTimeFn" position="right" :style="{ height: '100%',width:'78.7%'}">
-        <div id="indexLabel">
+      <van-popup v-model="show" @close="closeTimeFn" position="right" :style="{ height: '100%',width:'75.7%'}">
+        <div id="indexLabel" :style="{'padding-top':$store.state.paddingTop,'margin-top':'32.5px'}">
         <div class="labelLabel" >
           <strong>状态</strong>
           <button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>

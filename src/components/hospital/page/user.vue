@@ -7,7 +7,7 @@
 			<div class="user_message">
 				<div class="top_left">
 					<img :src="coverImg? coverImg: require('../../../assets/image/logo@2x.png')" alt="">
-					<span>已认证</span>
+					<span :class="[dataColor? 'yesData':'noData']">{{dataColor? "已认证":"未认证"}}</span>
 				</div>
 				<div class="top_center">
 					<h3>{{this.$store.state.hospital.login.hospital.name}}</h3>
@@ -71,7 +71,8 @@ export default {
 			coverImg: '',
 			show: false,
 			index: 0,
-			images: []
+			images: [],
+			dataColor:0
 		}
   },
 	computed:{
@@ -100,6 +101,7 @@ export default {
 			}
 			if(this.$store.state.hospital.login){
 				this.coverImg = this.$store.state.hospital.login.hospital.cover
+				this.dataColor = this.$store.state.hospital.login.hospital.authStatus
 				if(this.$store.state.hospital.login.hospital.license)
 					this.images.push(this.$store.state.hospital.login.hospital.license)
 			}
@@ -201,8 +203,6 @@ export default {
 	/* top: .79rem; */
 	bottom:.3rem;
 	font-size: .12rem;
-	color: #FFFFFF;
-	background:url('../../../assets/image/Gradualchange@2x.png');
 	background-size:100% 100%;
 	padding: .02rem .1rem;
 	width: .56rem;
@@ -296,5 +296,13 @@ export default {
 	right: 0rem;
 	margin: 0rem auto;
 }
-
+.yesData{
+	color: #FFFFFF;
+	background:url('../../../assets/image/Gradualchange@2x.png');
+}
+.noData{
+	color: rgb(255,255,255);
+	background: rgb(220,220,220);
+	border-radius: 25px;
+}
 </style>

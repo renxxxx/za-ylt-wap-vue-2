@@ -72,7 +72,7 @@
 						</li>
 						<li class="popup">
 							<span>营业执照</span>
-							<div class="yingyezhizhao" @click="showImgFn()">
+							<div class="yingyezhizhao" @click="showImgFn()" v-if="message.license">
 								<img  id="backimg" :src='message.license'  alt="" >
 								<img class="rightImg" src="../../../assets/image/right@2x.png" alt="">
 							</div>
