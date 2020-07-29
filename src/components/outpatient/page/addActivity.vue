@@ -291,7 +291,7 @@ export default {
 }
 .addcontent textarea{
 	width: 83.46%;
-	height: 3.55rem;
+	height: 2.8rem;
 	margin: 0 4.27%;
 	padding : .12rem 4%;
 	margin-top: .12rem;

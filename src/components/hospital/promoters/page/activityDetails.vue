@@ -12,7 +12,7 @@
 			</div>
 		</div> 
 		<div class="zhangwei"></div>
-		<div class="activityDetailsList" ref="activityDetailsList" @scroll="handleScroll">
+		<!-- <div class="activityDetailsList" :style="{'padding-top':$store.state.paddingTop}"> -->
 			<div class="activeList" :model='active' :style="{'padding-top':$store.state.paddingTop}">
 				<img v-lazy="active.cover" alt="">
 				<div class="activeTitle">
@@ -52,7 +52,7 @@
 					</li>
 				</ul>
 			</div>
-		</div>
+		<!-- </div> -->
 		<div class="returnTop" @click="$refs.activityDetailsList.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
@@ -146,7 +146,7 @@ export default {
 <style scoped>
 .activityDetailsList{
 	width: 100%;
-	height: calc(100% - .98rem);
+	/* height: calc(100% - .98rem); */
   	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;
@@ -154,8 +154,8 @@ export default {
 }
 .activityDetails{
 	width: 100%;
-	height: 100%;
-	overflow:hidden;
+	/* height: 100%; */
+	/* overflow:hidden; */
 }
 .topNav{
 	width: 100%;
@@ -268,5 +268,6 @@ export default {
 	line-height: .25rem;
 	border: 1px solid #D8D8D8;
 	padding-left: 4%;
+	margin-bottom: .1rem;
 }
 </style>

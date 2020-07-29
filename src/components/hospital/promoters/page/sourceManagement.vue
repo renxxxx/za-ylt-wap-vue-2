@@ -38,10 +38,11 @@
 						<div ref="xiahuaxian" class="navType_line"></div>
 					</div>
 				</div>
-				<div style="height:calc(100% - .8rem);margin-top:.8rem">
-					<div class="list" v-show="all" @scroll="handleScroll" ref="listAll">
+				<div style="height:80px;" :style="{'padding-top':$store.state.paddingTop}"></div>
+				<div >
+					<div class="list" :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+85+'px)')}" v-show="all" @scroll="handleScroll" ref="listAll">
 						<van-list  v-model="loading" :finished="finishedAll" finished-text="没有更多了"  @load="nextPageFn">
-							<ul :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}">
+							<ul >
 								<!-- items -->
 								<li v-for="(item,inx) in items " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
 									<!-- <router-link :to="{path : '/promoters/promoters_detailsPage' ,query : {patientId : item.itemId,}}"> -->
@@ -64,7 +65,7 @@
 						</van-list>
 					</div>
 					<!-- :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))+12)+'px'}" -->
-					<div class="list" v-show="yes" @scroll="handleScroll" ref="listYes">
+					<div class="list" :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+85+'px)')}" v-show="yes" @scroll="handleScroll" ref="listYes" >
 						<van-list v-model="loading" :finished="finishedYes" finished-text="没有更多了"  @load="yesNextPageFn">
 							<ul>
 								<li v-for="(item,inx) in yesItems" :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
@@ -87,7 +88,7 @@
 							</ul>
 						</van-list>
 					</div>
-					<div class="list" v-show="no" @scroll="handleScroll" ref="listNo">
+					<div class="list" :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+85+'px)')}" v-show="no" @scroll="handleScroll" ref="listNo">
 						<van-list v-model="loading" :finished="finishedNo" finished-text="没有更多了"  @load="noNextPageFn">
 							<ul>
 								<li v-for="(item,inx) in noItems " :key="inx" @click="$router.push({path:'/promoters/promoters_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
@@ -623,16 +624,18 @@ export default {
 }
 .list{
 	width: 100%;
-	height: calc(100vh - .85rem);
+	/* height: calc(100vh - .85rem); */
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;
   	overflow-x: hidden;
+	/* margin-bottom: 50px; */
 }
 .list ul{	
 	width: 91.46%;
 	margin: 0rem auto;
 	height: auto;
+	padding-top: .1rem;
 }
 .list li{
 	width: 100%;

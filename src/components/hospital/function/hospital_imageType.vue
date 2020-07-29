@@ -1,5 +1,5 @@
 <template>
-	<div class="imageType">
+	<div class="imageType" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+76+'px)')}">
 		<ul>
 			<li v-for="(item,inx) in type" :key='inx'>
 				<router-link :to="{path : '/hospital/hospital_typeDetails' ,query : {item : item.itemId,}}">
@@ -66,7 +66,7 @@ export default {
 <style scoped>
 .imageType{
 	width: 100%;
-	height: calc(100% - .76rem);
+	/* height: calc(100% - .76rem); */
 	overflow: scroll;
 }
 .content ul{

@@ -199,7 +199,7 @@ export default {
 	position: absolute;
 	left: .61rem;
 	top: 1.15rem;
-	font-size: .03rem;
+	font-size: .12rem;
 	background-size:100% 100%;
 	padding: .02rem .1rem;
 }

@@ -1,5 +1,5 @@
 <template>
-	<div class="hospital_About">
+	<div class="hospital_About" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+76+'px)')}">
 		<span>— 基本信息 —</span>
 		<ul>	
 			<li>
@@ -58,7 +58,7 @@ export default {
 
 <style scoped>
 .hospital_About{
-	height: calc(100% - .76rem);
+	/* height: calc(100% - .76rem); */
 	overflow: scroll;
 }
 .content>span{
@@ -91,6 +91,7 @@ export default {
 	width: 85.3%;
 	margin: 0rem auto;
 	margin-top: .15rem;
+	margin-bottom: .15rem;
 	text-align: left;
 	padding: .1rem .1rem .14rem .1rem;
 	border: 1px dashed #D8D8D8;
