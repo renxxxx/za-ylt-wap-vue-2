@@ -125,7 +125,7 @@ export default {
 	top:0;
 	z-index: 999;
 	background-color: #2B77EF;
-}	
+}
 .zhangwei{
 	width: 100%;
 	height: .47rem;
@@ -155,7 +155,7 @@ export default {
 	color: #333333;
 	color: #FFFFFF;
 }
-.right{	
+.right{
 	width: 22%;
 	height: .47rem;
 	line-height: .47rem;
@@ -186,7 +186,8 @@ export default {
 	top:0;
 	bottom: 0;
 	right: .15rem;
-	margin: auto 0;
+	margin: .12rem 0;
+  line-height: .21rem !important;
 	font-size: .14rem;
 	color: #2B77EF;
 	border: none;
