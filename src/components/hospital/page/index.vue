@@ -208,79 +208,82 @@ export default {
           for (let i in res.data.data.rows) {
             res.data.codeMsg ? this.$toast(res.data.codeMsg) : "";
             console.log(res.data.data.rows[i].cover)
-            switch (res.data.data.rows[i].type) {
-              case 0:
-                this.images.push({
-                  type : res.data.data.rows[i].type,
-                  id : res.data.data.rows[i].type2ArticleId,
-                  cover: res.data.data.rows[i].cover,
-                  url: ""
-                });
-                break;
-              case 1:
-                this.images.push({
-                  type : res.data.data.rows[i].type,
-                  id : res.data.data.rows[i].type1Url,
-                  cover: res.data.data.rows[i].cover,
-                  url: res.data.data.rows[i].type1Url
-                });
-                break;
-              case 2:
-                this.images.push({
-                  type : res.data.data.rows[i].type,
-                  id : res.data.data.rows[i].type2ArticleId,
-                  cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_caseDetails"
-                });
-                break;
-              case 3:
-                this.images.push({
-                  type : res.data.data.rows[i].type,
-                  id : res.data.data.rows[i].type3DoctorId,
-                  cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_expertsIntroduction"
-                });
-                break;
-              case 4:
-                this.images.push({
-                  id : res.data.data.rows[i].type4ProjectId,
-                  cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_caseDetails"
-                });
-                break;
-              case 5:
-                this.images.push({
-                  id : res.data.data.rows[i].type5ActivityId,
-                  type : res.data.data.rows[i].type,
-                  cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_activityDetails"
-                });
-                break;
-              case 6:
-                this.images.push({
-                  id : res.data.data.rows[i].hospitalAdId,
-                  type : res.data.data.rows[i].type,
-                  cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_hospitalImage"
-                });
-                break;
-              case 7:
-                this.images.push({
-                  id : res.data.data.rows[i].hospitalAdId,
-                  type : res.data.data.rows[i].type,
-                  cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_expertsIntroduction"
-                });
-                break;
-              case 8:
-                this.images.push({
-                  id : res.data.data.rows[i].hospitalAdId,
-                  type : res.data.data.rows[i].type,
-                  cover: res.data.data.rows[i].cover,
-                  url: "/hospital/hospital_hospitalImage"
-                });
-                break;
+            if(res.data.data.rows[i].cover){
+              switch (res.data.data.rows[i].type) {
+                case 0:
+                  this.images.push({
+                    type : res.data.data.rows[i].type,
+                    id : res.data.data.rows[i].type2ArticleId,
+                    cover: res.data.data.rows[i].cover,
+                    url: ""
+                  });
+                  break;
+                case 1:
+                  this.images.push({
+                    type : res.data.data.rows[i].type,
+                    id : res.data.data.rows[i].type1Url,
+                    cover: res.data.data.rows[i].cover,
+                    url: res.data.data.rows[i].type1Url
+                  });
+                  break;
+                case 2:
+                  this.images.push({
+                    type : res.data.data.rows[i].type,
+                    id : res.data.data.rows[i].type2ArticleId,
+                    cover: res.data.data.rows[i].cover,
+                    url: "/hospital/hospital_caseDetails"
+                  });
+                  break;
+                case 3:
+                  this.images.push({
+                    type : res.data.data.rows[i].type,
+                    id : res.data.data.rows[i].type3DoctorId,
+                    cover: res.data.data.rows[i].cover,
+                    url: "/hospital/hospital_expertsIntroduction"
+                  });
+                  break;
+                case 4:
+                  this.images.push({
+                    id : res.data.data.rows[i].type4ProjectId,
+                    cover: res.data.data.rows[i].cover,
+                    url: "/hospital/hospital_caseDetails"
+                  });
+                  break;
+                case 5:
+                  this.images.push({
+                    id : res.data.data.rows[i].type5ActivityId,
+                    type : res.data.data.rows[i].type,
+                    cover: res.data.data.rows[i].cover,
+                    url: "/hospital/hospital_activityDetails"
+                  });
+                  break;
+                case 6:
+                  this.images.push({
+                    id : res.data.data.rows[i].hospitalAdId,
+                    type : res.data.data.rows[i].type,
+                    cover: res.data.data.rows[i].cover,
+                    url: "/hospital/hospital_hospitalImage"
+                  });
+                  break;
+                case 7:
+                  this.images.push({
+                    id : res.data.data.rows[i].hospitalAdId,
+                    type : res.data.data.rows[i].type,
+                    cover: res.data.data.rows[i].cover,
+                    url: "/hospital/hospital_expertsIntroduction"
+                  });
+                  break;
+                case 8:
+                  this.images.push({
+                    id : res.data.data.rows[i].hospitalAdId,
+                    type : res.data.data.rows[i].type,
+                    cover: res.data.data.rows[i].cover,
+                    url: "/hospital/hospital_hospitalImage"
+                  });
+                  break;
+              }
             }
+            
           }
         })
         .catch(err => {});

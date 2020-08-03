@@ -1,134 +1,142 @@
 <template>
-<topSolt>
-  <!-- <van-pull-refresh slot="returnTopSolt" v-model="pullingDown" @refresh="afterPullDown" > -->
-    <div class="_search" slot="returnTopSolt">
-      <div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
-        <div class="search_return">
-          <a @click="goBackFn"  id="navback">
-            <img src="../../../assets/image/shape@3x.png" alt />
-          </a>
+    <div>
+      <div class="_search"  >
+        <div class="top_search" :style="{'padding-top':$store.state.paddingTop}">
+          <div class="search_return">
+            <a @click="goBackFn"  id="navback">
+              <img src="../../../assets/image/shape@3x.png" alt />
+            </a>
+          </div>
+          <div class="search_input">
+            <img src="../../../assets/image/sousuo@2x.png" alt />
+            <input
+              type="search"
+              placeholder="搜索病员"
+              v-model="keywords"
+              v-focus="this.$route.query.focus"
+              @keyup.enter="inputNow"
+            />
+          </div>
+          <div class="clinic_buttton" @click="inputNow">
+            <button>搜索</button>
+          </div>
+          <div class="screening" @click="showPopup">
+            <span>筛选</span>
+            <img src="../../../assets/image/screening.png" alt />
+          </div>
+      
         </div>
-        <div class="search_input">
-          <img src="../../../assets/image/sousuo@2x.png" alt />
-          <input
-            type="search"
-            placeholder="搜索病员"
-            v-model="keywords"
-            v-focus="this.$route.query.focus"
-            @keyup.enter="inputNow"
-          />
+        <div class="scroll" ref="_search" @scroll="handleScroll">
+      <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
+          <ul class="list" :style="{'padding-top':$store.state.paddingTop}" >
+         <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
+           <!-- items -->
+            <li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
+              <!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
+                <div class="style">
+                  <div class="contentTitle">
+                    <img :src="item.img" alt="">
+                    <span>{{item.realname}}</span>
+                  </div>
+                  <div class="contnet_left">
+                    <span>推送：{{item.pushTime? moment(item.pushTime).format('YYYY-MM-DD'):''}}</span>
+                    <span>状态：{{item.span}}</span>
+                  </div>
+                </div>
+              <!-- </router-link> -->
+              <div class="content_right">
+                <button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
+              </div>
+            </li>
+      </van-list>
+          </ul>
+      <!-- </van-pull-refresh> -->
         </div>
-        <div class="clinic_buttton" @click="inputNow">
-          <button>搜索</button>
-        </div>
-        <div class="screening" @click="showPopup">
-          <span>筛选</span>
-          <img src="../../../assets/image/screening.png" alt />
-        </div>
-		<van-popup v-model="show" @close="closeTimeFn" position="right" :style="{ height: '100%',width:'75.7%'}">
-			<div id="indexLabel" :style="{'padding-top':$store.state.paddingTop,'margin-top':'32.5px'}">
-			<div class="labelLabel" >
-				<strong>状态</strong>
-				<button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
-				<button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
-			</div>
-				<div class="labelLabel" >
-					<strong>就诊时间</strong>
-					<button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
-						{{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
-					</button>
-					<button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
-						{{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
-					</button>
-				</div>
-				<div class="labelLabel">
-					<strong>推送时间</strong>
-					<button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
-						{{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
-					</button>
-					<button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
-						{{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
-					</button>
-				</div>
-				<div class="LabelResult">
-					<button @click="screeningResult">重选</button>
-					<button @click="screeningSubmit">确定</button>
-				</div>
-			</div>
-		</van-popup>
-		<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
-			<van-datetime-picker
-			  type="date"
-			  @confirm="confirm"
-			  @cancel="cancel"
-			/>
-		</van-popup>
+        
+        <!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
       </div>
-	  <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
-	  	<ul class="list" :style="{'padding-top':$store.state.paddingTop}">
-	  		<li v-for="(item,inx) in  items" :key="inx">
-	  			<router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}">
-	  				<div class="style">
-	  					<div class="contentTitle">
-	  						<img :src="item.img" alt="">
-	  						<span>{{item.realname}}</span>
-	  					</div>
-	  					<div class="contnet_left">
-	  						<span>推送：{{moment(item.pushTime).format('YYYY-MM-DD')}}</span>
-	  						<span>状态：{{item.span}}</span>
-	  					</div>
-	  				</div>
-	  			</router-link>
-	  			<div class="content_right">
-	  				<button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
-	  			</div>
-	  		</li>
-	  	</ul>
-	  </van-list>
-      <!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
+      <div class="returnTop" @click="$refs._search.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
+        <img src="../../../assets/image/returnTop.png" alt />
+        <span>顶部</span>
+      </div>
+      <van-popup v-model="show" @close="closeTimeFn" position="right" :style="{ height: '100%',width:'75.7%'}">
+        <div id="indexLabel" :style="{'padding-top':$store.state.paddingTop,'margin-top':'32.5px'}">
+        <div class="labelLabel" >
+          <strong>状态</strong>
+          <button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
+          <button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
+        </div>
+          <div class="labelLabel" >
+            <strong>就诊时间</strong>
+            <button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
+              {{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
+            </button>
+            <button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
+              {{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
+            </button>
+          </div>
+          <div class="labelLabel">
+            <strong>推送时间</strong>
+            <button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
+              {{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
+            </button>
+            <button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
+              {{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
+            </button>
+          </div>
+          <div class="LabelResult">
+            <button @click="screeningResult">重选</button>
+            <button @click="screeningSubmit">确定</button>
+          </div>
+        </div>
+      </van-popup>
+      <van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
+        <van-datetime-picker
+          type="date"
+          @confirm="confirm"
+          @cancel="cancel"
+        />
+      </van-popup>
     </div>
-  <!-- </van-pull-refresh> -->
-</topSolt>
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
 import qs from "qs";
 import moment from 'moment'
-import Vue from 'vue';
-import topSolt from "../function/topSolt.vue";
+import Vue from 'vue'
 export default {
   name: "index_search",
   data() {
     return {
       timer: undefined,
-	  items:[],
+      items:[],
       keywords: "", //搜索框的关键字value
       pullingDown: false,
-	  // lable的dom节点
-	  labelDocument:['labelDocument','labelDocument2','labelDocument3','labelDocument4','labelDocument5','labelDocument6'],
-	  //筛选数据
-	  Time:{
-	  	look:'',
-	  	noLook:'',
-	  	confirmStart : undefined,
-	  	confirmOver : undefined,
-	  	pushStart : undefined,
-	  	pushOver : undefined,
-	  	postState : undefined,
-	  },
-	  dateStata : '',
-	  loading: true,
-	  // 加载状态结束
-	  finished: false,
-	  page:0,
-	  noItems:[],
-     test:''
+      // lable的dom节点
+      labelDocument:['labelDocument','labelDocument2','labelDocument3','labelDocument4','labelDocument5','labelDocument6'],
+      //筛选数据
+      Time:{
+        look:'',
+        noLook:'',
+        confirmStart : undefined,
+        confirmOver : undefined,
+        pushStart : undefined,
+        pushOver : undefined,
+        postState : undefined,
+      },
+      dateStata : '',
+      loading: true,
+      // 加载状态结束
+      finished: false,
+      page:0,
+      noItems:[],
+      test:'',
+      query:'',
+      scrollTop:0,
+      hospitalReturnTopPage:false,
     };
   },
   computed: {
-    ...mapGetters(["showTime", "detail", "account",'isLogin']),
     show: {
       get: function() {
         // 
@@ -156,52 +164,67 @@ export default {
         this.$store.state.hospitalReturnHomePage = newValue;
       }
     },
-    hospitalReturnTopPage: {
-      get: function() {
-        // 
-        return this.$store.state.hospitalReturnTopPage;
-      },
-      set: function(newValue) {
-        this.$store.state.hospitalReturnTopPage = newValue;
-      }
-    },
-
   },
   components: {
-    topSolt
   },
   created() {
-
   },
   mounted() {
-    // if (window.plus) {
-    //   plus.navigator.setStatusBarStyle("dark");
-    // }
-    // this.initData();
-    // if(this.$route.query.show == 'false'){
-    //   this.hospitalReturnHomePage = false;
-    // }
   },
-  activated(){
+	activated() {
 		if(this.query != JSON.stringify(this.$route.query)){
+      debugger
       this.initData();
-			this.query = JSON.stringify(this.$route.query);
+      this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
 				//plus.navigator.setStatusBarBackground("#ffffff");
 				plus.navigator.setStatusBarStyle("dark")
 			}
-      if(this.$route.query.show == 'false'){
-        this.hospitalReturnHomePage = false;
+			if(this.$route.query.show == 'false'){
+			  this.hospitalReturnHomePage = false;
       }
+      this.nextPageFn();
+    }
+    if(this.scrollTop != 0){
+			this.$refs._search.scrollTop = this.scrollTop
 		}
-  },
+	},
   methods: {
+    // 滑动一定距离出现返回顶部按钮
+    handleScroll() {
+      this.scrollTop = this.$refs._search.scrollTop || this.$refs._search.pageYOffset
+      console.log(this.scrollTop)
+      if (this.scrollTop > 800) {
+        this.hospitalReturnTopPage = true;
+      } else {
+        this.hospitalReturnTopPage = false;
+      }
+    },
+    submitFn(_item,_button){
+			this.$axios.post('/c2/patient/confirmjiuzhen',this.qs.stringify({
+				patientId : _item.itemId
+			}))
+			.then(res =>{
+				if(res.data.codeMsg){
+					this.$toast({duration: 1000,message: res.data.codeMsg})
+				}
+				if(res.data.code == 0 ){
+					this.$toast.success({duration: 1000,message: '操作成功'})
+					if(_item.status == 1){
+						
+						_button.target.style.cssText="color:#333333; background-color:#EEEEEE;"
+						_button.target.innerHTML = '已就诊';
+					}
+				}
+			})
+			.catch((err)=>{})
+		},
     afterPullDown() {
       //下拉刷新
       setTimeout(() => {
         this.pullingDown = false;
         this.initData();
-        this.nextPageFn()
+        
       }, 500);
     },
     initData() {
@@ -216,11 +239,11 @@ export default {
     },
     //键盘输入值时触发
     inputNow(_keywordsCode) {
+      // let status = this.Time.postState;
       this.items = [];
       this.noItems = [];
-	  this.finished = false;
 	   this.page = 0;
-      // this.finished = true;
+      this.finished = false;
       if(!this.keywords){
         this.nextPageFn();
       }else{
@@ -228,26 +251,29 @@ export default {
       }
     },
     goBackFn() {
-      this.$router.back(-1);
+      this.$router.back();
     },
     // 筛选确定
     screeningSubmit(){
-		debugger;
       this.show = false;
       this.items = [];
-	  this.page = 0;
+	    this.page = 0;
       // this.noItems = [];
       this.finished = false;
       this.nextPageFn();
     },
     // 筛选重置
     screeningResult(){
+      document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[4]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[5]).style.backgroundColor = "#EEEEEE";
     	this.initData();
     },
     //选择框样式
     labelLabelFn(_vlaue,_this){
-    	// 
-    	// 
     	let buttonStyle = document.getElementById(this.labelDocument[_vlaue]);
     	switch(_vlaue){
     		case 0:
@@ -259,24 +285,20 @@ export default {
     		this.Time.look = '未就诊';
     		this.Time.postState = 1;
 			this.dateStata=_vlaue;
-    		// 
-
     		break;
     		case 1:
-    		document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
-    		document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
     		_this.target.style.backgroundColor = "#FFE1BE";
     		this.Time.look = "";
     		this.Time.noLook = "";
     		this.Time.noLook = '已就诊';
     		this.Time.postState = 4;
-			this.dateStata=_vlaue;
-    		// 
+			  this.dateStata=_vlaue;
     		break;
-
     		case 2:
-    		document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
-    		document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
     		_this.target.style.backgroundColor = "#FFE1BE";
 			this.dateStata=_vlaue;
     		this.Time.confirmStart = this.time;
@@ -310,7 +332,6 @@ export default {
     },
     //关闭半遮罩
     closeFn(){
-    	// 
     	this.showTime = false;
     },
     // 确定选择的日期
@@ -347,8 +368,11 @@ export default {
     // 获取下一页的方法
     getData(page){
 		debugger;
+      
+      let clinicId = '';
       this.$axios.post('/c2/patient/items',qs.stringify({
-          hospitalId: this.$route.query.hospitalId,
+          hospitalId : this.$route.query.hospitalId,
+          // clinicId : this.$store.state.hospital.login.clinicId,
           kw: this.keywords,
           status: this.Time.postState,
           pn : page,
@@ -388,7 +412,7 @@ export default {
             }
             // 加载状态结束
             this.loading = false;
-			      console.dir(this.items)
+			console.dir(this.items)
           }else{
             this.loading = false;
             this.test='没有更多了'
@@ -396,15 +420,14 @@ export default {
           }
 		  
           if(this.items.length == 0){
+			  
             this.test='无数据'
           }else{
             this.test='没有更多了'
           }
 		  
         })
-        .catch((err)=>{
-          this.$toast(err)
-        });
+        .catch((err)=>{});
     },
     // 全部病原列表的下一页
     nextPageFn(){
@@ -414,7 +437,11 @@ export default {
     },
     closeTimeFn(){
       this.hospitalReturnHomePage = true;
-      this.hospitalReturnTopPage = true;
+      if (this.scrollTop > 800) {
+        this.hospitalReturnTopPage = true;
+      } else {
+        this.hospitalReturnTopPage = false;
+      }
     }
   }
 };
@@ -427,6 +454,8 @@ export default {
   width: 100%;
   padding-top: 0.52rem;
   background-color: #ffffff;
+  height: 100%;
+  box-sizing: border-box
 }
 .top_search {
   height: 0.5rem;
@@ -580,10 +609,19 @@ export default {
   border-radius: 0px 100px 100px 0px;
   background-color: #ff951b;
 }
+.scroll{
+  height: 100%;
+  touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
+  overflow: scroll;
+  overflow-x: hidden;
+  width: 100%
+}
 .list{
 	width: 91.46%;
 	margin: 0rem auto;
 	margin-top: .1rem;
+  
 }
 .list li{
 	width: 100%;
@@ -684,5 +722,10 @@ export default {
 }
 .no{
 	color: #2B77EF;
+}
+>>>.van-pull-refresh{
+  width: 100%;
+  height: calc(100% - 0rem);
+  overflow: hidden;
 }
 </style>

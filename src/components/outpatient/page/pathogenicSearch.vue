@@ -191,7 +191,7 @@ export default {
 		this.items = [];
 		this.noItems = [];
 		this.page = 0;
-		this.finished = true;
+		this.finished = false;
 		if(!this.keywords){
 			this.nextPageFn();
 		}else{
@@ -214,7 +214,14 @@ export default {
     },
     // 筛选重置
     screeningResult(){
-    	this.initData();
+		document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[4]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[5]).style.backgroundColor = "#EEEEEE";
+		this.initData();
+			
     },
     //选择框样式
     labelLabelFn(_vlaue,_this){
@@ -235,8 +242,8 @@ export default {
 
     		break;
     		case 1:
-    		document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
-    		document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
     		_this.target.style.backgroundColor = "#FFE1BE";
     		this.Time.look = "";
     		this.Time.noLook = "";
@@ -247,8 +254,8 @@ export default {
     		break;
 
     		case 2:
-    		document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
-    		document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
     		_this.target.style.backgroundColor = "#FFE1BE";
 			this.dateStata=_vlaue;
     		this.Time.confirmStart = this.time;
@@ -680,5 +687,19 @@ export default {
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;
   	overflow-x: hidden;
+}
+.returnTop {
+    z-index: 99;
+    position: fixed;
+    right: 0.2rem;
+    bottom: 1rem;
+    opacity: 1;
+    width: 0.4rem;
+    height: 0.4rem;
+    /* line-height: .4rem; */
+    text-align: center;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,.8);
+    border: 1px solid #bfbebe;
 }
 </style>

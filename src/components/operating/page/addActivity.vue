@@ -117,14 +117,10 @@ export default {
 		},
 		previewColorFn(){
 			// console.dir(this.activity)
-			if(this.activity.title != '' || this.activity.brief != '' || this.activity.address != '' || this.activity.tel != ''
-			|| this.activity.startTime != undefined || this.activity.endTime != undefined || this.activity.content != ''){
+			if(this.activity.title != '' && this.activity.brief != '' && this.activity.address != '' && this.activity.tel != ''
+			&& this.activity.startTime != undefined && this.activity.endTime != undefined && this.activity.content != ''){
 				this.previewColor = true
-			}
-			console
-			if(this.activity.title == '' && this.activity.brief == '' && this.activity.address == '' && this.activity.tel == ''
-			&& this.activity.startTime == undefined && this.activity.endTime == undefined && this.activity.content == ''){
-				console.log('关闭')
+			}else{
 				this.previewColor = false
 			}
 		},
@@ -164,14 +160,6 @@ export default {
 				this.$set(this.activity,'startTime',time)
 			}else{
 				this.$set(this.activity,'endTime',time)
-			}
-			if(this.activity.startTime || this.activity.endTime){
-				this.previewColor = true
-			}
-			if(this.activity.title == '' && this.activity.brief == '' && this.activity.address == '' && this.activity.tel == ''
-			&& this.activity.startTime == undefined && this.activity.endTime == undefined && this.activity.content == ''){
-				// console.log('关闭')
-				this.previewColor = false
 			}
 		},
 		//关闭半遮罩
@@ -302,7 +290,7 @@ export default {
 }
 .addcontent textarea{
 	width: 83.46%;
-	height: 3.55rem;
+	height: 2.8rem;
 	margin: 0 4.27%;
 	padding : .12rem 4%;
 	margin-top: .12rem;

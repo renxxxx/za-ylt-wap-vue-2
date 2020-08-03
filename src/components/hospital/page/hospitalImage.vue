@@ -4,9 +4,9 @@
 			<img src="../../../assets/image/shape@3x.png" alt="" @click="goBackFn"  id="navback">
 			<h3>医院详情</h3>
 		</div>
-		<div class="zhangwei"></div>
-		<div class="topNav" ref='img' :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="content" :style="{'margin-top': -(55-parseInt($store.state.paddingTop.replace('px','')))+'px'}">
+		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
+		<div class="topNav" ref='img' ></div>
+		<div class="content" :style="{'height': 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+257+'px)'),'margin-top': -(55-parseInt($store.state.paddingTop.replace('px','')))+'px'}">
 			<div class="contentTitle">
 				<h3 @click="switchFn('about')" ref='about' class="xiahuaxian">医院介绍</h3>
 				<h3 @click="switchFn('type')" ref='type'>特色科室</h3>
@@ -166,7 +166,7 @@ export default {
 
 .content{
 	width: 100%;
-	height: calc(100% - 2.56rem);
+	/* height: calc(100% - 2.56rem); */
 	margin-top: -.4rem;
 	border-radius: .14rem  .14rem  0rem  0rem;
 	background-color: #FFFFFF;

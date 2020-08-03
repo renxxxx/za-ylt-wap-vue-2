@@ -25,44 +25,7 @@
 					<span>筛选</span>
 					<img src="../../../../assets/image/screening.png" alt />
 				</div>
-				<van-popup v-model="show" position="right" :style="{ height: '100%',width:'78.7%'}">
-					<div id="indexLabel">
-					<div class="labelLabel" >
-						<strong>状态</strong>
-						<button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
-						<button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
-					</div>
-						<div class="labelLabel" >
-							<strong>就诊时间</strong>
-							<button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
-								{{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
-							</button>
-							<button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
-								{{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
-							</button>
-						</div>
-						<div class="labelLabel">
-							<strong>推送时间</strong>
-							<button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
-								{{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
-							</button>
-							<button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
-								{{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
-							</button>
-						</div>
-						<div class="LabelResult">
-							<button @click="screeningResult">重选</button>
-							<button @click="screeningSubmit">确定</button>
-						</div>
-					</div>
-				</van-popup>
-				<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
-					<van-datetime-picker
-					type="date"
-					@confirm="confirm"
-					@cancel="cancel"
-					/>
-				</van-popup>
+				
 			</div>
 			<div class="_searchList" @scroll="handleScroll" ref="_searchList">
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了"  @load="nextPageFn">
@@ -93,7 +56,46 @@
 			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
 		</div>
-		</div>
+		<van-popup v-model="show" position="right" :style="{ height: '100%',width:'75%'}">
+			<div id="indexLabel">
+			<div class="labelLabel" >
+				<strong>状态</strong>
+				<button  class="right" @click="labelLabelFn(0,$event)" :id="labelDocument[0]">未就诊</button>
+				<button @click="labelLabelFn(1,$event)" :id="labelDocument[1]">已就诊</button>
+			</div>
+				<div class="labelLabel" >
+					<strong>就诊时间</strong>
+					<button class="rightLine" @click="labelLabelFn(2,$event)" :id="labelDocument[2]">
+						{{Time.confirmStart?  moment(Time.confirmStart).format('YYYY-MM-DD'):'开始时间'}}
+					</button>
+					<button  @click="labelLabelFn(3,$event)" :id="labelDocument[3]">
+						{{Time.confirmOver? moment(Time.confirmOver).format('YYYY-MM-DD'):'结束时间'}}
+					</button>
+				</div>
+				<div class="labelLabel">
+					<strong>推送时间</strong>
+					<button class="rightLine"  @click="labelLabelFn(4,$event)"  :id="labelDocument[4]">
+						{{Time.pushStart? moment(Time.pushStart).format('YYYY-MM-DD'):'开始时间'}}
+					</button>
+					<button  @click="labelLabelFn(5,$event)"  :id="labelDocument[5]">
+						{{Time.pushOver? moment(Time.pushOver).format('YYYY-MM-DD'):'结束时间'}}
+					</button>
+				</div>
+				<div class="LabelResult">
+					<button @click="screeningResult">重选</button>
+					<button @click="screeningSubmit">确定</button>
+				</div>
+			</div>
+			
+		</van-popup>
+		<van-popup @click="closeFn" v-model="showTime" position="bottom" :style="{ height: '40%',width:'100%'}">
+				<van-datetime-picker
+				type="date"
+				@confirm="confirm"
+				@cancel="cancel"
+				/>
+		</van-popup>
+	</div>
 	<!-- </van-pull-refresh> -->
 </template>
 
@@ -210,7 +212,13 @@ export default {
     },
     // 筛选重置
     screeningResult(){
-    	this.initData();
+		this.initData();
+		document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[4]).style.backgroundColor = "#EEEEEE";
+		document.getElementById(this.labelDocument[5]).style.backgroundColor = "#EEEEEE";
     },
     //选择框样式
     labelLabelFn(_vlaue,_this){

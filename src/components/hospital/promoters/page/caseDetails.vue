@@ -5,7 +5,7 @@
 			<img src="../../../../assets/image/share@3x.png" @click="share" alt="">
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div ref="caseDetailsList" class="caseDetailsList" @scroll="handleScroll">
+		<div ref="caseDetailsList" :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" class="caseDetailsList" @scroll="handleScroll">
 			<div class="banner" v-show="!!caseInfo.cover">
 				<img v-lazy="caseInfo.cover"  alt="">
 			</div>
@@ -139,7 +139,7 @@ export default {
 }
 .caseDetailsList{
 	width: 100%;
-	height: calc(100% - .47rem);
+	/* height: calc(100% - .47rem); */
   	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;

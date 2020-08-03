@@ -237,5 +237,6 @@ export default {
 	line-height: .25rem;
 	border: 1px solid #D8D8D8;
 	padding-left: 4%;
+	margin-bottom: .1rem;
 }
 </style>

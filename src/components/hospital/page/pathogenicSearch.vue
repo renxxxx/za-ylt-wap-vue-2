@@ -24,6 +24,41 @@
             <span>筛选</span>
             <img src="../../../assets/image/screening.png" alt />
           </div>
+      
+        </div>
+        <div class="scroll" ref="_search" @scroll="handleScroll">
+      <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
+          <ul class="list" :style="{'padding-top':$store.state.paddingTop}" >
+         <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
+           <!-- items -->
+            <li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
+              <!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
+                <div class="style">
+                  <div class="contentTitle">
+                    <img :src="item.img" alt="">
+                    <span>{{item.realname}}</span>
+                  </div>
+                  <div class="contnet_left">
+                    <span>推送：{{item.pushTime? moment(item.pushTime).format('YYYY-MM-DD'):''}}</span>
+                    <span>状态：{{item.span}}</span>
+                  </div>
+                </div>
+              <!-- </router-link> -->
+              <div class="content_right">
+                <button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
+              </div>
+            </li>
+      </van-list>
+          </ul>
+      <!-- </van-pull-refresh> -->
+        </div>
+        
+        <!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
+      </div>
+      <div class="returnTop" @click="$refs._search.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
+        <img src="../../../assets/image/returnTop.png" alt />
+        <span>顶部</span>
+      </div>
       <van-popup v-model="show" @close="closeTimeFn" position="right" :style="{ height: '100%',width:'75.7%'}">
         <div id="indexLabel" :style="{'padding-top':$store.state.paddingTop,'margin-top':'32.5px'}">
         <div class="labelLabel" >
@@ -62,40 +97,6 @@
           @cancel="cancel"
         />
       </van-popup>
-        </div>
-        <div class="scroll" ref="_search" @scroll="handleScroll">
-      <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
-          <ul class="list" :style="{'padding-top':$store.state.paddingTop}" >
-         <van-list  v-model="loading" :finished="finished" :finished-text="test"  @load="nextPageFn">
-           <!-- items -->
-            <li v-for="(item,inx) in  items" :key="inx" @click="$router.push({path:'/hospital/hospital_detailsPage',query:{patientId : item.itemId,time: new Date().getTime().toString()}})">
-              <!-- <router-link :to="{path : '/hospital/hospital_detailsPage' ,query : {patientId : item.itemId,}}"> -->
-                <div class="style">
-                  <div class="contentTitle">
-                    <img :src="item.img" alt="">
-                    <span>{{item.realname}}</span>
-                  </div>
-                  <div class="contnet_left">
-                    <span>推送：{{item.pushTime? moment(item.pushTime).format('YYYY-MM-DD'):''}}</span>
-                    <span>状态：{{item.span}}</span>
-                  </div>
-                </div>
-              <!-- </router-link> -->
-              <div class="content_right">
-                <button :class="item.buttonColor" @click="submitFn(item,$event)">{{item.button}}</button>
-              </div>
-            </li>
-      </van-list>
-          </ul>
-      <!-- </van-pull-refresh> -->
-        </div>
-        
-        <!-- <clinicAll ref="all" :list="list" :style="{'padding-top':$store.state.paddingTop}"></clinicAll> -->
-      </div>
-      <div class="returnTop" @click="$refs._search.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-        <img src="../../../assets/image/returnTop.png" alt />
-        <span>顶部</span>
-      </div>
     </div>
 </template>
 
@@ -223,11 +224,12 @@ export default {
       setTimeout(() => {
         this.pullingDown = false;
         this.initData();
-        this.nextPageFn()
+        
       }, 500);
     },
     initData() {
       Object.assign(this.$data, this.$options.data());
+      this.nextPageFn()
     },
     //显示筛选弹窗
     showPopup() {
@@ -240,7 +242,8 @@ export default {
       // let status = this.Time.postState;
       this.items = [];
       this.noItems = [];
-	   this.page = 0;
+     this.page = 0;
+     this.finished = false;
       // this.finished = true;
       if(!this.keywords){
         this.nextPageFn();
@@ -262,6 +265,12 @@ export default {
     },
     // 筛选重置
     screeningResult(){
+      document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[4]).style.backgroundColor = "#EEEEEE";
+      document.getElementById(this.labelDocument[5]).style.backgroundColor = "#EEEEEE";
     	this.initData();
     },
     //选择框样式
@@ -279,18 +288,18 @@ export default {
 			this.dateStata=_vlaue;
     		break;
     		case 1:
-    		document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
-    		document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[0]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[1]).style.backgroundColor = "#EEEEEE";
     		_this.target.style.backgroundColor = "#FFE1BE";
     		this.Time.look = "";
     		this.Time.noLook = "";
     		this.Time.noLook = '已就诊';
     		this.Time.postState = 4;
-			this.dateStata=_vlaue;
+			  this.dateStata=_vlaue;
     		break;
     		case 2:
-    		document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
-    		document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[2]).style.backgroundColor = "#EEEEEE";
+    		// document.getElementById(this.labelDocument[3]).style.backgroundColor = "#EEEEEE";
     		_this.target.style.backgroundColor = "#FFE1BE";
 			this.dateStata=_vlaue;
     		this.Time.confirmStart = this.time;
