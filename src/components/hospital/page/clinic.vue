@@ -1,5 +1,5 @@
 <template>
-	<div class="hospitalClinic" :style="{'padding-top':$store.state.paddingTop}">
+	<div class="hospitalClinic" :style="{'padding-top':$store.state.paddingTop,'box-sizing': 'border-box'}">
 		<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" > -->
 			<div class="navWarp" :style="{'padding-top':$store.state.paddingTop}">
 				<div class="topNav"  >
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div style="height:2rem"></div>
-			<clinicContent  ref="clinic" :show = 'show' :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+250+'px)')}"></clinicContent>
+			<clinicContent  ref="clinic" :show = 'show' :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+220+'px)')}"></clinicContent>
 		<!-- </van-pull-refresh> -->
 	</div>
 </template>

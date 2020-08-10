@@ -21,7 +21,7 @@
 		<!-- <router-link :to="{name:'promoters_addSource',query:{clinicId:this.$route.query.clinicId}}"> -->
 			<div class="addEtiology" @click="$router.push({path:'/promoters/promoters_addSource',query:{clinicId:$route.query.clinicId,time: new Date().getTime().toString()}})">
 				<img src="../../../../assets/image/xinzeng@2x.png" alt="">
-				<span>新增病员</span>
+				<span>新增病源</span>
 			</div>
 		<!-- </router-link> -->
 		<div class="stateNav">

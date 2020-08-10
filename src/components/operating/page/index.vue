@@ -366,6 +366,7 @@ export default {
 <style scoped>
 .index{
 	width: 100%;	
+	min-height: 100vh;
 	background-color: #F5F5F5;
 }
 .topNav{

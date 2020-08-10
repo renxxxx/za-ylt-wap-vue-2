@@ -9,7 +9,7 @@
 				</div> -->
 			<!-- <router-link :to="{name:'hospital_pathogenicSearch',query:{focus : true,}}"> -->
 			<div class="indexSearch" @click="$router.push({path:'/hospital/hospital_pathogenicSearch',query:{focus : true,time: new Date().getTime().toString()}})">
-				<input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
+				<input type="text" placeholder="搜索病源" v-model="list.keywords" readonly="readonly">
 				<img src="../../../assets/image/sousuo@2x.png" alt="">
 			</div>
 			<!-- </router-link> -->

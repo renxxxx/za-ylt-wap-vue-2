@@ -34,7 +34,7 @@
   	</van-tabbar-item>
     <!-- /hospital/hospital_gene -->
   	<van-tabbar-item replace :to="{path:'/hospital/hospital_source',query:{transition:'def',time: new Date().getTime().toString()}}">
-  	    <span>病员</span>
+  	    <span>病源</span>
   	    <img
   			slot="icon"
   			slot-scope="props"

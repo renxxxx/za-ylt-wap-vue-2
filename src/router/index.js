@@ -91,7 +91,10 @@ const promoters_pictureEnlargement = ()=>import( '@/components/hospital/promoter
 const promoters_sourceManagement = ()=>import( '@/components/hospital/promoters/page/sourceManagement.vue')
 const promoters_sourceSearch = ()=>import( '@/components/hospital/promoters/page/sourceSearch.vue')
 const promoters_case = ()=>import( '@/components/hospital/promoters/page/case.vue')
+
 const promoters_caseDetails = ()=>import( '@/components/hospital/promoters/page/caseDetails.vue')
+const promoters_anli = ()=>import( '@/components/hospital/promoters/page/anli.vue')
+
 const promoters_activityReleased = ()=>import( '@/components/hospital/promoters/page/activityReleased.vue')
 const promoters_activityDetails = ()=>import( '@/components/hospital/promoters/page/activityDetails.vue')
 
@@ -624,6 +627,13 @@ const router = new Router({
               meta: {auth:true},
             },
             {
+              path: 'promoters_anli',
+              name: 'promoters_anli',
+              component: promoters_anli,
+              meta: {auth:true},
+            },
+            
+            {
               path: 'promoters_activityReleased',
               name: 'promoters_activityReleased',
               component: promoters_activityReleased,
@@ -1021,7 +1031,6 @@ router.afterEach((to,from) => {
 	// next({path:'/tihuan',query:to.query})
 	  router.replace({path:'/tihuan',query:{query:JSON.stringify(to.query),path:to.path}})
   }
-
 })
 
 export default router

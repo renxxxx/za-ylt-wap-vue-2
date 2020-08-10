@@ -32,7 +32,7 @@
 		</div>
 		<div class="detailsList">
 			<div class="listLeft">
-				<h4>病员列表</h4>
+				<h4>病源列表</h4>
 			</div>
 			<div class="listRight">
 				<van-dropdown-menu >

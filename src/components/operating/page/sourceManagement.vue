@@ -10,7 +10,7 @@
 				</div>
 				<router-link :to="{path:'/operating/operating_pathogenicSearch',query:{hospitalId: this.$route.query.hospitalId,focus : true,}}">
           <div class="indexSearch ">
-              <input type="text" placeholder="搜索病员" v-model="list.keywords" readonly="readonly">
+              <input type="text" placeholder="搜索病源" v-model="list.keywords" readonly="readonly">
               <img src="../../../assets/image/sousuo@2x.png" alt="">
           </div>
 				</router-link>

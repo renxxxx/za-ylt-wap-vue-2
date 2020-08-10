@@ -1,5 +1,5 @@
 <template>
-	<div class="integralExchange" :style="{'padding-top':$store.state.paddingTop,height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+'px)')}">
+	<div class="integralExchange" :style="{'box-sizing':'border-box'}">
 		<!-- :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px'}" -->
 			<div class="topNav" :style="{'padding-top':(parseInt($store.state.paddingTop.replace('px',''))-0)+'px','height':(parseInt($store.state.paddingTop.replace('px',''))+200)+'px','background-size':'100%'+' '+(parseInt($store.state.paddingTop.replace('px',''))+200)+'px'}">
 				<div class="leftImg" @click="goBackFn"  id="navback">

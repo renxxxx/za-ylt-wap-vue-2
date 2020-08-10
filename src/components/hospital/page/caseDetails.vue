@@ -1,22 +1,24 @@
 <template>
-	<div class="caseDetails" ref="caseDetails" @scroll="handleScroll">
+	<div class="caseDetails" >
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<img src="../../../assets/image/shape@3x.png" alt="" @click="goBackFn"  id="navback">
 			<img src="../../../assets/image/share@3x.png" @click="share" alt="">
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="banner" v-show="!!caseInfo.cover">
-			<img v-lazy="caseInfo.cover"  alt="">
-		</div>
-		<div class="content" @scroll="handleScroll" ref="content">
-			<h3>{{caseInfo.name}}</h3>
-			<p style="padding-top:13px;color: #999999;">浏览量：{{caseInfo.viewCount}}&nbsp;&nbsp;&nbsp;分享数：{{caseInfo.shareCount}}</p>
-			<div class="headPortrait">
-				<img :src="caseInfo.hospitalCover? caseInfo.hospitalCover:'../../../assets/image/logo@2x.png'" alt="">
-				<span>{{caseInfo.hosptialName}}</span>
-				<span>{{caseInfo.alterTime? moment(caseInfo.alterTime).format('YYYY-MM-DD HH:mm'):''}}</span>
+		<div class="caseDetailsList" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="caseDetails">
+			<div class="banner" v-show="!!caseInfo.cover">
+				<img v-lazy="caseInfo.cover"  alt="">
 			</div>
-			<p v-html="caseInfo.content"></p>
+			<div class="content" >
+				<h3>{{caseInfo.name}}</h3>
+				<p style="padding-top:13px;color: #999999;">浏览量：{{caseInfo.viewCount}}&nbsp;&nbsp;&nbsp;分享数：{{caseInfo.shareCount}}</p>
+				<div class="headPortrait">
+					<img :src="caseInfo.hospitalCover? caseInfo.hospitalCover:'../../../assets/image/logo@2x.png'" alt="">
+					<span>{{caseInfo.hosptialName}}</span>
+					<span>{{caseInfo.alterTime? moment(caseInfo.alterTime).format('YYYY-MM-DD HH:mm'):''}}</span>
+				</div>
+				<p v-html="caseInfo.content"></p>
+			</div>
 		</div>
 		<div class="returnTop" @click="$refs.caseDetails.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
 			<img src="../../../assets/image/returnTop.png" alt />
@@ -59,12 +61,25 @@ export default {
 	},
  	mounted(){
 	},
+	
 	activated() {
 		if(window.plus){
 			//plus.navigator.setStatusBarBackground("#ffffff");
 			plus.navigator.setStatusBarStyle("dark")
 		}
+		debugger
+
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.caseInfo = {
+				addTime : '',
+				alterTime : '',
+				cover : '',
+				hosptialpath : '/hospital/',
+				path : '/hospital/',
+				content:'',
+				shareCount:"",
+				viewCount:""
+			};
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query)
 			let postUrl = '';
@@ -135,9 +150,6 @@ export default {
 .caseDetails{
 	width: 100%;
 	height: 100%;
-  	touch-action: pan-y;
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
 	overflow-x: hidden;
 }
 .topNav{
@@ -206,5 +218,12 @@ export default {
 .headPortrait span:last-child{
 	color: #999999;
 	font-weight: normal;
+}
+.caseDetailsList{
+	/* height: calc(100% - .47rem); */
+	touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
+  	overflow: scroll;
+  	overflow-x: hidden;
 }
 </style>

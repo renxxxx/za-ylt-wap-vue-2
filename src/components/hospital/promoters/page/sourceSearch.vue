@@ -12,7 +12,7 @@
 						<img src="../../../../assets/image/sousuo@2x.png" alt />
 					<input
 						type="text"
-						placeholder="搜索病员"
+						placeholder="搜索病源"
 						v-model="keywords"
 						v-focus="this.$route.query.focus"
 						@keyup.enter="inputNow"

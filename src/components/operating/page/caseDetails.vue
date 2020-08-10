@@ -66,6 +66,16 @@ export default {
 			plus.navigator.setStatusBarStyle("dark")
 		}
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.caseInfo={
+				addTime : '',
+				alterTime : '',
+				cover : '',
+				hosptialpath : '/hospital/',
+				path : '/hospital/',
+				content:'',
+				shareCount:"",
+				viewCount:""
+			}
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query)
 			let postUrl = '';

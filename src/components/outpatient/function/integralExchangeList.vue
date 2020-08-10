@@ -1,16 +1,16 @@
 <template>
-	<div class="productsExchange" :style="{height: 'calc(100vh - '+ (parseInt($store.state.paddingTop.replace('px',''))+228+'px)')}">
-		<div class="title" v-if="$route.query.show">
+	<div class="productsExchange" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+228+'px)')}" >
+		<div class="title" v-if="$route.query.show" >
 			<span>热门兑换</span>
 			<!-- <router-link :to="{path : '/outpatient/outpatient_ExchangeList',query:{}}"> -->
 			<span @click="$router.push({path:'/outpatient/outpatient_ExchangeList',query:{time: new Date().getTime().toString()}})">更多</span>
 			<!-- </router-link> -->
 		</div>
-		<div class="productsExchangeList"  @scroll="handleScroll" ref="productsExchangeList">
+		<div class="productsExchangeList" :style="{height: 'calc(100% - 37px)'}" @scroll="handleScroll" ref="productsExchangeList">
 			<!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown"> -->
 				<van-list  v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<ul>
-						<li v-for="(item,inx) in list" :key='inx' @click="$router.push({path:'/outpatient/outpatient_integralShop',query:{commodityId : item.commodityId,time: new Date().getTime().toString()}})">
+						<li v-for="(item,inx) in list" :key='inx'  @click="$router.push({path:'/outpatient/outpatient_integralShop',query:{commodityId : item.commodityId,time: new Date().getTime().toString()}})">
 						<!-- <router-link :to="{path : '/outpatient/outpatient_integralShop',query : {commodityId : item.commodityId,}}"> -->
 							<div class="productsImg">
 							<img :src="item.cover" alt="">
@@ -174,6 +174,9 @@ export default {
 }
 .productsExchangeList ul li:nth-child(2n){
 	margin-left: .09rem;
+}
+.productsExchangeList ul li:nth-last-child(2),.productsExchangeList ul li:last-child{
+	margin-bottom: 0;
 }
 .productsImg{
 	width: 100%;

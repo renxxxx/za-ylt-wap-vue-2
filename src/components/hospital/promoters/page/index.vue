@@ -26,7 +26,7 @@
 						</div>
 					</div>
 					<ul>
-						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime().toString()}})">
+						<li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: '1'}})">
 							<!-- <router-link :to="{path : '/promoters/promoters_caseDetails' ,query : {itemId : items.itemId,data: 1}}"> -->
 								<div class="article_left">
 									<p>{{items.content}}</p>
@@ -42,8 +42,8 @@
 						</li>
 					</ul>
 				</div>
-				<div class="article" v-if="qualityCase.length">
-					<div class="articleTitle">
+				<div class="article" v-if="qualityCase.length" style="height:248px">
+					<div class="articleTitle" style="height:24px">
 						<img src="../../../../assets/image/huodong@2x.png" alt />
 						<h3>推广活动</h3>
 						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_activityReleased',query:{time: new Date().getTime().toString()}})">
@@ -62,9 +62,8 @@
 						</div>
 						<!-- </router-link> -->
 					</div>
-					<ul style="">
+					<!-- <ul style="">
 						<li v-for="(items,num) in qualityCase" :key="num" @click="$router.push({path:'/promoters/promoters_activityDetails',query:{itemId:items.itemId,time: new Date().getTime().toString()}})">
-							<!-- <router-link :to="{path : '/promoters/promoters_activityDetails',query:{itemId:items.itemId,}}"> -->
 							<div class="article_left">
 								<p>{{items.content}}</p>
 								<div class="article_leftTime">
@@ -75,6 +74,33 @@
 							<div class="article_right">
 								<img :src="items.img" alt />
 							</div>
+						</li>
+					</ul> -->
+				</div>
+				<div class="article" v-if="article.length">
+					<div class="articleTitle">
+						<img src="../../../../assets/image/anli@2x.png" alt />
+						<h3>优质案例</h3>
+						<div class="articleDetails" @click="$router.push({path:'/promoters/promoters_anli',query:{time: new Date().getTime().toString()}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_case'}">							 -->
+								<span>查看更多</span>
+								<img src="../../../../assets/image/Chevron Copy 2@2x.png" alt="">
+							<!-- </router-link> -->
+						</div>
+					</div>
+					<ul>
+						<li v-for="(items,inx) in anli" :key="inx" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: '4'}})">
+							<!-- <router-link :to="{path : '/promoters/promoters_caseDetails' ,query : {itemId : items.itemId,data: 1}}"> -->
+								<div class="article_left">
+									<p>{{items.content}}</p>
+									<div class="article_leftTime">
+									<img src="../../../../assets/image/time@2x.png" alt />
+									<span>{{moment(items.time).format('YYYY-MM-DD HH:mm')}}</span>
+									</div>
+								</div>
+								<div class="article_right">
+									<img :src="items.img" alt />
+								</div>
 							<!-- </router-link> -->
 						</li>
 					</ul>
@@ -98,6 +124,7 @@ export default {
 		return {
 			article: [],
 			qualityCase : [],
+			anli : [],
 			pullingDown: false,
 			scrollTop:0,
      		hospitalReturnTopPage:false,
@@ -189,6 +216,26 @@ export default {
 						if(res.data.data.items[i]){
 							this.qualityCase.push({
 								content:res.data.data.items[i].title,
+								img: res.data.data.items[i].cover,
+								time:res.data.data.items[i].alterTime,
+								itemId : res.data.data.items[i].itemId,
+							})
+						}
+					}
+				}
+			})
+			.catch((err)=>{})
+			this.$axios.post('/c2/project/items',qs.stringify({
+				hospitalId : this.$store.state.hospital.login.hospital.hospitalId,
+				pn: 1,
+				ps: 3
+			}))
+			.then(res => {
+				if(res.data.data.items.length != 0){
+					for(let i in res.data.data.items){
+						if(res.data.data.items[i]){
+							this.anli.push({
+								content:res.data.data.items[i].name,
 								img: res.data.data.items[i].cover,
 								time:res.data.data.items[i].alterTime,
 								itemId : res.data.data.items[i].itemId,

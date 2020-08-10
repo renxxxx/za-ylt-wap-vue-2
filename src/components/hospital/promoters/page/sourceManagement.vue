@@ -9,7 +9,7 @@
 					</div>
 					<!-- <router-link :to="{name:'promoters_sourceSearch',query:{focus : 1}}"> -->
 					<div class="indexSearch" @click="$router.push({path:'/promoters/promoters_sourceSearch',query:{focus : 1,time: new Date().getTime().toString()}})">
-						<input type="text" placeholder="搜索病员" readonly="readonly">
+						<input type="text" placeholder="搜索病源" readonly="readonly">
 						<img src="../../../../assets/image/sousuo@2x.png" alt="">
 					</div>
 						<!-- </router-link> -->
