@@ -7,7 +7,7 @@
 				</a>
 			</div>
 			<div class="nav_center">
-				<h3>病员信息</h3>
+				<h3>病源信息</h3>
 			</div>
 			<div class="nav_right"></div>
 			<!-- <div class="nav_right" @click="modifyFn" v-if="isLogin == 200? false:true">
@@ -20,7 +20,7 @@
 			<h3>基本信息</h3>
 			<ul>
 				<li>
-					<span>病员姓名</span>
+					<span>病源姓名</span>
 					<input type="text" id='readId1' v-model="detail.realname"  :placeholder="modify.readonly? '':'请输入' "  :readonly="modify.readonly">
 				</li>
 				<li>

@@ -1,7 +1,7 @@
 <template>
 	<div class="case">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
-			<img src="../../../assets/image/shape@3x.png" alt=""  @click="goBackFn"  id="navback" :style="{'padding-top':$store.state.paddingTop}">
+			<img src="../../../../assets/image/shape@3x.png" alt=""  @click="goBackFn"  id="navback" :style="{'padding-top':$store.state.paddingTop}">
 			<h3>优质案例</h3>
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
@@ -10,10 +10,10 @@
 				<ul>
 				<li v-for="(items,inx) in article" :key="inx">
 					<!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 4,}}"> -->
-					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: '4'}})">
+					<div class="article_left" :style="{width:items.img?'60.1%':'100%'}" @click="$router.push({path:'/promoters/promoters_caseDetails',query:{itemId : items.itemId,data: 4,time: new Date().getTime().toString()}})">
 						<p>{{items.content}}</p>
 						<div class="article_leftTime">
-						<img src="../../../assets/image/time@2x.png" alt="">
+						<img src="../../../../assets/image/time@2x.png" alt="">
 						<span>{{items.time? moment(items.time).format('YYYY-MM-DD HH:mm'):''}}</span>
 						</div>
 					</div>
@@ -26,7 +26,7 @@
 			</van-list>
 		</div>
 		<div class="returnTop" @click="$refs.article.scrollTop=0;hospitalReturnTopPage = false;" ref="returnTopRef" v-show="hospitalReturnTopPage">
-			<img src="../../../assets/image/returnTop.png" alt />
+			<img src="../../../../assets/image/returnTop.png" alt />
 			<span>顶部</span>
 		</div>
 	</div>

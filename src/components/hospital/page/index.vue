@@ -2,7 +2,7 @@
   <div ref="refersh" id="hospitalIndex" @scroll="handleScroll" >
       <!-- <van-pull-refresh v-model="pullingDown" @refresh="afterPullDown" style="ovflow:hidden"> -->
             <div class="navWarp" :style="{'padding-top': $store.state.paddingTop}">
-              <div class="navTitle">
+              <div class="navTitle" :style="{'padding-top': $store.state.paddingTop}">
                 <span>—&nbsp;&nbsp;医院端&nbsp;&nbsp;—</span>
               </div>
               <div style="height:.25rem"></div>
@@ -25,7 +25,7 @@
                 <li @click="$router.push({path:'/hospital/hospital_sourceManagement',query:{time: new Date().getTime().toString()}})">
                   <!-- <router-link :to="{path : '/hospital/hospital_sourceManagement',query:{}}" > -->
                     <img src="../../../assets/image/bingyuanguanli@2x.png" alt />
-                    <span>病员管理</span>
+                    <span>病源管理</span>
                   <!-- </router-link> -->
                 </li>
                 <li @click="upgradeFn">
@@ -75,7 +75,7 @@
               </div>
               <ul :model="article">
                 <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-                  <li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: 1,time: new Date().getTime().toString()}})">
+                  <li v-for="(items,inx) in article" :key="inx" @click="$router.push({path:'/hospital/hospital_caseDetails',query:{itemId : items.itemId,data: '1'}})">
                     <!-- <router-link :to="{path : '/hospital/hospital_caseDetails' ,query : {itemId : items.itemId,data: 1,}}"> -->
                       <div class="article_left" :style="{width:items.img?'60.1%':'100%'}">
                         <p>{{items.content}}</p>

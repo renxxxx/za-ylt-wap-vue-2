@@ -94,7 +94,7 @@
 									<p>将 <span>{{item.name}}</span></p>
 									<p>移交给:</p>
 									<div class="choicePromoter" @click="choicePromoterFn">
-										<h5>{{modify.name}}</h5>
+										<span>{{modify.name}}</span>
 										<img src="../../../assets/image/down@2x.png" alt="">
 									</div>
 									<button @click="modifySubmitFn">确定</button>
@@ -109,7 +109,7 @@
 			</ul>
 				</van-list>
 			<div class="popup"  v-if="choicePromoterAllShow">
-				<van-picker show-toolbar :columns="option" @cancel="cancel" @confirm="onConfirm"/>
+				<van-picker  show-toolbar :columns="option" @cancel="cancel" @confirm="onConfirm" />
 			</div>
 			<!-- </van-pull-refresh> -->
 		</div>
@@ -146,7 +146,7 @@ export default {
 			choicePromoterAllShow : false,	//修改推广人弹窗
 			option: [],		//推广人列表
 			modify:{		//修改推广人
-				name:''	,
+				name:'请选择推广人'	,
 				id : '',
 				value : '',
 				num: '',
@@ -333,7 +333,8 @@ export default {
 			// console.log(this.clinicNum)
 			if(this.clinicNum){
 				this.modifyPromotersAllShow = true;
-     			this.hospitalReturnHomePage = false;
+				this.hospitalReturnHomePage = false;
+				this.modify.name = '请选择推广人'
 			}else{
 				this.$toast('没有可转移的门诊')
 			}
@@ -421,7 +422,8 @@ export default {
 		transferPromotersShowFn(item){
 			
 			this.modifyPromotersShow = true;
-      this.hospitalReturnHomePage = false;
+			  this.hospitalReturnHomePage = false;
+			  this.modify.name = '请选择推广人'
 		},
 		modifySubmitFn(){
 				this.modify.show = true			
@@ -721,6 +723,7 @@ export default {
 	font-weight: bold;
 }
 .choicePromoter{
+	line-height: .4rem;
 	width: 81.67%;
 	height: .4rem;
 	border: 1px solid #D8D8D8;

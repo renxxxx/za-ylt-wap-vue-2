@@ -1,11 +1,11 @@
 <template>
-	<div class="caseDetails">
+	<div class="caseDetails" ref="caseDetails" @scroll="handleScroll">
 		<div class="topNav" :style="{'padding-top':$store.state.paddingTop}">
 			<img src="../../../assets/image/shape@3x.png" alt="" @click="goBackFn"  id="navback">
 			<img src="../../../assets/image/share@3x.png" @click="share" alt="">
 		</div>
 		<div class="zhangwei" :style="{'padding-top':$store.state.paddingTop}"></div>
-		<div class="caseDetailsList" @scroll="handleScroll" ref="caseDetailsList">
+		<div class="caseDetailsList" :style="{height: 'calc(100% - '+ (parseInt($store.state.paddingTop.replace('px',''))+47+'px)')}" @scroll="handleScroll" ref="caseDetailsList">
 			<div class="banner" v-show="!!caseInfo.cover">
 				<img v-lazy="caseInfo.cover"  alt="">
 			</div>
@@ -63,6 +63,16 @@ export default {
 	},
 	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
+			this.caseInfo={
+				addTime : '',
+				alterTime : '',
+				cover : '',
+				hosptialName : '',
+				name : '',
+				content:'',
+				shareCount:"",
+				viewCount:""
+			}
 			Object.assign(this.$data, this.$options.data());
 			this.query = JSON.stringify(this.$route.query);
 			if(window.plus){
@@ -141,9 +151,9 @@ export default {
 
 <style scoped>
 .caseDetails{
-	height: 100%;
 	width: 100%;
-	overflow: hidden;
+	height: 100%;
+	overflow-x: hidden;
 }
 .topNav{
 	width: 100%;
@@ -213,7 +223,6 @@ export default {
 	font-weight: normal;
 }
 .caseDetailsList{
-	height: calc(100% - .47rem);
 	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
   	overflow: scroll;

@@ -6,7 +6,7 @@
 				<div class="topNav" ref="topNav">
 					<!-- <router-link :to="{name:'outpatient_pathogenicSearch',query:{time:new Date().getTime().toString()}}"> -->
 					<div class="indexSearch" @click="$router.push({path:'/outpatient/outpatient_pathogenicSearch',query:{time: new Date().getTime().toString()}})">
-						<input type="text" placeholder="搜索病员" readonly="readonly">
+						<input type="text" placeholder="搜索病源" readonly="readonly">
 						<img src="../../../assets/image/sousuo@2x.png" alt="">
 					</div>
 						<!-- </router-link> -->
@@ -24,7 +24,7 @@
 				</div>
 				<div id="navType">
 					<div class="navType_one" @click="xiaclickFn(0)">
-						<h5>新增病员</h5>
+						<h5>新增病源</h5>
 					</div>
 					<div class="navType_two" @click="xiaclickFn(1)">
 						<h5>未就诊{{noItemsNum}}</h5>
@@ -169,14 +169,29 @@ export default {
 	},
 
 	watch:{
-	showHeight: function(newValue) {
-		if(this.docmHeight > newValue){
-		this.$store.state.bottomShow = false
-		}else{
-		this.$store.state.bottomShow = true
+		showHeight: function(newValue) {
+			if(this.docmHeight > newValue){
+				this.$store.state.bottomShow = false
+			}else{
+				this.$store.state.bottomShow = true
+			}
+		},
+		$route(to,from){
+			console.log("sss")
+			debugger
+			window.onresize = null;
+			if(from.path == "/outpatient/outpatient_index"){
+				
+			}else{
+				
+			}
+			
+			
 		}
-	}
 	},
+	destroyed(){
+      window.onresize = null;
+    },
   	activated(){
 		if(this.query != JSON.stringify(this.$route.query)){
 			this.initData()
@@ -199,13 +214,13 @@ export default {
 			this.showHeight = window.innerHeight;
 			})()
 		}
-
     },
 	computed:{
 	},
 	//注册组件
 	components:{
 	},
+	
 	methods:{
 		focusFn(){	
 			// console.log('focusFn')

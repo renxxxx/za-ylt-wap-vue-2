@@ -37,7 +37,7 @@
               <li>
                 <router-link :to="{path : '/operating/operating_sourceManagement',query:{hospitalId: this.$route.query.hospitalId,}}" >
                   <img src="../../../assets/image/bingyuanguanli@2x.png" alt />
-                  <span>病员管理</span>
+                  <span>病源管理</span>
                 </router-link>
               </li>
               <li @click="upgradeFn">
